@@ -1,6 +1,8 @@
 @extends('skeleton')
 @section('sub-content')
     <link rel="stylesheet" media="print" href="{{URL::asset('css/print_single_seq.css')}}">
+    <a href="#" class="btn btn-warning btn-lg" onclick="window.print()">{{trans('eleve.imprimer_bulletin')}}</a>
+
     @foreach($eleves as $eleve)
     <div class="bulletin">
         <div class="bulletin-header">
@@ -23,12 +25,14 @@
         <div class="bulletin-body">
             <div class="bulletin-title">
                 <p style="font-size: 17px"><strong>BULLETIN SEQUENTIEL N°{{$sequence}}</strong></p>
+                <p class="traduction">SEQUENTIAL REPORT CARD N° {{$sequence}}</p>
                 <p>Année scolaire {{session('year')}}</p>
+                <p class="traduction">School year {{session('year')}}</p>
             </div>
             <div class="bulletin-info">
                 <div class="info-eleve">
-                    <p>{{trans('admin.nom')}}: {{$eleve->nom.' '.$eleve->prenom}}</p>
-                    <p>{{trans('eleve.ne')." $eleve->date_naiss ".trans('eleve.a')." $eleve->lieu_naiss "}}</p>
+                    <p>Nom/Name : <strong style="font-size: 16px">{{$eleve->nom.' '.$eleve->prenom}}</strong> </p>
+                    <p>Née le/Born at {{$eleve->date_naiss}} à/to {{$eleve->lieu_naiss}}</p>
                 </div>
                 <div class="info-classe">
                     <p>Classe : {{$classe->nom}}</p>
@@ -154,11 +158,11 @@
                     $snote=0;
 
                     ?>
-                    <tr>
+                    <tr style="-webkit-print-color-adjust:exact;">
                         <td><strong>Total</strong></td>
                         <td><strong>Coef</strong></td>
-                        <td><strong>Moy/Ave</strong></td>
-                        <td><strong>Rang/Ranking</strong></td>
+                        <td  style="background: #adadad !important;"><strong>Moy/Ave</strong></td>
+                        <td  style="background: #adadad !important;"><strong>Rang/Ranking</strong></td>
                         <td><strong>M.classe/A. class</strong></td>
                         <td><strong>Max</strong></td>
                         <td><strong>Min</strong></td>
@@ -167,19 +171,19 @@
                     <tr>
                         <td>{{$sTotal}}</td>
                         <td>{{$sTotalCoef}}</td>
-                        <td>
+                        <td style="text-align: center;font-size: 13px;">
                             @foreach($moyenne_eleve as $me)
                                 @if($me->id_eleve==$eleve->id)
-                                    {{round($me->moyenne,2)}}
+                                    <strong>{{round($me->moyenne,2)}}</strong>
                                 @endif
                             @endforeach
                         </td>
-                        <td style="text-align: center">
+                        <td style="text-align: center;font-size: 13px">
                             <?php $y=0; ?>
                             @foreach($moyenne_eleve as $me)
                                 <?php $y++; ?>
                                     @if($me->id_eleve==$eleve->id)
-                                        {{$y}}
+                                        <strong>{{$y}}</strong>
                                     @endif
                                 @endforeach
                         </td>
@@ -190,12 +194,60 @@
                     </tr>
                     </tbody>
                 </table>
-
+                <table class="table table-bordered table-striped table-condensed table-inverse custom-table">
+                    <thead>
+                    <th></th>
+                    <th><strong>Retard/delay</strong></th>
+                    <th><strong>abs.J</strong></th>
+                    <th><strong>abs.Inj</strong></th>
+                    <th><strong>Avert/Warn</strong></th>
+                    <th><strong>Blame</strong></th>
+                    <th><strong>Excl.</strong></th>
+                    </thead>
+                    <tbody>
+                    <td style="font-size: 14px"><strong>Discipline</strong></td>
+                    <?php $u=0 ?>
+                    @foreach($disciplines as $d)
+                        @if($d->id_eleve==$eleve->id)
+                            <td>{{$d->retard}}</td>
+                            <td>{{$d->abscence_just}}</td>
+                            <td>{{$d->abscence_inj}}</td>
+                            <td>{{$d->avertissement}}</td>
+                            <td>{{$d->blame}}</td>
+                            <td>{{$d->exclusion}}</td>
+                            <?php $u++ ?>
+                        <?php break; ?>
+                        @endif
+                    @endforeach
+                    @if($u<=0)
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    @endif
+                    </tbody>
+                </table>
 
 
             </div>
         </div>
+        <div class="bulletin-footer">
+            <div class="parent">
+                <p><strong>Le parent</strong></p>
+                <p class="traduction">The parent</p>
+            </div>
+            <div class="titulaire">
+                <p><strong>Le titulaire</strong></p>
+                <p class="traduction">The main professor</p>
+            </div>
+            <div class="principal">
+                <p><strong>Le Principal</strong></p>
+                <p class="traduction">The director</p>
+            </div>
 
+        </div>
     </div>
     @endforeach
     <?php

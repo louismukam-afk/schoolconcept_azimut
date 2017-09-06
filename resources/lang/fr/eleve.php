@@ -28,4 +28,5 @@ return [
     'a'=>'à',
     'rang'=>'Rang',
     'cannot_generate'=>'Les bulletins de cette classe ne peuvent etre générés car aucune note n\'a été attribuée pour cette séquence dans les matières suivantes :',
-];
+    'imprimer_bulletin'=>'Imprimer le(s) bulletin(s) de notes',
+    ];
