@@ -1,0 +1,159 @@
+<?php namespace gesecole\Http\Controllers\admin;
+
+use gesecole\classe;
+use gesecole\Http\Controllers\Controller;
+use gesecole\niveau;
+use Illuminate\Support\Facades\Session;
+use gesecole\scolarite;
+use Illuminate\Http\Request;
+
+class scolariteController extends Controller {
+
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+    public function __construct()
+    {
+        session(['big_title'=>trans('admin.dashboard')]);
+        $year=session('year');
+        if($year==null){
+            $p=parametres::whereNom('annee_scolaire')->get()->first();
+
+            if(count($p)<=0){
+                $p=new parametres();
+                $p->nom='annee_scolaire';
+                $p->valeur='2017-2018';
+                $p->save();
+                session(['year'=>$p->valeur]);
+            }else{
+                session(['year'=>$p->valeur]);
+            }
+        }
+    }
+
+	public function index()
+	{
+        $s=scolarite::paginate(15);
+        $c=niveau::all();
+        $values= array('titre'=>trans('admin.schoolfees'),'scolarite'=>$s,'classes'=>$c);
+        if(session('success')){
+            Session::forget('success');
+            $values['success']=true;
+        }
+        return view('admin\scolarite',$values);
+	}
+
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return Response
+	 */
+	public function create()
+	{
+		//
+	}
+
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @return Response
+	 */
+	public function store(Request $req)
+	{
+
+        $this->validate($req,[
+            'classe'=>'required|numeric',
+            'tranche1'=>'required|numeric',
+            'tranche2'=>'required|numeric',
+            'tranche3'=>'required|numeric',
+            'tranche4'=>'numeric'
+        ]);
+
+        $classe=$req->input('classe');
+        $tranche1=$req->input('tranche1');
+        $tranche2=$req->input('tranche2');
+        $tranche3=$req->input('tranche3');
+        $tranche4=$req->input('tranche4');
+        $s=new scolarite();
+        $s->id_niveau=$classe;
+        $s->tranche1=$tranche1;
+        $s->tranche2=$tranche2;
+        $s->tranche3=$tranche3;
+        $s->tranche4=$tranche4;
+        $s->save();
+        session(['success'=>true]);
+        return redirect()->action('admin\scolariteController@index');
+	}
+
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function show($id)
+	{
+		//
+	}
+
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function edit($id)
+	{
+		//
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update(Request $req)
+	{
+        $this->validate($req,[
+            'id'=>'required|numeric',
+            'classes'=>'required|numeric',
+            'tranche1'=>'required|numeric',
+            'tranche2'=>'required|numeric',
+            'tranche3'=>'required|numeric',
+            'tranche4'=>'numeric'
+        ]);
+        $id=$req->input('id');
+        $classe=$req->input('classes');
+        $tranche1=$req->input('tranche1');
+        $tranche2=$req->input('tranche2');
+        $tranche3=$req->input('tranche3');
+        $tranche4=$req->input('tranche4');
+        $s=scolarite::find($id);
+        $s->id_niveau=$classe;
+        $s->tranche1=$tranche1;
+        $s->tranche2=$tranche2;
+        $s->tranche3=$tranche3;
+        $s->tranche4=$tranche4;
+        $s->save();
+        session(['success'=>true]);
+        return redirect()->action('admin\scolariteController@index');
+	}
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+        $c=scolarite::find($id);
+        $c->delete();
+        session(['success'=>true]);
+        return redirect()->action('admin\scolariteController@index');
+	}
+
+}

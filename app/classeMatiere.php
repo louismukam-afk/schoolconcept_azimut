@@ -1,0 +1,30 @@
+<?php namespace gesecole;
+
+use Illuminate\Database\Eloquent\Model;
+
+/**
+ * gesecole\classeMatiere
+ *
+ * @mixin \Eloquent
+ * @property int $id
+ * @property int $id_classe
+ * @property int $id_matiere
+ * @property int $coef
+ * @property int|null $max
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereCoef($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereIdClasse($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereIdMatiere($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereMax($value)
+ */
+class classeMatiere extends Model {
+
+    protected  $table='classe_matiere';
+
+    public $fillable=['id_classe','id_matiere','coef','max',];
+
+
+    public $timestamps=false;
+
+
+}

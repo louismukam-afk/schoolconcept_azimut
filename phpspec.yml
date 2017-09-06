@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: gesecole
+        psr4_prefix: gesecole
+        src_path: app
