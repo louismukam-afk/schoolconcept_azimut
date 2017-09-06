@@ -12,36 +12,39 @@
 */
 
 Route::get('/', 'WelcomeController@index');
-Route::post('/update-school-year/', 'WelcomeController@editYear');
 //Tableau de bord d'admin
-Route::get('/admin/', 'admin\adminController@index');
+Route::group(['middleware'=>'auth'],function (){
+    Route::post('/update-school-year/', 'WelcomeController@editYear');
+    Route::get('/admin/', 'admin\adminController@index');
 //routes pour les cycles
-Route::get('/admin/cycles/', 'admin\cycleController@index');
-Route::get('/admin/cycles/destroy/{id}', 'admin\cycleController@destroy');
-Route::post('/admin/cycles/store', 'admin\cycleController@store');
+    Route::get('/admin/cycles/', 'admin\cycleController@index');
+    Route::get('/admin/cycles/destroy/{id}', 'admin\cycleController@destroy');
+    Route::post('/admin/cycles/store', 'admin\cycleController@store');
 // Les niveaux
-Route::get('/admin/niveaux/', 'admin\niveauController@index');
-Route::get('/admin/niveaux/destroy/{id}', 'admin\niveauController@destroy');
-Route::post('/admin/niveaux/store', 'admin\niveauController@store');
+    Route::get('/admin/niveaux/', 'admin\niveauController@index');
+    Route::get('/admin/niveaux/destroy/{id}', 'admin\niveauController@destroy');
+    Route::post('/admin/niveaux/store', 'admin\niveauController@store');
 //Les classes
-Route::get('/admin/classes/', 'admin\classeController@index');
-Route::get('/admin/classes/destroy/{id}', 'admin\classeController@destroy');
-Route::post('/admin/classes/update', 'admin\classeController@update');
-Route::post('/admin/classes/store', 'admin\classeController@store');
+    Route::get('/admin/classes/', 'admin\classeController@index');
+    Route::get('/admin/classes/destroy/{id}', 'admin\classeController@destroy');
+    Route::post('/admin/classes/update', 'admin\classeController@update');
+    Route::post('/admin/classes/store', 'admin\classeController@store');
 //Les scolarités
-Route::get('/admin/scolarites/', 'admin\scolariteController@index');
-Route::get('/admin/scolarite/destroy/{id}', 'admin\scolariteController@destroy');
-Route::post('/admin/scolarite/update', 'admin\scolariteController@update');
-Route::post('/admin/scolarite/store', 'admin\scolariteController@store');
+    Route::get('/admin/scolarites/', 'admin\scolariteController@index');
+    Route::get('/admin/scolarite/destroy/{id}', 'admin\scolariteController@destroy');
+    Route::post('/admin/scolarite/update', 'admin\scolariteController@update');
+    Route::post('/admin/scolarite/store', 'admin\scolariteController@store');
 //Matières
-Route::get('/admin/matieres/', 'admin\matiereController@index');
-Route::post('/admin/matieres/update/', 'admin\matiereController@update');
-Route::post('/admin/matieres/store', 'admin\matiereController@store');
+    Route::get('/admin/matieres/', 'admin\matiereController@index');
+    Route::post('/admin/matieres/update/', 'admin\matiereController@update');
+    Route::post('/admin/matieres/store', 'admin\matiereController@store');
 //Programmes
-Route::get('/admin/programmes/', 'admin\programmeController@index');
-Route::get('/admin/programmes/selection-matieres/{id}', 'admin\programmeController@create');
-Route::post('/admin/programmes/store/', 'admin\programmeController@store');
-Route::get('/admin/programmes/destroy/{id}', 'admin\programmeController@destroy');
+    Route::get('/admin/programmes/', 'admin\programmeController@index');
+    Route::get('/admin/programmes/selection-matieres/{id}', 'admin\programmeController@create');
+    Route::post('/admin/programmes/store/', 'admin\programmeController@store');
+    Route::get('/admin/programmes/destroy/{id}', 'admin\programmeController@destroy');
+
+});
 
 
 //Inscriptions
