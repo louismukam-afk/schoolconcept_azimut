@@ -17,7 +17,7 @@ class bulletin_genere extends Model {
 
     protected  $table='bulletin_genere';
 
-    public $fillable=['id_classe','annee_scolaire'];
+    public $fillable=['id_classe','sequence','annee_scolaire'];
 
 
     public $timestamps = false;

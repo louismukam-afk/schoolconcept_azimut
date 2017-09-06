@@ -116,6 +116,7 @@
 .custom-table
 {
     font-size: 10px;
+    border-collapse: collapse;
 }
 
  tr
@@ -125,19 +126,48 @@
 }
 
 
-.groupe-row td
+.traduction
 {
-    border-left: none !important;
-    border-right: none !important;
-    background-color: #adadad !important;
-
+    font-size: 10px !important;
+    color: grey !important;
 }
 
 
 
 
+.groupe-row
+{
+    -webkit-print-color-adjust:exact;
+    border-left: none !important;
+    border-right: none !important;
+}
+.groupe-row td
+{
+    border-left: none !important;
+    border-right: none !important;
+    background-color: #adadad !important;
+    font-style: italic !important;
+    font-size: 11px;
+}
 
-
+.bulletin-footer
+{
+    position: relative;
+}
+.bulletin-footer div
+{
+    position: absolute;
+    width:60mm;
+    text-align: center;
+}
+.bulletin-footer .principal
+{
+    right: 0;
+}
+.bulletin-footer .titulaire
+{
+    left:36%;
+}
 
 
 .bulletin-header .other-nav

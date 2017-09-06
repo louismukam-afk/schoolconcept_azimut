@@ -222,6 +222,12 @@ min-height: 80px;
     }
 }
 
+.bulletin
+{
+    margin-bottom: 100px;
+    border: solid 2px grey;
+    padding: 2px;
+}
 
 .bulletin-header
 {
@@ -268,11 +274,56 @@ min-height: 80px;
     position: absolute;
     right: 0;
 }
+.bulletin-notes
+{
+    position: relative;
+    margin-top: 50px;
+}
+.custom-table
+{
+    font-size: 10px;
+}
 
-.bulletin-header .other-nav
+tr
+{
+    padding: 0;
+    margin: 0;
+}
+
+.traduction
+{
+    font-size: 10px;
+    color: grey !important;
+}
+.groupe-row td
+{
+    border-left: none !important;
+    border-right: none !important;
+    background-color: #adadad !important;
+    font-style: italic !important;
+
+}
+
+.bulletin-footer
+{
+    position: relative;
+    min-height: 100px;
+}
+.bulletin-footer div
+{
+    position: absolute;
+    width:60mm;
+    text-align: center;
+}
+.bulletin-footer .principal
 {
     right: 0;
 }
+.bulletin-footer .titulaire
+{
+    left:36%;
+}
+
 
 .bulletin-header .other-nav
 {
