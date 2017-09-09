@@ -1,0 +1,171 @@
+<?php namespace gesecole\Http\Controllers\personnel;
+
+use gesecole\Http\Requests;
+use gesecole\Http\Controllers\Controller;
+use gesecole\personnel;
+use gesecole\parametres;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+
+class personnelController extends Controller {
+
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+    public function __construct()
+    {
+
+        session(['big_title'=>trans('menu.gestion_inscriptions')]);
+        $year=session('year');
+        if($year==null){
+            $p=parametres::whereNom('annee_scolaire')->get()->first();
+
+            if(count($p)<=0){
+                $p=new parametres();
+                $p->nom='annee_scolaire';
+                $p->valeur='2017-2018';
+                $p->save();
+                session(['year'=>$p->valeur]);
+            }else{
+                session(['year'=>$p->valeur]);
+            }
+        }
+    }
+	public function index()
+	{
+        return view('personnel\index');
+	}
+
+	 public function index_personnel(){
+         $titre=trans('admin.personnel');
+         $m=personnel::paginate(30);
+         $values= array('titre'=>$titre,'personnel'=>$m);
+            if(session('success')){
+                $values['success']=true;
+                Session::forget('success');
+            }
+
+
+         return view('personnel\personne',$values);
+     }
+
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return Response
+	 */
+	public function create()
+	{
+		//
+	}
+
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @return Response
+	 */
+	public function store(Request $req)
+	{
+        $this->validate($req,[
+            'nom'=>'required',
+            'date_naiss'=>'required|date',
+            'lieu_naiss'=>'required',
+            'diplome'=>'required',
+            'sexe'=>'required',
+            'tel1'=>'required',
+            'adresse'=>'required',
+
+
+        ]);
+
+        $c=new personnel();
+        $c->nom=$req->input('nom');
+        $c->adresse=$req->input('adresse');
+        $c->sexe=$req->input('sexe');
+        $c->diplome=$req->input('diplome');
+        $c->tel1=$req->input('tel1');
+        $c->tel2=$req->input('tel2');
+        $c->date_naiss=$req->input('date_naiss');
+        $c->lieu_naiss=$req->input('lieu_naiss');
+        $c->date_entree=date('Y-m-d');
+        $c->email=$req->input('email');
+        $c->save();
+        session(['success'=>true]);
+        return redirect()->action('personnel\personnelController@index_personnel');
+	}
+
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function show($id)
+	{
+		//
+	}
+
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function edit($id)
+	{
+        $titre=trans('admin.infos_personnel');
+        $p=personnel::find($id);
+        $values= array('titre'=>$titre,'personnel'=>$p);
+        return view('personnel\edit_personnel',$values);
+
+    }
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update(Request $req,$id)
+	{
+        $this->validate($req,[
+            'nom'=>'required',
+            'date_naiss'=>'required',
+            'lieu_naiss'=>'required',
+            'diplome'=>'required',
+            'sexe'=>'required',
+            'tel1'=>'required',
+            'adresse'=>'required'
+
+
+        ]);
+
+        $c=personnel::find($id);
+        $c->nom=$req->input('nom');
+        $c->adresse=$req->input('adresse');
+        $c->sexe=$req->input('sexe');
+        $c->diplome=$req->input('diplome');
+        $c->tel1=$req->input('tel1');
+        $c->tel2=$req->input('tel2');
+        $c->date_naiss=$req->input('date_naiss');
+        $c->lieu_naiss=$req->input('lieu_naiss');
+        $c->email=$req->input('email');
+        $c->save();
+        session(['success'=>true]);
+        return redirect()->action('personnel\personnelController@index_personnel');
+	}
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+		//
+	}
+
+}

@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\bulletin_genere whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\bulletin_genere whereIdClasse($value)
  * @mixin \Eloquent
+ * @property int $sequence
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\bulletin_genere whereSequence($value)
  */
 class bulletin_genere extends Model {
 

@@ -136,13 +136,19 @@ min-height: 80px;
 .logout-spn {
     float:right;
     color:#fff;
-    font-size:25px;
+    font-size:22px;
     font-weight:800;
     margin:20px;
     margin: 10px 25px 10px 50px;
 }
-    .logout-spn a {
-        text-decoration:none;
+    .logout-spn a:hover
+    {
+        color: darkorange;
+    }
+    .logout-spn a
+    {
+        color: white;
+        text-decoration: none;
     }
 .active-link {
     background-color:#f3f3f3;

@@ -32,8 +32,8 @@
                 </div>
               
                 <span class="logout-spn" >
-                  <a href="#" style="color:#fff;">{{  trans('admin.logout')  }}</a>
 
+                    <a href="{{ url('/auth/logout') }}">{{  trans('admin.logout')  }}</a>
                 </span>
                 <div ><span class="annee">{{  trans('admin.year')  }} <span>{{  session('year') }}</span> <a data-toggle="modal"  href="#change-year" class="btn btn-success btn-xs">{{  trans('admin.edit')  }}</a></span></div>
 
@@ -104,7 +104,7 @@
 
 
                     <li>
-                        <a href="#"><i class="fa fa-steam   "></i>{{  trans('menu.gestion_personnel')  }}</a>
+                        <a href="{{URL::to('/personnel/')}}"><i class="fa fa-steam   "></i>{{  trans('menu.gestion_personnel')  }}</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-bar-chart-o"></i>{{  trans('menu.bilan')  }}</a>
@@ -132,7 +132,10 @@
                 <div class="row">
                     <div class="col-lg-12 ">
                         <div class="alert alert-info">
-                             <strong>Welcome Jhon Doe ! </strong> You Have No pending Task For Today.
+                            @if (Auth::guest())
+                            @else
+                             <strong>Welcome {{Auth::user()->fullname}} ! </strong> You Have No pending Task For Today.
+                            @endif
                         </div>
 
                        

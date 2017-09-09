@@ -12,9 +12,12 @@ class CreateClassesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('classes', function(Blueprint $table)
+		Schema::create('classe', function(Blueprint $table)
 		{
 			$table->increments('id');
+            $table->string('nom');
+            $table->integer('id_niveau');
+            $table->integer('capacite');
 			$table->timestamps();
 		});
 	}

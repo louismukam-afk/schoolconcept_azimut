@@ -11,9 +11,12 @@
 |
 */
 
-Route::get('/', 'WelcomeController@index');
-//Tableau de bord d'admin
+
 Route::group(['middleware'=>'auth'],function (){
+    Route::get('/', 'WelcomeController@index');
+
+    //Tableau de bord d'admin
+
     Route::post('/update-school-year/', 'WelcomeController@editYear');
     Route::get('/admin/', 'admin\adminController@index');
 //routes pour les cycles
@@ -44,51 +47,107 @@ Route::group(['middleware'=>'auth'],function (){
     Route::post('/admin/programmes/store/', 'admin\programmeController@store');
     Route::get('/admin/programmes/destroy/{id}', 'admin\programmeController@destroy');
 
+////routes pour les fonctions
+    Route::get('/admin/fonctions/', 'admin\fonctionController@index');
+    Route::get('/admin/fonctions/destroy/{id}', 'admin\fonctionController@destroy');
+    Route::post('/admin/fonctions/store', 'admin\fonctionController@store');
+    Route::post('/admin/fonctions/update', 'admin\fonctionController@update');
+
+
+
+
+
+
+
+
+    //Inscriptions
+    Route::get('/inscriptions/enregistrement/create/', 'inscriptions\enregistrementController@create');
+    Route::get('/inscriptions/enregistrement/edit/{id}', 'inscriptions\enregistrementController@edit');
+    Route::post('/inscriptions/enregistrement/store/', 'inscriptions\enregistrementController@store');
+    Route::post('/inscriptions/enregistrement/update/{id}', 'inscriptions\enregistrementController@update');
+    Route::get('/inscriptions/', 'inscriptions\inscriptionController@index');
+    Route::get('/inscriptions/new', 'inscriptions\inscriptionController@search');
+    Route::get('/inscriptions/find', 'inscriptions\inscriptionController@find');
+    Route::get('/inscriptions/create/{id}', 'inscriptions\inscriptionController@create');
+    Route::post('/inscriptions/store', 'inscriptions\inscriptionController@store');
+    Route::get('/inscriptions/payement/', 'inscriptions\payementController@index');
+    Route::get('/inscriptions/payement/search', 'inscriptions\payementController@search');
+    Route::get('/inscriptions/payement/create/{id}', 'inscriptions\payementController@create');
+    Route::post('/inscriptions/payement/store/{id}', 'inscriptions\payementController@store');
+    Route::get('/inscriptions/recu','inscriptions\inscriptionController@show');
+    Route::get('/inscriptions/print/{id}','inscriptions\inscriptionController@print_receipe');
+    Route::get('/inscriptions/payement/print/{id}','inscriptions\payementController@print_receipe');
+    Route::get('/inscriptions/payement/list/{id}','inscriptions\payementController@index_liste');
+    Route::get('/inscriptions/selection-listes','inscriptions\listesController@index');
+    Route::get('/inscriptions/listes/show/{id}','inscriptions\listesController@show');
+
+//Les élèves
+    Route::get('/eleves/', 'eleves\eleveController@index');
+    Route::get('/eleves/discipline/', 'eleves\disciplineController@index');
+    Route::get('/eleves/discipline/search', 'eleves\disciplineController@search');
+    Route::get('/eleves/discipline/show/{id}', 'eleves\disciplineController@create');
+    Route::post('/eleves/discipline/update/', 'eleves\disciplineController@update');
+
+    Route::get('/eleves/notes/','eleves\noteController@index');
+    Route::get('/eleves/notes/matieres/{id}','eleves\noteController@matiere');
+    Route::post('/eleves/notes/create/{id}','eleves\noteController@create');
+    Route::post('/eleves/notes/store/','eleves\noteController@store');
+
+    Route::get('/eleves/bulletins/','eleves\bulletinController@index');
+    Route::get('/eleves/bulletins/search/','eleves\bulletinController@index2');
+    Route::get('/eleves/bulletins/find/','eleves\bulletinController@search');
+    Route::post('/eleves/bulletins/print-single-seq','eleves\bulletinController@print_single_seq');
+
+
+
+
+
+    //routes pour les personnels
+
+    Route::get('/personnel/', 'personnel\personnelController@index');
+    Route::get('/personnel/list', 'personnel\personnelController@index_personnel');
+    Route::get('/personnel/edit/{id}', 'personnel\personnelController@edit');
+    Route::post('/personnel/store/', 'personnel\personnelController@store');
+    Route::post('/personnel/update/{id}', 'personnel\personnelController@update');
+
+///routes pour les salaires
+
+    Route::get('/personnel/salaire/','personnel\salaireController@index');
+    Route::post('/personnel/salaire/store', 'personnel\salaireController@store');
+    Route::post('/personnel/salaire/update', 'personnel\salaireController@update');
+
+
+////routes pour les fonctions_personnel
+
+    Route::get('/personnel/fonction_personnel/{id}', 'personnel\fonction_personnelController@index');
+    Route::get('/personnel/fonction_personnel/destroy/{id}', 'personnel\fonction_personnelController@destroy');
+    Route::post('/personnel/fonction_personnel/store', 'personnel\fonction_personnelController@store');
+    Route::post('/personnel/fonction_personnel/update', 'personnel\fonction_personnelController@update');
+    Route::get('/personnel/fonction_pers/', 'personnel\fonction_personnelController@index2');
+
+
+////routes pour les enseignements
+
+    Route::get('/personnel/dispense/{id}', 'personnel\dispenseController@index');
+    Route::get('/personnel/dispense/destroy/{id}', 'personnel\dispenseController@destroy');
+    Route::post('/personnel/dispense/store', 'personnel\dispenseController@store');
+    Route::post('/personnel/dispense/update', 'personnel\dispenseController@update');
+    Route::get('/personnel/dispenses/', 'personnel\dispenseController@index1');
+
+////routes pour les titulaire
+
+
+    Route::get('/personnel/titulaire', 'personnel\titulaireController@index');
+    Route::get('/personnel/titulaire/destroy/{id}', 'personnel\titulaireController@destroy');
+    Route::post('/personnel/titulaire/store', 'personnel\titulaireController@store');
+    Route::post('/personnel/titulaire/update', 'personnel\titulaireController@update');
+    Route::get('home', 'HomeController@index');
+
+
+
 });
 
 
-//Inscriptions
-Route::get('/inscriptions/enregistrement/create/', 'inscriptions\enregistrementController@create');
-Route::get('/inscriptions/enregistrement/edit/{id}', 'inscriptions\enregistrementController@edit');
-Route::post('/inscriptions/enregistrement/store/', 'inscriptions\enregistrementController@store');
-Route::post('/inscriptions/enregistrement/update/{id}', 'inscriptions\enregistrementController@update');
-Route::get('/inscriptions/', 'inscriptions\inscriptionController@index');
-Route::get('/inscriptions/new', 'inscriptions\inscriptionController@search');
-Route::get('/inscriptions/find', 'inscriptions\inscriptionController@find');
-Route::get('/inscriptions/create/{id}', 'inscriptions\inscriptionController@create');
-Route::post('/inscriptions/store', 'inscriptions\inscriptionController@store');
-Route::get('/inscriptions/payement/', 'inscriptions\payementController@index');
-Route::get('/inscriptions/payement/search', 'inscriptions\payementController@search');
-Route::get('/inscriptions/payement/create/{id}', 'inscriptions\payementController@create');
-Route::post('/inscriptions/payement/store/{id}', 'inscriptions\payementController@store');
-Route::get('/inscriptions/recu','inscriptions\inscriptionController@show');
-Route::get('/inscriptions/print/{id}','inscriptions\inscriptionController@print_receipe');
-Route::get('/inscriptions/payement/print/{id}','inscriptions\payementController@print_receipe');
-Route::get('/inscriptions/payement/list/{id}','inscriptions\payementController@index_liste');
-Route::get('/inscriptions/selection-listes','inscriptions\listesController@index');
-Route::get('/inscriptions/listes/show/{id}','inscriptions\listesController@show');
-
-//Les élèves
-Route::get('/eleves/', 'eleves\eleveController@index');
-Route::get('/eleves/discipline/', 'eleves\disciplineController@index');
-Route::get('/eleves/discipline/search', 'eleves\disciplineController@search');
-Route::get('/eleves/discipline/show/{id}', 'eleves\disciplineController@create');
-Route::post('/eleves/discipline/update/', 'eleves\disciplineController@update');
-
-Route::get('/eleves/notes/','eleves\noteController@index');
-Route::get('/eleves/notes/matieres/{id}','eleves\noteController@matiere');
-Route::post('/eleves/notes/create/{id}','eleves\noteController@create');
-Route::post('/eleves/notes/store/','eleves\noteController@store');
-
-Route::get('/eleves/bulletins/','eleves\bulletinController@index');
-Route::get('/eleves/bulletins/search/','eleves\bulletinController@index2');
-Route::get('/eleves/bulletins/find/','eleves\bulletinController@search');
-Route::post('/eleves/bulletins/print-single-seq','eleves\bulletinController@print_single_seq');
-
-
-
-
-Route::get('home', 'HomeController@index');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',
