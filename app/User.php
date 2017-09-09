@@ -22,6 +22,12 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\User whereRole($value)
+ * @property string $fullname
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\User whereFullname($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\User whereUpdatedAt($value)
  */
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
@@ -39,7 +45,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'email', 'password','role'];
+	protected $fillable = ['name', 'fullname', 'password','role'];
 
 	/**
 	 * The attributes excluded from the model's JSON form.

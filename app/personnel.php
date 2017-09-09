@@ -30,12 +30,14 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\personnel whereSexe($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\personnel whereTel1($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\personnel whereTel2($value)
+ * @property string|null $email
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\personnel whereEmail($value)
  */
 class personnel extends Model {
 
 	protected $table='personnel';
 
-    public $fillable=['nom','date_naiss','lieu_naiss','diplome','sexe','date_entree','tel1','tel2','adresse'];
+    public $fillable=['nom','date_naiss','lieu_naiss','diplome','sexe','date_entree','tel1','tel2','adresse','email'];
 
 
     public $timestamps=false;
