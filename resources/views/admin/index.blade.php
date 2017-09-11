@@ -128,7 +128,7 @@
     <div class="row text-center pad-top">
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
             <div class="div-square">
-                <a href="#" >
+                <a href="{{url('/utilisateurs/')}}" >
                     <i class="fa fa-users fa-5x"></i>
                     <h4>{{trans('admin.utilisateurs')}} </h4>
                 </a>

@@ -121,8 +121,14 @@ return [
     'login'=>'Se connecter',
     'activer_compte'=>'Votre compte est désactivé veuillez contacter l\'administrateur pour une activation',
     //les utilisateurs
+    'bienvenue'=>'Bienvenue',
     'liste_utilisateurs'=>'Liste des utilisateurs',
     'activer'=>'Activer',
     'desactiver'=>'Désactiver',
-    
+    'g_inscriptions'=>'Gestionnaire des inscriptions',
+    'g_notes'=>'Gestionnaire des élèves et notes',
+    'g_personnel'=>'Gestionnaire du personnel',
+    'editeur'=>'Administrateur',
+    'actif'=>'Actif',
+
 ];

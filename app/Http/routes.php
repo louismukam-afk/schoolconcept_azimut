@@ -149,7 +149,7 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('/personnel/dispense/{id}', 'personnel\dispenseController@index');
 
 
-////routes pour les titulaire
+////routes pour les titulaires
 
 
     Route::get('/personnel/titulaire', 'personnel\titulaireController@index');
@@ -161,6 +161,11 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('/search/personnel', 'searchController@personnel');
     Route::get('/search/retrait', 'searchController@retrait');
     Route::get('/search/eleve', 'searchController@eleve');
+
+    //pour les utilisateurs
+    Route::get('/utilisateurs/', 'user\userController@index');
+    Route::post('/utilisateurs/activer', 'user\userController@activate');
+    Route::get('/utilisateurs/desactiver/{id}', 'user\userController@deactivate');
 
 
 
