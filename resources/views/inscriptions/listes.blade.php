@@ -2,7 +2,8 @@
 @section('sub-content')
 <div class="list-cont">
     <a href="#" class="btn btn-warning btn-lg" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> {{trans('inscription.imprimer')}}</a>
-    <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 15px;">
+    <span class="col-md-12"><strong>Total: {{count($eleves)}}</strong></span>
+    <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 5px;">
         <thead>
         <caption style="font-size: 22px">{{  $titre_liste  }}</caption>
         <th>#</th>

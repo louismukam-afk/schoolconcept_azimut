@@ -18,6 +18,7 @@
             <th>{{  trans('admin.tranche2')  }}</th>
             <th>{{  trans('admin.tranche3')  }}</th>
             <th>{{  trans('admin.tranche4')  }}</th>
+            <th>Total</th>
             </thead>
             <tbody>
             <?php $i=1; ?>
@@ -39,6 +40,7 @@
                     <td>{{$s->tranche2}}</td>
                     <td>{{$s->tranche3}}</td>
                     <td>{{$s->tranche4}}</td>
+                    <td>{{$s->total}}</td>
                     <td>
                         <div class="btn-group">
                             <a href="#" class=" btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></a>
@@ -71,7 +73,7 @@
                                 <div class="form-group">
                                     <label for="classe">{{trans('admin.level')}} : <span class="required">*</span></label>
                                     <select id="classe" name="classe" form="add_level_form" class="form-control">
-                                        @foreach($classes as $c)
+                                        @foreach($niveaux as $c)
                                             <option value="{{  $c->id  }}" @if($c->id == old('classe')) selected @endif>{{  $c->nom  }}</option>
                                         @endforeach
                                     </select>

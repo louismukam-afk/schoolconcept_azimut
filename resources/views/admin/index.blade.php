@@ -91,6 +91,27 @@
             </div>
 
         </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+            <div class="div-square">
+                <a href="{{URL::to('admin/salaire/')}}" >
+                    <i class="fa fa-money fa-5x"></i>
+                    <h4>{{trans('admin.salaire')}} </h4>
+                </a>
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+            <div class="div-square">
+                <a href="{{URL::to('admin/horaires/')}}" >
+                    <i class="fa fa-clock-o fa-5x"></i>
+                    <h4>{{trans('admin.horaire')}} </h4>
+                </a>
+            </div>
+
+        </div>
+
     </div>
     <div class="row text-center pad-top">
 

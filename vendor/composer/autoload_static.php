@@ -291,7 +291,7 @@ class ComposerStaticInita8e744cd6ac8bb0715dcab13ed5037a3
 
     public static $classMap = array (
         'CreateBulletinGeneresTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_01_115836_create_bulletin_generes_table.php',
-        'CreateClasseMatieresTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_20_051701_create_classe_matieres_table.php',
+        'CreateClasseMatieresTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_21_034524_create_classe_matieres_table.php',
         'CreateClassesTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_20_051655_create_classes_table.php',
         'CreateCyclesTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_20_052032_create_cycles_table.php',
         'CreateDecaissementsTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_20_052047_create_decaissements_table.php',
@@ -300,6 +300,7 @@ class ComposerStaticInita8e744cd6ac8bb0715dcab13ed5037a3
         'CreateElevesTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_19_041044_create_eleves_table.php',
         'CreateFonctionPersonnelsTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_20_062437_create_fonction_personnels_table.php',
         'CreateFonctionsTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_20_052119_create_fonctions_table.php',
+        'CreateHorairesTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_10_035831_create_horaires_table.php',
         'CreateInscriptionsTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_20_052128_create_inscriptions_table.php',
         'CreateMatieresTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_20_052140_create_matieres_table.php',
         'CreateMoyenneClassesTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_01_115856_create_moyenne_classes_table.php',
@@ -308,7 +309,7 @@ class ComposerStaticInita8e744cd6ac8bb0715dcab13ed5037a3
         'CreateNiveausTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_20_052150_create_niveaus_table.php',
         'CreateNotesTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_20_052156_create_notes_table.php',
         'CreateParametresTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_20_065235_create_parametres_table.php',
-        'CreateParentsTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_20_052205_create_parents_table.php',
+        'CreateParentsTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_21_040104_create_parents_table.php',
         'CreatePasswordResetsTable' => __DIR__ . '/../..' . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
         'CreatePayementsTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_20_052212_create_payements_table.php',
         'CreatePersonnelsTable' => __DIR__ . '/../..' . '/database/migrations/2017_08_20_052220_create_personnels_table.php',

@@ -16,13 +16,17 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\dispense whereIdClasse($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\dispense whereIdMatiere($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\dispense whereIdPersonnel($value)
+ * @property int $jour
+ * @property int $id_horaire
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\dispense whereIdHoraire($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\dispense whereJour($value)
  */
 class dispense extends Model {
 
 	//
     protected $table='dispense';
 
-    public $fillable=['id_personnel','id_classe','id_matiere','annee_scolaire'];
+    public $fillable=['id_personnel','id_classe','id_matiere','jour','id_horaire','annee_scolaire'];
 
 
     public $timestamps=false;

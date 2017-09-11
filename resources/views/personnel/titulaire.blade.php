@@ -12,8 +12,8 @@
         <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 15px;">
             <thead>
             <th>#</th>
-            <th>Classe</th>
-            <th>Personnel</th>
+            <th>{{trans('admin.classe')}}</th>
+            <th>{{trans('admin.personnel')}}</th>
             </thead>
             <tbody>
             <?php  $i=1; ?>
@@ -45,7 +45,7 @@
             </tbody>
         </table>
         <button class="btn btn-primary" data-toggle="modal" data-backdrop="false" href="#add_cycle"
-        ><span class="glyphicon glyphicon-plus"></span>{{  trans('admin.fonction_personnel_ajouter')  }}</button>
+        ><span class="glyphicon glyphicon-plus"></span>{{  trans('admin.ajouter_titulaire')  }}</button>
         <div class="modal fade" id="add_cycle">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -61,7 +61,7 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <fieldset>
                                 <div class="form-group">
-                                    <label for="classe">{{  trans('admin.choose_level')  }} : <span class="required">*</span></label>
+                                    <label for="classe">{{  trans('admin.choix_classe')  }} : <span class="required">*</span></label>
                                     <select  name="id_classe" form="edit_eco_form" class="form-control">
                                         @foreach($st as $classe)
                                             <option value="{{  $classe->id  }}" @if($classe->id == old('id_classe')) selected @endif>{{ $classe->nom }}</option>
@@ -69,7 +69,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="personnel">{{  trans('admin.choose_level')  }} : <span class="required">*</span></label>
+                                    <label for="personnel">{{  trans('admin.choix_personnel')  }} : <span class="required">*</span></label>
                                     <select  name="id_personnel" form="edit_eco_form" class="form-control">
                                         @foreach($sc as $p)
                                             <option value="{{  $p->id  }}" @if($p->id == old('id_classe')) selected @endif>{{ $p->nom }}</option>

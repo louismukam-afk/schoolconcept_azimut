@@ -1,9 +1,12 @@
 <?php namespace gesecole\Http\Controllers\personnel;
 
+use gesecole\fonction;
+use gesecole\fonction_personnel;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
 use gesecole\personnel;
 use gesecole\parametres;
+use gesecole\titulaire;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -17,7 +20,7 @@ class personnelController extends Controller {
     public function __construct()
     {
 
-        session(['big_title'=>trans('menu.gestion_inscriptions')]);
+        session(['big_title'=>trans('menu.gestion_personnel')]);
         $year=session('year');
         if($year==null){
             $p=parametres::whereNom('annee_scolaire')->get()->first();
@@ -72,7 +75,6 @@ class personnelController extends Controller {
             'nom'=>'required',
             'date_naiss'=>'required|date',
             'lieu_naiss'=>'required',
-            'diplome'=>'required',
             'sexe'=>'required',
             'tel1'=>'required',
             'adresse'=>'required',
@@ -102,9 +104,11 @@ class personnelController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show()
 	{
-		//
+        $titre=trans('admin.search_personnel');
+        $values= array('titre'=>$titre);
+        return view('personnel\search_personnel',$values);
 	}
 
 	/**
@@ -117,7 +121,10 @@ class personnelController extends Controller {
 	{
         $titre=trans('admin.infos_personnel');
         $p=personnel::find($id);
-        $values= array('titre'=>$titre,'personnel'=>$p);
+        $f2=fonction::all();
+        $fp=fonction_personnel::whereIdPersonnel($id)->get();
+        $t=titulaire::whereAnneeScolaire(\session('year'))->where('id_personnel','=',$id)->get()->first();
+        $values= array('titre'=>$titre,'personnel'=>$p,'fonctions'=>$fp,'titulaire'=>$t,'fonction'=>$f2);
         return view('personnel\edit_personnel',$values);
 
     }
@@ -134,7 +141,6 @@ class personnelController extends Controller {
             'nom'=>'required',
             'date_naiss'=>'required',
             'lieu_naiss'=>'required',
-            'diplome'=>'required',
             'sexe'=>'required',
             'tel1'=>'required',
             'adresse'=>'required'

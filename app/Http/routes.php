@@ -47,13 +47,18 @@ Route::group(['middleware'=>'auth'],function (){
     Route::post('/admin/programmes/store/', 'admin\programmeController@store');
     Route::get('/admin/programmes/destroy/{id}', 'admin\programmeController@destroy');
 
-////routes pour les fonctions
+//routes pour les fonctions
     Route::get('/admin/fonctions/', 'admin\fonctionController@index');
     Route::get('/admin/fonctions/destroy/{id}', 'admin\fonctionController@destroy');
     Route::post('/admin/fonctions/store', 'admin\fonctionController@store');
     Route::post('/admin/fonctions/update', 'admin\fonctionController@update');
 
 
+//routes pour les horaires
+    Route::get('/admin/horaires/', 'admin\horaireController@index');
+    Route::get('/admin/horaires/destroy/{id}', 'admin\horaireController@destroy');
+    Route::post('/admin/horaires/store', 'admin\horaireController@store');
+    Route::post('/admin/horaires/update', 'admin\horaireController@update');
 
 
 
@@ -105,6 +110,7 @@ Route::group(['middleware'=>'auth'],function (){
     //routes pour les personnels
 
     Route::get('/personnel/', 'personnel\personnelController@index');
+    Route::get('/personnel/search', 'personnel\personnelController@show');
     Route::get('/personnel/list', 'personnel\personnelController@index_personnel');
     Route::get('/personnel/edit/{id}', 'personnel\personnelController@edit');
     Route::post('/personnel/store/', 'personnel\personnelController@store');
@@ -112,27 +118,30 @@ Route::group(['middleware'=>'auth'],function (){
 
 ///routes pour les salaires
 
-    Route::get('/personnel/salaire/','personnel\salaireController@index');
-    Route::post('/personnel/salaire/store', 'personnel\salaireController@store');
-    Route::post('/personnel/salaire/update', 'personnel\salaireController@update');
+    Route::get('/admin/salaire/','admin\salaireController@index');
+    Route::post('/admin/salaire/store', 'admin\salaireController@store');
+    Route::post('/admin/salaire/update', 'admin\salaireController@update');
+    Route::get('/admin/salaire/destroy/{id}', 'admin\salaireController@destroy');
 
 
 ////routes pour les fonctions_personnel
-
-    Route::get('/personnel/fonction_personnel/{id}', 'personnel\fonction_personnelController@index');
-    Route::get('/personnel/fonction_personnel/destroy/{id}', 'personnel\fonction_personnelController@destroy');
-    Route::post('/personnel/fonction_personnel/store', 'personnel\fonction_personnelController@store');
-    Route::post('/personnel/fonction_personnel/update', 'personnel\fonction_personnelController@update');
-    Route::get('/personnel/fonction_pers/', 'personnel\fonction_personnelController@index2');
+    Route::get('/personnel/fonction/pers/', 'personnel\fonction_personnelController@index2');
+    Route::get('/personnel/fonction/{id}', 'personnel\fonction_personnelController@index');
+    Route::get('/personnel/fonction/destroy/{id}', 'personnel\fonction_personnelController@destroy');
+    Route::post('/personnel/fonction/store', 'personnel\fonction_personnelController@store');
+    Route::post('/personnel/fonction/update', 'personnel\fonction_personnelController@update');
 
 
 ////routes pour les enseignements
 
-    Route::get('/personnel/dispense/{id}', 'personnel\dispenseController@index');
+    Route::post('/personnel/dispense/create', 'personnel\dispenseController@create');
+    Route::get('/personnel/find/', 'personnel\dispenseController@find');
     Route::get('/personnel/dispense/destroy/{id}', 'personnel\dispenseController@destroy');
-    Route::post('/personnel/dispense/store', 'personnel\dispenseController@store');
+    Route::get('/personnel/dispense/store', 'personnel\dispenseController@store');
     Route::post('/personnel/dispense/update', 'personnel\dispenseController@update');
     Route::get('/personnel/dispenses/', 'personnel\dispenseController@index1');
+    Route::get('/personnel/dispense/{id}', 'personnel\dispenseController@index');
+
 
 ////routes pour les titulaire
 
@@ -142,6 +151,10 @@ Route::group(['middleware'=>'auth'],function (){
     Route::post('/personnel/titulaire/store', 'personnel\titulaireController@store');
     Route::post('/personnel/titulaire/update', 'personnel\titulaireController@update');
     Route::get('home', 'HomeController@index');
+
+    //pour les recherches
+    Route::get('/search/personnel', 'searchController@personnel');
+
 
 
 

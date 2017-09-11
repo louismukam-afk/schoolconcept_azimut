@@ -90,7 +90,7 @@ class listesController extends Controller {
                 $classe_name = classe::find($id)->nom;
                 $e = DB::select('SELECT e.matricule,e.id, e.nom ,e.prenom,e.date_naiss,e.lieu_naiss,e.sexe,c.nom as nom_classe FROM eleve e,inscription,classe c WHERE e.id=inscription.id_eleve and annee_scolaire=? and inscription.id_classe=c.id and c.id=? ORDER BY nom,prenom ', [session('year'), $id]);
                 $values['eleves'] = $e;
-                $values['titre_liste'] = trans('inscription.eleves_de') . ' ' . $e[0]->nom_classe;
+               @$values['titre_liste'] = trans('inscription.eleves_de') . ' ' . $e[0]->nom_classe;
                 return view('inscriptions\listes', $values);
             }
         }else if($request->input('option')==1){

@@ -7,7 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'CreateBulletinGeneresTable' => $baseDir . '/database/migrations/2017_09_01_115836_create_bulletin_generes_table.php',
-    'CreateClasseMatieresTable' => $baseDir . '/database/migrations/2017_08_20_051701_create_classe_matieres_table.php',
+    'CreateClasseMatieresTable' => $baseDir . '/database/migrations/2017_08_21_034524_create_classe_matieres_table.php',
     'CreateClassesTable' => $baseDir . '/database/migrations/2017_08_20_051655_create_classes_table.php',
     'CreateCyclesTable' => $baseDir . '/database/migrations/2017_08_20_052032_create_cycles_table.php',
     'CreateDecaissementsTable' => $baseDir . '/database/migrations/2017_08_20_052047_create_decaissements_table.php',
@@ -16,6 +16,7 @@ return array(
     'CreateElevesTable' => $baseDir . '/database/migrations/2017_08_19_041044_create_eleves_table.php',
     'CreateFonctionPersonnelsTable' => $baseDir . '/database/migrations/2017_08_20_062437_create_fonction_personnels_table.php',
     'CreateFonctionsTable' => $baseDir . '/database/migrations/2017_08_20_052119_create_fonctions_table.php',
+    'CreateHorairesTable' => $baseDir . '/database/migrations/2017_09_10_035831_create_horaires_table.php',
     'CreateInscriptionsTable' => $baseDir . '/database/migrations/2017_08_20_052128_create_inscriptions_table.php',
     'CreateMatieresTable' => $baseDir . '/database/migrations/2017_08_20_052140_create_matieres_table.php',
     'CreateMoyenneClassesTable' => $baseDir . '/database/migrations/2017_09_01_115856_create_moyenne_classes_table.php',
@@ -24,7 +25,7 @@ return array(
     'CreateNiveausTable' => $baseDir . '/database/migrations/2017_08_20_052150_create_niveaus_table.php',
     'CreateNotesTable' => $baseDir . '/database/migrations/2017_08_20_052156_create_notes_table.php',
     'CreateParametresTable' => $baseDir . '/database/migrations/2017_08_20_065235_create_parametres_table.php',
-    'CreateParentsTable' => $baseDir . '/database/migrations/2017_08_20_052205_create_parents_table.php',
+    'CreateParentsTable' => $baseDir . '/database/migrations/2017_08_21_040104_create_parents_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
     'CreatePayementsTable' => $baseDir . '/database/migrations/2017_08_20_052212_create_payements_table.php',
     'CreatePersonnelsTable' => $baseDir . '/database/migrations/2017_08_20_052220_create_personnels_table.php',
