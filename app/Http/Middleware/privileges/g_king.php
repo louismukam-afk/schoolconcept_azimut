@@ -1,7 +1,7 @@
 <?php namespace gesecole\Http\Middleware\privileges;
 
 use Closure;
-
+use Illuminate\Support\Facades\Auth;
 class g_king {
 
 	/**
