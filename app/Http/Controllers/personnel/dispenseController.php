@@ -3,7 +3,9 @@
 use gesecole\classe;
 use gesecole\dispense;
 use gesecole\fonction_personnel;
+use gesecole\horaire;
 use gesecole\Http\Requests;
+use Illuminate\Support\Facades\DB;
 use gesecole\Http\Controllers\Controller;
 use gesecole\personnel;
 use gesecole\Session;
@@ -21,7 +23,7 @@ class dispenseController extends Controller {
 	 */
 	  public function __construct()
     {
-        session(['big_title'=>trans('admin.dashboard')]);
+        session(['big_title'=>trans('admin.gestion_personnel')]);
         $year=session('year');
         if($year==null){
             $p=parametres::whereNom('annee_scolaire')->get()->first();
@@ -37,25 +39,44 @@ class dispenseController extends Controller {
             }
         }
     }
+
 	public function index($id)
 	{
-        $titre=trans('admin.dispense');
+
         $m=dispense::whereIdPersonnel($id)->get();
         $p=personnel::find($id);
+        $titre=trans('admin.titre_table_dispense').' '.$p->nom;
         $n=classe::all();
         $e=matiere::all();
-        $values= array('titre'=>$titre,'dispense'=>$m,'classes'=>$n,'matieres'=>$e);
+        $h=horaire::all();
+        $values= array('titre'=>$titre,'dispense'=>$m,'classes'=>$n,'matieres'=>$e,'horaires'=>$h);
         $values['personnel']=$p;
+        if(session('success')){
+            $values['success']=true;
+            Session::forget('success');
+        }
 
         return view('personnel\dispense',$values);
 	}
     public function index1()
     {
-        $titre=trans('admin.titre_table_personnel');
+        $titre=trans('admin.search_personnel');
 
-        $p=personnel::all();
-        $values= array('titre'=>$titre,'personnel'=>$p);
+        $values= array('titre'=>$titre);
 
+
+        return view('personnel\dispenses',$values);
+    }
+
+    public function find(Request $req)
+    {
+        $pattern=$req->input('search');
+        $p=DB::table('personnel')->where('nom', 'LIKE', '%'.$pattern.'%')
+            ->orderBy('nom')
+            ->paginate(30);
+        $values= array('titre'=>trans('admin.search_personnel'));
+        $values['personnel']=$p;
+        session(['search_result'=>true]);
 
         return view('personnel\dispenses',$values);
     }
@@ -65,9 +86,31 @@ class dispenseController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function create()
+	public function create(Request $req)
 	{
-		//
+        $titre=trans('admin.choix_horaire');
+        $this->validate($req,[
+            'id_matiere'=>'required|numeric',
+            'id_personnel'=>'required|numeric',
+            'id_classe'=>'required|numeric',
+            'jour'=>'required|numeric',
+        ]);
+        $h=horaire::all();
+        $oh=dispense::whereAnneeScolaire(session('year'))
+            ->where('id_classe','=',$req->input('id_classe'))
+            ->where('jour','=',$req->input('jour'))
+            ->get();
+
+
+        $values['id_matiere']=$req->input('id_matiere');
+        $values['id_personnel']=$req->input('id_personnel');
+        $values['id_classe']=$req->input('id_classe');
+        $values['jour']=$req->input('jour');
+        $values['horaires']=$h;
+        $values['occupied_horaire']=$oh;
+        $values['titre']=$titre;
+
+        return view('personnel\create_dispense',$values);
 	}
 
 	/**
@@ -81,6 +124,8 @@ class dispenseController extends Controller {
             'id_matiere'=>'required',
             'id_personnel'=>'required',
             'id_classe'=>'required',
+            'jour'=>'required',
+            'id_horaire'=>'required',
 
         ]);
         $c=new dispense();
@@ -88,6 +133,8 @@ class dispenseController extends Controller {
         $c->id_matiere=$req->input('id_matiere');
         $c->id_personnel=$req->input('id_personnel');
         $c->id_classe=$req->input('id_classe');
+        $c->jour=$req->input('jour');
+        $c->id_horaire=$req->input('id_horaire');
         $c->save();
         session(['success'=>true]);
         return redirect()->action('personnel\dispenseController@index',['id'=>$c->id_personnel]);

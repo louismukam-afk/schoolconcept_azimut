@@ -16,6 +16,25 @@ class titulaireController extends Controller {
 	 *
 	 * @return Response
 	 */
+
+    public function __construct()
+    {
+        session(['big_title'=>trans('admin.gestion_personnel')]);
+        $year=session('year');
+        if($year==null){
+            $p=parametres::WhereNom('annee_scolaire')->get()->first();
+
+            if(count($p)<=0){
+                $p=new parametres();
+                $p->nom='annee_scolaire';
+                $p->valeur='2017-2018';
+                $p->save();
+                session(['year'=>$p->valeur]);
+            }else{
+                session(['year'=>$p->valeur]);
+            }
+        }
+    }
 	public function index()
 	{
         $titre=trans('admin.titulaire');
@@ -23,8 +42,8 @@ class titulaireController extends Controller {
         $classe=classe::all();
         $p=personnel::all();
 
-        $st=DB::select( 'SELECT DISTINCT c.id ,c.nom FROM classe c,titulaire t WHERE c.id NOT IN(SELECT id_classe FROM titulaire)');
-        $sc=DB::select( 'SELECT DISTINCT p.id ,p.nom FROM personnel p,titulaire t WHERE p.id NOT IN(SELECT id_personnel FROM titulaire)');
+        $st=DB::select( 'SELECT DISTINCT c.id ,c.nom FROM classe c WHERE c.id NOT IN(SELECT id_classe FROM titulaire WHERE annee_scolaire=?)',[session('year')]);
+        $sc=DB::select( 'SELECT DISTINCT p.id ,p.nom FROM personnel p WHERE p.id NOT IN(SELECT id_personnel FROM titulaire WHERE annee_scolaire=?)',[session('year')]);
 
         $value['titre']=$titre;
         $value['classes']=$classe;
@@ -32,6 +51,11 @@ class titulaireController extends Controller {
         $value['titulaire']=$titulaire;
         $value['st']=$st;
         $value['sc']=$sc;
+
+        if(session('success')){
+            $values['success']=true;
+            Session::forget('success');
+        }
 
 
         return view('personnel\titulaire',$value);

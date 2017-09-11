@@ -1,31 +1,69 @@
 @extends('skeleton')
 @section('sub-content')
-    <div class="col-md-6">
-        @if(isset($success))
-            <div class="alert alert-success">
-                {{  trans('admin.succes')  }}
-            </div>
+    @if(isset($success))
 
-        @endif
+        <div class="alert alert-success">
+            {{  trans('admin.succes')  }}
+        </div>
 
 
+    @endif
+
+    @if(isset($custom_error))
+
+        <div class="alert alert-danger">
+            {{  $custom_error  }}
+        </div>
+
+    @endif
 
 
+        <div class="col-md-8">
+            <form class="form-horizontal" id="add_inscription_form" method="get" action="{{URL::to('/personnel/find/')}}">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="search">{{  trans('inscription.recherche')  }} : </label>
+                        <div class="input-group">
+                            <input type="search" name="search" placeholder="{{trans('inscription.nom')}}" class="form-control" autofocus>
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-primary" ><span class="fa fa-search"> </span>{{trans('inscription.search')}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
 
+        </div>
 
-            <?php $i=1; ?>
-            @foreach($personnel as $p)
+        <div class="col-md-8">
+            @if(session('search_result'))
+                <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 15px;">
+                    <thead>
+                    <caption style="font-size: 22px">{{  trans('inscription.search_result')  }}</caption>
+                    <th>#</th>
+                    <th>{{  trans('admin.nom')  }}</th>
 
+                    <th>{{  trans('inscription.sexe')  }}</th>
 
-                    <strong ></strong>
-            <UL>
-               <LI> <a href="{{ URL::to('/personnel/dispense/').'/'.$p->id }}">{{$p->nom}}</a></LI>
+                    </thead>
+                    <tbody>
+                    <?php $i=1; ?>
+                    @foreach($personnel as $p)
+                        <tr>
+                            <td>{{$i++}}</td>
+                            <td><strong >{{$p->nom}}</strong></td>
+                            <td>{{$p->sexe}}</td>
+                            <td>
+                                <a  href="{{url('/personnel/dispense/'.$p->id)}}"   class="btn btn-warning btn-xs"> <span class="glyphicon glyphicon-time"></span> {{  trans('admin.emploi_temps')  }}</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+                <div class="paginate" style="text-align: center;"> <?php echo(str_replace('/?', '?', $personnel->render()) ); ?></div>
 
-                </UL>
-
-            @endforeach
-
-
-    </div>
-
+                {{Session::forget('search_result')}}
+            @endif
+        </div>
 @endsection

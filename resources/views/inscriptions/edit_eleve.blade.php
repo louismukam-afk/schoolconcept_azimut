@@ -1,7 +1,7 @@
 @extends('skeleton')
 @section('sub-content')
 
-    <div class="col-md-8">
+    <div class="col-md-6">
         @if(isset($success))
 
             <div class="alert alert-success">
@@ -30,14 +30,14 @@
 
                 </div>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <div class="form-group">
                             <label for="date_naiss">{{  trans('inscription.date_naiss')  }} : <span class="required">*</span></label>
                             <input class="form-control" id="date_naiss" name="date_naiss" type="date"  value="{{ $eleve->date_naiss }}"  placeholder="10/07/2009">
 
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <div class="form-group">
                             <label for="lieu_naiss">{{  trans('inscription.lieu_naiss')  }} : <span class="required">*</span></label>
                             <input class="form-control" id="lieu_naiss" name="lieu_naiss" type="text"  value="{{ $eleve->lieu_naiss }}"  >
@@ -46,7 +46,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <div class="form-group">
                             <label for="sexe">{{  trans('inscription.sexe')  }} : </label>
                             <select form="enregistrer_eleve_form" id="sexe" name="sexe" class="form-control">
@@ -56,7 +56,7 @@
 
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-5">
                         <div class="form-group">
                             <label for="nationalite">{{  trans('inscription.nationalite')  }} : <span class="required">*</span></label>
                             <input class="form-control" id="nationalite" name="nationalite" type="text"  value="{{ $eleve->nationalite }}"  >
@@ -69,7 +69,7 @@
                     <input class="form-control" id="quartier" name="quartier" type="text"  value="{{ $eleve->quartier }}"  required>
 
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <div class="form-group">
                         <label for="transport">{{  trans('inscription.deplacement')  }} : </label>
                         <select form="enregistrer_eleve_form" id="transport" name="transport" class="form-control">
@@ -79,7 +79,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <div class="form-group">
                         <label for="parents_ens">{{  trans('inscription.parents_ens')  }} : </label>
                         <select form="enregistrer_eleve_form" id="parents_ens" name="parents_ens" class="form-control">
@@ -103,4 +103,36 @@
 
         </form>
     </div>
+<div class="parent col-md-offset-1 col-md-5">
+        <h3>{{trans('inscription.parent')}}</h3>
+    @foreach($parents as $p)
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title">
+                    <h4>
+                        @if($p->type==0)
+                            {{trans('inscription.mere')}}
+                        @elseif($p->type==1)
+                            {{trans('inscription.pere')}}
+                        @else
+                            {{trans('inscription.tuteur')}}
+                        @endif
+                    </h4>
+                </div>
+
+            </div>
+            <div class="panel-body" >
+                <div>{{trans('admin.nom')}} : <strong>{{$p->nom}}</strong></div>
+                <div>{{trans('inscription.quartier')}} : <strong>{{$p->quartier}}</strong></div>
+                <div>{{trans('inscription.ville')}} : <strong>{{$p->ville}}</strong></div>
+                <div>Tel1 : <strong>{{$p->tel1}}</strong></div>
+                <div>Tel2 : <strong>{{$p->tel2}}</strong></div>
+            </div>
+        </div>
+
+
+
+    @endforeach
+</div>
+
 @endsection

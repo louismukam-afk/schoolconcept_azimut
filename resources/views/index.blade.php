@@ -134,7 +134,7 @@
                         <div class="alert alert-info">
                             @if (Auth::guest())
                             @else
-                             <strong>Welcome {{Auth::user()->fullname}} ! </strong> You Have No pending Task For Today.
+                             <strong>{{trans('admin.bienvenue')}} {{Auth::user()->fullname}} ! </strong>
                             @endif
                         </div>
 

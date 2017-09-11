@@ -9,7 +9,10 @@
 
         @endif
 
-        <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 15px;">
+            <button class="btn btn-primary" data-toggle="modal" data-backdrop="false" href="#add_cycle"
+            ><span class="glyphicon glyphicon-plus"></span> {{  trans('admin.ajouter_personnel')  }}</button>
+            <span class="col-md-12"><strong>Total : {{count($personnel)}}</strong></span>
+        <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 5px;">
             <thead>
             <caption style="font-size: 22px">{{  trans('admin.personnels')  }}</caption>
             <th>#</th>
@@ -33,8 +36,7 @@
             @endforeach
             </tbody>
         </table>
-        <button class="btn btn-primary" data-toggle="modal" data-backdrop="false" href="#add_cycle"
-        ><span class="glyphicon glyphicon-plus"></span> {{  trans('admin.ajouter_personnel')  }}</button>
+
             <div class="modal fade" id="add_cycle">
                 <div class="modal-dialog">
                     <div class="modal-content">

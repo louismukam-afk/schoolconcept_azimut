@@ -16,14 +16,16 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\decaissement whereIdPersonnel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\decaissement whereMontant($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\decaissement whereMotif($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\decaissement whereTotal($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\decaissement whereVariation($value)
+ * @property string $date
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\decaissement whereDate($value)
+ * @property string $annee_scolaire
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\decaissement whereAnneeScolaire($value)
  */
 class decaissement extends Model {
 
 	protected  $table='decaissement';
 
-    public $fillable=['id_personnel','variation','motif','total','montant'];
+    public $fillable=['id_personnel','motif','montant','date','annee_scoaire'];
 
 
     public $timestamps=false;

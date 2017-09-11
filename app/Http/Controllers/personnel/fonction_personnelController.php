@@ -11,14 +11,10 @@ use Illuminate\Http\Request;
 
 class fonction_personnelController extends Controller {
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
 
     public function __construct()
     {
-        session(['big_title'=>trans('admin.dashboard')]);
+        session(['big_title'=>trans('admin.gestion_personnel')]);
         $year=session('year');
         if($year==null){
             $p=parametres::WhereNom('annee_scolaire')->get()->first();
@@ -33,15 +29,24 @@ class fonction_personnelController extends Controller {
                 session(['year'=>$p->valeur]);
             }
         }
-    } */
+    }
 	public function index($id)
 	{
-        $titre=trans('admin.fonction_personnel');
-        $m=fonction_personnel::all();
+	    $arr=[];
+        $m=fonction_personnel::whereIdPersonnel($id)->get();
+        foreach ($m as $fp){
+            array_push($arr,$fp->id_fonction);
+        }
         $p=personnel::find($id);
-        $n=fonction::all();
+        $f=fonction::whereIn('id',$arr)->get();
+        $n=fonction::whereNotIn('id',$arr)->get();
+        $titre=trans('admin.fonction_personnel_liste').' '.$p->nom;
 
-        $values= array('titre'=>$titre,'fonction_personnel'=>$m,'personnel'=>$p,'fonction'=>$n);
+        $values= array('titre'=>$titre,'fonction_personnel'=>$m,'personnel'=>$p,'fonction'=>$f,'fonction2'=>$n);
+        if(session('success')){
+            $values['success']=true;
+            Session::forget('success');
+        }
 
       //  $values['personnel']=$p;
       //  $values['fonction']=$n;
@@ -51,9 +56,9 @@ class fonction_personnelController extends Controller {
 
     public function index2()
     {
-        $titre=trans('admin.fonction_personnel');
+        $titre=trans('admin.choix_personnel');
 
-        $p=personnel::all();
+        $p=personnel::orderBy('nom')->get();
         $values= array('titre'=>$titre,'personnel'=>$p);
 
         //  $values['personnel']=$p;
@@ -82,17 +87,14 @@ class fonction_personnelController extends Controller {
         $this->validate($req,[
             'id_fonction'=>'required',
             'id_personnel'=>'required',
-            'annee_scolaire'=>'required',
-
         ]);
         $c=new fonction_personnel();
-        $c->annee_scolaire=$req->input('annee_scolaire');
+        $c->annee_scolaire=session('year');
         $c->id_fonction=$req->input('id_fonction');
         $c->id_personnel=$req->input('id_personnel');
         $c->save();
-        session('year');
         session(['success'=>true]);
-        return redirect()->action('personnel\fonction_personnelController@index');
+        return redirect()->action('personnel\fonction_personnelController@index',['id'=>$req->input('id_personnel')]);
 
 	}
 

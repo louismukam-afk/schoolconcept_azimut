@@ -13,8 +13,9 @@
             <thead>
             <caption style="font-size: 22px">{{  trans('admin.salaire')  }}</caption>
             <th>#</th>
-            <th>Montant</th>
-            <th>Nom</th>
+            <th>{{trans('admin.nom')}}</th>
+            <th>Type</th>
+            <th>{{trans('inscription.montant')}}</th>
             </thead>
             <tbody>
             <?php $i=1; ?>
@@ -26,11 +27,14 @@
                     @foreach($personnel as $p)
                         @if($p->id == $c->id_personnel)
                           <td>  {{  $p->nom  }}</td>
-                            <?php break; ?>
+                            <td>  @if($c->type==0){{trans('admin.salaire0') }}@else {{trans('admin.salaire1')}} @endif</td>
+                            <td>  {{  $c->montant  }}</td>
+
+                        <?php break; ?>
                         @endif
                     @endforeach
 
-                    <td><a href="{{ URL::to('/personnel/salaire/destroy/').'/'.$c->id }}"  title="Supprimer" class="btn btn-danger btn-xs pull-right"><span class="glyphicon glyphicon-trash"></span> Supprimer</a></td>
+                    <td><a href="{{ URL::to('/admin/salaire/destroy/').'/'.$c->id }}"  title="Supprimer" class="btn btn-danger btn-xs pull-right"><span class="glyphicon glyphicon-trash"></span> Supprimer</a></td>
                 </tr>
             @endforeach
             </tbody>
@@ -48,21 +52,28 @@
 
 
 
-                        <form accept-charset="UTF-8" id="edit_salaire_form" role="form" method="POST" action="{{ url('/personnel/salaire/store/') }}">
+                        <form accept-charset="UTF-8" id="edit_salaire_form" role="form" method="POST" action="{{ url('/admin/salaire/store/') }}">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <fieldset>
                                 <div class="form-group">
-                                    <label for="niveau">{{  trans('admin.choose_level')  }} : <span class="required">*</span></label>
+                                    <label for="niveau">{{  trans('admin.choix_personnel')  }} : </label>
                                     <select  name="id_personnel" form="edit_salaire_form" class="form-control">
-                                        @foreach($personnel as $p)
+                                        @foreach($personnel1 as $p)
                                             <option value="{{  $p->id  }}" @if($p->id == old('id_personnel')) selected @endif>{{  $p->nom  }}</option>
                                         @endforeach
                                     </select>
                                 </div>
+                                <div class="form-group">
+                                    <label>Type: </label>
+                                    <select  name="type" form="edit_salaire_form" class="form-control">
+                                            <option value="0" >{{trans('admin.salaire0')}}</option>
+                                           <!-- <option value="1" >{{trans('admin.salaire1')}}</option>-->
+                                    </select>
+                                </div>
 
                                 <div class="form-group">
-                                    <label for="montant">{{  trans('admin.montant')  }} : <span class="required">*</span></label>
-                                    <input class="form-control" id="nom" name="montant" type="text"  value="{{ old('montant') }}" required autofocus>
+                                    <label for="montant">{{  trans('inscription.montant')  }} :  </label>
+                                    <input class="form-control" id="nom" name="montant" type="text"  value="{{ old('montant') }}">
 
                                 </div>
                                 <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
@@ -84,7 +95,6 @@
             </div>
         </div>
 
-        <div class="paginate" style="text-align: center;"> <?php echo(str_replace('/?', '?', $salaire->render()) ); ?></div>
     </div>
 
 @endsection

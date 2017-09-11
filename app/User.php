@@ -28,6 +28,8 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\User whereFullname($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\User whereUpdatedAt($value)
+ * @property int $active
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\User whereActive($value)
  */
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract {
 
@@ -45,7 +47,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 *
 	 * @var array
 	 */
-	protected $fillable = ['name', 'fullname', 'password','role'];
+	protected $fillable = ['name', 'fullname', 'password','role','active'];
 
 	/**
 	 * The attributes excluded from the model's JSON form.

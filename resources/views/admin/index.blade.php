@@ -91,9 +91,50 @@
             </div>
 
         </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+            <div class="div-square">
+                <a href="{{URL::to('admin/salaire/')}}" >
+                    <i class="fa fa-money fa-5x"></i>
+                    <h4>{{trans('admin.salaire')}} </h4>
+                </a>
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+            <div class="div-square">
+                <a href="{{URL::to('admin/horaires/')}}" >
+                    <i class="fa fa-clock-o fa-5x"></i>
+                    <h4>{{trans('admin.horaire')}} </h4>
+                </a>
+            </div>
+
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+            <div class="div-square">
+                <a href="{{URL::to('admin/retrait/')}}" >
+                    <i class="fa fa-money fa-5x"></i>
+                    <h4>{{trans('admin.effectuer_retrait')}} </h4>
+                </a>
+            </div>
+
+        </div>
+    </div>
+    <div class="page-header">
+        <h3>{{trans('admin.autre')}} </h3>
     </div>
     <div class="row text-center pad-top">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+            <div class="div-square">
+                <a href="{{url('/utilisateurs/')}}" >
+                    <i class="fa fa-users fa-5x"></i>
+                    <h4>{{trans('admin.utilisateurs')}} </h4>
+                </a>
+            </div>
 
+        </div>
     </div>
 
 @endsection

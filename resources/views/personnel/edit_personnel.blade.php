@@ -1,5 +1,14 @@
 @extends('skeleton')
 @section('sub-content')
+    <div class="col-md-8">
+        @if(isset($success))
+
+            <div class="alert alert-success">
+                {{  trans('admin.succes')  }}
+            </div>
+
+        @endif
+    </div>
 
 <div class="page-header">
     <span><h4>{{$personnel->nom}}</h4></span>
@@ -66,6 +75,33 @@
 
         </fieldset>
     </form>
+
+
+    <div class="page-header">
+        <h3>{{trans('admin.fonctions')}}</h3>
+    </div>
+    <ul>
+        @if(count($fonctions)==0)
+            <span class="alert alert-info">
+                {{trans('admin.aucun')}}
+            </span>
+        @endif
+        @foreach($fonctions as $f)
+            <li><strong>
+                    @foreach($fonction as $f2)
+                        @if($f->id_fonction==$f2->id)
+                            {{$f2->nom}}
+                            <?php break; ?>
+                        @endif
+                    @endforeach
+                </strong></li>
+        @endforeach
+    </ul>
+
+    @if($titulaire!=null)
+        <span class="alert alert-info col-md-6">{{trans('admin.titulaire_de').' '.\gesecole\classe::find($titulaire->id_classe)->nom}}</span>
+    @endif
+
 </div>
 
 @endsection
