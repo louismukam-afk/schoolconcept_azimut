@@ -1,5 +1,14 @@
 @extends('skeleton')
 @section('sub-content')
+    <div class="col-md-8">
+        @if(isset($success))
+
+            <div class="alert alert-success">
+                {{  trans('admin.succes')  }}
+            </div>
+
+        @endif
+    </div>
 
 <div class="page-header">
     <span><h4>{{$personnel->nom}}</h4></span>

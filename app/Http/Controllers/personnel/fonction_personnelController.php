@@ -43,6 +43,10 @@ class fonction_personnelController extends Controller {
         $titre=trans('admin.fonction_personnel_liste').' '.$p->nom;
 
         $values= array('titre'=>$titre,'fonction_personnel'=>$m,'personnel'=>$p,'fonction'=>$f,'fonction2'=>$n);
+        if(session('success')){
+            $values['success']=true;
+            Session::forget('success');
+        }
 
       //  $values['personnel']=$p;
       //  $values['fonction']=$n;

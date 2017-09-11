@@ -52,6 +52,11 @@ class titulaireController extends Controller {
         $value['st']=$st;
         $value['sc']=$sc;
 
+        if(session('success')){
+            $values['success']=true;
+            Session::forget('success');
+        }
+
 
         return view('personnel\titulaire',$value);
 	}

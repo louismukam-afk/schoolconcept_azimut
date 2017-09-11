@@ -51,6 +51,10 @@ class dispenseController extends Controller {
         $h=horaire::all();
         $values= array('titre'=>$titre,'dispense'=>$m,'classes'=>$n,'matieres'=>$e,'horaires'=>$h);
         $values['personnel']=$p;
+        if(session('success')){
+            $values['success']=true;
+            Session::forget('success');
+        }
 
         return view('personnel\dispense',$values);
 	}
