@@ -66,6 +66,7 @@ Route::group(['middleware'=>'auth'],function (){
 
 
     //Inscriptions
+    Route::get('/inscriptions/eleves/search', 'inscriptions\enregistrementController@index');
     Route::get('/inscriptions/enregistrement/create/', 'inscriptions\enregistrementController@create');
     Route::get('/inscriptions/enregistrement/edit/{id}', 'inscriptions\enregistrementController@edit');
     Route::post('/inscriptions/enregistrement/store/', 'inscriptions\enregistrementController@store');
@@ -116,6 +117,9 @@ Route::group(['middleware'=>'auth'],function (){
     Route::post('/personnel/store/', 'personnel\personnelController@store');
     Route::post('/personnel/update/{id}', 'personnel\personnelController@update');
 
+///routes pour les décaissements
+    Route::get('/admin/retrait/','admin\decaissementController@index');
+    Route::post('/admin/retrait/store','admin\decaissementController@store');
 ///routes pour les salaires
 
     Route::get('/admin/salaire/','admin\salaireController@index');
@@ -154,6 +158,8 @@ Route::group(['middleware'=>'auth'],function (){
 
     //pour les recherches
     Route::get('/search/personnel', 'searchController@personnel');
+    Route::get('/search/retrait', 'searchController@retrait');
+    Route::get('/search/eleve', 'searchController@eleve');
 
 
 

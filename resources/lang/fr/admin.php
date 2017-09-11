@@ -105,4 +105,6 @@ return [
     'ajouter_titulaire'=>'Ajouter un titulaire de classe',
     'titulaire_de'=>'Titulaire de la classe de',
     'menu_recherche'=>'Menu des recherches',
+    'effectuer_retrait'=>'Effectuer un retrait',
+    'nouveau_retrait'=>'Nouveau retrait',
 ];

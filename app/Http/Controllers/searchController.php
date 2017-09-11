@@ -1,7 +1,9 @@
 <?php namespace gesecole\Http\Controllers;
 
+use gesecole\decaissement;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
+use gesecole\personnel;
 use Illuminate\Support\Facades\DB;
 use gesecole\parametres;
 use Illuminate\Support\Facades\Session;
@@ -48,14 +50,47 @@ class searchController extends Controller {
         return view($view,$values);
 	}
 
+    public function retrait(Request $req)
+    {
+        $pattern=$req->input('search');
+        $view=$req->input('view');
+        $titre=$req->input('titre');
+        $p=personnel::where('nom', 'LIKE', '%'.$pattern.'%')
+            ->orderBy('nom')
+            ->get();
+        $arr=[];
+        foreach ($p as $personnel){
+            array_push($arr,$personnel->id);
+        }
+        $d=decaissement::whereIn('id_personnel',$arr)->orderBy('date','desc')->paginate(30);
+        $values= array('titre'=>$titre);
+        $values['personnel']=$p;
+        session(['search_result'=>true]);
+        $values['decaissement']=$d;
+
+        return view($view,$values);
+    }
 	/**
 	 * Show the form for creating a new resource.
 	 *
 	 * @return Response
 	 */
-	public function create()
+	public function eleve(Request $req)
 	{
-		//
+        $pattern=$req->input('search');
+        $view=$req->input('view');
+        $e=DB::table('eleve')->where('nom', 'LIKE', '%'.$pattern.'%')
+            ->orWhere('prenom', 'LIKE', '%'.$pattern.'%')
+            ->orWhere('matricule', 'LIKE', '%'.$pattern.'%')
+            ->orderBy('nom')->orderBy('prenom')
+            ->paginate(30);
+        //$e=DB::table('eleve')->whereRaw("nom LIKE '%?%' or prenom LIKE '%?%' or matricule LIKE '%?%'",[$pattern,$pattern,$pattern])->get();
+        //$e=eleve::whereRaw("nom LIKE '%?%' or prenom LIKE '%?%' or matricule LIKE '%?%'",[$pattern,$pattern,$pattern]);
+        $values= array('titre'=>trans('inscription.title_search'));
+        $values['eleves']=$e;
+        session(['search_result'=>true]);
+
+        return view($view,$values);
 	}
 
 	/**

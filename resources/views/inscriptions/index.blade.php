@@ -45,5 +45,19 @@
 
         </div>
 
+
+
+    </div>
+    <div class="row text-center pad-top">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+            <div class="div-square">
+                <a href="{{URL::to('/inscriptions/eleves/search')}}" >
+                    <i class="fa fa-search fa-5x"></i>
+                    <h4>{{trans('admin.see_edit').' '.trans('inscription.eleve')}}</h4>
+                </a>
+            </div>
+
+
+        </div>
     </div>
 @endsection

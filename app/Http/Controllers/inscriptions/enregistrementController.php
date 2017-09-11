@@ -40,7 +40,14 @@ class enregistrementController extends Controller {
 
 	public function index()
 	{
-		//
+        $values= array('titre'=>trans('inscription.title_search'));
+        if(session('success')){
+            $values['success']=session('success');
+            Session::forget('success');
+
+        }
+
+        return view('inscriptions\search_edit_eleve',$values);
 	}
 
 	/**
@@ -188,11 +195,14 @@ class enregistrementController extends Controller {
 	public function edit($id)
 	{
 		$e=eleve::find($id);
+		$p=$e->parents;
         $values= array('titre'=>trans('inscription.edit_eleve'),'eleve'=>$e);
+        $values['eleve']=$e;
+        $values['parents']=$p;
+
         if(session('success')){
             Session::forget('success');
             $values['success']=true;
-            $values['eleve']=$e;
         }
         return view('inscriptions\edit_eleve',$values);
 	}

@@ -67,7 +67,7 @@
                                     <label>Type: </label>
                                     <select  name="type" form="edit_salaire_form" class="form-control">
                                             <option value="0" >{{trans('admin.salaire0')}}</option>
-                                            <option value="1" >{{trans('admin.salaire1')}}</option>
+                                           <!-- <option value="1" >{{trans('admin.salaire1')}}</option>-->
                                     </select>
                                 </div>
 
