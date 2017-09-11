@@ -2,6 +2,7 @@
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Support\Facades\Auth;
 
 class Authenticate {
 
@@ -44,6 +45,11 @@ class Authenticate {
 				return redirect()->guest('auth/login');
 			}
 		}
+		if (\Auth::user()->active==0){
+		    session(['account_deactivate'=>trans('admin.activer_compte')]);
+		    Auth::logout();
+           return redirect()->guest('auth/login');
+        }
 
 		return $next($request);
 	}

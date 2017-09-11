@@ -1,65 +1,207 @@
-@extends('app')
 
-@section('content')
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-			<div class="panel panel-default">
-				<div class="panel-heading">Register</div>
-				<div class="panel-body">
-					@if (count($errors) > 0)
-						<div class="alert alert-danger">
-							<strong>Whoops!</strong> There were some problems with your input.<br><br>
-							<ul>
-								@foreach ($errors->all() as $error)
-									<li>{{ $error }}</li>
-								@endforeach
-							</ul>
-						</div>
-					@endif
+<html>
+	<head>
+		<title></title>
+		<link rel="stylesheet" href="{{URL::asset('css/bootstrap.css')}}">
+		<link href="{{ URL::asset('css/font-awesome.css')  }}" rel="stylesheet" />
+		<style>
+			/*
+ * Specific styles of signin component
+ */
+			/*
+             * General styles
+             */
+			body, html {
+				height: auto;
+				background-repeat: no-repeat;
+				background-image: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));
+			}
 
-					<form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/register') }}">
-						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+			.card-container.card {
+				max-width: 350px;
+				padding: 40px 40px;
+			}
 
-						<div class="form-group">
-							<label class="col-md-4 control-label">User name</label>
-							<div class="col-md-6">
-								<input type="text" class="form-control" name="name" value="{{ old('name') }}">
-							</div>
-						</div>
+			.btn {
+				font-weight: 700;
+				height: 36px;
+				-moz-user-select: none;
+				-webkit-user-select: none;
+				user-select: none;
+				cursor: default;
+			}
 
-						<div class="form-group">
-							<label class="col-md-4 control-label">Full name</label>
-							<div class="col-md-6">
-								<input type="text" class="form-control" name="fullname" value="{{ old('fullname') }}">
-							</div>
-						</div>
+			/*
+             * Card component
+             */
+			.card {
+				background-color: #F7F7F7;
+				/* just in case there no content*/
+				padding: 20px 25px 30px;
+				margin: 0 auto 25px;
+				margin-top: 50px;
+				/* shadows and rounded borders */
+				-moz-border-radius: 2px;
+				-webkit-border-radius: 2px;
+				border-radius: 2px;
+				-moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+				-webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+				box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+			}
 
-						<div class="form-group">
-							<label class="col-md-4 control-label">Password</label>
-							<div class="col-md-6">
-								<input type="password" class="form-control" name="password">
-							</div>
-						</div>
+			.profile-img-card {
+				width: 96px;
+				height: 96px;
+				margin: 0 auto 10px;
+				display: block;
+				-moz-border-radius: 50%;
+				-webkit-border-radius: 50%;
+				border-radius: 50%;
+			}
 
-						<div class="form-group">
-							<label class="col-md-4 control-label">Confirm Password</label>
-							<div class="col-md-6">
-								<input type="password" class="form-control" name="password_confirmation">
-							</div>
-						</div>
+			/*
+             * Form styles
+             */
+			.profile-name-card {
+				font-size: 16px;
+				font-weight: bold;
+				text-align: center;
+				margin: 10px 0 0;
+				min-height: 1em;
+			}
 
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
-								<button type="submit" class="btn btn-primary">
-									Register
-								</button>
-							</div>
-						</div>
-					</form>
+			.reauth-email {
+				display: block;
+				color: #404040;
+				line-height: 2;
+				margin-bottom: 10px;
+				font-size: 14px;
+				text-align: center;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				-moz-box-sizing: border-box;
+				-webkit-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+
+			.form-signin #inputEmail,
+			.form-signin #inputPassword {
+				direction: ltr;
+				height: 44px;
+				font-size: 16px;
+			}
+
+			.form-signin input[type=email],
+			.form-signin input[type=password],
+			.form-signin input[type=text],
+			.form-signin button {
+				width: 100%;
+				display: block;
+				margin-bottom: 10px;
+				z-index: 1;
+				position: relative;
+				-moz-box-sizing: border-box;
+				-webkit-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+
+			.form-signin .form-control:focus {
+				border-color: rgb(104, 145, 162);
+				outline: 0;
+				-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
+				box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgb(104, 145, 162);
+			}
+
+			.btn.btn-signin {
+				/*background-color: #4d90fe; */
+				background-color: rgb(104, 145, 162);
+				/* background-color: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));*/
+				padding: 0px;
+				font-weight: 700;
+				font-size: 14px;
+				height: 36px;
+				-moz-border-radius: 3px;
+				-webkit-border-radius: 3px;
+				border-radius: 3px;
+				border: none;
+				-o-transition: all 0.218s;
+				-moz-transition: all 0.218s;
+				-webkit-transition: all 0.218s;
+				transition: all 0.218s;
+			}
+
+			.btn.btn-signin:hover,
+			.btn.btn-signin:active,
+			.btn.btn-signin:focus {
+				background-color: rgb(12, 97, 33);
+			}
+
+			.forgot-password {
+				color: rgb(104, 145, 162);
+			}
+
+			.forgot-password:hover,
+			.forgot-password:active,
+			.forgot-password:focus{
+				color: rgb(12, 97, 33);
+			}
+		</style>
+	</head>
+	<body>
+	<div class="container">
+		<div class="card card-container">
+			<!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
+			<img id="profile-img" class="profile-img-card" src="{{URL::asset('img/avatar_2x.png')}}" />
+			<p id="profile-name" class="profile-name-card"></p>
+			@if (count($errors) > 0)
+				<div class="alert alert-danger">
+					<strong>{{trans('admin.oups')}}!</strong> {{trans('admin.log_problem')}}.<br><br>
+					<ul>
+						@foreach ($errors->all() as $error)
+							<li>{{ $error }}</li>
+						@endforeach
+					</ul>
 				</div>
-			</div>
-		</div>
-	</div>
-</div>
-@endsection
+			@endif
+			<form class="form-signin" method="post" action="{{ url('/auth/register') }}">
+				<input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+				<span id="reauth-email" class="reauth-email"></span>
+				<div class="form-group">
+					<label class="control-label">{{trans('admin.username')}}</label>
+					<div >
+						<input type="text" class="form-control" name="name" value="{{ old('name') }}">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label">{{trans('admin.fullname')}}</label>
+					<div >
+						<input type="text" class="form-control" name="fullname" value="{{ old('fullname') }}">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="control-label">{{trans('admin.password')}}</label>
+					<div >
+						<input type="password" class="form-control" name="password">
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class=" control-label">{{trans('admin.password_again')}}</label>
+					<div >
+						<input type="password" class="form-control" name="password_confirmation">
+					</div>
+				</div>
+
+
+				<button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">{{trans('admin.register')}}</button>
+			</form><!-- /form -->
+			<a href="{{url('/auth/login')}}" class="pull-right">{{trans('admin.login')}}</a>
+
+		</div><!-- /card-container -->
+	</div><!-- /container -->
+	</body>
+</html>

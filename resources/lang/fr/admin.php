@@ -80,7 +80,7 @@ return [
     'tel2'=>'Numéro de téléphone 2',
     'adresse'=>'Adresse',
     'email'=>'Adresse email',
-    'diplome'=>'Diplome',
+    'diplome'=>'Diplome/Formation',
     'infos_personnel'=>'Informations sur le personnel',
     'see_edit'=>'Voir/Modifier',
     'salaire0'=>'Basique',
@@ -107,4 +107,22 @@ return [
     'menu_recherche'=>'Menu des recherches',
     'effectuer_retrait'=>'Effectuer un retrait',
     'nouveau_retrait'=>'Nouveau retrait',
+    'autre'=>'Autres',
+    'utilisateurs'=>'Utilisateurs',
+    //////////login-register
+    'username'=>'Nom d\'utilisateur',
+    'fullname'=>'Nom complet',
+    'password'=>'Mot de passe',
+    'password_again'=>'Confirmer le mot de passe',
+    'register'=>'S\'enregistrer',
+    'oups'=>'Ouups',
+    'log_problem'=>'Il y\'a un problème',
+    'remember'=>'Se souvenir de moi',
+    'login'=>'Se connecter',
+    'activer_compte'=>'Votre compte est désactivé veuillez contacter l\'administrateur pour une activation',
+    //les utilisateurs
+    'liste_utilisateurs'=>'Liste des utilisateurs',
+    'activer'=>'Activer',
+    'desactiver'=>'Désactiver',
+    
 ];

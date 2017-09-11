@@ -62,7 +62,7 @@ class searchController extends Controller {
         foreach ($p as $personnel){
             array_push($arr,$personnel->id);
         }
-        $d=decaissement::whereIn('id_personnel',$arr)->orderBy('date','desc')->paginate(30);
+        $d=decaissement::whereIn('id_personnel',$arr)->where('annee_scolaire','=',\session('year'))->orderBy('date','desc')->paginate(30);
         $values= array('titre'=>$titre);
         $values['personnel']=$p;
         session(['search_result'=>true]);

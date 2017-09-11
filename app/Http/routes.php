@@ -14,6 +14,8 @@
 
 Route::group(['middleware'=>'auth'],function (){
     Route::get('/', 'WelcomeController@index');
+    Route::get('home', 'WelcomeController@index');
+
 
     //Tableau de bord d'admin
 
@@ -154,7 +156,6 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('/personnel/titulaire/destroy/{id}', 'personnel\titulaireController@destroy');
     Route::post('/personnel/titulaire/store', 'personnel\titulaireController@store');
     Route::post('/personnel/titulaire/update', 'personnel\titulaireController@update');
-    Route::get('home', 'HomeController@index');
 
     //pour les recherches
     Route::get('/search/personnel', 'searchController@personnel');
