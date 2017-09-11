@@ -13,6 +13,9 @@ class g_personnel {
 	 */
 	public function handle($request, Closure $next)
 	{
+        if(Auth::user()->role>2 && Auth::user()->role!=17){
+            return view('not_auth',['titre'=>'']);
+        }
 		return $next($request);
 	}
 

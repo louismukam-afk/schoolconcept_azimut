@@ -24,7 +24,12 @@ class Kernel extends HttpKernel {
 	 * @var array
 	 */
 	protected $routeMiddleware = [
-		'auth' => 'gesecole\Http\Middleware\Authenticate',
+        'lvl0' => 'gesecole\Http\Middleware\privileges\g_king',
+        'lvl2' => 'gesecole\Http\Middleware\privileges\g_editeur',
+        'lvl17' => 'gesecole\Http\Middleware\privileges\g_personnel',
+        'lvl18' => 'gesecole\Http\Middleware\privileges\g_notes',
+        'lvl19' => 'gesecole\Http\Middleware\privileges\g_inscriptions',
+        'auth' => 'gesecole\Http\Middleware\Authenticate',
 		'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
 		'guest' => 'gesecole\Http\Middleware\RedirectIfAuthenticated',
 	];

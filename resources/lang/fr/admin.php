@@ -130,5 +130,6 @@ return [
     'g_personnel'=>'Gestionnaire du personnel',
     'editeur'=>'Administrateur',
     'actif'=>'Actif',
+    'auth_msg'=>'Vous n\'avez pas assez d\'autorisations pour accéder à ce service'
 
 ];

@@ -13,6 +13,9 @@ class g_notes {
 	 */
 	public function handle($request, Closure $next)
 	{
+        if(Auth::user()->role>2 && Auth::user()->role!=18){
+            return view('not_auth',['titre'=>'']);
+        }
 		return $next($request);
 	}
 
