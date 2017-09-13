@@ -2,13 +2,12 @@
 
 use gesecole\classe;
 use gesecole\dispense;
-use gesecole\fonction_personnel;
 use gesecole\horaire;
+use Illuminate\Support\Facades\Session;
 use gesecole\Http\Requests;
 use Illuminate\Support\Facades\DB;
 use gesecole\Http\Controllers\Controller;
 use gesecole\personnel;
-use gesecole\Session;
 use gesecole\matiere;
 use gesecole\parametres;
 use Illuminate\Http\Request;

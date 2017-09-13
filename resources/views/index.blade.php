@@ -4,6 +4,7 @@
       <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SchoolConcept</title>
+    <link rel="shortcut icon" href="{{URL::asset('favicon.ico')}}" type="image/x-icon">
 	<!-- BOOTSTRAP STYLES-->
     <link href="{{ URL::asset('css/bootstrap.css')  }}" rel="stylesheet" />
      <!-- FONTAWESOME STYLES-->
@@ -24,8 +25,8 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">
-                        <img src="{{ URL::asset('img/logo.png')  }}" />
+                    <a class="navbar-brand logo" href="#">
+                        <img src="{{URL::asset('img/school-concept.png')}}" />
 
                     </a>
                     

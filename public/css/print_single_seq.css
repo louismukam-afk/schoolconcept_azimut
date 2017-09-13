@@ -82,11 +82,15 @@
 }
 .bulletin-header .logo-nav
 {
+    -webkit-print-color-adjust:exact;
     left: 45%;
     width: 100px;
-    border: solid 1px;
-    height: inherit;
+    height: 100px;
     position: absolute;
+    background: url('../img/logo.png') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
 }
 .bulletin-title{
     text-align: center;
@@ -178,4 +182,5 @@ p
 {
     margin: 0;
 }
+
 

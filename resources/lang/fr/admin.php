@@ -130,6 +130,16 @@ return [
     'g_personnel'=>'Gestionnaire du personnel',
     'editeur'=>'Administrateur',
     'actif'=>'Actif',
-    'auth_msg'=>'Vous n\'avez pas assez d\'autorisations pour accéder à ce service'
-
+    'auth_msg'=>'Vous n\'avez pas assez d\'autorisations pour accéder à ce service',
+    //le premier lancement
+    'premier_msg'=>'Cette page s\'affiche car vous n\'avez pas encore configurer complètement School-concept.Veuiller remplir tous les champs nécessaires',
+    'nom_e'=>'Nom de l\'établissement',
+    'initiales_e'=>'Initiales de l\'établissement (En deux lettres)',
+    'adresse_e'=>'Adresse de l\'établissement',
+    'numeros_e'=>'Numéro(s) de téléphone de l\'établissement (séparer les numéros par - )',
+    'site_web_e'=>'Site web',
+    'email_e'=>'Adresse email',
+    'logo_e'=>'Si vous possédez un logo pour votre établissement sélectionnez le ',
+    'suivant'=>'Suivant',
+    'terminer_config'=>'Finaliser la configuration'
 ];

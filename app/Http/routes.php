@@ -181,6 +181,7 @@ Route::group(['middleware'=>'auth'],function (){
 
 
     //pour les recherches
+
     Route::get('/search/personnel', 'searchController@personnel');
     Route::get('/search/eleve', 'searchController@eleve');
 
@@ -192,6 +193,12 @@ Route::group(['middleware'=>'auth'],function (){
 
 
 
+});
+Route::group(['middleware'=>'start'],function () {
+
+    Route::get('/start/', 'startController@index');
+    Route::post('/start/store', 'startController@store');
+    Route::post('/start/store/admin', 'startController@storeAdmin');
 });
 
 
