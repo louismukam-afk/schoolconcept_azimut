@@ -3,6 +3,7 @@
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Support\Facades\Auth;
+use gesecole\parametres;
 
 class Authenticate {
 
@@ -36,6 +37,11 @@ class Authenticate {
 
 		if ($this->auth->guest())
 		{
+
+            $p=parametres::where('nom','=','configuration')->first();
+            if($p==null){
+                return redirect()->to('/start');
+            }
 			if ($request->ajax())
 			{
 				return response('Unauthorized.', 401);

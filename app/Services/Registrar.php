@@ -1,6 +1,8 @@
 <?php namespace gesecole\Services;
 
+use gesecole\parametres;
 use gesecole\User;
+use Illuminate\Support\Facades\Session;
 use Validator;
 use Illuminate\Contracts\Auth\Registrar as RegistrarContract;
 
@@ -14,6 +16,7 @@ class Registrar implements RegistrarContract {
 	 */
 	public function validator(array $data)
 	{
+	    \session(['start_part_2'=>true]);
 		return Validator::make($data, [
 			'name' => 'required|max:255|unique:users',
             'fullname' => 'required|max:255|',
@@ -29,11 +32,30 @@ class Registrar implements RegistrarContract {
 	 */
 	public function create(array $data)
 	{
-		return User::create([
-			'name' => $data['name'],
-            'fullname' => $data['fullname'],
-			'password' => bcrypt($data['password']),
-		]);
+        Session::forget('start_part_2');
+
+        if (session('superAdmin')){
+            Session::forget('superAdmin');
+            $p=new parametres();
+            $p->nom='configuration';
+            $p->valeur='OK';
+            $p->save();
+            return User::create([
+                'name' => $data['name'],
+                'fullname' => $data['fullname'],
+                'password' => bcrypt($data['password']),
+                'role'=>1,
+                'active'=>1,
+            ]);
+        }else
+        {
+            return User::create([
+                'name' => $data['name'],
+                'fullname' => $data['fullname'],
+                'password' => bcrypt($data['password']),
+            ]);
+        }
+
 	}
 
 }

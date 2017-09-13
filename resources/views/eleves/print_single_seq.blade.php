@@ -10,7 +10,7 @@
                 <p><strong>{{$etablissement}}</strong></p>
                 <p><strong>{{$adresse}}</strong></p>
                 <p>{{$email}}</p>
-                <p>{{$web}}</p>
+                <p>{{$numero}}</p>
             </div>
             <div class="logo-nav">
 

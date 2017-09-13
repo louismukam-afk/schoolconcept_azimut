@@ -152,7 +152,7 @@
 	<div class="container">
 		<div class="card card-container">
 			<!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
-			<img id="profile-img" class="profile-img-card" src="{{URL::asset('img/avatar_2x.png')}}" />
+			<img id="profile-img" class="profile-img-card" src="{{URL::asset('img/school-concept.png')}}" />
 			<p id="profile-name" class="profile-name-card"></p>
 			@if (count($errors) > 0)
 				<div class="alert alert-danger">
@@ -199,7 +199,6 @@
 
 				<button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">{{trans('admin.register')}}</button>
 			</form><!-- /form -->
-			<a href="{{url('/auth/login')}}" class="pull-right">{{trans('admin.login')}}</a>
 
 		</div><!-- /card-container -->
 	</div><!-- /container -->

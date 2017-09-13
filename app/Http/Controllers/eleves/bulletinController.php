@@ -159,6 +159,7 @@ class bulletinController extends Controller {
         $adresse=$p->where('nom','adresse',false)->first()->valeur;
         $web=$p->where('nom','web',false)->first()->valeur;
         $email=$p->where('nom','email',false)->first()->valeur;
+        $numero=$p->where('nom','telephone',false)->first()->valeur;
         $m=DB::select('SELECT m.id,m.nom,m.nom_anglais,cm.coef,m.groupe,cm.max FROM matiere m,classe_matiere cm WHERE cm.id_classe=? AND cm.id_matiere=m.id ORDER BY m.groupe ,m.nom',[$c[0]->id]);
 
 
@@ -168,6 +169,7 @@ class bulletinController extends Controller {
         $values['web']=$web;
         $values['notes']=$notes;
         $values['email']=$email;
+        $values['numero']=$numero;
         $values['sequence']=$seq;
         $values['classe']=$c[0];
         $values['disciplines']=$d;

@@ -24,6 +24,7 @@ class Kernel extends HttpKernel {
 	 * @var array
 	 */
 	protected $routeMiddleware = [
+        'start' => 'gesecole\Http\Middleware\startMiddleware',
         'lvl0' => 'gesecole\Http\Middleware\privileges\g_king',
         'lvl1' => 'gesecole\Http\Middleware\privileges\g_admin',
         'lvl2' => 'gesecole\Http\Middleware\privileges\g_editeur',
