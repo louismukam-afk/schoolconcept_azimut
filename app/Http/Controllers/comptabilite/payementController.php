@@ -7,6 +7,7 @@ use gesecole\parametres;
 use gesecole\payement_salaire;
 use gesecole\personnel;
 use gesecole\salaire;
+use gesecole\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
@@ -42,6 +43,16 @@ class payementController extends Controller {
 	{
         $titre=trans('admin.search_personnel');
         $values= array('titre'=>$titre);
+        if(session('success')){
+            $values['success']=\session('success');
+            $ps=payement_salaire::find($values['success']);
+            $p=personnel::find($ps->id_personnel);
+            $u=User::find($ps->id_user);
+            $values['payement']=$ps;
+            $values['personnel']=$p;
+            $values['user']=$u;
+            Session::forget('success');
+        }
         return view('comptabilite\search_personnel',$values);
 	}
 
@@ -52,7 +63,6 @@ class payementController extends Controller {
 	 */
 	public function create($id)
 	{
-	    return view('comptabilite\recu_payement',['titre'=>'']);
         $p=personnel::find($id);
         $titre=trans('admin.payement').' '.$p->nom;
 

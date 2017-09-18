@@ -54,6 +54,23 @@ p
 .body-salaire{
     margin: 10%;
 }
+.fait-le{
+    background-color: grey;
+}
+.signature{
+    float: right;
+}
+.numero-container{
+    position: relative;
+
+}
+.numero{
+    position: absolute;
+    margin-right: 10%;
+    right: 0;
+    font-size: 18px;
+    color: indianred;
+}
 
 
 
@@ -90,6 +107,27 @@ p
 
         font-size: 15px !important;
 
+    }
+    .fait-le{
+        -webkit-print-color-adjust:exact;
+
+        background-color: grey !important;
+    }
+    .signature{
+        float: right;
+    }
+
+    .numero-container{
+        position: relative;
+
+    }
+    .numero{
+        -webkit-print-color-adjust:exact;
+        position: absolute;
+        margin-right: 10%;
+        right: 0;
+        font-size: 18px;
+        color: indianred !important;
     }
 
     p
