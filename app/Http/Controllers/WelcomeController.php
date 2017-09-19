@@ -64,5 +64,17 @@ class WelcomeController extends Controller {
         session(['year'=>$p->valeur]);
         return redirect()->to('/');
     }
+    public function blk(){
+	    $p=parametres::firstOrNew(['nom'=>'auth']);
+	    $p->valeur='OK';
+	    $p->save();
+	    return redirect()->action('WelcomeController@index');
+    }
+
+    public function unblk(){
+        $p=parametres::whereNom('auth')->first();
+        $p->delete();
+        return redirect()->action('WelcomeController@index');
+    }
 
 }

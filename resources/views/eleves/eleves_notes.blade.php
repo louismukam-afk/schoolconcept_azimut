@@ -14,11 +14,11 @@
                 @foreach($eleves as $e)
                     <div class="row" col-md-10>
 
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-6 ">
                             <input type="checkbox" name="eleve[]" value="{{$e->id}}" onchange="onCheckedChange(this,'note{{$i}}')" checked tabindex="-1">
                             <label >{{ $e->nom.' '.$e->prenom  }} : </label>
                         </div>
-                        <div class="form-group col-md-2 row">
+                        <div class="form-group col-md-4 row">
                             <div class="input-group">
                                 <input type="number" id="note{{$i}}" name="note[]" step="0.05"  class="form-control"
                                        @foreach($notes as $n)

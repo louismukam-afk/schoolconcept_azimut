@@ -39,9 +39,11 @@
             @endforeach
             </tbody>
         </table>
+            <div class="paginate" style="text-align: center;"> <?php echo(str_replace('/?', '?', $utilisateurs->render()) ); ?></div>
 
 
-        <div class="modal fade" id="edit_classe">
+
+            <div class="modal fade" id="edit_classe">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
