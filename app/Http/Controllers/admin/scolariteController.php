@@ -74,8 +74,9 @@ class scolariteController extends Controller {
             'classe'=>'required|numeric',
             'tranche1'=>'required|numeric',
             'tranche2'=>'required|numeric',
-            'tranche3'=>'required|numeric',
-            'tranche4'=>'numeric'
+            'tranche3'=>'numeric',
+            'tranche4'=>'numeric',
+            'tranche5'=>'numeric'
         ]);
 
         $classe=$req->input('classe');
@@ -83,6 +84,7 @@ class scolariteController extends Controller {
         $tranche2=$req->input('tranche2');
         $tranche3=$req->input('tranche3');
         $tranche4=$req->input('tranche4');
+        $tranche5=$req->input('tranche5');
 
         $s=new scolarite();
         $s->id_niveau=$classe;
@@ -90,7 +92,8 @@ class scolariteController extends Controller {
         $s->tranche2=$tranche2;
         $s->tranche3=$tranche3;
         $s->tranche4=$tranche4;
-        $s->total=$tranche1+$tranche2+$tranche3+$tranche4;
+        $s->tranche5=$tranche5;
+        $s->total=$tranche1+$tranche2+$tranche3+$tranche4+$tranche5;
         $s->save();
         session(['success'=>true]);
         return redirect()->action('admin\scolariteController@index');
@@ -131,8 +134,9 @@ class scolariteController extends Controller {
             'classes'=>'required|numeric',
             'tranche1'=>'required|numeric',
             'tranche2'=>'required|numeric',
-            'tranche3'=>'required|numeric',
-            'tranche4'=>'numeric'
+            'tranche3'=>'numeric',
+            'tranche4'=>'numeric',
+            'tranche5'=>'numeric',
         ]);
         $id=$req->input('id');
         $classe=$req->input('classes');
@@ -140,13 +144,15 @@ class scolariteController extends Controller {
         $tranche2=$req->input('tranche2');
         $tranche3=$req->input('tranche3');
         $tranche4=$req->input('tranche4');
+        $tranche5=$req->input('tranche5');
         $s=scolarite::find($id);
         $s->id_niveau=$classe;
         $s->tranche1=$tranche1;
         $s->tranche2=$tranche2;
         $s->tranche3=$tranche3;
         $s->tranche4=$tranche4;
-        $s->total=$tranche1+$tranche2+$tranche3+$tranche4;
+        $s->tranche5=$tranche5;
+        $s->total=$tranche1+$tranche2+$tranche3+$tranche4+$tranche5;
         $s->save();
         session(['success'=>true]);
         return redirect()->action('admin\scolariteController@index');

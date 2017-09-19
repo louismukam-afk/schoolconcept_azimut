@@ -32,6 +32,7 @@ return [
     'tranche2'=>'Deuxième tranche',
     'tranche3'=>'Troisième tranche',
     'tranche4'=>'Quatrième tranche',
+    'tranche5'=>'Cinquième tranche',
     'nouvelle_scolarite'=>'Ajouter une scolarité',
     'optional'=>'Vous pouvez laisser vide',
     'titre_table_scolarite'=>'Liste des scolarités',

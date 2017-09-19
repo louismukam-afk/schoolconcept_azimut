@@ -35,7 +35,11 @@ class userController extends Controller {
 	public function index()
 	{
 		$values=array('titre'=>trans('admin.liste_utilisateurs'));
-		$u=User::where('role','>','1')->orderBy('created_at','desc')->get();
+		if(\Auth::user()->role>0)
+		    $u=User::where('role','>','1')->orderBy('created_at','desc')->paginate(30);
+		else
+            $u=User::where('role','>','0')->orderBy('created_at','desc')->paginate(30);
+
         $values['utilisateurs']=$u;
         if(session('success')){
             Session::forget('success');

@@ -5,6 +5,9 @@ use gesecole\Http\Controllers\Controller;
 
 use gesecole\parametres;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\URL;
+use Intervention\Image\Facades\Image;
 
 class startController extends Controller {
 
@@ -70,17 +73,16 @@ class startController extends Controller {
         $web->valeur=$request->input('web');
         $web->save();
 
+        $img=$request->file('logo');
+        Image::make($img->getRealPath())->save('img/logo.png');
+
         $email->valeur=$request->input('email');
         $email->save();
-
         session(['start_part_2'=>true]);
 
         return redirect()->action('startController@index');
 	}
-    public function storeAdmin()
-    {
 
-    }
 
 	/**
 	 * Display the specified resource.

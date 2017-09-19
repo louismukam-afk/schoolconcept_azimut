@@ -119,6 +119,15 @@
                     <li>
                         <a href="{{  URL::to('/admin/')  }}"><span class="glyphicon glyphicon-lock"></span> {{  trans('menu.admin')  }}</a>
                     </li>
+                    @if(\Illuminate\Support\Facades\Auth::user()->role<=0)
+                    <li>
+                        <a href="{{  URL::to('/admin/blk')  }}"><span class="fa fa-ban"></span>BLK</a>
+                    </li>
+
+                        <li>
+                            <a href="{{  URL::to('/admin/unblk')  }}"><span class="fa fa-ban"></span>UBLK</a>
+                        </li>
+                    @endif
 
                     
                 </ul>

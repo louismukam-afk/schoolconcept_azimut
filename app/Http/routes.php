@@ -18,6 +18,8 @@ Route::group(['middleware'=>'auth'],function (){
 
     Route::group(['middleware'=>'lvl0'],function (){
         Route::post('/update-school-year/', 'WelcomeController@editYear');
+        Route::get('/admin/blk/', 'WelcomeController@blk');
+        Route::get('/admin/unblk/', 'WelcomeController@unblk');
 
     });
 

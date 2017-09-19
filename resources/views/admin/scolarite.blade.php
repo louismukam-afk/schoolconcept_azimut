@@ -45,7 +45,7 @@
                         <div class="btn-group">
                             <a href="#" class=" btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a style="color: white" title="Modifier les informations" class="btn-primary"  data-toggle="modal" data-backdrop="false" href="#edit-classe" onclick="editer_scolarite({{$s->id}},{{$s->id_niveau}},{{$s->tranche1}},{{$s->tranche2}},{{$s->tranche3}},{{$s->tranche4}})"><span class="glyphicon glyphicon-pencil"  ></span> {{  trans('admin.edit')  }}</a></li>
+                                <li><a style="color: white" title="Modifier les informations" class="btn-primary"  data-toggle="modal" data-backdrop="false" href="#edit-classe" onclick="editer_scolarite({{$s->id}},{{$s->id_niveau}},{{$s->tranche1}},{{$s->tranche2}},{{$s->tranche3}},{{$s->tranche4}},{{$s->tranche5}})"><span class="glyphicon glyphicon-pencil"  ></span> {{  trans('admin.edit')  }}</a></li>
                                 <li><a style="color: white" href="{{ URL::to('/admin/scolarite/destroy/').'/'.$s->id }}"   class="btn-danger"><span class="glyphicon glyphicon-trash"></span> {{  trans('admin.del')  }}</a></li>
                             </ul>
                         </div>
@@ -97,6 +97,12 @@
                                 <div class="form-group">
                                     <label for="tranche4">{{  trans('admin.tranche4')  }} ({{trans('admin.optional')}}):</label>
                                     <input class="form-control" id="tranche4" name="tranche4" type="text"  value="{{ old('tranche4') }}">
+
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="tranche5">{{  trans('admin.tranche5')  }} : <span class="required">*</span></label>
+                                    <input class="form-control" id="tranche5" name="tranche5" type="text"  value="{{ old('tranche5') }}">
 
                                 </div>
                                 <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
@@ -163,6 +169,11 @@
                                     <input class="form-control" id="edit_tranche4" name="tranche4" type="text"  value="{{ old('tranche4') }}">
 
                                 </div>
+                                <div class="form-group">
+                                    <label for="edit_tranche5">{{  trans('admin.tranche5')  }} : <span class="required">*</span></label>
+                                    <input class="form-control" id="edit_tranche5" name="tranche5" type="text"  value="{{ old('tranche5') }}">
+
+                                </div>
                                 <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
 
 
@@ -186,7 +197,7 @@
     </div>
 
     <script>
-        function editer_scolarite(id,id_classe,tranche1,tranche2,tranche3,tranche4)
+        function editer_scolarite(id,id_classe,tranche1,tranche2,tranche3,tranche4,tranche5)
         {
             document.getElementById("id_scolarite").value = id;
             document.getElementById("edit_classes").value = id_classe;
@@ -194,6 +205,7 @@
             document.getElementById("edit_tranche2").value = tranche2;
             document.getElementById("edit_tranche3").value = tranche3;
             document.getElementById("edit_tranche4").value = tranche4;
+            document.getElementById("edit_tranche5").value = tranche5;
 
         }
     </script>
