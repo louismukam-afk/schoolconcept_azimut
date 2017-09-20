@@ -27,15 +27,15 @@ html,body {
 
 
 
-    .recu > .panel > .panel-body > .row .etablissement
-    {
-        width: 200px;
-        font-size: 19px;
-        min-height: 100px;
-    }
+.recu > .panel > .panel-body > .row .etablissement
+{
+    width: 300px;
+    font-size: 19px;
+    min-height: 50px;
+}
     .recu > .panel > .panel-body >.row .numero
     {
-        color:red;
+        color:firebrick;
         font-size: 17px;
         margin: 5px;
     }
@@ -58,6 +58,7 @@ html,body {
         padding: 5px;
         border-bottom: 1px solid  rgb(188, 232, 241)  !important;
         border-color: rgb(188, 232, 241)  !important;
+        text-align: center;
 
     }
     .panel-body
@@ -68,7 +69,7 @@ html,body {
     .print-head
     {
         position: relative;
-        min-height: 100px;
+        min-height: 50px;
         border-color: rgb(188, 232, 241) !important;
         border-bottom: solid 1px ;
     }
@@ -89,7 +90,7 @@ html,body {
     }
     .nom
     {
-        margin-top: 60px;
+        margin-top: 30px;
         position: relative;
     }
     .panel-title
@@ -102,7 +103,6 @@ html,body {
     }
     .montant
     {
-        position: absolute;
         left: 0;
     }
     .date
@@ -111,14 +111,17 @@ html,body {
         right: 0;
     }
     .sign
-    {
-        margin-top: 30px;
-        margin-right: 120px;
+    { position: absolute;
+        bottom: 10%;
+        right: 120px;
     }
 	 .back
 	{
 		display:none;
 	}
+.specialite{
+    margin-top: 10px;
+}
 
 
 

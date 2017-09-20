@@ -74,7 +74,8 @@ class startController extends Controller {
         $web->save();
 
         $img=$request->file('logo');
-        Image::make($img->getRealPath())->save('img/logo.png');
+        if ($img!=null)
+            Image::make($img->getRealPath())->save('img/logo.png');
 
         $email->valeur=$request->input('email');
         $email->save();

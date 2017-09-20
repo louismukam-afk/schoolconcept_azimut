@@ -4,6 +4,9 @@ use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
 use gesecole\payement;
 use gesecole\parametres;
+use gesecole\cycle;
+use gesecole\niveau;
+use gesecole\classe;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use gesecole\eleve;
@@ -178,6 +181,9 @@ class payementController extends Controller {
     public function print_receipe($id){
         $p=payement::find($id);
         $i=inscription::whereAnneeScolaire(session('year'))->where('id_eleve',$p->id_eleve,false)->first();
+        $cy=cycle::find($i->id_cycle)->nom;
+        $c=classe::find($i->id_classe);
+        $n=niveau::find($c->id_niveau);
         $sc=$i->classe->niveau->scolarite;
         $total=$sc->tranche1+$sc->tranche2+$sc->tranche3+$sc->tranche4;
         $ps=payement::whereIdEleve($p->id_eleve)->where('annee_scolaire','=',session('year'))->where('motif','<>','Inscription')->get();
@@ -188,6 +194,9 @@ class payementController extends Controller {
         $pa=parametres::all();
         $pa=$pa->where('nom','nom_etablissement',false)->first();
         $nom_e=$pa->valeur;
+        $values['cycle']=$cy;
+        $values['classe']=$c;
+        $values['niveau']=$n;
         $values['payement']=$p;
         $values['inscription']=$i;
         $values['nom_etablissement']=$nom_e;

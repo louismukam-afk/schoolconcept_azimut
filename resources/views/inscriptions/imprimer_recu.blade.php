@@ -20,7 +20,7 @@
         <div class="panel panel-info">
             <div class="panel-heading">
                 <h3 class="panel-title">RECU DE PAYEMENT DES FRAIS D'INSCRIPTION</h3>
-                <div class="traduction">SUBSCRIPTION FEES RECEIPT</div>
+                <div class="traduction">REGISTRATION FEES PAYMENT RECEIPT</div>
             </div>
             <div class="panel-body">
                 <div class="row page-header print-head">
@@ -43,7 +43,9 @@
                     <p class="col-md-12" ><strong>Nom :</strong> {{strtoupper($inscription->eleve->nom.' '.$inscription->eleve->prenom)}}</p>
                     <p class="traduction">Name</p>
                 </div>
-
+                <div class="row specialite">
+                    <p class="col-md-12"><strong>Cycle : </strong>{{strtoupper($cycle)}}</p>
+                </div>
                 <div class="row specialite">
                     <p class="col-md-12"><strong>Filière : </strong>{{strtoupper($niveau->nom)}}</p>
                     <p class="traduction">Path : {{strtoupper($niveau->nom_anglais)}}</p>
