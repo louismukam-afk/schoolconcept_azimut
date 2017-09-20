@@ -16,9 +16,11 @@
         <div class="back">
             <a href="{{URL::to('/inscriptions')}}" style="font-size: 17px"><< {{trans('inscription.retour_ins')}}</a>
         </div>
+        @include('perso.header')
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h3 class="panel-title">{{trans('inscription.titre_recu_payement')}}</h3>
+                <h3 class="panel-title">RECU DE VERSEMENT DES FRAIS DE SCOLARITE</h3>
+                <div class="traduction">SCHOOL FEES PAYMENT RECEIPT</div>
             </div>
             <div class="panel-body">
                 <div class="row page-header print-head">
@@ -36,24 +38,37 @@
 
                 </div>
                 <div class="row nom">
-                    <p class="col-md-12" ><strong>Nom/Name :</strong> {{strtoupper($inscription->eleve->nom)}}</p>
+                    <p class="col-md-12" ><strong>Nom :</strong> {{strtoupper($inscription->eleve->nom.' '.$inscription->eleve->prenom)}}</p>
+                    <div class="traduction">Name</div>
+                </div>
+                <div class="row specialite">
+                    <p class="col-md-12"><strong>Cycle : </strong>{{strtoupper($cycle)}}</p>
+                </div>
+                <div class="row specialite">
+                    <p class="col-md-12"><strong>Filière : </strong>{{strtoupper($niveau->nom)}}</p>
+                    <p class="traduction">Path : {{strtoupper($niveau->nom_anglais)}}</p>
                 </div>
 
                 <div class="row">
-                    <p class="col-md-12"><strong>Prénom/Forname :</strong> {{strtoupper($inscription->eleve->prenom)}}</p>
-                </div>
-                <div class="row">
-                    <p class="col-md-12"><strong>Classe :</strong>{{strtoupper($inscription->classe->nom)}}</p>
+                    <p class="col-md-12"><strong>Spécialité :</strong>{{strtoupper($inscription->classe->nom)}}</p>
+                    <div class="traduction">Spéciality</div>
+
                 </div>
                 <div class="row last">
-                    <p class="col-md-6 montant"><strong>Montant/Amount :</strong> {{$payement->montant}} {{trans('inscription.devise')}}</p>
+                    <p class="col-md-6 montant"><strong>Montant : <span style="font-size: 19px"> {{$payement->montant}}</span></strong> {{trans('inscription.devise')}}</p>
+                    <div class="traduction">Amount</div>
                     <p class="col-md-6 date"><strong>Date : </strong>{{$payement->date_payement}}</p>
                 </div>
                 <div class="row" style="margin-top: 50px">
-                    <div class="col-md-6"><strong>Motif/Reason for payment :</strong>{{$payement->motif}}</div>
-                    <div class="col-md-6"><strong>Total pension/Total schoolfees :</strong>{{$total.' '.trans('inscription.devise')}}</div>
-                    <div class="col-md-6"><strong>Solde en Caisse/Cash Balance :</strong>{{$solde.' '.trans('inscription.devise')}}</div>
-                    <div class="col-md-6"><strong>Reste à payer/Left to pay :</strong>{{$total-$solde.' '.trans('inscription.devise')}}</div>
+                    <div class="col-md-6"><strong>Motif :</strong>{{$payement->motif}}</div>
+                    <div class="traduction">Reason for payment</div>
+                    <div class="col-md-6"><strong>Total pension :</strong>{{$total.' '.trans('inscription.devise')}}</div>
+                    <div class="traduction">Total school fees</div>
+                    <div class="col-md-6"><strong>Solde en Caisse : </strong>{{$solde.' '.trans('inscription.devise')}}</div>
+                    <div class="traduction">Cash balance : </div>
+                    <div class="col-md-6"><strong>Reste à payer : </strong>{{$total-$solde.' '.trans('inscription.devise')}}</div>
+                    <div class="traduction">Left to pay</div>
+
                 </div>
 
                 <div class="sign pull-right">
