@@ -1,8 +1,10 @@
 <?php namespace gesecole\Http\Controllers\inscriptions;
 
 use gesecole\classe;
+use gesecole\cycle;
 use gesecole\eleve;
 use gesecole\inscription;
+use gesecole\niveau;
 use gesecole\payement;
 use Illuminate\Support\Facades\DB;
 use gesecole\Http\Requests;
@@ -83,10 +85,14 @@ class inscriptionController extends Controller {
 
 	public function create($id_eleve)
 	{
-        $c=classe::all();
+        $c=classe::orderBy('id_niveau')
+            ->orderBy('nom')
+            ->get();
+        $cy=cycle::all();
         $e=eleve::find($id_eleve);
         $values= array('titre'=>trans('inscription.title_search_register'));
         $values['classes']=$c;
+        $values['cycles']=$cy;
         $values['e']=$e;
         $values['new_record']=true;
         if(session('success')){
@@ -112,10 +118,12 @@ class inscriptionController extends Controller {
        $this->validate($req,[
            'id_eleve'=>'required',
            'classe'=>'required',
+           'cycle'=>'required|numeric',
            'montant'=>'required|numeric'
        ]) ;
        $id_eleve=$req->input('id_eleve');
         $id_classe=$req->input('classe');
+        $id_cycle=$req->input('cycle');
         $montant=$req->input('montant');
        $annee_scolaire=session('year');
        $today=date('Y-m-d');
@@ -136,19 +144,38 @@ class inscriptionController extends Controller {
        $i->id_eleve=$id_eleve;
        $i->id_classe=$id_classe;
        $i->annee_scolaire=$annee_scolaire;
+       $i->id_cycle=$id_cycle;
        $i->date_inscription=$today;
        $i->montant=$montant;
-       if($i->save()){
-           $p=new payement();
-           $p->id_eleve=$id_eleve;
-           $p->annee_scolaire=$annee_scolaire;
-           $p->date_payement=$today;
-           $p->montant=$montant;
-           $p->motif='Inscription';
+       if($i->save()) {
+           $p = new payement();
+           $p->id_eleve = $id_eleve;
+           $p->annee_scolaire = $annee_scolaire;
+           $p->date_payement = $today;
+           $p->montant = $montant;
+           $p->motif = 'Inscription';
            $p->save();
-           $numero=sprintf('%08d',$p->id);
-           $p->numero=$numero;
+           $numero = sprintf('%08d', $p->id);
+           $p->numero = $numero;
            $p->save();
+
+           $m = $req->input('matricule');
+           if ($m != null) {
+
+           } else{
+               $e = eleve::find($id_eleve);
+               $c = classe::find($id_classe);
+               $param = parametres::all();
+               $pa = $param->where('nom', 'initiales_etablissement', false)->first();
+
+               $front = session('year');
+               $front = substr($front, 2, 2);
+               $number = sprintf('%04d', $e->id);
+               $e->matricule = $front . $pa->valeur . '-' . $c->code . $number;
+               $e->save();
+           }
+
+
            session(['success'=>$p->id]);
 
            return redirect()->action('inscriptions\inscriptionController@search') ;
@@ -186,9 +213,15 @@ class inscriptionController extends Controller {
 	public function print_receipe($id){
 	    $p=payement::find($id);
         $i=inscription::whereAnneeScolaire(session('year'))->where('id_eleve',$p->id_eleve,false)->first();
+        $cy=cycle::find($i->id_cycle)->nom;
+        $c=classe::find($i->id_classe);
+        $n=niveau::find($c->id_niveau);
 	    $pa=parametres::all();
 	    $pa=$pa->where('nom','nom_etablissement',false)->first();
 	    $nom_e=$pa->valeur;
+        $values['cycle']=$cy;
+        $values['classe']=$c;
+        $values['niveau']=$n;
         $values['payement']=$p;
         $values['inscription']=$i;
         $values['nom_etablissement']=$nom_e;

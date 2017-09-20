@@ -20,11 +20,16 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classe whereCapacite($value)
  * @property-read \gesecole\niveau $niveau
  * @property-read \Illuminate\Database\Eloquent\Collection|\gesecole\inscription[] $inscriptions
+ * @property string $code
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classe whereCode($value)
+ * @property int $id_cycle
+ * @property string $nom_anglais
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classe whereNomAnglais($value)
  */
 class classe extends Model {
      protected  $table='classe';
 
-    public $fillable=['nom','id_niveau','capacite'];
+    public $fillable=['nom','nom_anglais','code','id_niveau','capacite'];
 
 
     public $timestamps = false;

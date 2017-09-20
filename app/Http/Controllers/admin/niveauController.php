@@ -38,8 +38,7 @@ class niveauController extends Controller {
 	public function index()
 	{
         $n=niveau::paginate(15);
-        $c=cycle::all();
-        $values= array('titre'=>trans('admin.level'),'niveaux'=>$n,'cycles'=>$c);
+        $values= array('titre'=>trans('admin.level'),'niveaux'=>$n);
         if(session('success')){
             Session::forget('success');
             $values['success']=true;
@@ -67,16 +66,15 @@ class niveauController extends Controller {
 	{
         $this->validate($req,[
             'nom'=>'required',
-            'cycle'=>'required'
+            'nom_anglais'=>'required',
         ]);
 
-        $cycle=$req->input('cycle');
-        $cycle=intval($cycle);
         $nom=$req->input('nom');
+        $nom_anglais=$req->input('nom_anglais');
         $n=new niveau();
         $n->nom=$nom;
-        $c=cycle::find($cycle);
-        $c->niveaux()->save($n);
+        $n->nom_anglais=$nom_anglais;
+        $n->save();
         session(['success'=>true]);
         return redirect()->action('admin\niveauController@index');
 	}

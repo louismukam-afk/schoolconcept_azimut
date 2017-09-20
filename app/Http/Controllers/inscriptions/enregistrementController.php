@@ -89,8 +89,6 @@ class enregistrementController extends Controller {
             'sexe'=>'required',
             'nationalite'=>'required',
             'quartier'=>'required',
-            'transport'=>'required',
-            'parents_ens'=>'required',
 
         ]);
         $e=new eleve();
@@ -106,9 +104,21 @@ class enregistrementController extends Controller {
         $e->sexe=$req->input('sexe');
         $e->nationalite=$req->input('nationalite');
         $e->quartier=$req->input('quartier');
-        $e->transport=$req->input('transport');
-        $e->parent_ens=$req->input('parents_ens');
         $e->lien_tuteur=$req->input('lien_tuteur');
+        $e->email=$req->input('email');
+        $e->tel=$req->input('tel');
+        $e->region_origine=$req->input('region_origine');
+        $e->departement_origine=$req->input('departement_origine');
+        $e->diplome_preinscription=$req->input('diplome_preinscription');
+        $e->annee_obtention=$req->input('annee_obtention');
+        $e->pays_obtention=$req->input('pays_obtention');
+        $e->dernier_etablissement=$req->input('dernier_etablissement');
+        $e->annee_sortie=$req->input('annee_sortie');
+        $e->diplome_obtenu=$req->input('diplome_obtenu');
+        $e->premiere_langue=$req->input('premiere_langue');
+        $e->deuxieme_langue=$req->input('deuxieme_langue');
+        $e->autre_langue=$req->input('autre_langue');
+        $e->profession=$req->input('profession');
         $eTest=eleve::whereNom($e->nom)->where('prenom','=',$e->prenom)->where('date_naiss','=',$e->date_naiss)->where('sexe','=',$e->sexe)->get()->first();
         //père//////////////////////////
         $p1->nom=$req->input('nom_pere');
@@ -157,14 +167,7 @@ class enregistrementController extends Controller {
                     $p2->save();
                 }
 
-                $param=parametres::all();
-                $p=$param->where('nom','initiales_etablissement',false)->first();
 
-                $front=session('year');
-                $front=substr($front,2,2);
-                $number=sprintf('%05d',$e->id);
-                $e->matricule=$front.$p->valeur.$number;
-                $e->save();
                 session(['success' => $e->id]);
 
         }
@@ -221,8 +224,6 @@ class enregistrementController extends Controller {
         'sexe'=>'required',
         'nationalite'=>'required',
         'quartier'=>'required',
-        'transport'=>'required',
-        'parents_ens'=>'required',
 
     ]);
         $e=eleve::find($id);
@@ -232,11 +233,23 @@ class enregistrementController extends Controller {
         $e->sexe=$req->input('sexe');
         $e->nationalite=$req->input('nationalite');
         $e->quartier=$req->input('quartier');
-        $e->transport=$req->input('transport');
-        $e->parent_ens=$req->input('parents_ens');
         $e->lien_tuteur=$req->input('lien_tuteur');
         $e->parent_ens=$req->input('parents_ens');
         $e->prenom=$req->input('prenom');
+        $e->email=$req->input('email');
+        $e->tel=$req->input('tel');
+        $e->region_origine=$req->input('region_origine');
+        $e->departement_origine=$req->input('departement_origine');
+        $e->diplome_preinscription=$req->input('diplome_preinscription');
+        $e->annee_obtention=$req->input('annee_obtention');
+        $e->pays_obtention=$req->input('pays_obtention');
+        $e->dernier_etablissement=$req->input('dernier_etablissement');
+        $e->annee_sortie=$req->input('annee_sortie');
+        $e->diplome_obtenu=$req->input('diplome_obtenu');
+        $e->premiere_langue=$req->input('premiere_langue');
+        $e->deuxieme_langue=$req->input('deuxieme_langue');
+        $e->autre_langue=$req->input('autre_langue');
+        $e->profession=$req->input('profession');
         $e->save();
         session(['success'=>true]);
         return redirect()->action('inscriptions\inscriptionController@search') ;

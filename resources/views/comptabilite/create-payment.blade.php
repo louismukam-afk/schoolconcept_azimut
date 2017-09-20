@@ -46,7 +46,7 @@
                     <fieldset>
                         <div class="form-group">
                             <label>{{  trans('admin.montant_variations')  }} : </label>
-                            <div class="input-group col-md-3">
+                            <div class="input-group col-md-5">
                                 <input class="form-control" name="variations" type="number"  value="{{ old('variations') }}">
                                 <span class="input-group-addon"> {{trans('inscription.devise')}}</span>
                             </div>

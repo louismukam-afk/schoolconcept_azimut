@@ -35,12 +35,42 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\eleve whereQuartier($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\eleve whereSexe($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\eleve whereTransport($value)
+ * @property string|null $email
+ * @property string|null $tel
+ * @property string|null $status_matrimonial
+ * @property string|null $region_origine
+ * @property string|null $departement_origine
+ * @property string|null $diplome_preinscription
+ * @property string|null $annee_obtention
+ * @property string|null $pays_obtention
+ * @property string|null $dernier_etablissement
+ * @property string|null $annee_sortie
+ * @property string|null $diplome_obtenu
+ * @property string|null $premiere_langue
+ * @property string|null $deuxieme_langue
+ * @property string|null $autre_langue
+ * @property string|null $profession
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\eleve whereAnneeObtention($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\eleve whereAnneeSortie($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\eleve whereAutreLangue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\eleve whereDepartementOrigine($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\eleve whereDernierEtablissement($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\eleve whereDeuxiemeLangue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\eleve whereDiplomeObtenu($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\eleve whereDiplomePreinscription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\eleve whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\eleve wherePaysObtention($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\eleve wherePremiereLangue($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\eleve whereProfession($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\eleve whereRegionOrigine($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\eleve whereStatusMatrimonial($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\eleve whereTel($value)
  */
 class eleve extends Model {
 
     protected $table = 'eleve';
 
-    public $fillable = ['nom', 'prenom', 'date_naiss','lieu_naiss','sexe','nationalite','quartier','transport','parent_ens','lien_tuteur','matricule'];
+    public $fillable = ['nom', 'prenom', 'date_naiss','lieu_naiss','sexe','nationalite','quartier','lien_tuteur','matricule','email','tel','status_matrimonial','region_origine','departement_origine','diplome_preinscription','annee_obtention','pays_obtention','dernier_etablissement','annee_sortie','diplome_obtenu','premiere_langue','deuxieme_langue','autre_langue','profession'];
 
     public $timestamps=false;
 

@@ -1,13 +1,15 @@
 @extends('skeleton')
 @section('sub-content')
-<div class="list-cont">
+    <link rel="stylesheet" media="print" href="{{URL::asset('css/print_table.css')}}">
     <a href="#" class="btn btn-warning btn-lg" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> {{trans('inscription.imprimer')}}</a>
-    <span class="col-md-12"><strong>Total: {{count($eleves)}}</strong></span>
+
+    @include('perso.header')
+    <div class="list-cont">
     <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 5px;">
         <thead>
         <caption style="font-size: 22px">{{  $titre_liste  }}</caption>
         <th>#</th>
-        <th>Matricule</th>
+        <th>@lang('admin.matricule')</th>
         <th>{{  trans('admin.nom')  }}</th>
         <th>{{  trans('inscription.date_naiss')  }}</th>
         <th>{{  trans('inscription.lieu_naiss') }}</th>
@@ -40,8 +42,7 @@
         @endforeach
         </tbody>
     </table>
-    <link rel="stylesheet" media="print" href="{{URL::asset('css/print_table.css')}}">
-    <p class="e_name">{{$e_name}}</p>
+        <span class="col-md-12"><strong>Total: {{count($eleves)}}</strong></span>
 </div>
 
 @endsection

@@ -1,6 +1,7 @@
 <?php namespace gesecole\Http\Controllers\admin;
 
 use gesecole\classe;
+use gesecole\cycle;
 use gesecole\Http\Controllers\Controller;
 use gesecole\niveau;
 use Illuminate\Support\Facades\Session;
@@ -43,8 +44,8 @@ class scolariteController extends Controller {
 
         $s=scolarite::paginate(15);
         $c=niveau::all();
-        $c1=niveau::whereNotIn('id',$arr)->get();
-        $values= array('titre'=>trans('admin.schoolfees'),'scolarite'=>$s,'classes'=>$c,'niveaux'=>$c1);
+        $cy=cycle::all();
+        $values= array('titre'=>trans('admin.schoolfees'),'scolarite'=>$s,'classes'=>$c,'niveaux'=>$c,'cycles'=>$cy);
         if(session('success')){
             Session::forget('success');
             $values['success']=true;
@@ -72,6 +73,7 @@ class scolariteController extends Controller {
 
         $this->validate($req,[
             'classe'=>'required|numeric',
+            'cycle'=>'required|numeric',
             'tranche1'=>'required|numeric',
             'tranche2'=>'required|numeric',
             'tranche3'=>'numeric',
@@ -80,14 +82,16 @@ class scolariteController extends Controller {
         ]);
 
         $classe=$req->input('classe');
+        $cycle=$req->input('cycle');
         $tranche1=$req->input('tranche1');
         $tranche2=$req->input('tranche2');
         $tranche3=$req->input('tranche3');
         $tranche4=$req->input('tranche4');
         $tranche5=$req->input('tranche5');
 
-        $s=new scolarite();
+        $s=scolarite::firstOrNew(['id_niveau'=>$classe,'id_cycle'=>$cycle]);
         $s->id_niveau=$classe;
+        $s->id_cycle=$cycle;
         $s->tranche1=$tranche1;
         $s->tranche2=$tranche2;
         $s->tranche3=$tranche3;
@@ -132,6 +136,7 @@ class scolariteController extends Controller {
         $this->validate($req,[
             'id'=>'required|numeric',
             'classes'=>'required|numeric',
+            'cycle'=>'required|numeric',
             'tranche1'=>'required|numeric',
             'tranche2'=>'required|numeric',
             'tranche3'=>'numeric',
@@ -140,6 +145,7 @@ class scolariteController extends Controller {
         ]);
         $id=$req->input('id');
         $classe=$req->input('classes');
+        $cycle=$req->input('cycle');
         $tranche1=$req->input('tranche1');
         $tranche2=$req->input('tranche2');
         $tranche3=$req->input('tranche3');
@@ -147,6 +153,7 @@ class scolariteController extends Controller {
         $tranche5=$req->input('tranche5');
         $s=scolarite::find($id);
         $s->id_niveau=$classe;
+        $s->id_cycle=$cycle;
         $s->tranche1=$tranche1;
         $s->tranche2=$tranche2;
         $s->tranche3=$tranche3;

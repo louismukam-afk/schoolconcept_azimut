@@ -138,7 +138,10 @@
         <div id="page-wrapper" >
             <div id="page-inner">
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-md-12">
+                        <div class="col-md-1" >
+                            <img class="back-button" src="{{URL::asset('img/back_button.png')}}" onclick="history.back()" width="50px" height="50px">
+                        </div>
                      <h2 class="big-title">{{  session('big_title')  }}</h2>
                     </div>
                 </div>              
