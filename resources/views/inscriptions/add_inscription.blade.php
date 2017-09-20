@@ -30,15 +30,43 @@
                 <input type="hidden" name="id_eleve" value="{{$e->id}}">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="classe">  Classe   : </label>
-                        <select form="add_inscription_form" id="classe" name="classe" class="form-control">
-                            @foreach($classes as $c)
-                                <option value="{{$c->id}}" @if(old('classe')==$c->id) selected @endif>{{$c->nom}}</option>
+                        <label>  Cycle: </label>
+                        <select form="add_inscription_form"  name="cycle" class="form-control">
+                            @foreach($cycles as $c)
+                                <option value="{{$c->id}}" @if(old('cycle')==$c->id) selected @endif>{{$c->nom}}</option>
                             @endforeach
                         </select>
 
                     </div>
+                    <div class="form-group">
+                        <label>@lang('admin.specialites')  : </label>
 
+                        <select form="add_inscription_form" id="classe" name="classe" class="form-control">
+                            <?php $n=0;$i=0; ?>
+
+                            @foreach($classes as $c)
+                                    @if($i=0)
+                                        <optgroup label="{{\gesecole\niveau::find($c->id_niveau)->nom}}">
+                                            <?php  $i++; ?>
+                                    @endif
+                                @if($c->id_niveau!=$n)
+                                    <?php $n=$c->id_niveau ?>
+                                    </optgroup>
+                                    <optgroup label="{{@\gesecole\niveau::find($c->id_niveau)->nom}}">
+                                        @endif
+                                <option value="{{$c->id}}" @if(old('classe')==$c->id) selected @endif>{{$c->nom}}</option>
+                            @endforeach
+                                    </optgroup>
+                        </select>
+
+                    </div>
+                    @if($e->matricule==null)
+                    <div class="form-group">
+                        <label>{{trans('admin.matricule')}} : (@lang('admin.no_matricule'))</label>
+                            <input type="text" name="matricule"  class="form-control"  value="{{old('matricule')}}">
+
+                    </div>
+                    @endif
                     <div class="form-group">
                         <label for="montant">{{trans('inscription.montant')}} : </label>
                         <div class="input-group">

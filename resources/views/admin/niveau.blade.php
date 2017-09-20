@@ -13,8 +13,8 @@
             <thead>
             <caption style="font-size: 22px">{{  trans('admin.titre_table_niveau')  }}</caption>
             <th>#</th>
-            <th>Nom</th>
-            <th>Cycle</th>
+            <th>@lang('admin.nom')</th>
+            <th>@lang('admin.nom_anglais')</th>
             </thead>
             <tbody>
             <?php $i=1; ?>
@@ -23,12 +23,7 @@
                     <td>{{$i++}}</td>
                     <td><strong >{{$n->nom}}</strong></td>
                     <td>
-                        @foreach($cycles as $c)
-                            @if($c->id == $n->id_cycle)
-                                {{  $c->nom  }}
-                                <?php break; ?>
-                            @endif
-                        @endforeach
+                        {{$n->nom_anglais}}
                     </td>
                     <td><a href="{{ URL::to('/admin/niveaux/destroy/').'/'.$n->id }}"  title="Supprimer" class="btn btn-danger btn-xs pull-right"><span class="glyphicon glyphicon-trash"></span> Supprimer</a></td>
                 </tr>
@@ -52,18 +47,17 @@
                         <form accept-charset="UTF-8" role="form" method="POST" id="add_level_form" action="{{ url('/admin/niveaux/store/') }}">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <fieldset>
-                                <div class="form-group">
-                                    <label for="cycle">{{  trans('admin.choose_cycle')  }} : <span class="required">*</span></label>
-                                    <select id="cycle" name="cycle" form="add_level_form" class="form-control">
-                                        @foreach($cycles as $c)
-                                            <option value="{{  $c->id  }}">{{  $c->nom  }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+
 
                                 <div class="form-group">
                                     <label for="nom">{{  trans('admin.nom')  }} : <span class="required">*</span></label>
                                     <input class="form-control" id="nom" name="nom" type="text"  value="{{ old('nom') }}" required autofocus>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label>{{  trans('admin.nom_anglais')  }} : <span class="required">*</span></label>
+                                    <input class="form-control"  name="nom_anglais" type="text"  value="{{ old('nom_anglais') }}" required>
 
                                 </div>
                                 <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">

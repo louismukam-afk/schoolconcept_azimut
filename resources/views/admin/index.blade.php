@@ -30,7 +30,7 @@
             <div class="div-square">
                 <a href="{{  URL::to('/admin/classes/')  }}" >
                     <i class="fa fa-5x fa-cloud"></i>
-                    <h4>Classes</h4>
+                    <h4>@lang('admin.specialites')</h4>
                 </a>
             </div>
 

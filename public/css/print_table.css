@@ -20,7 +20,7 @@
     =============================================*/
 
 
-.wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action
+.wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button
 {
     display: none;
 }
@@ -35,20 +35,10 @@
     right: 0;
 }
 
-.e_name
-{
-    visibility: visible;
-    position: absolute;
-    top: 0;
-    left: 0;
-    font-size: 24px;
-    height: auto;
-    max-width: 40%;
 
-}
 .list-cont
 {
-    margin-top: 75px;
+    font-size: 11px;
 }
 .tr
 {

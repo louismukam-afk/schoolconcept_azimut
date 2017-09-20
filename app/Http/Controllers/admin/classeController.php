@@ -40,7 +40,7 @@ class classeController extends Controller {
 	{
         $c=classe::paginate(15);
         $n=niveau::all();
-        $values= array('titre'=>'Classe','niveaux'=>$n,'classes'=>$c);
+        $values= array('titre'=>trans('admin.specialites'),'niveaux'=>$n,'classes'=>$c);
         if(session('success')){
             Session::forget('success');
             $values['success']=true;
@@ -67,6 +67,8 @@ class classeController extends Controller {
 	{
         $this->validate($req,[
             'nom'=>'required',
+            'nom_anglais'=>'required',
+            'code'=>'required',
             'niveau'=>'required|numeric',
             'capacite'=>'required|numeric'
         ]);
@@ -75,8 +77,13 @@ class classeController extends Controller {
         $niveau=intval($niveau);
         $capacite=$req->input('capacite');
         $nom=$req->input('nom');
+        $nom_anglais=$req->input('nom_anglais');
+        $code=$req->input('code');
+
         $c=new classe();
         $c->nom=$nom;
+        $c->nom_anglais=$nom_anglais;
+        $c->code=$code;
         $c->capacite=$capacite;
         $n=niveau::find($niveau);
         $n->classes()->save($c);
@@ -115,19 +122,24 @@ class classeController extends Controller {
 	public function update(Request $req)
 	{
         $this->validate($req,[
-            'id'=>'required',
+            'id'=>'required|numeric',
             'nom'=>'required',
+            'nom_anglais'=>'required',
+            'code'=>'required',
             'niveau'=>'required|numeric',
             'capacite'=>'required|numeric'
         ]);
         $id=$req->input('id');
-        $id=intval($id);
         $niveau=$req->input('niveau');
         $capacite=$req->input('capacite');
-        $niveau=intval($niveau);
         $nom=$req->input('nom');
+        $nom_anglais=$req->input('nom_anglais');
+        $code=$req->input('code');
+
         $c=classe::find($id);
         $c->nom=$nom;
+        $c->nom_anglais=$nom_anglais;
+        $c->code=$code;
         $c->capacite=$capacite;
         $c->id_niveau=$niveau;
 

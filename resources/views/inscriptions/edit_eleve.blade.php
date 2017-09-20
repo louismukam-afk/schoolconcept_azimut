@@ -69,25 +69,139 @@
                     <input class="form-control" id="quartier" name="quartier" type="text"  value="{{ $eleve->quartier }}"  required>
 
                 </div>
-                <div class="col-md-5">
+
+                <div class="">
                     <div class="form-group">
-                        <label for="transport">{{  trans('inscription.deplacement')  }} : </label>
-                        <select form="enregistrer_eleve_form" id="transport" name="transport" class="form-control">
-                            <option value="0" @if($eleve->transport==0) selected @endif>{{trans('inscription.pieds') }}</option>
-                            <option value="1" @if($eleve->transport==1) selected @endif>{{trans('inscription.voiture')}}</option>
-                        </select>
+                        <label for="email">{{  trans('inscription.email')  }} : </label>
+                        <input class="form-control" id="email" name="email" type="text"  value="{{  $eleve->email }}"  >
+
                     </div>
                 </div>
 
-                <div class="col-md-5">
+                <div class="">
                     <div class="form-group">
-                        <label for="parents_ens">{{  trans('inscription.parents_ens')  }} : </label>
-                        <select form="enregistrer_eleve_form" id="parents_ens" name="parents_ens" class="form-control">
-                            <option value="0" @if($eleve->parent_ens==0) selected @endif>{{trans('inscription.non') }}</option>
-                            <option value="1" @if($eleve->parent_ens==1) selected @endif>{{trans('inscription.oui')}}</option>
-                        </select>
+                        <label for="tel">{{  trans('inscription.tel')  }} : </label>
+                        <input class="form-control" id="tel" name="tel" type="text"  value="{{  $eleve->tel }}"  >
+
                     </div>
                 </div>
+
+                <div class="">
+                    <div class="form-group">
+                        <label for="status_matrimonial">{{  trans('inscription.status_matrimonial')  }} : </label>
+                        <input class="form-control" id="status_matrimonial" name="status_matrimonial" type="text"  value="{{  $eleve->status_matrimonial }}"  >
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="region_origine">{{  trans('inscription.region_origine')  }} : </label>
+                            <input class="form-control" id="region_origine" name="region_origine" type="text"  value="{{  $eleve->region_origine }}"  >
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="departement_origine">{{  trans('inscription.departement_origine')  }} : </label>
+                            <input class="form-control" id="departement_origine" name="departement_origine" type="text"  value="{{  $eleve->departement_origine }}"  >
+
+                        </div>
+
+                    </div>
+                </div>
+                <div>
+                    <div class="form-group">
+                        <label for="diplome_preinscription">{{  trans('inscription.diplome_preinscription')  }} : </label>
+                        <input class="form-control" id="diplome_preinscription" name="diplome_preinscription" type="text"  value="{{  $eleve->diplome_preinscription }}"  >
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="annee_obtention">{{  trans('inscription.annee_obtention')  }} : </label>
+                            <input class="form-control" id="annee_obtention" name="annee_obtention" type="text"  value="{{  $eleve->annee_obtention }}"  >
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="pays_obtention">{{  trans('inscription.pays_obtention')  }} : </label>
+                            <input class="form-control" id="pays_obtention" name="pays_obtention" type="text"  value="{{  $eleve->pays_obtention }}"  >
+
+                        </div>
+
+                    </div>
+                </div>
+                <div>
+                    <div class="form-group">
+                        <label for="dernier_etablissement">{{  trans('inscription.dernier_etablissement')  }} : </label>
+                        <input class="form-control" id="dernier_etablissement" name="dernier_etablissement" type="text"  value="{{  $eleve->dernier_etablissement }}"  >
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="annee_sortie">{{  trans('inscription.annee_sortie')  }} : </label>
+                            <input class="form-control" id="annee_sortie" name="annee_sortie" type="text"  value="{{  $eleve->annee_sortie }}"  >
+
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="diplome_obtenu">{{  trans('inscription.diplome_obtenu')  }} : </label>
+                            <input class="form-control" id="diplome_obtenu" name="diplome_obtenu" type="text"  value="{{  $eleve->diplome_obtenu }}"  >
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="premiere_langue">{{  trans('inscription.premiere_langue')  }} : </label>
+                            <input class="form-control" id="premiere_langue" name="premiere_langue" type="text"  value="{{  $eleve->premiere_langue }}"  >
+
+                        </div>
+
+                    </div> <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="deuxieme_langue">{{  trans('inscription.deuxieme_langue')  }} : </label>
+                            <input class="form-control" id="deuxieme_langue" name="deuxieme_langue" type="text"  value="{{  $eleve->deuxieme_langue }}"  >
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="autre_langue">{{  trans('inscription.autre_langue')  }} : </label>
+                            <input class="form-control" id="autre_langue" name="autre_langue" type="text"  value="{{  $eleve->autre_langue }}"  >
+
+                        </div>
+
+                    </div>
+                </div>
+                <div >
+                    <div class="form-group">
+                        <label for="profession">{{  trans('inscription.profession')  }} : </label>
+                        <input class="form-control" id="profession" name="profession" type="text"  value="{{  $eleve->profession }}"  >
+
+                    </div>
+
+                </div>
+
 
                 <div class="col-md-5">
                     <div class="form-group">

@@ -125,8 +125,6 @@ class cycleController extends Controller {
 	public function destroy($id)
 	{
         $c=cycle::find($id);
-        $niv=niveau::whereIdCycle($id);
-        $niv->delete();
         $c->delete();
         session(['success'=>true]);
         return redirect()->action('admin\cycleController@index');

@@ -11,15 +11,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $nom
  * @property int $id_cycle
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\niveau whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\niveau whereIdCycle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\niveau whereNom($value)
  * @property-read \gesecole\scolarite $scolarite
+ * @property string $nom_anglais
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\niveau whereNomAnglais($value)
  */
 class niveau extends Model {
 
 	protected $table='niveau';
 
-    public $fillable=['nom','id_cycle'];
+    public $fillable=['nom'];
 
 
 

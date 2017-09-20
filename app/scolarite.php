@@ -24,12 +24,14 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\scolarite whereTotal($value)
  * @property int $tranche5
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\scolarite whereTranche5($value)
+ * @property int $id_cycle
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\scolarite whereIdCycle($value)
  */
 class scolarite extends Model {
 
 	protected  $table='scolarite';
 
-    public $fillable=['id_niveau','tranche1','tranche2','tranche3','tranche4',' tranche5'];
+    public $fillable=['id_niveau','id_cycle','tranche1','tranche2','tranche3','tranche4',' tranche5'];
 
     public $timestamps=false;
 
