@@ -2,6 +2,7 @@
 
 use gesecole\classe;
 use gesecole\classeMatiere;
+use gesecole\cycle;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
@@ -41,11 +42,13 @@ class noteController extends Controller {
 	{
         $values= array('titre'=>'Notes');
         $c=classe::orderBy('nom')->get();
+        $cy=cycle::all();
         if(session('success')){
             $values['success']=session('success');
             Session::forget('success');
         }
         $values['classes']=$c;
+        $values['cycles']=$cy;
 
         return view('eleves\classe_note',$values);
 	}
@@ -55,17 +58,18 @@ class noteController extends Controller {
 	 *
 	 * @return Response
 	 */
-    public function matiere($id)
+    public function matiere(Request $request,$id)
     {
-
+        $id_cycle=$request->input('cycle');
         $values= array('titre'=>'Notes');
-        $m=DB::select('SELECT m.id,m.nom FROM matiere m ,classe_matiere cm WHERE m.id=cm.id_matiere AND cm.id_classe=? ORDER BY m.nom',[$id]);
+        $m=DB::select('SELECT m.id,m.nom FROM matiere m ,classe_matiere cm WHERE m.id=cm.id_matiere AND cm.id_classe=? AND cm.id_cycle=? ORDER BY m.nom',[$id,$id_cycle]);
         if(session('success')){
             $values['success']=session('success');
             Session::forget('success');
         }
         $values['matieres']=$m;
         $values['id']=$id;
+        $values['id_cycle']=$id_cycle;
 
         return view('eleves\matiere_note',$values);
     }
@@ -74,15 +78,18 @@ class noteController extends Controller {
 	{
 	    $this->validate($request,[
 	        'sequence'=>'required|numeric',
+            'cycle'=>'required|numeric',
         ]);
 
         $values= array('titre'=>'Notes');
         $sequence=$request->input('sequence');
         $id_m=$request->input('id');
-        $mat=matiere::find($id_m);
-        $cm=classeMatiere::whereIdClasse($id)->where('id_matiere','=',$id_m)->first();
+        $id_cycle=$request->input('cycle');
 
-		$e=DB::select('SELECT e.id,e.nom,e.prenom FROM eleve e,inscription i WHERE i.annee_scolaire=? AND i.id_classe=? AND i.id_eleve=e.id ORDER BY e.nom,e.prenom',[session('year'),$id]);
+        $mat=matiere::find($id_m);
+        $cm=classeMatiere::whereIdClasse($id)->where('id_matiere','=',$id_m)->where('id_cycle','=',$id_cycle)->first();
+
+		$e=DB::select('SELECT e.id,e.nom,e.prenom FROM eleve e,inscription i WHERE i.annee_scolaire=? AND i.id_classe=? AND i.id_eleve=e.id AND i.id_cycle=? ORDER BY e.nom,e.prenom',[session('year'),$id,$id_cycle]);
 		$n=note::whereAnneeScolaire(session('year'))
             ->where('id_matiere','=',$id_m)
             ->where('sequence','=',$sequence)
@@ -92,6 +99,7 @@ class noteController extends Controller {
         $values['notes']=$n;
         $values['max']=$cm->max;
         $values['matiere']=$mat;
+        $values['id_cycle']=$id_cycle;
         $values['id_classe']=$id;
 
         $values['sequence']=$sequence;
@@ -111,6 +119,7 @@ class noteController extends Controller {
             'id_classe'=>'required|numeric',
 
         ]);
+        $id_cycle=$request->input('cycle');
         $id_matiere=$request->input('id_matiere');
         $sequence=$request->input('sequence');
         $id_classe=$request->input('id_classe');
@@ -132,7 +141,8 @@ class noteController extends Controller {
         }
 
         session(['success'=>true]);
-        return redirect()->action('eleves\noteController@matiere',[$id_classe]);
+
+        return redirect()->to('/eleves/notes/matieres/'.$id_classe.'?cycle='.$id_cycle);
 	}
 
 	/**

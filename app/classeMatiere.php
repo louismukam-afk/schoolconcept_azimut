@@ -21,7 +21,7 @@ class classeMatiere extends Model {
 
     protected  $table='classe_matiere';
 
-    public $fillable=['id_classe','id_matiere','coef','max',];
+    public $fillable=['id_cycle','id_classe','id_matiere','coef','max',];
 
 
     public $timestamps=false;

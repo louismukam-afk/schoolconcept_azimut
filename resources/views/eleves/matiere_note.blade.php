@@ -34,6 +34,8 @@
                     <form accept-charset="UTF-8" role="form" method="POST" id="choix_seq_form" action="{{ url('/eleves/notes/create/'.$id) }}">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                         <input type="hidden" name="id" id="id" value=""/>
+                        <input type="hidden" name="cycle" id="id_cycle" value="{{$id_cycle}}"/>
+
                         <fieldset>
                             <div class="form-group">
                                 <label for="niveau">{{  trans('eleve.choix_seq')  }} : </label>

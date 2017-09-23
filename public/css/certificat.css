@@ -1,0 +1,134 @@
+
+/*=============================================================
+    Authour URI: www.binarycart.com
+    License: Commons Attribution 3.0
+
+    http://creativecommons.org/licenses/by/3.0/
+
+    100% To use For Personal And Commercial Use.
+    IN EXCHANGE JUST GIVE US CREDITS AND TELL YOUR FRIENDS ABOUT US
+   
+    ========================================================  */
+
+/* cyrillic-ext */
+@font-face { font-family: open-sans;
+    font-weight: 400;
+    font-style: normal;
+    src: url('../fonts/open-sans.regular.ttf'); }
+/*==============================================
+    GENERAL  STYLES    
+    =============================================*/
+
+
+
+
+.traduction
+{
+    font-size: 10px !important;
+    color: grey !important;
+}
+
+.body{
+    position: relative;
+    margin-top: 30px;
+    margin-right: 10%;
+    margin-left: 10%;
+
+}
+.titre
+{
+    margin-top: 70px;
+    text-align: center;
+    font-size: 24px;
+}
+.born-status{
+    min-height: 5mm;
+    position: relative;
+}
+.the{
+    position: absolute;
+}
+.at{
+    position: absolute;
+    right: 0;
+}
+.s-text{
+    position: relative;
+}
+.fait{
+    position: relative;
+}
+.sign{
+    position: absolute;
+    right: 0;
+}
+
+@media print {
+    @page  {
+        margin-top: 2%;
+        margin-bottom: 2%;
+        margin-left: 2%;
+        margin-right: 2%;
+    }
+
+    .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button
+    {
+        display: none;
+    }
+
+    .copy
+    {
+        font-size: 10px;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+
+
+
+    .titre
+    {
+        margin-top: 70px;
+        text-align: center;
+        font-size: 24px;
+    }
+
+    p
+    {
+        margin: 0;
+    }
+    .traduction
+    {
+        -webkit-print-color-adjust:exact;
+        font-size: 10px !important;
+        color: grey !important;
+    }
+    .born-status{
+        min-height: 5mm;
+        position: relative;
+
+    }
+
+    .the{
+        position: absolute;
+    }
+    .at{
+        position: absolute;
+        right: 0;
+    }
+
+    .s-text{
+        position: relative;
+    }
+    .body{
+        position: relative;
+        margin-top: 30px;
+        margin-right: 10%;
+        margin-left: 10%;
+    }
+    .sign{
+        position: absolute;
+        right: 0;
+    }
+}
+

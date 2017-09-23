@@ -40,10 +40,11 @@ class startController extends Controller {
 	{
 		$this->validate($request,[
             'nom'=>'required',
-            'initiales'=>'required|max:2|min:2',
+            'initiales'=>'required|min:2',
             'adresse'=>'required',
             'numero'=>'required',
             'annee_scolaire'=>'required|max:9|min:9',
+            'logo'=>'image',
         ]);
 
 		$nom_e=parametres::firstOrNew(['nom'=>'nom_etablissement']);

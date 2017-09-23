@@ -1,18 +1,10 @@
-<html>
-    <head>
-        <title>Printing</title>
-        <link href="{{ URL::asset('css/bootstrap.css')  }}" rel="stylesheet" media="screen"/>
-        <!-- FONTAWESOME STYLES-->
-        <link href="{{ URL::asset('css/font-awesome.css')  }}" rel="stylesheet" />
-        <!-- CUSTOM STYLES-->
-        <link href="{{ URL::asset('css/custom.css')  }}" rel="stylesheet" media="screen"/>
+@extends('index')
+@section('content')
+
+    <a href="" onclick="window.print()"  class="btn btn-lg btn-warning">@lang('inscription.imprimer')</a>
         <link href="{{ URL::asset('css/print2.css')  }}" rel="stylesheet" media="print"/>
-    </head>
 
-    <body onload="window.print()">
-
-
-    <div class="recu col-md-8">
+    <div class="recu col-md-12">
         <div class="back">
             <a href="{{URL::to('/inscriptions')}}" style="font-size: 17px"><< {{trans('inscription.retour_ins')}}</a>
         </div>
@@ -79,5 +71,4 @@
 
         </div>
     </div>
-    </body>
-</html>
+@endsection

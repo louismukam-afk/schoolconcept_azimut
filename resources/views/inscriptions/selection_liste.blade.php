@@ -1,6 +1,6 @@
 @extends('skeleton')
 @section('sub-content')
-    <div id="monaccordeon" class="panel-group col-lg-6">
+    <div id="monaccordeon" class="panel-group col-md-12">
         <h3>{{trans('inscription.choix_liste')}}</h3>
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -20,9 +20,15 @@
                         <li class="col-md-4"><a href={{URL::to('/inscriptions/listes/show/'.'0')}}>{{trans('inscription.all_eleves')}}</a></li>
                         @foreach($cycles as $cy)
                             <h4 class="page-header col-md-12">{{$cy->nom}}</h4>
-                            @foreach($classes as $c)
-                                <li class="col-md-4"><a href="{{URL::to('/inscriptions/listes/show/'.$c->id.'?cycle='.$cy->id)}}">{{$c->nom}}</a></li>
+                        @foreach($niveaux as $n)
+                            <h5 class="page-header col-md-6"> {{$n->nom.' '.$n->nom_anglais}}</h5>
+                                @foreach($classes as $c)
+                                    @if($c->id_cycle==$cy->id && $c->niveaux==$n->id)
+                                    <li class="col-md-4"><a href="{{URL::to('/inscriptions/listes/show/'.$c->id.'?cycle='.$cy->id)}}">{{$c->nom}}</a></li>
+                               @endif
+                                @endforeach
                             @endforeach
+
                         @endforeach
 
                     </ul>

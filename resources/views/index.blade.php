@@ -15,7 +15,9 @@
 
 </head>
 <body>
-
+<div class="col-md-12" >
+    <img class="back-button" src="{{URL::asset('img/back_button.png')}}" onclick="history.back()" width="50px" height="50px">
+</div>
     <div id="wrapper">
          <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="adjust-nav">
@@ -139,9 +141,7 @@
             <div id="page-inner">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="col-md-1" >
-                            <img class="back-button" src="{{URL::asset('img/back_button.png')}}" onclick="history.back()" width="50px" height="50px">
-                        </div>
+
                      <h2 class="big-title">{{  session('big_title')  }}</h2>
                     </div>
                 </div>              

@@ -8,6 +8,7 @@
             <input type="hidden" name="id_matiere" value="{{ $matiere->id }}">
             <input type="hidden" name="sequence" value="{{ $sequence }}">
             <input type="hidden" name="id_classe" value="{{ $id_classe }}">
+            <input type="hidden" name="cycle" value="{{ $id_cycle }}">
 
             <fieldset>
                 <?php $i=0; ?>

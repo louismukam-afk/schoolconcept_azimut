@@ -119,6 +119,8 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/inscriptions/payement/list/{id}','inscriptions\payementController@index_liste');
         Route::get('/inscriptions/selection-listes','inscriptions\listesController@index');
         Route::get('/inscriptions/listes/show/{id}','inscriptions\listesController@show');
+        Route::get('/inscriptions/print-certificate/{id}','inscriptions\inscriptionController@certificate');
+
 
     });
 
@@ -199,7 +201,6 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('/comptabilite/payement-salaire/','comptabilite\payementController@index');
     Route::get('/comptabilite/payement-salaire/create/{id}','comptabilite\payementController@create');
     Route::post('/comptabilite/payement-salaire/store/','comptabilite\payementController@store');
-
 
 
 

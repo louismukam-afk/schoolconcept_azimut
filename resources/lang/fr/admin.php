@@ -168,5 +168,8 @@ return [
     'montant_variations'=>'Montant des variations',
     'matricule'=>'Matricule',
     'no_matricule'=>'Si l\'élève est ancien et a déja un matricule,sinon laisser vide',
+    ///////////////////////
+    'certificat_scolarite'=>'Certificat de scolarité',
+
 
 ];

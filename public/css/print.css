@@ -20,6 +20,11 @@
     =============================================*/
 
 
+.wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.navbar,.navbar-header,.modal
+{
+    display: none;
+}
+
 html,body {
     -webkit-print-color-adjust: exact;
     font-family: open-sans,sans-serif;
@@ -127,6 +132,7 @@ html,body {
     .specialite{
         margin-top: 10px;
     }
+
 
 
 

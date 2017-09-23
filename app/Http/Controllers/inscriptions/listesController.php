@@ -5,6 +5,7 @@ use gesecole\eleve;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
 use gesecole\classe;
+use gesecole\niveau;
 use Illuminate\Support\Facades\DB;
 use gesecole\inscription;
 use gesecole\parametres;
@@ -43,7 +44,9 @@ class listesController extends Controller {
         $values= array('titre'=>trans('inscription.listes'));
         $values['classes']=$c;
         $cy=cycle::all();
+        $n=niveau::all();
         $values['cycles']=$cy;
+        $values['niveaux']=$n;
 
 
         return view('inscriptions\selection_liste',$values);

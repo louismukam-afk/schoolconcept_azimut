@@ -31,10 +31,17 @@ body {
     font-size: 20px;
     bottom: 0;
 }
+.back-button{
+    position: fixed;
+    z-index: 100000;
+    right: 20px;
+    top: 20%;
+}
 
 .back-button:hover{
     background-color: orange;
 }
+
 
  #wrapper {
     width: 100%;

@@ -27,7 +27,7 @@
                     <td>{{$p->coef}} </td>
                     <td>{{$p->max}}</td>
                     <td>
-                        <a style="color: white" href="{{URL::to('/admin/programmes/destroy/'.$p->id.'?id='.$classe->id)}}"   class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> {{  trans('admin.del')  }}</a>
+                        <a style="color: white" href="{{URL::to('/admin/programmes/destroy/'.$p->id.'?id='.$classe->id.'?cycle='.$id_cycle)}}"   class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> {{  trans('admin.del')  }}</a>
                     </td>
                 </tr>
 
@@ -41,6 +41,7 @@
         <form accept-charset="UTF-8" role="form" method="POST" id="add_level_form" action="{{ url('/admin/programmes/store/') }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" name="id" value="{{ $classe->id }}">
+            <input type="hidden" name="id_cycle" value="{{ $id_cycle }}">
             <fieldset>
                 <?php $i=0; ?>
                 @foreach($matieres as $m)
