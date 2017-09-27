@@ -121,7 +121,7 @@ return [
     'login'=>'Log in',
     'activer_compte'=>'Your account is disabled please contact the administrator for an activation',
     //les utilisateurs
-    'bienvenue'=>'Weelcome',
+    'bienvenue'=>'Welcome',
     'liste_utilisateurs'=>'Users list',
     'activer'=>'Activate',
     'desactiver'=>'Deactivate',
@@ -169,6 +169,8 @@ return [
     'no_matricule'=>'If the student is old and has a student number, otherwise leave blank',
     ///////////////////////
     'certificat_scolarite'=>'School certificate',
+    'g_comptabilite'=>'Accountant',
+    'langage'=>'Language',
 
 
 ];

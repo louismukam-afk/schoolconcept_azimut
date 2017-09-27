@@ -120,7 +120,7 @@
     </div>
 
     <div class="row text-center pad-top">
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6"  style="display: none;">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
             <div class="div-square">
                 <a href="{{URL::to('/admin/taux/')}}" >
                     <i class="fa fa-5x fa-euro"></i>

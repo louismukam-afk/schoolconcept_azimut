@@ -39,6 +39,15 @@
                     <a href="{{ url('/auth/logout') }}">{{  trans('admin.logout')  }}</a>
                 </span>
                 <div ><span class="annee">{{  trans('admin.year')  }} <span>{{  session('year') }}</span> <a data-toggle="modal"  href="#change-year" class="btn btn-success btn-xs">{{  trans('admin.edit')  }}</a></span></div>
+                <div class="langage ">
+                    <div class="lang dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><strong style="color: white">@lang('admin.langage') :</strong> @if(App::getLocale()=='fr')Francais @else English @endif <span class="caret"></span></a>
+                    <ul class="dropdown-menu navbar-inverse">
+                        <li><a href="{{url('language/french')}}"><strong>Français</strong></a></li>
+                        <li><a href="{{url('language/english')}}"><strong>English</strong></a></li>
+                    </ul>
+                    </div>
+
+                </div>
 
             </div>
         </div>

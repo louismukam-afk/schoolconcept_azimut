@@ -192,15 +192,19 @@ Route::group(['middleware'=>'auth'],function (){
 
     });
 
-    //pour la comptabilite
-    Route::get('/comptabilite/', 'comptabilite\comptabiliteController@index');
-            // les décaissements
-    Route::get('/admin/retrait/','admin\decaissementController@index');
-    Route::post('/admin/retrait/store','admin\decaissementController@store');
-         // le payement des salaires
-    Route::get('/comptabilite/payement-salaire/','comptabilite\payementController@index');
-    Route::get('/comptabilite/payement-salaire/create/{id}','comptabilite\payementController@create');
-    Route::post('/comptabilite/payement-salaire/store/','comptabilite\payementController@store');
+    Route::group(['middleware'=>'lvl16'],function (){
+        //pour la comptabilite
+        Route::get('/comptabilite/', 'comptabilite\comptabiliteController@index');
+        // les décaissements
+        Route::get('/admin/retrait/','admin\decaissementController@index');
+        Route::post('/admin/retrait/store','admin\decaissementController@store');
+        // le payement des salaires
+        Route::get('/comptabilite/payement-salaire/','comptabilite\payementController@index');
+        Route::get('/comptabilite/payement-salaire/create/{id}','comptabilite\payementController@create');
+        Route::post('/comptabilite/payement-salaire/store/','comptabilite\payementController@store');
+    });
+
+
 
 
 
@@ -210,11 +214,9 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('/search/personnel', 'searchController@personnel');
     Route::get('/search/eleve', 'searchController@eleve');
 
-
-
-
-
-
+    //Pour la langue
+    Route::get('/language/french', 'WelcomeController@fr_locale');
+    Route::get('/language/english','WelcomeController@en_locale');
 
 
 

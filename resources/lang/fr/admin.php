@@ -127,6 +127,7 @@ return [
     'activer'=>'Activer',
     'desactiver'=>'Désactiver',
     'g_inscriptions'=>'Gestionnaire des inscriptions',
+    'g_comptabilite'=>'Comptable',
     'g_notes'=>'Gestionnaire des élèves et notes',
     'g_personnel'=>'Gestionnaire du personnel',
     'editeur'=>'Administrateur',
@@ -170,6 +171,9 @@ return [
     'no_matricule'=>'Si l\'élève est ancien et a déja un matricule,sinon laisser vide',
     ///////////////////////
     'certificat_scolarite'=>'Certificat de scolarité',
+    //////////////////
+    ///
+    'langage'=>'Langage',
 
 
 ];

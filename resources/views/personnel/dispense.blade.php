@@ -78,7 +78,7 @@
 
                             <fieldset>
                                 <div class="form-group">
-                                    <label for="classe">{{  trans('admin.choose_level')  }} : <span class="required">*</span></label>
+                                    <label for="classe">{{  trans('admin.choix_classe')  }} : <span class="required">*</span></label>
                                     <select  name="id_classe" form="edit_manger_form" class="form-control">
                                         @foreach($classes as $n)
                                             <option value="{{  $n->id  }}" @if($n->id == old('id_classe')) selected @endif>{{ $n->nom }}</option>

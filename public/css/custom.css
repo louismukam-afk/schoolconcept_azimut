@@ -99,8 +99,22 @@ body {
 {
     visibility: hidden;
 }
+.langage{
+    position: absolute;
+    right: 20px;
+    bottom: 2px;
 
+}
+.langage >.lang > a
+{
+    color: #d58512;
+    text-decoration: none;
+}
 
+.langage >.lang > .dropdown-menu > li > a
+{
+    color: #d58512;
+}
 
 
 /*==============================================

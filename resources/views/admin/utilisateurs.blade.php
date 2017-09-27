@@ -63,6 +63,7 @@
                                     <label for="role">Role : </label>
                                     <select  name="role" form="activate_user_form" class="form-control">
                                             <option value="2">{{trans('admin.editeur')}}</option>
+                                        <option value="16">{{trans('admin.g_comptabilite')}}</option>
                                         <option value="17">{{trans('admin.g_personnel')}}</option>
                                         <option value="18">{{trans('admin.g_notes')}}</option>
                                         <option value="19">{{trans('admin.g_inscriptions')}}</option>
@@ -101,6 +102,8 @@
     function getRole($n){
         if($n==2)
             return trans('admin.editeur');
+        if($n==16)
+            return trans('admin.g_comptabilite');
         if($n==17)
             return trans('admin.g_personnel');
         if($n==18)

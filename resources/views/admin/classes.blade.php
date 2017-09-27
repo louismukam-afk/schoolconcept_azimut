@@ -31,7 +31,7 @@
                     <td>
                         @foreach($cycles as $cy)
                             @if($cy->id == $c->id_cycle)
-                                {{  $c->nom  }}
+                                {{  $cy->nom  }}
                                 <?php break; ?>
                             @endif
                         @endforeach

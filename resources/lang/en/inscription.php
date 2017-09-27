@@ -56,7 +56,7 @@
         'choix_liste'=>'Choose a list to show',
         'eleves_inscrits'=>'Registered students',
         'all_eleves'=>'All students',
-        'eleves_de'=>'Sutdents list of',
+        'eleves_de'=>'Students list of',
         'no_tranche1'=>'1st installment unpaid',
         'no_tranche2'=>'2nd installment unpaid',
         'no_tranche3'=>'3rd installment unpaid',

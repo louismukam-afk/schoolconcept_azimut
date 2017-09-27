@@ -6,6 +6,7 @@ use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
 use gesecole\matiere;
 use gesecole\cycle;
+use gesecole\niveau;
 use gesecole\parametres;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -41,8 +42,10 @@ class programmeController extends Controller {
         $titre=trans('admin.selectionner_classe');
         $m=classe::orderBy('nom')->get();
         $cy=cycle::all();
+        $n=niveau::all();
         $values= array('titre'=>$titre,'classes'=>$m);
         $values['cycles']=$cy;
+        $values['niveaux']=$n;
 
         if(session('success')){
             Session::forget('success');
