@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereIdClasse($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereIdMatiere($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereMax($value)
+ * @property int $id_cycle
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereIdCycle($value)
  */
 class classeMatiere extends Model {
 

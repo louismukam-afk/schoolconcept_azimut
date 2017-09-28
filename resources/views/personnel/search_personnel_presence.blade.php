@@ -23,7 +23,7 @@
     <div class="col-md-8">
         <form class="form-horizontal" id="add_inscription_form" method="get" action="{{URL::to('/search/personnel/')}}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-            <input type="hidden" name="view" value="admin\search_personnel_taux">
+            <input type="hidden" name="view" value="personnel\search_personnel_presence">
             <input type="hidden" name="titre" value="{{trans('admin.search_personnel')}}">
             <div class="col-md-6">
                 <div class="form-group">
@@ -60,7 +60,7 @@
                         <td>{{$p->sexe}}</td>
                         <td>
 
-                                    <a style="color: white" href="{{ URL::to('/admin/taux/create').'/'.$p->id }}"   class="btn btn-warning"><span class="glyphicon glyphicon-euro"></span> {{  trans('admin.taux')  }}</a>
+                                    <a style="color: white" href="{{ URL::to('/personnel/heures-effectuees').'/'.$p->id }}"   class="btn btn-warning"><span class="glyphicon glyphicon-plus"></span> {{  trans('admin.modifier_heure')  }}</a>
 
                         </td>
                     </tr>

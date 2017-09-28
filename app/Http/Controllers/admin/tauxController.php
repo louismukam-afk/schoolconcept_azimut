@@ -38,9 +38,8 @@ class tauxController extends Controller {
 	public function index()
 	{
 
-        $titre=trans('admin.search_personnel');
-        $values= array('titre'=>$titre);
-        return view('admin\search_personnel_taux',$values);
+
+        return redirect()->action('admin\tauxController@create');
 	}
 
 	/**
@@ -48,21 +47,19 @@ class tauxController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function create($id)
+	public function create()
 	{
-        $p=personnel::find($id);
-        $titre=trans('admin.taux').' : '.$p->nom;
-        $t=taux::whereIdPersonnel($id)->get();
-        $ma=$t->fetch('id_matiere')->toArray();
-        $m=matiere::all();
-        $ms=matiere::whereNotIn('id',$ma)->get();
+        $titre=trans('admin.taux');
+        $t=taux::all();
+        $p=personnel::all();
+        $pe=$t->fetch('id_personnel')->toArray();
+        $ps=personnel::whereNotIn('id',$pe)->get();
 
 
         $values= array('titre'=>$titre);
         $values['taux']=$t;
-        $values['personnel']=$p;
-        $values['matieres']=$m;
-        $values['matiere_sans']=$ms;
+        $values['personnels']=$p;
+        $values['personnel_sans']=$ps;
 
 
 
@@ -83,18 +80,16 @@ class tauxController extends Controller {
 	{
 		$this->validate($request,[
 		   'id_personnel'=>'required|numeric',
-            'id_matiere'=>'required|numeric',
             'taux'=>'required|numeric',
         ]);
 
 		$t=new taux();
 		$t->id_personnel=$request->input('id_personnel');
-        $t->id_matiere=$request->input('id_matiere');
         $t->taux=$request->input('taux');
 
         $t->save();
         \session(['success'=>true]);
-        return redirect()->action('admin\tauxController@create',[$t->id_personnel]);
+        return redirect()->action('admin\tauxController@create');
 	}
 
 	/**

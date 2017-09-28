@@ -174,6 +174,9 @@ return [
     //////////////////
     ///
     'langage'=>'Langage',
-
+    'compte_heure'=>"Compte d'heures du personnel",
+    'modifier_heure'=>'Ajouter des heures de présence',
+    'compte_heure_de'=>'Heures effectuees par',
+    'ajouter'=>"Ajouter",
 
 ];

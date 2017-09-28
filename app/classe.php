@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id_cycle
  * @property string $nom_anglais
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classe whereNomAnglais($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classe whereIdCycle($value)
  */
 class classe extends Model {
      protected  $table='classe';

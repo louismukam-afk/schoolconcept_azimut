@@ -90,9 +90,9 @@ Route::group(['middleware'=>'auth'],function (){
 
         //pour les taux
         Route::get('/admin/taux/', 'admin\tauxController@index');
-        Route::get('/admin/taux/create/{id}', 'admin\tauxController@create');
+        Route::get('/admin/taux/create/', 'admin\tauxController@create');
         Route::post('/admin/taux/store/', 'admin\tauxController@store');
-
+        Route::get('/admin/taux/destroy/{id}', 'admin\tauxController@destroy');
 
     });
 
@@ -182,13 +182,17 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/personnel/titulaire/store', 'personnel\titulaireController@store');
         Route::post('/personnel/titulaire/update', 'personnel\titulaireController@update');
 
-//pour les présences , abscences et retards
+//pour les  abscences et retards
         Route::get('/personnel/discipline/', 'personnel\disciplineController@index');
         Route::get('/personnel/discipline/destroy/{id_p}/{id}', 'personnel\disciplineController@destroy');
         Route::get('/personnel/discipline/{id}', 'personnel\disciplineController@show');
 
         Route::post('/personnel/discipline/store', 'personnel\disciplineController@store');
 
+    //pour les présences
+        Route::get('/personnel/heures-effectuees/', 'personnel\presenceController@index');
+        Route::get('/personnel/heures-effectuees/{id}', 'personnel\presenceController@create');
+        Route::post('/personnel/heures-effectuees/update/{id}', 'personnel\presenceController@update');
 
     });
 
