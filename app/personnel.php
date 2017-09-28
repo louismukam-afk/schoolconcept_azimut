@@ -37,7 +37,7 @@ class personnel extends Model {
 
 	protected $table='personnel';
 
-    public $fillable=['nom','date_naiss','lieu_naiss','diplome','sexe','date_entree','tel1','tel2','adresse','email'];
+    public $fillable=['matricule','nom','date_naiss','lieu_naiss','diplome','sexe','date_entree','tel1','tel2','adresse','email'];
 
 
     public $timestamps=false;
