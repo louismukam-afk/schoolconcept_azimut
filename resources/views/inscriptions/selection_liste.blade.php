@@ -1,6 +1,6 @@
 @extends('skeleton')
 @section('sub-content')
-    <div id="monaccordeon" class="panel-group col-lg-6">
+    <div id="monaccordeon" class="panel-group col-md-12">
         <h3>{{trans('inscription.choix_liste')}}</h3>
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -16,16 +16,26 @@
                     class="panel-collapse collapsing">
                 <div
                         class="panel-body">
-                    <ul >
                         <li class="col-md-4"><a href={{URL::to('/inscriptions/listes/show/'.'0')}}>{{trans('inscription.all_eleves')}}</a></li>
                         @foreach($cycles as $cy)
-                            <h4 class="page-header col-md-12">{{$cy->nom}}</h4>
-                            @foreach($classes as $c)
-                                <li class="col-md-4"><a href="{{URL::to('/inscriptions/listes/show/'.$c->id.'?cycle='.$cy->id)}}">{{$c->nom}}</a></li>
+                            <h3 class="page-header col-md-12">{{$cy->nom}}</h3>
+
+                        @foreach($niveaux as $n)
+                            <div class="col-md-6">
+                            <h4 class="page-header"> {{$n->nom.'/'.$n->nom_anglais}}</h4>
+
+                                @foreach($classes as $c)
+                                    <div class="col-md-12">
+                                    @if($c->id_cycle==$cy->id && $c->id_niveau==$n->id)
+                                        <li class="col-md-12"><a href="{{URL::to('/inscriptions/listes/show/'.$c->id.'?cycle='.$cy->id)}}">{{$c->nom}}</a></li>
+                                    @endif
+                                    </div>
+                                @endforeach
+                            </div>
                             @endforeach
+
                         @endforeach
 
-                    </ul>
                 </div>
 
             </div>
@@ -47,10 +57,22 @@
                     <ul >
                         <li class="col-md-4"><a href={{URL::to('/inscriptions/listes/show/'.'0'.'?option=1')}}>{{trans('inscription.all_eleves')}}</a></li>
                         @foreach($cycles as $cy)
-                            <h4 class="page-header col-md-12">{{$cy->nom}}</h4>
-                            @foreach($classes as $c)
-                                <li class="col-md-4"><a href="{{URL::to('/inscriptions/listes/show/'.$c->id.'?option=1&cycle='.$cy->id)}}">{{$c->nom}}</a></li>
+                            <h3 class="page-header col-md-12">{{$cy->nom}}</h3>
+
+                            @foreach($niveaux as $n)
+                                <div class="col-md-6">
+                                    <h4 class="page-header"> {{$n->nom.'/'.$n->nom_anglais}}</h4>
+
+                                    @foreach($classes as $c)
+                                        <div class="col-md-12">
+                                            @if($c->id_cycle==$cy->id && $c->id_niveau==$n->id)
+                                                <li class="col-md-12"><a href="{{URL::to('/inscriptions/listes/show/'.$c->id.'?option=1&cycle='.$cy->id)}}">{{$c->nom}}</a></li>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
                             @endforeach
+
                         @endforeach
 
                     </ul>
@@ -76,10 +98,22 @@
                         <li class="col-md-4"><a href={{URL::to('/inscriptions/listes/show/'.'0'.'?option=2')}}>{{trans('inscription.all_eleves')}}</a></li>
 
                         @foreach($cycles as $cy)
-                            <h4 class="page-header col-md-12">{{$cy->nom}}</h4>
-                            @foreach($classes as $c)
-                                <li class="col-md-4"><a href="{{URL::to('/inscriptions/listes/show/'.$c->id.'?option=2&cycle='.$cy->id)}}">{{$c->nom}}</a></li>
+                            <h3 class="page-header col-md-12">{{$cy->nom}}</h3>
+
+                            @foreach($niveaux as $n)
+                                <div class="col-md-6">
+                                    <h4 class="page-header"> {{$n->nom.'/'.$n->nom_anglais}}</h4>
+
+                                    @foreach($classes as $c)
+                                        <div class="col-md-12">
+                                            @if($c->id_cycle==$cy->id && $c->id_niveau==$n->id)
+                                                <li class="col-md-12"><a href="{{URL::to('/inscriptions/listes/show/'.$c->id.'?option=2&cycle='.$cy->id)}}">{{$c->nom}}</a></li>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
                             @endforeach
+
                         @endforeach
                     </ul>
                 </div>
@@ -102,13 +136,26 @@
                         class="panel-body">
                     <ul >
                         <li class="col-md-4"><a href={{URL::to('/inscriptions/listes/show/'.'0'.'?option=3')}}>{{trans('inscription.all_eleves')}}</a></li>
-
                         @foreach($cycles as $cy)
-                            <h4 class="page-header col-md-12">{{$cy->nom}}</h4>
-                            @foreach($classes as $c)
-                                <li class="col-md-4"><a href="{{URL::to('/inscriptions/listes/show/'.$c->id.'?option=3&cycle='.$cy->id)}}">{{$c->nom}}</a></li>
+                            <h3 class="page-header col-md-12">{{$cy->nom}}</h3>
+
+                            @foreach($niveaux as $n)
+                                <div class="col-md-6">
+                                    <h4 class="page-header"> {{$n->nom.'/'.$n->nom_anglais}}</h4>
+
+                                    @foreach($classes as $c)
+                                        <div class="col-md-12">
+                                            @if($c->id_cycle==$cy->id && $c->id_niveau==$n->id)
+                                                <li class="col-md-12"><a href="{{URL::to('/inscriptions/listes/show/'.$c->id.'?option=3&cycle='.$cy->id)}}">{{$c->nom}}</a></li>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
                             @endforeach
+
                         @endforeach
+
+
                     </ul>
                 </div>
 
@@ -132,11 +179,24 @@
                         <li class="col-md-4"><a href={{URL::to('/inscriptions/listes/show/'.'0'.'?option=4')}}>{{trans('inscription.all_eleves')}}</a></li>
 
                         @foreach($cycles as $cy)
-                            <h4 class="page-header col-md-12">{{$cy->nom}}</h4>
-                            @foreach($classes as $c)
-                                <li class="col-md-4"><a href="{{URL::to('/inscriptions/listes/show/'.$c->id.'?option=4&cycle='.$cy->id)}}">{{$c->nom}}</a></li>
+                            <h3 class="page-header col-md-12">{{$cy->nom}}</h3>
+
+                            @foreach($niveaux as $n)
+                                <div class="col-md-6">
+                                    <h4 class="page-header"> {{$n->nom.'/'.$n->nom_anglais}}</h4>
+
+                                    @foreach($classes as $c)
+                                        <div class="col-md-12">
+                                            @if($c->id_cycle==$cy->id && $c->id_niveau==$n->id)
+                                                <li class="col-md-12"><a href="{{URL::to('/inscriptions/listes/show/'.$c->id.'?option=4&cycle='.$cy->id)}}">{{$c->nom}}</a></li>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
                             @endforeach
+
                         @endforeach
+
                     </ul>
                 </div>
 
@@ -160,11 +220,24 @@
                     <ul >
                         <li class="col-md-4"><a href={{URL::to('/inscriptions/listes/show/'.'0'.'?option=5')}}>{{trans('inscription.all_eleves')}}</a></li>
 
+
                         @foreach($cycles as $cy)
-                            <h4 class="page-header col-md-12">{{$cy->nom}}</h4>
-                            @foreach($classes as $c)
-                                <li class="col-md-4"><a href="{{URL::to('/inscriptions/listes/show/'.$c->id.'?option=5&cycle='.$cy->id)}}">{{$c->nom}}</a></li>
+                            <h3 class="page-header col-md-12">{{$cy->nom}}</h3>
+
+                            @foreach($niveaux as $n)
+                                <div class="col-md-6">
+                                    <h4 class="page-header"> {{$n->nom.'/'.$n->nom_anglais}}</h4>
+
+                                    @foreach($classes as $c)
+                                        <div class="col-md-12">
+                                            @if($c->id_cycle==$cy->id && $c->id_niveau==$n->id)
+                                                <li class="col-md-12"><a href="{{URL::to('/inscriptions/listes/show/'.$c->id.'?option=5&cycle='.$cy->id)}}">{{$c->nom}}</a></li>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
                             @endforeach
+
                         @endforeach
                     </ul>
                 </div>

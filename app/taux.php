@@ -19,7 +19,7 @@ class taux extends Model {
 
     protected  $table='taux';
 
-    public $fillable=['id_personnel','id_matiere','taux'];
+    public $fillable=['id_personnel','taux'];
 
     public $timestamps=false;
 

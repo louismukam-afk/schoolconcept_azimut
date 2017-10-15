@@ -1,12 +1,16 @@
 <?php namespace gesecole\Http\Controllers\comptabilite;
 
 use gesecole\discipline_personnel;
+use gesecole\fonction;
+use gesecole\fonction_personnel;
+use gesecole\heure_realise;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
 use gesecole\parametres;
 use gesecole\payement_salaire;
 use gesecole\personnel;
 use gesecole\salaire;
+use gesecole\taux;
 use gesecole\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
@@ -41,15 +45,22 @@ class payementController extends Controller {
 
     public function index()
 	{
+	   // \session(['success'=>16]);
         $titre=trans('admin.search_personnel');
         $values= array('titre'=>$titre);
         if(session('success')){
             $values['success']=\session('success');
             $ps=payement_salaire::find($values['success']);
             $p=personnel::find($ps->id_personnel);
+            $s=salaire::whereIdPersonnel($ps->id_personnel)->first();
+            $f=fonction_personnel::whereIdPersonnel($ps->id_personnel)->get();
+            $fo=fonction::all();
             $u=User::find($ps->id_user);
             $values['payement']=$ps;
             $values['personnel']=$p;
+            $values['fonctions']=$f;
+            $values['salaire']=$s;
+            $values['fonctions2']=$fo;
             $values['user']=$u;
             Session::forget('success');
         }
@@ -84,8 +95,13 @@ class payementController extends Controller {
                     ->where('id_personnel','=',$id)
                     ->get();
         }
+        $hr=heure_realise::firstOrNew(['id_personnel'=>$id]);
+        $t=taux::whereIdPersonnel($id)->first();
 
         $values['discipline']=$d;
+        $values['heure_realisee']=$hr;
+        $values['taux']=$t;
+
         $s=salaire::whereIdPersonnel($id)->first();
         if($s!= null){
             $values['salaire']=$s;
@@ -106,23 +122,62 @@ class payementController extends Controller {
 	{
 		$this->validate($request,[
 		   'id'=>'required|numeric',
-            'variations'=>'numeric',
+            'heure_realisee'=>'required|numeric',
+            'taux'=>'required|numeric',
+            'total'=>'required|numeric',
+            'mois'=>'required|numeric',
+            'primes'=>'numeric',
+            'acomptes'=>'numeric',
+            'CNSS'=>'numeric',
+            'cas_socials'=>'numeric',
+            'assurances'=>'numeric',
+            'autre_retenues'=>'numeric',
         ]);
 
 		$id=$request->input('id');
-		$variations=$request->input('variations');
 
-        $s=salaire::whereIdPersonnel($id)->first();
+        $heure_realisee=$request->input('heure_realisee');
+        $taux=$request->input('taux');
+        $total=$request->input('total');
+        $mois=$request->input('mois');
+        $primes=$request->input('primes');
+        $acomptes=$request->input('acomptes');
+        $CNSS=$request->input('CNSS');
+        $cas_socials=$request->input('cas_socials');
+        $assurances=$request->input('assurances');
+        $autres_retenues=$request->input('autre_retenues');
+
+        $total_retenu=$acomptes+$CNSS+$cas_socials+$assurances+$autres_retenues;
+
+        $total=$total+$primes;
+
         $ps=new payement_salaire();
         $ps->id_personnel=$id;
         $ps->id_user=\Auth::user()->id;
-        $ps->montant=$s->montant+$variations;
+        $ps->montant=$total-$total_retenu;
         $ps->date_p=date('Y-m-d');
+        $ps->mois=$mois;
+        $ps->heure_realise=$heure_realisee;
+        $ps->taux=$taux;
+        $ps->total=$total;
+        $ps->primes=$primes;
+        $ps->acomptes=$acomptes;
+        $ps->cnss=$CNSS;
+        $ps->cas_sociales=$cas_socials;
+        $ps->assurances=$assurances;
+        $ps->autre_retenues=$autres_retenues;
+        $ps->total_retenu=$total_retenu;
+        $ps->net_a_payer=$total-$total_retenu   ;
         $ps->annee_scolaire=\session('year');
         $ps->save();
         $numero=sprintf('%08d',$ps->id);
         $ps->numero=$numero;
+
         $ps->save();
+
+        $hre=heure_realise::whereIdPersonnel($id)->first();
+        $hre->nombre=0;
+        $hre->save();
 
         session(['success'=>$ps->id]);
         return redirect()->action('comptabilite\payementController@index') ;

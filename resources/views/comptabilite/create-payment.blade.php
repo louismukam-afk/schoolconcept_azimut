@@ -36,28 +36,111 @@
                 </p>
                 <p><strong>{{trans('admin.retards')}} :</strong>  {{$discipline->where('type',1,false)->count()}}</p>
 
-                <div class="alert alert-warning"><strong>{{trans('admin.salaire')}}</strong>
+                <div class="alert alert-warning"><strong>{{trans('admin.salaire_base')}}</strong>
                     <p><strong>{{$salaire->montant.' '.trans('inscription.devise')}}</strong></p>
 
                 </div>
-                <form accept-charset="UTF-8" role="form" method="POST" action="{{ url('/comptabilite/payement-salaire/store/') }}">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <input type="hidden" name="id" value="{{$personnel->id }}">
-                    <fieldset>
-                        <div class="form-group">
-                            <label>{{  trans('admin.montant_variations')  }} : </label>
-                            <div class="input-group col-md-5">
-                                <input class="form-control" name="variations" type="number"  value="{{ old('variations') }}">
-                                <span class="input-group-addon"> {{trans('inscription.devise')}}</span>
+                <div class="alert alert-info"><strong>{{trans('admin.compte_heure_')}}</strong>
+                    <p><strong>{{$heure_realisee->nombre?$heure_realisee->nombre.' '.trans('admin.heure'):'0'.trans('admin.heure')}}</strong></p>
+
+                </div>
+
+                <div class="alert alert-warning"><strong>{{trans('admin.taux')}}</strong>
+                    <p><strong>{{$taux?$taux->taux.' '.trans('inscription.devise').' / '.trans('admin.heure'):'0 '.trans('inscription.devise').' / '.trans('admin.heure')}}</strong></p>
+
+                </div>
+                <?php
+                    $taux?$t=$taux->taux:$t=0;
+
+                ?>
+                <div class="alert alert-success"><strong>Total</strong>
+                    <p><strong>{{$salaire->montant+$heure_realisee->nombre*$t.' '.trans('inscription.devise')}}</strong></p>
+
+                </div>
+                <div class="col-md-6">
+                    <form accept-charset="UTF-8" role="form" method="POST" id="pay_staff" action="{{ url('/comptabilite/payement-salaire/store/') }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="id" value="{{$personnel->id }}">
+                        <input type="hidden" name="heure_realisee" value="{{$heure_realisee->nombre}}">
+                        <input type="hidden" name="taux" value="{{$t}}">
+                        <input type="hidden" name="total" value="{{$salaire->montant+$heure_realisee->nombre*$t}}">
+
+                        <fieldset>
+                            <div class="form-group">
+                                <label>{{  trans('admin.mois')  }} : </label>
+                                <select form="pay_staff" name="mois" class="form-control">
+                                    <option value="1" @if(date('m')==1) selected @endif>@lang('admin.mois1')</option>
+                                    <option value="2" @if(date('m')==2) selected @endif>@lang('admin.mois2')</option>
+                                    <option value="3" @if(date('m')==3) selected @endif>@lang('admin.mois3')</option>
+                                    <option value="4" @if(date('m')==4) selected @endif>@lang('admin.mois4')</option>
+                                    <option value="5" @if(date('m')==5) selected @endif>@lang('admin.mois5')</option>
+                                    <option value="6" @if(date('m')==6) selected @endif>@lang('admin.mois6')</option>
+                                    <option value="7" @if(date('m')==7) selected @endif>@lang('admin.mois7')</option>
+                                    <option value="8" @if(date('m')==8) selected @endif>@lang('admin.mois8')</option>
+                                    <option value="9" @if(date('m')==9) selected @endif>@lang('admin.mois9')</option>
+                                    <option value="10" @if(date('m')==10) selected @endif>@lang('admin.mois10')</option>
+                                    <option value="11" @if(date('m')==11) selected @endif>@lang('admin.mois11')</option>
+                                    <option value="12" @if(date('m')==12) selected @endif>@lang('admin.mois12')</option>
+                                </select>
                             </div>
 
-                        </div>
+                            <div class="form-group">
+                                <label>{{  trans('admin.primes')  }} : </label>
+                                <div class="input-group">
+                                    <input class="form-control" name="primes" type="text"  value="{{ old('primes') }}">
+                                    <span class="input-group-addon"> {{trans('inscription.devise')}}</span>
+                                </div>
 
-                        <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
+                            </div>
+                            <div class="form-group">
+                                <label>{{  trans('admin.acomptes')  }} : </label>
+                                <div class="input-group">
+                                    <input class="form-control" name="acomptes" type="text"  value="{{ old('acomptes') }}">
+                                    <span class="input-group-addon"> {{trans('inscription.devise')}}</span>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label>CNSS : </label>
+                                <div class="input-group">
+                                    <input class="form-control" name="CNSS" type="text"  value="{{ old('CNSS') }}">
+                                    <span class="input-group-addon"> {{trans('inscription.devise')}}</span>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label>{{  trans('admin.cas_socials')  }} : </label>
+                                <div class="input-group">
+                                    <input class="form-control" name="cas_socials" type="text"  value="{{ old('cas_socials') }}">
+                                    <span class="input-group-addon"> {{trans('inscription.devise')}}</span>
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label>{{  trans('admin.assurances')  }} : </label>
+                                <div class="input-group">
+                                    <input class="form-control" name="assurances" type="text"  value="{{ old('assurances') }}">
+                                    <span class="input-group-addon"> {{trans('inscription.devise')}}</span>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label>{{  trans('admin.autre_retenues')  }} : </label>
+                                <div class="input-group">
+                                    <input class="form-control" name="autre_retenues" type="text"  value="{{ old('autre_retenues') }}">
+                                    <span class="input-group-addon"> {{trans('inscription.devise')}}</span>
+                                </div>
+
+                            </div>
+
+                            <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
 
 
-                    </fieldset>
-                </form>
+                        </fieldset>
+                    </form>
+                </div>
+
             </div>
 
         </div>

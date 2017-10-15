@@ -26,6 +26,10 @@ html,body {
 }
 
 
+.wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.navbar,.navbar-header,.modal
+{
+    display: none;
+}
 
 .recu > .panel > .panel-body > .row .etablissement
 {

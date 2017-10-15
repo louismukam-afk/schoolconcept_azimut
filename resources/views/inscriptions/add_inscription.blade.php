@@ -101,7 +101,7 @@
 
         </div>
 
-        <div>
+        <div class="col-md-10">
             @if(session('search_result'))
                 <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 15px;">
                     <thead>
@@ -128,8 +128,8 @@
                                 <div class="btn-group">
                                     <a href="#" class=" btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></a>
                                     <ul class="dropdown-menu">
-                                        <li><a style="color: white" title="Modifier les informations" class="btn-primary"  data-toggle="modal" data-backdrop="false" href="{{URL::to('/inscriptions/enregistrement/edit/'.$e->id)}}"><span class="glyphicon glyphicon-pencil"  ></span> {{  trans('admin.edit')  }}</a></li>
                                         <li><a style="color: white" href="{{ URL::to('/inscriptions/create/').'/'.$e->id }}"   class="btn-success"><span class="glyphicon glyphicon-cloud-upload"></span> {{  trans('inscription.inscrire')  }}</a></li>
+                                        <li><a style="color: white" class="btn-primary"   href="{{ URL::to('/inscriptions/print-certificate/').'/'.$e->id }}"><span class="fa fa-file-text-o"></span> {{  trans('admin.certificat_scolarite')  }}</a></li>
                                     </ul>
                                 </div>
                         </tr>

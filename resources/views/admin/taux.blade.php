@@ -12,7 +12,7 @@
         <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 15px;">
             <thead>
             <th>#</th>
-            <th>{{  trans('admin.matiere')  }}</th>
+            <th>{{  trans('admin.personnel')  }}</th>
             <th>{{  trans('admin.taux')  }}</th>
             </thead>
             <tbody>
@@ -21,15 +21,15 @@
                 <tr>
                     <td>{{++$i}}</td>
                     <td>
-                        @foreach($matieres as $m)
-                            @if($m->id == $t->id_matiere)
-                                {{  $m->nom.'/'.$m->nom_anglais  }}
+                        @foreach($personnels as $p)
+                            @if($p->id == $t->id_personnel)
+                                {{  $p->nom  }}
                                 <?php break; ?>
                             @endif
                         @endforeach
                     </td>
 
-                    <td>{{$t->taux.' '.trans('inscription.devise') }}</td>
+                    <td>{{$t->taux.' '.trans('inscription.devise').'/ H' }}</td>
                     <td>
 
                         <a style="color: white" href="{{ URL::to('/admin/taux/destroy/').'/'.$t->id }}"   class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span> {{  trans('admin.del')  }}</a>
@@ -55,14 +55,13 @@
 
                         <form accept-charset="UTF-8" role="form" method="POST" id="add_level_form" action="{{ url('/admin/taux/store/') }}">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            <input type="hidden" name="id_personnel" value="{{ $personnel->id }}">
 
                             <fieldset>
                                 <div class="form-group">
-                                    <label>{{  trans('admin.matiere')  }} : </label>
-                                    <select  name="id_matiere" form="add_level_form" class="form-control">
-                                        @foreach($matiere_sans as $m)
-                                            <option value="{{  $m->id  }}" @if($m->id == old('id_matiere')) selected @endif>{{  $m->nom.'/'.$m->nom_anglais  }}</option>
+                                    <label>{{  trans('admin.personnel')  }} : </label>
+                                    <select  name="id_personnel" form="add_level_form" class="form-control">
+                                        @foreach($personnel_sans as $p)
+                                            <option value="{{  $p->id  }}" @if($p->id == old('id_personnel')) selected @endif>{{  $p->nom }}</option>
                                         @endforeach
                                     </select>
                                 </div>

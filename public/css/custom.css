@@ -31,10 +31,17 @@ body {
     font-size: 20px;
     bottom: 0;
 }
+.back-button{
+    position: fixed;
+    z-index: 100000;
+    right: 20px;
+    top: 20%;
+}
 
 .back-button:hover{
     background-color: orange;
 }
+
 
  #wrapper {
     width: 100%;
@@ -92,8 +99,22 @@ body {
 {
     visibility: hidden;
 }
+.langage{
+    position: absolute;
+    right: 20px;
+    bottom: 2px;
 
+}
+.langage >.lang > a
+{
+    color: #d58512;
+    text-decoration: none;
+}
 
+.langage >.lang > .dropdown-menu > li > a
+{
+    color: #d58512;
+}
 
 
 /*==============================================

@@ -7,7 +7,7 @@
         </div>
         <a href="#" class="btn btn-lg btn-warning" onclick="window.print()">@lang('inscription.print_receipe')</a>
 
-        @include('comptabilite.recu_payement')
+        @include('comptabilite.bulletin_payement')
 
     @else
 

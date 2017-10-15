@@ -94,6 +94,16 @@ class personnelController extends Controller {
         $c->date_entree=date('Y-m-d');
         $c->email=$req->input('email');
         $c->save();
+
+        $param = parametres::all();
+        $pa = $param->where('nom', 'initiales_etablissement', false)->first();
+
+        $front = session('year');
+        $front = substr($front, 2, 2);
+        $number = sprintf('%03d', $c->id);
+        $c->matricule = $front . $pa->valeur . $number;
+        $c->save();
+
         session(['success'=>true]);
         return redirect()->action('personnel\personnelController@index_personnel');
 	}

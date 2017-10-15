@@ -1,6 +1,8 @@
 <?php namespace gesecole\Http\Controllers;
 use Illuminate\Http\Request;
 use gesecole\parametres;
+use Closure;
+use Illuminate\Support\Facades\App;
 
 class WelcomeController extends Controller {
 
@@ -76,5 +78,14 @@ class WelcomeController extends Controller {
         $p->delete();
         return redirect()->action('WelcomeController@index');
     }
-
+    public function fr_locale(){
+        $prevUrl=\URL::previous();
+        session(['locale'=>'fr']);
+        return redirect()->to($prevUrl) ;
+    }
+    public function en_locale(){
+        $prevUrl=\URL::previous();
+        session(['locale'=>'en']);
+        return redirect()->to($prevUrl) ;
+    }
 }

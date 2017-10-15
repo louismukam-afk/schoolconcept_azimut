@@ -1,9 +1,10 @@
 @extends('skeleton')
 @section('sub-content')
-    <link rel="stylesheet" media="print" href="{{URL::asset('css/print_table.css')}}">
     <a href="#" class="btn btn-warning btn-lg" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> {{trans('inscription.imprimer')}}</a>
+    <link rel="stylesheet" media="print" href="{{URL::asset('css/print_table.css')}}">
 
     @include('perso.header')
+
     <div class="list-cont">
     <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 5px;">
         <thead>

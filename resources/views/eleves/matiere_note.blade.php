@@ -8,6 +8,13 @@
             </div>
 
         @endif
+            @if(isset($erreur))
+
+                <div class="alert alert-danger">
+                    {{  $erreur  }}
+                </div>
+
+            @endif
     <h4>{{trans('eleve.choix_mat')}}</h4>
     <hr>
     <div class="liste-classe col-md-9">
@@ -34,16 +41,23 @@
                     <form accept-charset="UTF-8" role="form" method="POST" id="choix_seq_form" action="{{ url('/eleves/notes/create/'.$id) }}">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                         <input type="hidden" name="id" id="id" value=""/>
+                        <input type="hidden" name="cycle" id="id_cycle" value="{{$id_cycle}}"/>
+
                         <fieldset>
                             <div class="form-group">
                                 <label for="niveau">{{  trans('eleve.choix_seq')  }} : </label>
                                 <select  name="sequence" form="choix_seq_form" class="form-control" >
-                                    <option value="1">Séquence 1</option>
-                                    <option value="2">Séquence 2</option>
-                                    <option value="3">Séquence 3</option>
-                                    <option value="4">Séquence 4</option>
-                                    <option value="5">Séquence 5</option>
-                                    <option value="6">Séquence 6</option>
+                                <optgroup label="@lang('admin.semestre') 1">
+                                    <option value="1">CC</option>
+                                    <option value="3">@lang('admin.session_normale')</option>
+                                    <option value="5">@lang('admin.rattrapage')</option>
+                                </optgroup>
+                                    <optgroup label="@lang('admin.semestre') 2">
+                                        <option value="2">CC</option>
+                                        <option value="4">@lang('admin.session_normale')</option>
+                                        <option value="6">@lang('admin.rattrapage')</option>
+                                    </optgroup>
+
                                 </select>
                             </div>
 

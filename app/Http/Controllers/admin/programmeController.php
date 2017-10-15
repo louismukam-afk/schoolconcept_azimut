@@ -5,6 +5,8 @@ use gesecole\classeMatiere;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
 use gesecole\matiere;
+use gesecole\cycle;
+use gesecole\niveau;
 use gesecole\parametres;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -39,7 +41,12 @@ class programmeController extends Controller {
     {
         $titre=trans('admin.selectionner_classe');
         $m=classe::orderBy('nom')->get();
+        $cy=cycle::all();
+        $n=niveau::all();
         $values= array('titre'=>$titre,'classes'=>$m);
+        $values['cycles']=$cy;
+        $values['niveaux']=$n;
+
         if(session('success')){
             Session::forget('success');
             $values['success']=true;
@@ -53,21 +60,24 @@ class programmeController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function create($id)
+	public function create(Request $request,$id)
 	{
 	    $c=classe::find($id);
+	    $cycle= $request->input('cycle');
         $titre=trans('admin.programme');
-        $p=DB::select('SELECT cm.id,cm.id_matiere,nom_anglais,m.nom as nom_matiere,coef,max FROM classe_matiere cm, matiere m ,classe c WHERE cm.id_classe=c.id AND cm.id_matiere=m.id And c.id=?',[$id]);
-        $m=DB::select('select m.id,m.nom,m.nom_anglais FROM matiere m WHERE  m.id NOT IN (SELECT cm.id_matiere FROM classe_matiere cm WHERE cm.id_classe=?)',[$id]);
+        $p=DB::select('SELECT cm.id,cm.id_matiere,cm.id_cycle,m.nom_anglais,m.nom as nom_matiere,coef,max FROM classe_matiere cm, matiere m ,classe c WHERE cm.id_classe=c.id AND cm.id_matiere=m.id And c.id=?  AND cm.id_cycle=?',[$id,$cycle]);
+        $m=DB::select('select m.id,m.nom,m.nom_anglais FROM matiere m WHERE  m.id NOT IN (SELECT cm.id_matiere FROM classe_matiere cm WHERE cm.id_classe=?  AND cm.id_cycle=?)',[$id,$cycle]);
 
         $values= array('titre'=>$titre,'programmes'=>$p);
         $values['classe']=$c;
         $values['matieres']=$m;
+        $values['id_cycle']=$cycle;
         if(session('success')){
             Session::forget('success');
             $values['success']=true;
 
         }
+
         return view('admin\addProgram',$values);
 	}
 
@@ -80,9 +90,11 @@ class programmeController extends Controller {
 	{
 	    $this->validate($request,[
 	       'id'=>'required|numeric',
+            'id_cycle'=>'required|numeric',
 
         ]);
 	    $id=$request->input('id');
+        $id_cycle=$request->input('id_cycle');
 	    //$matiereList=implode(',',$request->input('matiere'));
         //$coefList=implode(',',$request->input('coef'));
        // $maxList=implode(',',$request->input('max'));
@@ -90,9 +102,10 @@ class programmeController extends Controller {
         $coefList=$request->input('coef');
         $maxList=$request->input('max');
         $i=0;
-        foreach ($request->input('matiere') as $mat){
+        foreach ($matiereList as $mat){
             $cm=new classeMatiere();
             $cm->id_classe=$id;
+            $cm->id_cycle=$id_cycle;
             $cm->id_matiere=$mat;
             $cm->coef=$coefList[$i];
             $cm->max=$maxList[$i];
@@ -101,9 +114,10 @@ class programmeController extends Controller {
             $i++;
         }
 
-       // DB::insert('INSERT INTO classe_matiere (id_classe,id_matiere,coef,max) VALUES(?,?,?,?) ',[$id,$matiereList,$coefList,$maxList]);
         session(['success'=>true]);
-        return redirect()->action('admin\programmeController@create',[$id]);
+
+        //$request->request->add(['cycle'=>$id_cycle]);
+        return redirect()->to('/admin/programmes/selection-matieres/'.$id.'?cycle='.$id_cycle);
 	}
 
 	/**
@@ -125,7 +139,8 @@ class programmeController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
+
+
 	}
 
 	/**
@@ -134,9 +149,27 @@ class programmeController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(Request $request)
 	{
-		//
+        $this->validate($request,[
+            'id'=>'required|numeric',
+            'id_cycle'=>'required|numeric',
+
+        ]);
+        $id=$request->input('id');
+        $id_cycle=$request->input('id_cycle');
+        $coef=$request->input('coef');
+        $max=$request->input('max');
+
+        $cm=classeMatiere::find($id);
+        $cm->coef=$coef;
+        $cm->max=$max;
+        $cm->save();
+
+        session(['success'=>true]);
+
+        //$request->request->add(['cycle'=>$id_cycle]);
+        return redirect()->to('/admin/programmes/selection-matieres/'. $cm->id_classe.'?cycle='.$id_cycle);
 	}
 
 	/**
@@ -148,10 +181,11 @@ class programmeController extends Controller {
 	public function destroy(Request $request,$id)
 	{
 	    $id_classe=$request->input('id');
+        $id_cycle=$request->input('cycle');
 		$cm=classeMatiere::find($id);
 		$cm->delete();
         session(['success'=>true]);
-        return redirect()->action('admin\programmeController@create',[$id_classe]);
+        return redirect()->to('/admin/programmes/selection-matieres/'.$id_classe);
 	}
 
 }

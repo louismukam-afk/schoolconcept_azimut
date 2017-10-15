@@ -66,6 +66,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/admin/programmes/', 'admin\programmeController@index');
         Route::get('/admin/programmes/selection-matieres/{id}', 'admin\programmeController@create');
         Route::post('/admin/programmes/store/', 'admin\programmeController@store');
+        Route::post('/admin/programmes/update/', 'admin\programmeController@update');
         Route::get('/admin/programmes/destroy/{id}', 'admin\programmeController@destroy');
 
 //routes pour les fonctions
@@ -90,9 +91,9 @@ Route::group(['middleware'=>'auth'],function (){
 
         //pour les taux
         Route::get('/admin/taux/', 'admin\tauxController@index');
-        Route::get('/admin/taux/create/{id}', 'admin\tauxController@create');
+        Route::get('/admin/taux/create/', 'admin\tauxController@create');
         Route::post('/admin/taux/store/', 'admin\tauxController@store');
-
+        Route::get('/admin/taux/destroy/{id}', 'admin\tauxController@destroy');
 
     });
 
@@ -119,26 +120,38 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/inscriptions/payement/list/{id}','inscriptions\payementController@index_liste');
         Route::get('/inscriptions/selection-listes','inscriptions\listesController@index');
         Route::get('/inscriptions/listes/show/{id}','inscriptions\listesController@show');
+        Route::get('/inscriptions/print-certificate/{id}','inscriptions\inscriptionController@certificate');
+
 
     });
 
     Route::group(['middleware'=>'lvl18'],function (){
         //Les élèves
-        Route::get('/eleves/', 'eleves\eleveController@index');
+
         Route::get('/eleves/discipline/', 'eleves\disciplineController@index');
         Route::get('/eleves/discipline/search', 'eleves\disciplineController@search');
         Route::get('/eleves/discipline/show/{id}', 'eleves\disciplineController@create');
         Route::post('/eleves/discipline/update/', 'eleves\disciplineController@update');
 
-        Route::get('/eleves/notes/','eleves\noteController@index');
-        Route::get('/eleves/notes/matieres/{id}','eleves\noteController@matiere');
-        Route::post('/eleves/notes/create/{id}','eleves\noteController@create');
-        Route::post('/eleves/notes/store/','eleves\noteController@store');
+
 
         Route::get('/eleves/bulletins/','eleves\bulletinController@index');
         Route::get('/eleves/bulletins/search/','eleves\bulletinController@index2');
         Route::get('/eleves/bulletins/find/','eleves\bulletinController@search');
         Route::post('/eleves/bulletins/print-single-seq','eleves\bulletinController@print_single_seq');
+
+    });
+    Route::group(['middleware'=>'lvl18.5'],function (){
+        Route::get('/eleves/', 'eleves\eleveController@index');
+        Route::get('/eleves/notes/','eleves\noteController@index2');
+
+        Route::get('/eleves/notes/edit','eleves\noteController@index');
+        Route::get('/eleves/notes/show','eleves\noteController@show');
+        Route::any('/eleves/notes/print_note/{id}','eleves\noteController@print_note');
+        Route::get('/eleves/notes/matieres/{id}','eleves\noteController@matiere');
+        Route::get('/eleves/notes/matieres/show/{id}','eleves\noteController@matiere_show');
+        Route::post('/eleves/notes/create/{id}','eleves\noteController@create');
+        Route::post('/eleves/notes/store/','eleves\noteController@store');
 
     });
 
@@ -180,25 +193,32 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/personnel/titulaire/store', 'personnel\titulaireController@store');
         Route::post('/personnel/titulaire/update', 'personnel\titulaireController@update');
 
-//pour les présences , abscences et retards
+//pour les  abscences et retards
         Route::get('/personnel/discipline/', 'personnel\disciplineController@index');
         Route::get('/personnel/discipline/destroy/{id_p}/{id}', 'personnel\disciplineController@destroy');
         Route::get('/personnel/discipline/{id}', 'personnel\disciplineController@show');
 
         Route::post('/personnel/discipline/store', 'personnel\disciplineController@store');
 
+    //pour les présences
+        Route::get('/personnel/heures-effectuees/', 'personnel\presenceController@index');
+        Route::get('/personnel/heures-effectuees/{id}', 'personnel\presenceController@create');
+        Route::post('/personnel/heures-effectuees/update/{id}', 'personnel\presenceController@update');
 
     });
 
-    //pour la comptabilite
-    Route::get('/comptabilite/', 'comptabilite\comptabiliteController@index');
-            // les décaissements
-    Route::get('/admin/retrait/','admin\decaissementController@index');
-    Route::post('/admin/retrait/store','admin\decaissementController@store');
-         // le payement des salaires
-    Route::get('/comptabilite/payement-salaire/','comptabilite\payementController@index');
-    Route::get('/comptabilite/payement-salaire/create/{id}','comptabilite\payementController@create');
-    Route::post('/comptabilite/payement-salaire/store/','comptabilite\payementController@store');
+    Route::group(['middleware'=>'lvl16'],function (){
+        //pour la comptabilite
+        Route::get('/comptabilite/', 'comptabilite\comptabiliteController@index');
+        // les décaissements
+        Route::get('/admin/retrait/','admin\decaissementController@index');
+        Route::post('/admin/retrait/store','admin\decaissementController@store');
+        // le payement des salaires
+        Route::get('/comptabilite/payement-salaire/','comptabilite\payementController@index');
+        Route::get('/comptabilite/payement-salaire/create/{id}','comptabilite\payementController@create');
+        Route::post('/comptabilite/payement-salaire/store/','comptabilite\payementController@store');
+    });
+
 
 
 
@@ -209,11 +229,9 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('/search/personnel', 'searchController@personnel');
     Route::get('/search/eleve', 'searchController@eleve');
 
-
-
-
-
-
+    //Pour la langue
+    Route::get('/language/french', 'WelcomeController@fr_locale');
+    Route::get('/language/english','WelcomeController@en_locale');
 
 
 

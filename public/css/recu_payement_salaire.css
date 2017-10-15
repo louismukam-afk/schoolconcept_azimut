@@ -31,12 +31,7 @@ p
 }
 
 
-.titre-salaire{
-    margin-top: 50px;
-    text-align: center;
-    font-size: 25px;
 
-}
 .traduction
 {
     -webkit-print-color-adjust:exact;
@@ -44,34 +39,36 @@ p
     color: grey !important;
 }
 
-.titre-salaire .traduction{
-
-    font-size: 15px !important;
-
+.titre
+{
+    margin-top: 30px;
+    text-align: center;
 }
-
-
-.body-salaire{
-    margin: 10%;
-}
-.fait-le{
-    background-color: grey;
-}
-.signature{
-    float: right;
-}
-.numero-container{
+.content-mois{
     position: relative;
-
+    margin-top: 20px;
+    height: 100px;
 }
-.numero{
+.mois{
+    padding-top: 32px;
+    height: inherit;
     position: absolute;
-    margin-right: 10%;
     right: 0;
-    font-size: 18px;
-    color: indianred;
+    text-align: center;
+    width: 250px;
+    border: solid 2px;
+    border-radius: 4px;
 }
-
+.identite{
+    margin-left: 30px;
+    margin-top: 15px;
+}
+.table > tr{
+    height: 5mm;
+}
+table{
+    font-size: 10px;
+}
 
 
 
@@ -88,51 +85,52 @@ p
         display: none;
     }
 
-    .titre-salaire{
-        text-align: center;
-        margin-top: 50px;
-        font-size: 25px;
 
-    }
-    .body-salaire{
-        margin: 10%;
-    }
     .traduction
     {
         -webkit-print-color-adjust:exact;
         font-size: 10px !important;
         color: grey !important;
     }
-    .titre-salaire .traduction{
-
-        font-size: 15px !important;
-
-    }
-    .fait-le{
-        -webkit-print-color-adjust:exact;
-
-        background-color: grey !important;
-    }
-    .signature{
-        float: right;
-    }
-
-    .numero-container{
-        position: relative;
-
-    }
-    .numero{
-        -webkit-print-color-adjust:exact;
-        position: absolute;
-        margin-right: 10%;
-        right: 0;
-        font-size: 18px;
-        color: indianred !important;
-    }
 
     p
     {
+        padding: 0;
         margin: 0;
+    }
+
+
+    .titre
+    {
+        margin-top: 10mm;
+        text-align: center;
+    }
+
+
+    .content-mois{
+        position: relative;
+        margin-top: 20px;
+        height: 100px;
+    }
+    .mois{
+        padding-top: 32px;
+        text-align: center;
+        height: inherit;
+        position: absolute;
+        right: 0;
+        width: 250px;
+        border: solid 2px;
+        border-radius: 4px;
+
+    }
+
+    .identite{
+        margin-left: 30px;
+        margin-top: 15px;
+    }
+
+    table{
+        font-size: 12px;
     }
 
 

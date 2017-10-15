@@ -39,14 +39,18 @@ class startController extends Controller {
 	public function store(Request $request)
 	{
 		$this->validate($request,[
+
             'nom'=>'required',
-            'initiales'=>'required|max:2|min:2',
+            'nom_directeur'=>'required',
+            'initiales'=>'required|min:2',
             'adresse'=>'required',
             'numero'=>'required',
             'annee_scolaire'=>'required|max:9|min:9',
+            'logo'=>'image',
         ]);
 
 		$nom_e=parametres::firstOrNew(['nom'=>'nom_etablissement']);
+		$nom_d=parametres::firstOrNew(['nom'=>'nom_directeur']);
         $annee=parametres::firstOrNew(['nom'=>'annee_scolaire']);
         $initiales=parametres::firstOrNew(['nom'=>'initiales_etablissement']);
         $numero=parametres::firstOrNew(['nom'=>'telephone']);
@@ -54,6 +58,10 @@ class startController extends Controller {
 
         $nom_e->valeur=$request->input('nom');
         $nom_e->save();
+
+        $nom_d->valeur=$request->input('nom_directeur');
+        $nom_d->save();
+
 
         $annee->valeur=$request->input('annee_scolaire');
         $annee->save();
@@ -74,7 +82,8 @@ class startController extends Controller {
         $web->save();
 
         $img=$request->file('logo');
-        Image::make($img->getRealPath())->save('img/logo.png');
+        if ($img!=null)
+            Image::make($img->getRealPath())->save('img/logo.png');
 
         $email->valeur=$request->input('email');
         $email->save();

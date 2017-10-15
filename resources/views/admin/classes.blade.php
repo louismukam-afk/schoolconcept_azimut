@@ -1,6 +1,6 @@
 @extends('skeleton')
 @section('sub-content')
-    <div class="col-md-9">
+    <div class="col-md-10">
         @if(isset($success))
 
             <div class="alert alert-success">
@@ -16,6 +16,7 @@
             <th>Code</th>
             <th>{{  trans('admin.nom')  }}</th>
             <th>{{  trans('admin.nom_anglais')  }}</th>
+            <th>Cycle</th>
             <th>{{  trans('admin.level')  }}</th>
             <th>{{  trans('admin.size')  }}</th>
             </thead>
@@ -27,6 +28,14 @@
                     <td>{{$c->code}}</td>
                     <td><strong >{{$c->nom}}</strong></td>
                     <td>{{$c->nom_anglais}}</td>
+                    <td>
+                        @foreach($cycles as $cy)
+                            @if($cy->id == $c->id_cycle)
+                                {{  $cy->nom  }}
+                                <?php break; ?>
+                            @endif
+                        @endforeach
+                    </td>
                     <td>
                         @foreach($niveaux as $n)
                             @if($n->id == $c->id_niveau)
@@ -40,7 +49,7 @@
                         <div class="btn-group">
                             <a href="#" class=" btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a style="color: white" title="Modifier les informations" class="btn-primary"  data-toggle="modal" data-backdrop="false" href="#edit_classe" onclick="editer_classe({{$c->id}},'{{$c->code}}',{{$c->id_niveau}},{{$c->capacite}},'{{$c->nom}}','{{$c->nom_anglais}}')"><span class="glyphicon glyphicon-pencil"  ></span> {{  trans('admin.edit')  }}</a></li>
+                                <li><a style="color: white" title="Modifier les informations" class="btn-primary"  data-toggle="modal" data-backdrop="false" href="#edit_classe" onclick="editer_classe({{$c->id}},{{$c->id_cycle}},'{{$c->code}}',{{$c->id_niveau}},{{$c->capacite}},'{{$c->nom}}','{{$c->nom_anglais}}')"><span class="glyphicon glyphicon-pencil"  ></span> {{  trans('admin.edit')  }}</a></li>
                                 <li><a style="color: white" href="{{ URL::to('/admin/classes/destroy/').'/'.$c->id }}"   class="btn-danger"><span class="glyphicon glyphicon-trash"></span> {{  trans('admin.del')  }}</a></li>
                             </ul>
                         </div>
@@ -65,6 +74,15 @@
                         <form accept-charset="UTF-8" role="form" method="POST" id="add_level_form" action="{{ url('/admin/classes/store/') }}">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <fieldset>
+                                <div class="form-group">
+                                    <label >{{  trans('admin.choose_cycle')  }} : </label>
+                                    <select id="cycle" name="cycle" form="add_level_form" class="form-control">
+
+                                        @foreach($cycles as $n)
+                                            <option value="{{  $n->id  }}" @if($n->id == old('cycle')) selected @endif>{{  $n->nom  }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                                 <div class="form-group">
                                     <label for="niveau">{{  trans('admin.choose_level')  }} : <span class="required">*</span></label>
                                     <select id="niveau" name="niveau" form="add_level_form" class="form-control">
@@ -130,6 +148,15 @@
                                 <input type="hidden" name="id" id="edit_id_classe" value=""/>
                                 <fieldset>
                                     <div class="form-group">
+                                        <label >{{  trans('admin.choose_cycle')  }} : </label>
+                                        <select id="edit_cycle" name="cycle" form="edit_classes_form" class="form-control">
+
+                                            @foreach($cycles as $n)
+                                                <option value="{{  $n->id  }}" @if($n->id == old('cycle')) selected @endif>{{  $n->nom  }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
                                         <label for="niveau">{{  trans('admin.choose_level')  }} : <span class="required">*</span></label>
                                         <select id="edit_niveau" name="niveau" form="edit_classes_form" class="form-control">
                                             @foreach($niveaux as $n)
@@ -181,10 +208,11 @@
     </div>
 
     <script>
-        function editer_classe(id,code,niveau,capacite,nom,nom_anglais)
+        function editer_classe(id,id_cycle,code,niveau,capacite,nom,nom_anglais)
         {
 
             document.getElementById("edit_id_classe").value = id;
+            document.getElementById("edit_cycle").value = id_cycle;
             document.getElementById("edit_code").value = code;
             document.getElementById("edit_nom").value = nom;
             document.getElementById("edit_capacite").value = capacite;

@@ -161,7 +161,9 @@ class inscriptionController extends Controller {
 
            $m = $req->input('matricule');
            if ($m != null) {
-
+               $e = eleve::find($id_eleve);
+               $e->matricule=$m;
+               $e->save();
            } else{
                $e = eleve::find($id_eleve);
                $c = classe::find($id_classe);
@@ -227,6 +229,33 @@ class inscriptionController extends Controller {
         $values['nom_etablissement']=$nom_e;
 
         return view('inscriptions\imprimer_recu',$values);
+
+    }
+
+    public function certificate($id){
+	    $e=eleve::find($id);
+        $i=inscription::whereAnneeScolaire(session('year'))->where('id_eleve',$id,false)->first();
+        $values['inscription']=$i;
+        if($i!=null){
+            $cy=cycle::find($i->id_cycle);
+            $c=classe::find($i->id_classe);
+            $n=niveau::find($c->id_niveau);
+            $pa=parametres::all();
+            $pa1=$pa->where('nom','nom_etablissement',false)->first();
+            $pa2=$pa->where('nom','nom_directeur',false)->first();
+            $nom_e=$pa1->valeur;
+            $nom_d=$pa2->valeur;
+            $values['cycle']=$cy;
+            $values['classe']=$c;
+            $values['eleve']=$e;
+            $values['niveau']=$n;
+            $values['nom_etablissement']=$nom_e;
+            $values['nom_directeur']=$nom_d;
+
+        }
+
+
+        return view('inscriptions\print_certificate',$values);
 
     }
 

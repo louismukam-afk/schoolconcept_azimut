@@ -1,23 +1,16 @@
-<html>
-    <head>
-        <title>Printing</title>
-        <link href="{{ URL::asset('css/bootstrap.css')  }}" rel="stylesheet" media="screen"/>
-        <!-- FONTAWESOME STYLES-->
-        <link href="{{ URL::asset('css/font-awesome.css')  }}" rel="stylesheet" />
-        <!-- CUSTOM STYLES-->
-        <link href="{{ URL::asset('css/custom.css')  }}" rel="stylesheet" media="screen"/>
-        <link href="{{ URL::asset('css/print.css')  }}" rel="stylesheet" media="print"/>
-    </head>
+@extends('index')
+@section('content')
 
-    <body onload="window.print()">
+    <a href="" onclick="window.print()"  class="btn btn-lg btn-warning">@lang('inscription.imprimer')</a>
+    <link href="{{ URL::asset('css/print.css')  }}" rel="stylesheet" media="print"/>
 
-
-    <div class="recu col-md-8">
+    <div class="recu col-md-12">
         <div class="back">
             <a href="{{URL::to('/inscriptions')}}" style="font-size: 17px"><< {{trans('inscription.retour_ins')}}</a>
         </div>
         @include('perso.header')
         <div class="panel panel-info">
+
             <div class="panel-heading">
                 <h3 class="panel-title">RECU DE PAYEMENT DES FRAIS D'INSCRIPTION</h3>
                 <div class="traduction">REGISTRATION FEES PAYMENT RECEIPT</div>
@@ -71,5 +64,4 @@
         </div>
     </div>
 
-    </body>
-</html>
+@endsection

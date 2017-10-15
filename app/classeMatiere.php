@@ -16,12 +16,14 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereIdClasse($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereIdMatiere($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereMax($value)
+ * @property int $id_cycle
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereIdCycle($value)
  */
 class classeMatiere extends Model {
 
     protected  $table='classe_matiere';
 
-    public $fillable=['id_classe','id_matiere','coef','max',];
+    public $fillable=['id_cycle','id_classe','id_matiere','coef','max',];
 
 
     public $timestamps=false;

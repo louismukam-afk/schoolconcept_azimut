@@ -4,7 +4,7 @@ use gesecole\fonction;
 use gesecole\fonction_personnel;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
-
+use Illuminate\Support\Facades\Session;
 use gesecole\parametres;
 use gesecole\personnel;
 use Illuminate\Http\Request;
