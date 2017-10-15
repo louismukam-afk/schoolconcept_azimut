@@ -4,12 +4,27 @@
     <hr>
     <div class="liste-classe col-md-12">
         <ul>
-            @foreach($cycles as $cy)
-                <h4 class="page-header col-md-12">{{$cy->nom}}</h4>
-                @foreach($classes as $c)
-                    <li class="col-md-4"><a href="{{URL::to('/eleves/notes/matieres/'.$c->id.'?cycle='.$cy->id)}}">{{$c->nom}}</a></li>
+
+
+                @foreach($cycles as $cy)
+                    <h3 class="page-header col-md-12">{{$cy->nom}}</h3>
+
+                    @foreach($niveaux as $n)
+                        <div class="col-md-6">
+                            <h4 class="page-header"> {{$n->nom.'/'.$n->nom_anglais}}</h4>
+
+                            @foreach($classes as $c)
+                                <div class="col-md-12">
+                                    @if($c->id_cycle==$cy->id && $c->id_niveau==$n->id)
+                                        <li class="col-md-12"><a href="{{URL::to('/eleves/notes/matieres/'.$c->id.'?cycle='.$cy->id)}}">{{$c->nom}}</a></li>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+                    @endforeach
+
                 @endforeach
-            @endforeach
+
 
         </ul>
     </div>

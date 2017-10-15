@@ -2,7 +2,7 @@
 return [
     'big_title'=>'Students and notes management',
     'titre_discipline'=>'Discipline',
-    'sequence'=>'Sequence',
+    'sequence'=>'Session',
     'retard'=>'Delays',
     'abscence'=>'Abscences',
     'abscence_j'=>'Justified Abscences',
@@ -14,7 +14,7 @@ return [
     'jour'=>'Days',
     'choix_classe'=>'Choose speciality',
     'etat_discipline'=>'Discplinary state of',
-    'choix_seq'=>'Choose sequence',
+    'choix_seq'=>'Choose session',
     'choix_mat'=>'Choisir subject',
     'gerer_notes'=>'Manage notes of',
     'none'=>'No students in this specialty',

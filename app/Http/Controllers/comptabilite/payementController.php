@@ -45,7 +45,7 @@ class payementController extends Controller {
 
     public function index()
 	{
-	    \session(['success'=>16]);
+	   // \session(['success'=>16]);
         $titre=trans('admin.search_personnel');
         $values= array('titre'=>$titre);
         if(session('success')){

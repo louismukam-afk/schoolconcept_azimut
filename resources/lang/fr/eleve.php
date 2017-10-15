@@ -2,7 +2,7 @@
 return [
     'big_title'=>'Gestion des élèves et des notes',
     'titre_discipline'=>'Discipline',
-    'sequence'=>'Séquence',
+    'sequence'=>'Session',
     'retard'=>'Retards',
     'abscence'=>'Abscences',
     'abscence_j'=>'Abscences justifiées',
@@ -14,7 +14,7 @@ return [
     'jour'=>'Jours',
     'choix_classe'=>'Choisir la Spécialité',
     'etat_discipline'=>'Etat disciplinaire de',
-    'choix_seq'=>'Choisir la séquence',
+    'choix_seq'=>'Choisir la Session',
     'choix_mat'=>'Choisir la matière',
     'gerer_notes'=>'Gérer les notes de',
     'none'=>'Aucun élève dans cette spécialité',

@@ -66,6 +66,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/admin/programmes/', 'admin\programmeController@index');
         Route::get('/admin/programmes/selection-matieres/{id}', 'admin\programmeController@create');
         Route::post('/admin/programmes/store/', 'admin\programmeController@store');
+        Route::post('/admin/programmes/update/', 'admin\programmeController@update');
         Route::get('/admin/programmes/destroy/{id}', 'admin\programmeController@destroy');
 
 //routes pour les fonctions
@@ -132,8 +133,13 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/eleves/discipline/show/{id}', 'eleves\disciplineController@create');
         Route::post('/eleves/discipline/update/', 'eleves\disciplineController@update');
 
-        Route::get('/eleves/notes/','eleves\noteController@index');
+        Route::get('/eleves/notes/','eleves\noteController@index2');
+
+        Route::get('/eleves/notes/edit','eleves\noteController@index');
+        Route::get('/eleves/notes/show','eleves\noteController@show');
+        Route::post('/eleves/notes/print_note/{id}','eleves\noteController@print_note');
         Route::get('/eleves/notes/matieres/{id}','eleves\noteController@matiere');
+        Route::get('/eleves/notes/matieres/show/{id}','eleves\noteController@matiere_show');
         Route::post('/eleves/notes/create/{id}','eleves\noteController@create');
         Route::post('/eleves/notes/store/','eleves\noteController@store');
 

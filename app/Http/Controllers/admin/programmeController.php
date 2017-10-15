@@ -65,7 +65,7 @@ class programmeController extends Controller {
 	    $c=classe::find($id);
 	    $cycle= $request->input('cycle');
         $titre=trans('admin.programme');
-        $p=DB::select('SELECT cm.id,cm.id_matiere,m.nom_anglais,m.nom as nom_matiere,coef,max FROM classe_matiere cm, matiere m ,classe c WHERE cm.id_classe=c.id AND cm.id_matiere=m.id And c.id=?  AND cm.id_cycle=?',[$id,$cycle]);
+        $p=DB::select('SELECT cm.id,cm.id_matiere,cm.id_cycle,m.nom_anglais,m.nom as nom_matiere,coef,max FROM classe_matiere cm, matiere m ,classe c WHERE cm.id_classe=c.id AND cm.id_matiere=m.id And c.id=?  AND cm.id_cycle=?',[$id,$cycle]);
         $m=DB::select('select m.id,m.nom,m.nom_anglais FROM matiere m WHERE  m.id NOT IN (SELECT cm.id_matiere FROM classe_matiere cm WHERE cm.id_classe=?  AND cm.id_cycle=?)',[$id,$cycle]);
 
         $values= array('titre'=>$titre,'programmes'=>$p);
@@ -116,7 +116,7 @@ class programmeController extends Controller {
 
         session(['success'=>true]);
 
-        $request->request->add(['cycle'=>$id_cycle]);
+        //$request->request->add(['cycle'=>$id_cycle]);
         return redirect()->to('/admin/programmes/selection-matieres/'.$id.'?cycle='.$id_cycle);
 	}
 
@@ -139,7 +139,8 @@ class programmeController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
+
+
 	}
 
 	/**
@@ -148,9 +149,27 @@ class programmeController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(Request $request)
 	{
-		//
+        $this->validate($request,[
+            'id'=>'required|numeric',
+            'id_cycle'=>'required|numeric',
+
+        ]);
+        $id=$request->input('id');
+        $id_cycle=$request->input('id_cycle');
+        $coef=$request->input('coef');
+        $max=$request->input('max');
+
+        $cm=classeMatiere::find($id);
+        $cm->coef=$coef;
+        $cm->max=$max;
+        $cm->save();
+
+        session(['success'=>true]);
+
+        //$request->request->add(['cycle'=>$id_cycle]);
+        return redirect()->to('/admin/programmes/selection-matieres/'. $cm->id_classe.'?cycle='.$id_cycle);
 	}
 
 	/**
@@ -166,7 +185,7 @@ class programmeController extends Controller {
 		$cm=classeMatiere::find($id);
 		$cm->delete();
         session(['success'=>true]);
-        return redirect()->to('/admin/programmes/selection-matieres/'.$id_classe.'?cycle='.$id_cycle);
+        return redirect()->to('/admin/programmes/selection-matieres/'.$id_classe);
 	}
 
 }

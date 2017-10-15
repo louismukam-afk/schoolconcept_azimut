@@ -40,12 +40,17 @@
                             <div class="form-group">
                                 <label for="niveau">{{  trans('eleve.choix_seq')  }} : </label>
                                 <select  name="sequence" form="choix_seq_form" class="form-control" >
-                                    <option value="1">Séquence 1</option>
-                                    <option value="2">Séquence 2</option>
-                                    <option value="3">Séquence 3</option>
-                                    <option value="4">Séquence 4</option>
-                                    <option value="5">Séquence 5</option>
-                                    <option value="6">Séquence 6</option>
+                                <optgroup label="@lang('admin.semestre') 1">
+                                    <option value="1">CC</option>
+                                    <option value="3">@lang('admin.session_normale')</option>
+                                    <option value="5">@lang('admin.rattrapage')</option>
+                                </optgroup>
+                                    <optgroup label="@lang('admin.semestre') 2">
+                                        <option value="2">CC</option>
+                                        <option value="4">@lang('admin.session_normale')</option>
+                                        <option value="6">@lang('admin.rattrapage')</option>
+                                    </optgroup>
+
                                 </select>
                             </div>
 

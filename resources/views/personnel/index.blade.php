@@ -38,7 +38,7 @@
 
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6" >
             <div class="div-square">
-                <a href="{{URL::to('/personnel/heures-realisees/')}}" >
+                <a href="{{URL::to('/personnel/heures-effectuees/')}}" >
                     <i class="fa fa-5x fa-check-circle"></i>
                     <h4>{{trans('admin.compte_heure')}}</h4>
                 </a>

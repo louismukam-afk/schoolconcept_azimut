@@ -2,6 +2,7 @@
 
 use Closure;
 use Illuminate\Contracts\Routing\Middleware;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Cookie;
 use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Session\TokenMismatchException;
@@ -42,8 +43,8 @@ class VerifyCsrfToken implements Middleware {
 		{
 			return $this->addCookieToResponse($request, $next($request));
 		}
-
-		throw new TokenMismatchException;
+        Auth::logout();
+		return redirect()->to('auth/login')->withErrors(['expired'=>trans('admin.session_expired')]);
 	}
 
 	/**

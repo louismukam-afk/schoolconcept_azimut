@@ -36,9 +36,11 @@
 {
     font-size: 11px;
 }
-.tr
-{
-    height:20px;
+.table tbody tr,.table tbody tr td{
+    padding-top: 0;
+    padding-bottom: 0;
+    height: 12px;
+
 }
 .copy
 {

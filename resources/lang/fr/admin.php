@@ -200,4 +200,15 @@ return [
     'autre_retenues'=>'Autres_retenues',
     'nom_directeur'=>'Nom complet du directeur de l\'établissement',
 
+    ////
+    ///
+    "afficher"=>"Afficher",
+    "session_normale"=>"Session normale",
+    "rattrapage"=>"Rattrapage",
+    "semestre"=>"Semestre",
+    "PV"=>"Procès verbal",
+    "PVA"=>"Procès verbal annuel",
+    "no_cc"=>"Il n'ya pas de note de CC  en  :matiere pour ce semestre",
+    "no_note"=>"Il n'ya pas de note de CC ou de session normale  en  :matiere pour ce semestre",
+    "session_expired"=>"La session a expiré ! Essayer de vous reconnecter."
 ];

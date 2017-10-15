@@ -189,11 +189,11 @@ return [
     'mois10'=>'October',
     'mois11'=>'November',
     'mois12'=>'Décember',
-    'primes'=>'Primes',
-    'cas_socials'=>'Cas socials',
-    'acomptes'=>'Acomptes',
-    'assurances'=>'Assurances',
-    'autre_retenues'=>'Autres_retenues',
+    'primes'=>'Premium',
+    'cas_socials'=>'Sociales cases',
+    'acomptes'=>'Advance payment',
+    'assurances'=>'Insurances',
+    'autre_retenues'=>'Other deduction',
     'nom_directeur'=>'Full name of the director',
 
 

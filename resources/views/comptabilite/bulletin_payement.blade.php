@@ -32,7 +32,7 @@
          <th></th>
          <th></th>
          <th><p><strong>GAIN</strong></p><strong class="traduction">GAIN</strong></th>
-         <th><p><strong>RETENU</strong></p><strong class="traduction">RETENU</strong></th>
+         <th><p><strong>RETENU</strong></p><strong class="traduction">DETENTION</strong></th>
          </thead>
          <tbody>
              <tr>
@@ -48,7 +48,7 @@
                  <td></td>
              </tr>
              <tr>
-                 <td><p><strong>SOLDE MENSUEL</strong></p><strong class="traduction">MONTHLY CASH AMOUNT</strong></td>
+                 <td><p><strong>SOLDE MENSUEL</strong></p><strong class="traduction">MONTHLY BALANCE</strong></td>
                  <td></td>
                  <td>{{$payement->taux*$payement->heure_realise.' '.trans('inscription.devise')}}</td>
                  <td></td>
@@ -60,13 +60,13 @@
                  <td></td>
              </tr>
              <tr>
-                 <td><p><strong>PRIMES</strong></p><strong class="traduction"></strong></td>
+                 <td><p><strong>PRIMES</strong></p><strong class="traduction">PREMIUM</strong></td>
                  <td></td>
                  <td>{{$payement->primes.' '.trans('inscription.devise')}}</td>
                  <td></td>
              </tr>
              <tr>
-                 <td><p><strong>ACCOMPTES</strong></p><strong class="traduction"></strong></td>
+                 <td><p><strong>ACCOMPTES</strong></p><strong class="traduction">ADVANCE PAYEMENT</strong></td>
                  <td></td>
                  <td></td>
                  <td>{{$payement->acomptes.' '.trans('inscription.devise')}}</td>
@@ -90,7 +90,7 @@
                  <td>{{$payement->assurances.' '.trans('inscription.devise')}}</td>
              </tr>
              <tr>
-                 <td><p><strong>AUTRES RETENUES</strong></p><strong class="traduction"></strong></td>
+                 <td><p><strong>AUTRES RETENUES</strong></p><strong class="traduction">OTHER DEDUCTION</strong></td>
                  <td></td>
                  <td></td>
                  <td>{{$payement->autre_retenues.' '.trans('inscription.devise')}}</td>
@@ -102,7 +102,7 @@
                  <td>{{$payement->acomptes+$payement->cnss+$payement->cas_sociales+$payement->assurances+$payement->autre_retenues.' '.trans('inscription.devise')}}</td>
              </tr>
          <tr>
-             <td><p><strong>NET A PAYER</strong></p><strong class="traduction">EXACT SUM TO BUY</strong></td>
+             <td><p><strong>NET A PAYER</strong></p><strong class="traduction">NET TO PAY</strong></td>
              <td>{{$payement->net_a_payer.' '.trans('inscription.devise')}}</td>
          </tr>
          </tbody>

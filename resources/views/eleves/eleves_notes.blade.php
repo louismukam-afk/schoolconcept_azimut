@@ -10,18 +10,19 @@
             <input type="hidden" name="id_classe" value="{{ $id_classe }}">
             <input type="hidden" name="cycle" value="{{ $id_cycle }}">
 
+
             <fieldset>
                 <?php $i=0; ?>
                 @foreach($eleves as $e)
                     <div class="row" col-md-10>
 
                         <div class="form-group col-md-6 ">
-                            <input type="checkbox" name="eleve[]" value="{{$e->id}}" onchange="onCheckedChange(this,'note{{$i}}')" checked tabindex="-1">
+                            <input type="checkbox" name="eleve[]" value="{{$e->id}}" onchange="onCheckedChange(this,'note{{$i}}')" @if($sequence!=5 && $sequence!=6) checked @endif tabindex="-1">
                             <label >{{ $e->nom.' '.$e->prenom  }} : </label>
                         </div>
                         <div class="form-group col-md-4 row">
                             <div class="input-group">
-                                <input type="number" id="note{{$i}}" name="note[]" step="0.05"  class="form-control"
+                                <input type="number" id="note{{$i}}" name="note[]" step="0.05" @if($sequence==5 || $sequence==6) disabled @endif  class="form-control"
                                        @foreach($notes as $n)
                                         @if($n->id_eleve==$e->id)
                                        value="{{$n->note}}"
