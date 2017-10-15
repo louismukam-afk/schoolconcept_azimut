@@ -210,5 +210,10 @@ return [
     "PVA"=>"Procès verbal annuel",
     "no_cc"=>"Il n'ya pas de note de CC  en  :matiere pour ce semestre",
     "no_note"=>"Il n'ya pas de note de CC ou de session normale  en  :matiere pour ce semestre",
-    "session_expired"=>"La session a expiré ! Essayer de vous reconnecter."
+    "session_expired"=>"La session a expiré ! Essayer de vous reconnecter.",
+    "bilan_annuel"=>"Bilan annuel",
+    "admis"=>"Admis(e)",
+    "echec"=>"Echec",
+    "enseignant"=>"Enseignant",
+    "no_modification"=>"Vous n'etes pas enseignant en :matiere dans cette spécialité"
 ];

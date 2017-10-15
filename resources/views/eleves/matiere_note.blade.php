@@ -8,6 +8,13 @@
             </div>
 
         @endif
+            @if(isset($erreur))
+
+                <div class="alert alert-danger">
+                    {{  $erreur  }}
+                </div>
+
+            @endif
     <h4>{{trans('eleve.choix_mat')}}</h4>
     <hr>
     <div class="liste-classe col-md-9">

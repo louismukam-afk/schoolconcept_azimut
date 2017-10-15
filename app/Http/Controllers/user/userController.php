@@ -2,6 +2,7 @@
 
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
+use gesecole\personnel;
 use gesecole\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
@@ -40,7 +41,10 @@ class userController extends Controller {
 		else
             $u=User::where('role','>','0')->orderBy('created_at','desc')->paginate(30);
 
+		$p=personnel::orderBy('nom')->get();
+
         $values['utilisateurs']=$u;
+        $values['personnels']=$p;
         if(session('success')){
             Session::forget('success');
             $values['success']=true;
@@ -56,9 +60,19 @@ class userController extends Controller {
     public function activate(Request $request)
     {
 
+        $this->validate($request,[
+           'id'=>'required|numeric',
+            'role'=>'required|numeric',
+            'personnel'=>'required|numeric',
+        ]);
         $u=User::find($request->input('id'));
         $u->active=1;
-        $u->role=$request->input('role');
+        $role=$request->input('role');
+        $personnel=$request->input('personnel');
+        if($personnel!=0){
+            $u->id_personnel=$personnel;
+        }
+        $u->role=$role;
         $u->save();
         session(['success'=>true]);
         return redirect()->action('user\userController@index');
@@ -68,6 +82,7 @@ class userController extends Controller {
     {
         $u=User::find($id);
         $u->active=0;
+        $u->id_personnel=null;
         $u->save();
         session(['success'=>true]);
 

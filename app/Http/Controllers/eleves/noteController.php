@@ -3,10 +3,12 @@
 use gesecole\classe;
 use gesecole\classeMatiere;
 use gesecole\cycle;
+use gesecole\dispense;
 use gesecole\eleve;
 use gesecole\niveau;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use gesecole\matiere;
 use gesecole\note;
@@ -81,6 +83,10 @@ class noteController extends Controller {
             $values['success']=session('success');
             Session::forget('success');
         }
+        if(session('erreur')){
+            $values['erreur']=session('erreur');
+            Session::forget('erreur');
+        }
         $values['matieres']=$m;
         $values['id']=$id;
         $values['id_cycle']=$id_cycle;
@@ -114,10 +120,25 @@ class noteController extends Controller {
             'cycle'=>'required|numeric',
         ]);
 
+
         $values= array('titre'=>'Notes');
         $sequence=$request->input('sequence');
         $id_m=$request->input('id');
         $id_cycle=$request->input('cycle');
+
+        $user=Auth::user();
+        if($user->role==18.5){
+            $d=dispense::whereAnneeScolaire(\session('year'))
+                ->where('id_personnel','=',$user->id_personnel)
+                ->where('id_matiere','=',$id_m)
+                ->where('id_classe','=',$id)
+                ->first();
+            if($d==null){
+                $mat=matiere::find($id_m);
+                session(['erreur'=>trans('admin.no_modification',['matiere'=>$mat->nom.'('.$mat->nom_anglais.')'])]);
+                return redirect()->to('/eleves/notes/matieres/'.$id.'?cycle='.$id_cycle);
+            }
+        }
 
         $mat=matiere::find($id_m);
         $cm=classeMatiere::whereIdClasse($id)->where('id_matiere','=',$id_m)->where('id_cycle','=',$id_cycle)->first();
@@ -289,8 +310,8 @@ class noteController extends Controller {
 
             $e = DB::select('SELECT e.* FROM eleve e,inscription i WHERE i.annee_scolaire=? AND i.id_classe=? AND i.id_eleve=e.id AND i.id_cycle=? ORDER BY e.nom,e.prenom', [session('year'), $id, $id_cycle]);
             $j=0;
+            $matieres=array();
             foreach ($e as $el){
-                $matieres=array();
                 $id_eleves[$j]=$el->id;
                 $j++;
             }
@@ -385,6 +406,160 @@ class noteController extends Controller {
 
             return view('eleves\print_pv', $values);
 
+        }
+        if($sequence==9) {
+                $semestre=array(1,2);
+                $sn=array(3,4);
+                $cc=array(1,2);
+                $rattrap=array(5,6);
+                $sequences_pv=array(1,2,3,4,5,6);
+
+
+            $e = DB::select('SELECT e.* FROM eleve e,inscription i WHERE i.annee_scolaire=? AND i.id_classe=? AND i.id_eleve=e.id AND i.id_cycle=? ORDER BY e.nom,e.prenom', [session('year'), $id, $id_cycle]);
+            $j=0;
+            $matieres=array();
+            foreach ($e as $el){
+                $id_eleves[$j]=$el->id;
+                $j++;
+            }
+            $n_rattrap = note::whereAnneeScolaire(session('year'))
+                ->whereIn('sequence',$rattrap)
+                ->whereIn('id_eleve',$id_eleves)
+                ->get();
+            $n_sn = note::whereAnneeScolaire(session('year'))
+                ->whereIn('sequence',$sn)
+                ->whereIn('id_eleve',$id_eleves)
+                ->get();
+            $n_cc = note::whereAnneeScolaire(session('year'))
+                ->whereIn('sequence',$cc)
+                ->whereIn('id_eleve',$id_eleves)
+                ->get();
+            $notes_sequences_pv=note::whereAnneeScolaire(\session('year'))
+                ->whereIn('id_eleve',$id_eleves)
+                ->whereIn('sequence',$sequences_pv)
+                ->get();
+
+
+            $matieres_pv=$notes_sequences_pv->fetch('id_matiere')->toArray();
+            $sCoef=0;
+            $cm = classeMatiere::whereIdClasse($id)->get();
+            foreach ($cm as $entry){
+                $sCoef+=$entry->coef;
+            }
+            $matiere_list=$cm->fetch('id_matiere')->toArray();
+            $m=matiere::whereIn('id',$matiere_list)->whereIn('id',$matieres_pv)->get();
+
+            $k=0;
+            foreach($e as $eleve){
+
+                $l=0;
+                $sNote=0;
+                foreach ($m as $matiere){
+
+
+                    $credit=$cm->where('id_matiere',$matiere->id)
+                        ->first()
+                        ->coef;
+                    $note_cc1=$n_cc->where('id_matiere',$matiere->id,false)
+                        ->where('id_eleve',$eleve->id,false)
+                        ->where('sequence',1,false)
+                        ->first();
+                    $note_cc2=$n_cc->where('id_matiere',$matiere->id,false)
+                        ->where('id_eleve',$eleve->id,false)
+                        ->where('sequence',2,false)
+                        ->first();
+                    $note_sn1=$n_sn->where('id_matiere',$matiere->id,false)
+                        ->where('id_eleve',$eleve->id,false)
+                        ->where('sequence',3,false)
+                        ->first();
+                    $note_sn2=$n_sn->where('id_matiere',$matiere->id,false)
+                        ->where('id_eleve',$eleve->id,false)
+                        ->where('sequence',4,false)
+                        ->first();
+                    $note_rattrap1=$n_rattrap->where('id_matiere',$matiere->id,false)
+                        ->where('id_eleve',$eleve->id,false)
+                        ->where('sequence',5,false)
+                        ->first();
+                    $note_rattrap2=$n_rattrap->where('id_matiere',$matiere->id,false)
+                        ->where('id_eleve',$eleve->id,false)
+                        ->where('sequence',6,false)
+                        ->first();
+                    if($note_cc1!=null || $note_sn1!=null ){
+                        @$note1=$note_cc1->note+$note_sn1->note;
+                        if($note_rattrap1!=null){
+                            if($note1>=50){
+                                $noteS1=$note1;
+                            }else{
+                                $noteS1=$note_rattrap1->note;
+                            }
+                        }else{
+                            $noteS1=$note1;
+                        }
+                    }else{
+                        if($note_rattrap1!=null){
+
+                            $noteS1=$note_rattrap1->note;
+
+                        }else{
+                            $noteS1='-';
+                        }
+
+                    }
+                    if($note_cc2!=null || $note_sn2!=null ){
+                        @$note1=$note_cc2->note+$note_sn2->note;
+                        if($note_rattrap2!=null){
+                            if($note1>=50){
+                                $noteS2=$note1;
+                            }else{
+                                $noteS2=$note_rattrap2->note;
+                            }
+                        }else{
+                            $noteS2=$note1;
+                        }
+                    }else{
+                        if($note_rattrap2!=null){
+
+                            $noteS2=$note_rattrap2->note;
+
+                        }else{
+                            $noteS2='-';
+                        }
+
+                    }
+                    $note=0;
+                    if(is_numeric($noteS1) && is_numeric($noteS2)){
+                        $note=($noteS1+$noteS2)/2;
+                    }elseif (!is_numeric($noteS2)){
+                        $note=$noteS1;
+                    }elseif (!is_numeric($noteS1)){
+                        $note=$noteS2;
+                    }
+
+
+
+
+                    if(is_numeric($note)){
+                        $sNote+=($this->getGrade($note)[1])*$credit;
+                    }
+
+
+                    $matieres[$l]=new pv_matiere($matiere->id,$note,$credit);
+
+
+                    $l++;
+                }
+                //dump($matieres);
+                $proces_v[$k]=new PV($eleve->id,$matieres,$sNote/$sCoef);
+                $k++;
+            }
+            $values['eleves'] = $e;
+            $values['PV'] = $proces_v;
+            $values['matieres'] = $m;
+            $values['nb_matieres'] = $m->count();
+            $values['classe'] = classe::find($id);
+            $values['semestre'] = $semestre;
+
+            return view('eleves\print_bilan', $values);
         }
     }
 

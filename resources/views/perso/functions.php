@@ -61,4 +61,12 @@
             return $grade;
 
     }
+
+    function getDecision($mgp){
+        if($mgp>=2){
+            return trans('admin.admis');
+
+        }else
+            return trans('admin.echec');
+    }
 ?>

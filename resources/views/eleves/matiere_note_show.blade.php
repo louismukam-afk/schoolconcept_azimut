@@ -15,6 +15,11 @@
                 </div>
 
             @endif
+            <ul>
+                <li><a href="{{ url('/eleves/notes/print_note/'.$id.'?sequence=7&cycle='.$id_cycle) }}"><h4>{{trans('admin.PV').' '.trans('admin.semestre').' 1'}}</h4></a></li>
+                <li><a href="{{ url('/eleves/notes/print_note/'.$id.'?sequence=8&cycle='.$id_cycle) }}"><h4>{{trans('admin.PV').' '.trans('admin.semestre').' 2'}}</h4></a></li>
+                <li><a href="{{ url('/eleves/notes/print_note/'.$id.'?sequence=9&cycle='.$id_cycle) }}"><h4>@lang('admin.bilan_annuel')</h4></a></li>
+            </ul>
     <h4>{{trans('eleve.choix_mat')}}</h4>
     <hr>
     <div class="liste-classe col-md-9">
@@ -51,13 +56,11 @@
                                     <option value="1">CC</option>
                                     <option value="3">@lang('admin.session_normale')</option>
                                     <option value="5">@lang('admin.rattrapage')</option>
-                                    <option value="7">@lang('admin.PV')</option>
                                 </optgroup>
                                     <optgroup label="@lang('admin.semestre') 2">
                                         <option value="2">CC</option>
                                         <option value="4">@lang('admin.session_normale')</option>
                                         <option value="6">@lang('admin.rattrapage')</option>
-                                        <option value="8">@lang('admin.PV')</option>
                                     </optgroup>
 
                                 </select>

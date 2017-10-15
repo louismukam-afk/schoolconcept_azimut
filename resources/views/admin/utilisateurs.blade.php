@@ -15,6 +15,8 @@
             <th>{{  trans('admin.username')  }}</th>
             <th>{{  trans('admin.fullname')  }}</th>
             <th>Role </th>
+            <th>@lang('inscription.nom') @lang('admin.personnel')</th>
+
             <th>{{  trans('admin.actif')  }}</th>
             </thead>
             <tbody>
@@ -25,6 +27,14 @@
                     <td><strong >{{$u->name}}</strong></td>
                     <td> <strong>{{$u->fullname}}</strong></td>
                     <td>{{getRole($u->role)}}</td>
+                    <td>
+                        @foreach($personnels as $p)
+                            @if($p->id==$u->id_personnel)
+                                {{$p->nom}}
+                                <?php break; ?>
+                            @endif
+                        @endforeach
+                    </td>
                     @if($u->active==1)
                     <td>{{trans('inscription.oui')}}</td>
                     <td>
@@ -62,14 +72,23 @@
                                 <div class="form-group">
                                     <label for="role">Role : </label>
                                     <select  name="role" form="activate_user_form" class="form-control">
-                                            <option value="2">{{trans('admin.editeur')}}</option>
+                                        <option value="2">{{trans('admin.editeur')}}</option>
                                         <option value="16">{{trans('admin.g_comptabilite')}}</option>
                                         <option value="17">{{trans('admin.g_personnel')}}</option>
                                         <option value="18">{{trans('admin.g_notes')}}</option>
+                                        <option value="18.5">{{trans('admin.enseignant')}}</option>
                                         <option value="19">{{trans('admin.g_inscriptions')}}</option>
                                     </select>
                                 </div>
-
+                                <div class="form-group">
+                                    <label >@lang('admin.personnel') : </label>
+                                    <select  name="personnel" form="activate_user_form" class="form-control">
+                                        <option value="0">{{trans('admin.aucun')}}</option>
+                                        @foreach($personnels as $p)
+                                            <option value="{{$p->id}}">{{$p->nom}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                                 <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
 
 
@@ -108,6 +127,8 @@
             return trans('admin.g_personnel');
         if($n==18)
             return trans('admin.g_notes');
+        if($n==18.5)
+            return trans('admin.enseignant');
         if($n==19)
             return trans('admin.g_inscriptions');
 

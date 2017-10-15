@@ -32,6 +32,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\personnel whereTel2($value)
  * @property string|null $email
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\personnel whereEmail($value)
+ * @property string|null $matricule
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\personnel whereMatricule($value)
  */
 class personnel extends Model {
 

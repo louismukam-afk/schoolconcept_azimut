@@ -127,26 +127,31 @@ Route::group(['middleware'=>'auth'],function (){
 
     Route::group(['middleware'=>'lvl18'],function (){
         //Les élèves
-        Route::get('/eleves/', 'eleves\eleveController@index');
+
         Route::get('/eleves/discipline/', 'eleves\disciplineController@index');
         Route::get('/eleves/discipline/search', 'eleves\disciplineController@search');
         Route::get('/eleves/discipline/show/{id}', 'eleves\disciplineController@create');
         Route::post('/eleves/discipline/update/', 'eleves\disciplineController@update');
 
-        Route::get('/eleves/notes/','eleves\noteController@index2');
 
-        Route::get('/eleves/notes/edit','eleves\noteController@index');
-        Route::get('/eleves/notes/show','eleves\noteController@show');
-        Route::post('/eleves/notes/print_note/{id}','eleves\noteController@print_note');
-        Route::get('/eleves/notes/matieres/{id}','eleves\noteController@matiere');
-        Route::get('/eleves/notes/matieres/show/{id}','eleves\noteController@matiere_show');
-        Route::post('/eleves/notes/create/{id}','eleves\noteController@create');
-        Route::post('/eleves/notes/store/','eleves\noteController@store');
 
         Route::get('/eleves/bulletins/','eleves\bulletinController@index');
         Route::get('/eleves/bulletins/search/','eleves\bulletinController@index2');
         Route::get('/eleves/bulletins/find/','eleves\bulletinController@search');
         Route::post('/eleves/bulletins/print-single-seq','eleves\bulletinController@print_single_seq');
+
+    });
+    Route::group(['middleware'=>'lvl18.5'],function (){
+        Route::get('/eleves/', 'eleves\eleveController@index');
+        Route::get('/eleves/notes/','eleves\noteController@index2');
+
+        Route::get('/eleves/notes/edit','eleves\noteController@index');
+        Route::get('/eleves/notes/show','eleves\noteController@show');
+        Route::any('/eleves/notes/print_note/{id}','eleves\noteController@print_note');
+        Route::get('/eleves/notes/matieres/{id}','eleves\noteController@matiere');
+        Route::get('/eleves/notes/matieres/show/{id}','eleves\noteController@matiere_show');
+        Route::post('/eleves/notes/create/{id}','eleves\noteController@create');
+        Route::post('/eleves/notes/store/','eleves\noteController@store');
 
     });
 

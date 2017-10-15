@@ -42,7 +42,6 @@
         @endforeach
         @if($current_matiere==$nb_matieres)
             <th class="note-column">MGP</th>
-            <th class="note-column">Grade</th>
         @endif
 
         </thead>
@@ -95,7 +94,6 @@
                     </td>
 
 
-                    <td class="note-column"></td>
                 @endif
 
             </tr>
@@ -125,7 +123,6 @@
             @endforeach
             @if($current_matiere==$nb_matieres)
                 <th class="note-column">MGP</th>
-                <th class="note-column">Grade</th>
             @endif
 
             </thead>
@@ -180,7 +177,6 @@
                                 @endforeach
 
                             </td>
-                            <td class="note-column"></td>
                         @endif
                 </tr>
             @endforeach
