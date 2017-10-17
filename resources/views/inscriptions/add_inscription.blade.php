@@ -5,10 +5,12 @@
         <div class="alert alert-success">
             {{  trans('admin.succes')  }}
         </div>
-        <div class="col-md-12">
-            <a  class="btn btn-warning btn-lg" href="{{URL::to('/inscriptions/print/'.$success)}}"><span class="glyphicon glyphicon-print"></span> {{trans('inscription.print_receipe')}}</a>
+        @if(!isset($inscription_edition))
+            <div class="col-md-12">
+                <a  class="btn btn-warning btn-lg" href="{{URL::to('/inscriptions/print/'.$success)}}"><span class="glyphicon glyphicon-print"></span> {{trans('inscription.print_receipe')}}</a>
 
-        </div>
+            </div>
+        @endif
 
     @endif
 
@@ -20,7 +22,61 @@
 
     @endif
 
-    @if(isset($new_record))
+    @if(isset($old_record))
+        <p style="font-size: 18px"> <strong>Matricule : {{$e->matricule}} </strong></p>
+        <p style="font-size: 18px"> <strong>{{trans('admin.nom')}} : {{$e->nom.' '.$e->prenom}} </strong></p>
+
+        <div class="col-md-8">
+            <form class="form-horizontal" id="add_inscription_form" method="post" action="{{URL::to('/inscriptions/update/')}}">
+                <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                <input type="hidden" name="id_eleve" value="{{$e->id}}">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>  Cycle: </label>
+                        <select form="add_inscription_form"  name="cycle" class="form-control">
+                            @foreach($cycles as $c)
+                                <option value="{{$c->id}}" @if($inscription->id_cycle==$c->id) selected @endif>{{$c->nom}}</option>
+                            @endforeach
+                        </select>
+
+                    </div>
+                    <div class="form-group">
+                        <label>@lang('admin.specialites')  : </label>
+
+                        <select form="add_inscription_form" id="classe" name="classe" class="form-control">
+                            <?php $n=0;$i=0; ?>
+
+                            @foreach($classes as $c)
+                                @if($i=0)
+                                    <optgroup label="{{\gesecole\niveau::find($c->id_niveau)->nom}}">
+                                        <?php  $i++; ?>
+                                        @endif
+                                        @if($c->id_niveau!=$n)
+                                            <?php $n=$c->id_niveau ?>
+                                    </optgroup>
+                                    <optgroup label="{{@\gesecole\niveau::find($c->id_niveau)->nom}}">
+                                        @endif
+                                        <option value="{{$c->id}}" @if($inscription->id_classe==$c->id) selected @endif>{{$c->nom}}</option>
+                                        @endforeach
+                                    </optgroup>
+                        </select>
+
+                    </div>
+                    @if($e->matricule==null)
+                        <div class="form-group">
+                            <label>{{trans('admin.matricule')}} : (@lang('admin.no_matricule'))</label>
+                            <input type="text" name="matricule"  class="form-control"  value="{{old('matricule')}}">
+
+                        </div>
+                    @endif
+
+                    <input type="submit" class="btn btn-success form-control" value="{{trans('admin.modifier')}}" >
+                </div>
+            </form>
+
+        </div>
+
+    @elseif(isset($new_record)))
         <p style="font-size: 18px"> <strong>Matricule : {{$e->matricule}} </strong></p>
         <p style="font-size: 18px"> <strong>{{trans('admin.nom')}} : {{$e->nom.' '.$e->prenom}} </strong></p>
 

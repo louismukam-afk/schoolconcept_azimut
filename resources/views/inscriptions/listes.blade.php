@@ -32,13 +32,10 @@
                 <td>{{$e->nom_classe}}</td>
                 @if(isset($tranche))<td>{{-$e->reste}}</td>@endif
                 <td class="action">
-                    <div class="btn-group">
-                        <a href="#" class=" btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></a>
-                        <ul class="dropdown-menu">
-                            <li><a style="color: white" title="Modifier les informations" class="btn-primary"  data-toggle="modal" data-backdrop="false" href="{{URL::to('/inscriptions/enregistrement/edit/'.$e->id)}}"><span class="glyphicon glyphicon-pencil"  ></span> {{  trans('admin.edit')  }}</a></li>
-                            <li><a style="color: white" href="{{ URL::to('/inscriptions/create/').'/'.$e->id }}"   class="btn-success"><span class="glyphicon glyphicon-cloud-upload"></span> {{  trans('inscription.inscrire')  }}</a></li>
-                        </ul>
-                    </div>
+
+                            <a style="color: white" href="{{ URL::to('/inscriptions/edit/').'/'.$e->id }}"   class="btn btn-success"><span class="glyphicon glyphicon-edit"></span> {{  trans('admin.edit_inscription')  }}</a></li>
+
+                </td>
             </tr>
         @endforeach
         </tbody>

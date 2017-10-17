@@ -109,7 +109,9 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/inscriptions/new', 'inscriptions\inscriptionController@search');
         Route::get('/inscriptions/find', 'inscriptions\inscriptionController@find');
         Route::get('/inscriptions/create/{id}', 'inscriptions\inscriptionController@create');
+        Route::get('/inscriptions/edit/{id}', 'inscriptions\inscriptionController@edit');
         Route::post('/inscriptions/store', 'inscriptions\inscriptionController@store');
+        Route::post('/inscriptions/update', 'inscriptions\inscriptionController@update');
         Route::get('/inscriptions/payement/', 'inscriptions\payementController@index');
         Route::get('/inscriptions/payement/search', 'inscriptions\payementController@search');
         Route::get('/inscriptions/payement/create/{id}', 'inscriptions\payementController@create');

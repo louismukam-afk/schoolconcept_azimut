@@ -61,6 +61,11 @@ class inscriptionController extends Controller {
             $values['success']=session('success');
             Session::forget('success');
         }
+        if(session('inscription_edition')){
+            $values['inscription_edition']=session('inscription_edition');
+            Session::forget('inscription_edition');
+        }
+
 
         return view('inscriptions\add_inscription',$values);
     }
@@ -207,9 +212,33 @@ class inscriptionController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function edit($id)
+	public function edit($id_eleve)
 	{
-		//
+        $c=classe::orderBy('id_niveau')
+            ->orderBy('nom')
+            ->get();
+        $cy=cycle::all();
+        $e=eleve::find($id_eleve);
+        $i=inscription::whereAnneeScolaire(\session('year'))
+            ->where('id_eleve','=',$id_eleve)
+            ->first();
+        $values= array('titre'=>trans('inscription.title_search_register'));
+        $values['classes']=$c;
+        $values['cycles']=$cy;
+        $values['inscription']=$i;
+        $values['e']=$e;
+        $values['old_record']=true;
+        if(session('success')){
+            Session::forget('success');
+            $values['success']=true;
+        }
+        if(session('custom_error')){
+            $values['custom_error']=session('custom_error');
+            Session::forget('custom_error');
+
+        }
+
+        return view('inscriptions\add_inscription',$values);
 	}
 
 	public function print_receipe($id){
@@ -265,9 +294,61 @@ class inscriptionController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(Request $req)
 	{
-		//
+        $this->validate($req,[
+            'id_eleve'=>'required',
+            'classe'=>'required',
+            'cycle'=>'required|numeric',
+        ]) ;
+        $update=true;
+        $id_eleve=$req->input('id_eleve');
+        $id_classe=$req->input('classe');
+        $id_cycle=$req->input('cycle');
+        $annee_scolaire=session('year');
+        $capacite_classe=classe::find($id_classe)->capacite;
+        $nb_eleve_classe=inscription::whereRaw('id_classe=? and annee_scolaire=?',[$id_classe,$annee_scolaire])->get()->count();
+        //echo $nb_eleve_classe.'   '.$capacite_classe;
+        if($nb_eleve_classe>=$capacite_classe){
+            session(['custom_error'=>trans('inscription.full_classe')]);
+            return redirect()->action('inscriptions\inscriptionController@create',['id_eleve'=>$id_eleve]);
+        }
+
+        $i=inscription::whereAnneeScolaire(\session('year'))
+            ->where('id_eleve','=',$id_eleve)
+            ->first();
+        $i->id_classe=$id_classe;
+        $i->id_cycle=$id_cycle;
+        if($i->save()) {
+
+
+            $m = $req->input('matricule');
+            if ($m != null) {
+                $e = eleve::find($id_eleve);
+                $e->matricule=$m;
+                $e->save();
+            } else{
+                $e = eleve::find($id_eleve);
+                $c = classe::find($id_classe);
+                $param = parametres::all();
+                $pa = $param->where('nom', 'initiales_etablissement', false)->first();
+
+                $front = session('year');
+                $front = substr($front, 2, 2);
+                $number = sprintf('%04d', $e->id);
+                $e->matricule = $front . $pa->valeur . '-' . $c->code . $number;
+                $e->save();
+            }
+
+
+            session(['success'=>true]);
+            session(['inscription_edition'=>true]);
+
+            return redirect()->action('inscriptions\inscriptionController@search') ;
+        }else{
+            session(['custom_error'=>trans('inscription.full_classe')]);
+            return redirect()->action('inscriptions\inscriptionController@create',['id_eleve'=>$id_eleve]);
+        }
 	}
 
 	/**
