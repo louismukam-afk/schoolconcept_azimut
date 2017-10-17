@@ -16,7 +16,7 @@ class presenceController extends Controller {
 
     public function __construct()
     {
-        session(['big_title'=>trans('admin.dashboard')]);
+        session(['big_title'=>trans('menu.gestion_personnel')]);
         $year=session('year');
         if($year==null){
             $p=parametres::whereNom('annee_scolaire')->get()->first();
@@ -57,8 +57,19 @@ class presenceController extends Controller {
 	{
 
         $p=personnel::find($id);
-        $h=heure_realise::firstOrNew(['id_personnel'=>$id]);
+        $h=heure_realise::whereAnneeScolaire(\session('year'))
+            ->where('id_personnel','=',$id)
+            ->orderBy('date_heure_realisee','desc')
+            ->paginate(10);
+
+
+
+
         $values=array('titre'=>trans('admin.compte_heure_de').' '.$p->nom);
+        if(session('success')){
+            $values['success']=true;
+            Session::forget('success');
+        }
 		$values['personnel']=$p;
         $values['realise']=$h;
 
@@ -110,11 +121,14 @@ class presenceController extends Controller {
             'nombre'=>'numeric|required',
         ]);
         $nombre=$request->input('nombre');
-        $h=heure_realise::firstOrNew(['id_personnel'=>$id]);
-        $h->nombre+=$nombre;
+        $h=new heure_realise();
+        $h->id_personnel=$id;
+        $h->date_heure_realisee=date('Y-m-d');
+        $h->annee_scolaire=\session('year');
+        $h->nombre=$nombre;
         $h->save();
         session(['success'=>true]);
-        return redirect()->action('personnel\presenceController@index');
+        return redirect()->action('personnel\presenceController@create',['id'=>$id]);
 	}
 
 	/**
@@ -123,9 +137,14 @@ class presenceController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy(Request $request,$id)
 	{
-		//
+	    $id_p=$request->input('personnel');
+		$h=heure_realise::find($id);
+		$h->delete();
+        session(['success'=>true]);
+        return redirect()->action('personnel\presenceController@create',['id'=>$id_p]);
+
 	}
 
 }

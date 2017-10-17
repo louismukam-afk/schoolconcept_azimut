@@ -12,13 +12,17 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\heure_realise whereIdPersonnel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\heure_realise whereNombre($value)
  * @mixin \Eloquent
+ * @property string $date_heure_realisee
+ * @property string $annee_scolaire
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\heure_realise whereAnneeScolaire($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\heure_realise whereDateHeureRealisee($value)
  */
 class heure_realise extends Model {
 
 	
     protected $table='heure_realise';
 
-    public $fillable=['id_personnel','nombre'];
+    public $fillable=['id_personnel','nombre','date_heure_realisee','annee_scolaire'];
 
 
     public $timestamps=false;

@@ -53,6 +53,7 @@
                                 <li><a style="color: white" href="{{ URL::to('/admin/classes/destroy/').'/'.$c->id }}"   class="btn-danger"><span class="glyphicon glyphicon-trash"></span> {{  trans('admin.del')  }}</a></li>
                             </ul>
                         </div>
+                    </td>
                 </tr>
             @endforeach
             </tbody>

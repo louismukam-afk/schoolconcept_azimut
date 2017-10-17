@@ -205,6 +205,7 @@ Route::group(['middleware'=>'auth'],function (){
     //pour les présences
         Route::get('/personnel/heures-effectuees/', 'personnel\presenceController@index');
         Route::get('/personnel/heures-effectuees/{id}', 'personnel\presenceController@create');
+        Route::get('/personnel/heures-effectuees/destroy/{id}', 'personnel\presenceController@destroy');
         Route::post('/personnel/heures-effectuees/update/{id}', 'personnel\presenceController@update');
 
     });
@@ -217,6 +218,8 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/admin/retrait/store','admin\decaissementController@store');
         // le payement des salaires
         Route::get('/comptabilite/payement-salaire/','comptabilite\payementController@index');
+        Route::get('/comptabilite/payement-salaire/show/{id}','comptabilite\payementController@show');
+        Route::get('/comptabilite/payement-salaire/print/{id}','comptabilite\payementController@print_bulletin');
         Route::get('/comptabilite/payement-salaire/create/{id}','comptabilite\payementController@create');
         Route::post('/comptabilite/payement-salaire/store/','comptabilite\payementController@store');
     });
