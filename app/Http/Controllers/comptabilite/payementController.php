@@ -67,6 +67,30 @@ class payementController extends Controller {
         return view('comptabilite\search_personnel',$values);
 	}
 
+
+
+    public function print_bulletin($id)
+    {
+        $titre=trans('admin.search_personnel');
+        $values= array('titre'=>$titre);
+            $values['success']=$id;
+            $ps=payement_salaire::find($values['success']);
+            $p=personnel::find($ps->id_personnel);
+            $s=salaire::whereIdPersonnel($ps->id_personnel)->first();
+            $f=fonction_personnel::whereIdPersonnel($ps->id_personnel)->get();
+            $fo=fonction::all();
+            $u=User::find($ps->id_user);
+            $values['payement']=$ps;
+            $values['personnel']=$p;
+            $values['fonctions']=$f;
+            $values['salaire']=$s;
+            $values['fonctions2']=$fo;
+            $values['user']=$u;
+            Session::forget('success');
+
+        return view('comptabilite\search_personnel',$values);
+    }
+
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -95,7 +119,11 @@ class payementController extends Controller {
                     ->where('id_personnel','=',$id)
                     ->get();
         }
-        $hr=heure_realise::firstOrNew(['id_personnel'=>$id]);
+        $hr=heure_realise::whereAnneeScolaire(\session('year'))
+            ->where('id_personnel','=',$id)
+            ->where('date_heure_realisee','>',$ps->date_p)
+            ->sum('nombre');
+
         $t=taux::whereIdPersonnel($id)->first();
 
         $values['discipline']=$d;
@@ -193,7 +221,15 @@ class payementController extends Controller {
 	 */
 	public function show($id)
 	{
-		//
+        $p=personnel::find($id);
+        $titre=trans('admin.payement').' '.$p->nom;
+        $values= array('titre'=>$titre);
+        $py=payement_salaire::whereAnneeScolaire(\session('year'))
+            ->where('id_personnel','=',$id)
+            ->get();
+        $values['payements']=$py;
+        $values['personnel']=$p;
+        return view('comptabilite\liste_paiement',$values);
 	}
 
 	/**

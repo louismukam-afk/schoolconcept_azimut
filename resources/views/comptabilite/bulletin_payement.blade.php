@@ -7,8 +7,8 @@
      </div>
      <div class="content-mois">
          <div class="mois">
-             <p style="font-size: 18px"><strong>{{getMois($payement->mois).' '.date('Y')}}</strong></p>
-             <strong class="traduction">{{getMoisEng($payement->mois).' '.date('Y')}}</strong>
+             <p style="font-size: 18px"><strong>{{date('d').' '.getMois($payement->mois).' '.date('Y')}}</strong></p>
+             <strong class="traduction">{{date('d').' '.getMoisEng($payement->mois).' '.date('Y')}}</strong>
          </div>
      </div>
      <div class="identite">

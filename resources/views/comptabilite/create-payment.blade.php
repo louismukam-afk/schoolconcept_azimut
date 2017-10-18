@@ -41,7 +41,7 @@
 
                 </div>
                 <div class="alert alert-info"><strong>{{trans('admin.compte_heure_')}}</strong>
-                    <p><strong>{{$heure_realisee->nombre?$heure_realisee->nombre.' '.trans('admin.heure'):'0'.trans('admin.heure')}}</strong></p>
+                    <p><strong>{{$heure_realisee.' '.trans('admin.heure')}}</strong></p>
 
                 </div>
 
@@ -54,16 +54,16 @@
 
                 ?>
                 <div class="alert alert-success"><strong>Total</strong>
-                    <p><strong>{{$salaire->montant+$heure_realisee->nombre*$t.' '.trans('inscription.devise')}}</strong></p>
+                    <p><strong>{{$salaire->montant+$heure_realisee*$t.' '.trans('inscription.devise')}}</strong></p>
 
                 </div>
                 <div class="col-md-6">
                     <form accept-charset="UTF-8" role="form" method="POST" id="pay_staff" action="{{ url('/comptabilite/payement-salaire/store/') }}">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="id" value="{{$personnel->id }}">
-                        <input type="hidden" name="heure_realisee" value="{{$heure_realisee->nombre}}">
+                        <input type="hidden" name="heure_realisee" value="{{$heure_realisee}}">
                         <input type="hidden" name="taux" value="{{$t}}">
-                        <input type="hidden" name="total" value="{{$salaire->montant+$heure_realisee->nombre*$t}}">
+                        <input type="hidden" name="total" value="{{$salaire->montant+$heure_realisee*$t}}">
 
                         <fieldset>
                             <div class="form-group">

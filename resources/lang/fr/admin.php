@@ -215,5 +215,10 @@ return [
     "admis"=>"Admis(e)",
     "echec"=>"Echec",
     "enseignant"=>"Enseignant",
-    "no_modification"=>"Vous n'etes pas enseignant en :matiere dans cette spécialité"
+    "no_modification"=>"Vous n'etes pas enseignant en :matiere dans cette spécialité",
+    "edit_inscription"=>"Modifier inscription",
+    "no_scolarite"=>"Scolarité non terminée",
+    "quantite"=>"Quantité",
+    "liste_paiement_personnel"=>"Liste des paiements",
+
 ];

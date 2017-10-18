@@ -244,5 +244,50 @@
 
             </div>
         </div>
+
+
+
+
+        <div
+                class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <a class="accordion-toggle" href="#item7" dataparent="#monaccordeon"
+                       data-toggle="collapse">
+                        {{trans('admin.no_scolarite')}}
+                    </a>
+                </h3>
+            </div>
+            <div id="item7"
+                 class="panel-collapse collapsing">
+                <div
+                        class="panel-body">
+                    <ul >
+                        <li class="col-md-4"><a href={{URL::to('/inscriptions/listes/show/'.'0'.'?option=5')}}>{{trans('inscription.all_eleves')}}</a></li>
+
+
+                        @foreach($cycles as $cy)
+                            <h3 class="page-header col-md-12">{{$cy->nom}}</h3>
+
+                            @foreach($niveaux as $n)
+                                <div class="col-md-6">
+                                    <h4 class="page-header"> {{$n->nom.'/'.$n->nom_anglais}}</h4>
+
+                                    @foreach($classes as $c)
+                                        <div class="col-md-12">
+                                            @if($c->id_cycle==$cy->id && $c->id_niveau==$n->id)
+                                                <li class="col-md-12"><a href="{{URL::to('/inscriptions/listes/show/'.$c->id.'?option=5&cycle='.$cy->id)}}">{{$c->nom}}</a></li>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endforeach
+
+                        @endforeach
+                    </ul>
+                </div>
+
+            </div>
+        </div>
     </div>
 @endsection

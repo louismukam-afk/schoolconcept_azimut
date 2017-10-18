@@ -109,7 +109,9 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/inscriptions/new', 'inscriptions\inscriptionController@search');
         Route::get('/inscriptions/find', 'inscriptions\inscriptionController@find');
         Route::get('/inscriptions/create/{id}', 'inscriptions\inscriptionController@create');
+        Route::get('/inscriptions/edit/{id}', 'inscriptions\inscriptionController@edit');
         Route::post('/inscriptions/store', 'inscriptions\inscriptionController@store');
+        Route::post('/inscriptions/update', 'inscriptions\inscriptionController@update');
         Route::get('/inscriptions/payement/', 'inscriptions\payementController@index');
         Route::get('/inscriptions/payement/search', 'inscriptions\payementController@search');
         Route::get('/inscriptions/payement/create/{id}', 'inscriptions\payementController@create');
@@ -203,6 +205,7 @@ Route::group(['middleware'=>'auth'],function (){
     //pour les présences
         Route::get('/personnel/heures-effectuees/', 'personnel\presenceController@index');
         Route::get('/personnel/heures-effectuees/{id}', 'personnel\presenceController@create');
+        Route::get('/personnel/heures-effectuees/destroy/{id}', 'personnel\presenceController@destroy');
         Route::post('/personnel/heures-effectuees/update/{id}', 'personnel\presenceController@update');
 
     });
@@ -215,6 +218,8 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/admin/retrait/store','admin\decaissementController@store');
         // le payement des salaires
         Route::get('/comptabilite/payement-salaire/','comptabilite\payementController@index');
+        Route::get('/comptabilite/payement-salaire/show/{id}','comptabilite\payementController@show');
+        Route::get('/comptabilite/payement-salaire/print/{id}','comptabilite\payementController@print_bulletin');
         Route::get('/comptabilite/payement-salaire/create/{id}','comptabilite\payementController@create');
         Route::post('/comptabilite/payement-salaire/store/','comptabilite\payementController@store');
     });

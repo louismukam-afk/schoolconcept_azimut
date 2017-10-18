@@ -59,7 +59,14 @@
                         <td><strong >{{$p->nom}}</strong></td>
                         <td>{{$p->sexe}}</td>
                         <td>
-                            <a  href="{{ URL::to('/comptabilite/payement-salaire/create/').'/'.$p->id }}"   class="btn btn-success"> <span class="fa fa-money"></span> {{  trans('admin.payer_personnel')  }}</a>
+                            <div class="btn-group">
+                                <a href="#" class=" btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li><a style="color: white;"  href="{{ URL::to('/comptabilite/payement-salaire/create/').'/'.$p->id }}"   class="btn btn-success"> <span class="fa fa-money"></span> {{  trans('admin.payer_personnel')  }}</a></li>
+                                    <li><a style="color: white;" href="{{ URL::to('/comptabilite/payement-salaire/show/').'/'.$p->id }}"   class="btn btn-warning"> <span class="fa fa-money"></span> {{  trans('admin.liste_paiement_personnel')  }}</a></li>
+                                </ul>
+                            </div>
+                            <
                         </td>
                     </tr>
                 @endforeach
