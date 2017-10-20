@@ -11,7 +11,14 @@
     <link href="{{ URL::asset('css/font-awesome.css')  }}" rel="stylesheet" />
         <!-- CUSTOM STYLES-->
     <link href="{{ URL::asset('css/custom.css')  }}" rel="stylesheet" media="screen"/>
+
      <!-- GOOGLE FONTS-->
+
+    <script src="{{ URL::asset('js/jquery.min.js')  }}"></script>
+    <!-- BOOTSTRAP SCRIPTS -->
+    <script src="{{ URL::asset('js/bootstrap.min.js')  }}"></script>
+    <!-- CUSTOM SCRIPTS -->
+    <script src="{{ URL::asset('js/custom.js')  }}"></script>
 
 </head>
 <body>
@@ -207,11 +214,6 @@
      <!-- /. WRAPPER  -->
     <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
     <!-- JQUERY SCRIPTS -->
-    <script src="{{ URL::asset('js/jquery.min.js')  }}"></script>
-      <!-- BOOTSTRAP SCRIPTS -->
-    <script src="{{ URL::asset('js/bootstrap.min.js')  }}"></script>
-      <!-- CUSTOM SCRIPTS -->
-    <script src="{{ URL::asset('js/custom.js')  }}"></script>
 
     
    

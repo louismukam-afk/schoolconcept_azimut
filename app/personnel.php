@@ -34,12 +34,18 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\personnel whereEmail($value)
  * @property string|null $matricule
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\personnel whereMatricule($value)
+ * @property int|null $type
+ * @property string|null $matieres
+ * @property string|null $autre_information
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\personnel whereAutreInformation($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\personnel whereMatieres($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\personnel whereType($value)
  */
 class personnel extends Model {
 
 	protected $table='personnel';
 
-    public $fillable=['matricule','nom','date_naiss','lieu_naiss','diplome','sexe','date_entree','tel1','tel2','adresse','email'];
+    public $fillable=['matricule','nom','date_naiss','lieu_naiss','diplome','sexe','date_entree','tel1','tel2','adresse','email','type','matieres','autre_information'];
 
 
     public $timestamps=false;

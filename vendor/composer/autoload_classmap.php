@@ -10,6 +10,7 @@ return array(
     'Classe' => $baseDir . '/database/migrations/2017_09_26_120129_classe.php',
     'ClasseMatiere' => $baseDir . '/database/migrations/2017_09_26_120147_classe_matiere.php',
     'CreateHeureRealisesTable' => $baseDir . '/database/migrations/2017_09_27_155005_create_heure_realises_table.php',
+    'CreateVerrouNotesTable' => $baseDir . '/database/migrations/2017_10_19_152912_create_verrou_notes_table.php',
     'Cycle' => $baseDir . '/database/migrations/2017_09_26_120204_cycle.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'Decaissement' => $baseDir . '/database/migrations/2017_09_26_120239_decaissement.php',

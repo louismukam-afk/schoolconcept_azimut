@@ -78,6 +78,7 @@ class personnelController extends Controller {
             'sexe'=>'required',
             'tel1'=>'required',
             'adresse'=>'required',
+            'type'=>'required|numeric',
 
 
         ]);
@@ -93,6 +94,9 @@ class personnelController extends Controller {
         $c->lieu_naiss=$req->input('lieu_naiss');
         $c->date_entree=date('Y-m-d');
         $c->email=$req->input('email');
+        $c->type=$req->input('type');
+        $c->matieres=$req->input('matieres');
+        $c->autre_information=$req->input('autre_information');
         $c->save();
 
         $param = parametres::all();
@@ -153,7 +157,8 @@ class personnelController extends Controller {
             'lieu_naiss'=>'required',
             'sexe'=>'required',
             'tel1'=>'required',
-            'adresse'=>'required'
+            'adresse'=>'required',
+            'type'=>'required|numeric',
 
 
         ]);
@@ -168,6 +173,9 @@ class personnelController extends Controller {
         $c->date_naiss=$req->input('date_naiss');
         $c->lieu_naiss=$req->input('lieu_naiss');
         $c->email=$req->input('email');
+        $c->type=$req->input('type');
+        $c->matieres=$req->input('matieres');
+        $c->autre_information=$req->input('autre_information');
         $c->save();
         session(['success'=>true]);
         return redirect()->action('personnel\personnelController@index_personnel');

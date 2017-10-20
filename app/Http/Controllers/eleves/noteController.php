@@ -8,6 +8,7 @@ use gesecole\eleve;
 use gesecole\niveau;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
+use gesecole\verrouNote;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use gesecole\matiere;
@@ -125,6 +126,15 @@ class noteController extends Controller {
         $sequence=$request->input('sequence');
         $id_m=$request->input('id');
         $id_cycle=$request->input('cycle');
+
+        $v=verrouNote::whereAnneeScolaire(\session('year'))
+            ->where('sequence','=',$sequence)
+            ->get();
+
+        if($v->count()>0){
+            session(['erreur'=>trans('admin.mod_locked')]);
+            return redirect()->to('/eleves/notes/matieres/'.$id.'?cycle='.$id_cycle);
+        }
 
         $user=Auth::user();
         if($user->role==18.5){

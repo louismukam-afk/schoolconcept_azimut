@@ -21,26 +21,22 @@
 
                 <div class="form-group">
                     <label for="nom">{{  trans('inscription.nom')  }} : <span class="required">*</span></label>
-                    <input class="form-control" id="nom" name="nom" type="text"  value="{{ $eleve->nom}}"  autofocus>
+                    <input disabled class="form-control" id="nom" name="nom" type="text"  value="{{ $eleve->nom}}"  autofocus>
 
                 </div>
-                <div class="form-group">
-                    <label for="prenom">{{  trans('inscription.prenom')  }} : </label>
-                    <input class="form-control" id="prenom" name="prenom" type="text"  value="{{ $eleve->prenom }}"  >
 
-                </div>
                 <div class="row">
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="date_naiss">{{  trans('inscription.date_naiss')  }} : <span class="required">*</span></label>
-                            <input class="form-control" id="date_naiss" name="date_naiss" type="date"  value="{{ $eleve->date_naiss }}"  placeholder="10/07/2009">
+                            <input disabled class="form-control" id="date_naiss" name="date_naiss" type="date"  value="{{ $eleve->date_naiss }}"  placeholder="10/07/2009">
 
                         </div>
                     </div>
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="lieu_naiss">{{  trans('inscription.lieu_naiss')  }} : <span class="required">*</span></label>
-                            <input class="form-control" id="lieu_naiss" name="lieu_naiss" type="text"  value="{{ $eleve->lieu_naiss }}"  >
+                            <input disabled class="form-control" id="lieu_naiss" name="lieu_naiss" type="text"  value="{{ $eleve->lieu_naiss }}"  >
 
                         </div>
                     </div>
@@ -49,7 +45,7 @@
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="sexe">{{  trans('inscription.sexe')  }} : </label>
-                            <select form="enregistrer_eleve_form" id="sexe" name="sexe" class="form-control">
+                            <select disabled form="enregistrer_eleve_form" id="sexe" name="sexe" class="form-control">
                                 <option value="M" @if(strcmp($eleve->sexe,'M')==0) selected @endif>{{trans('inscription.homme') }}</option>
                                 <option value="F" @if(strcmp($eleve->sexe,'F')==0) selected @endif>{{trans('inscription.femme')}}</option>
                             </select>
@@ -59,21 +55,21 @@
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="nationalite">{{  trans('inscription.nationalite')  }} : <span class="required">*</span></label>
-                            <input class="form-control" id="nationalite" name="nationalite" type="text"  value="{{ $eleve->nationalite }}"  >
+                            <input disabled class="form-control" id="nationalite" name="nationalite" type="text"  value="{{ $eleve->nationalite }}"  >
 
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="quartier">{{  trans('inscription.residence')  }} : <span class="required">*</span></label>
-                    <input class="form-control" id="quartier" name="quartier" type="text"  value="{{ $eleve->quartier }}"  required>
+                    <input disabled class="form-control" id="quartier" name="quartier" type="text"  value="{{ $eleve->quartier }}"  required>
 
                 </div>
 
                 <div class="">
                     <div class="form-group">
                         <label for="email">{{  trans('inscription.email')  }} : </label>
-                        <input class="form-control" id="email" name="email" type="text"  value="{{  $eleve->email }}"  >
+                        <input disabled class="form-control" id="email" name="email" type="text"  value="{{  $eleve->email }}"  >
 
                     </div>
                 </div>
@@ -81,7 +77,7 @@
                 <div class="">
                     <div class="form-group">
                         <label for="tel">{{  trans('inscription.tel')  }} : </label>
-                        <input class="form-control" id="tel" name="tel" type="text"  value="{{  $eleve->tel }}"  >
+                        <input disabled class="form-control" id="tel" name="tel" type="text"  value="{{  $eleve->tel }}"  >
 
                     </div>
                 </div>
@@ -89,7 +85,7 @@
                 <div class="">
                     <div class="form-group">
                         <label for="status_matrimonial">{{  trans('inscription.status_matrimonial')  }} : </label>
-                        <input class="form-control" id="status_matrimonial" name="status_matrimonial" type="text"  value="{{  $eleve->status_matrimonial }}"  >
+                        <input disabled class="form-control" id="status_matrimonial" name="status_matrimonial" type="text"  value="{{  $eleve->status_matrimonial }}"  >
 
                     </div>
                 </div>
@@ -98,7 +94,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="region_origine">{{  trans('inscription.region_origine')  }} : </label>
-                            <input class="form-control" id="region_origine" name="region_origine" type="text"  value="{{  $eleve->region_origine }}"  >
+                            <input disabled class="form-control" id="region_origine" name="region_origine" type="text"  value="{{  $eleve->region_origine }}"  >
 
                         </div>
 
@@ -106,7 +102,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="departement_origine">{{  trans('inscription.departement_origine')  }} : </label>
-                            <input class="form-control" id="departement_origine" name="departement_origine" type="text"  value="{{  $eleve->departement_origine }}"  >
+                            <input disabled class="form-control" id="departement_origine" name="departement_origine" type="text"  value="{{  $eleve->departement_origine }}"  >
 
                         </div>
 
@@ -115,7 +111,7 @@
                 <div>
                     <div class="form-group">
                         <label for="diplome_preinscription">{{  trans('inscription.diplome_preinscription')  }} : </label>
-                        <input class="form-control" id="diplome_preinscription" name="diplome_preinscription" type="text"  value="{{  $eleve->diplome_preinscription }}"  >
+                        <input disabled class="form-control" id="diplome_preinscription" name="diplome_preinscription" type="text"  value="{{  $eleve->diplome_preinscription }}"  >
 
                     </div>
 
@@ -125,7 +121,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="annee_obtention">{{  trans('inscription.annee_obtention')  }} : </label>
-                            <input class="form-control" id="annee_obtention" name="annee_obtention" type="text"  value="{{  $eleve->annee_obtention }}"  >
+                            <input disabled class="form-control" id="annee_obtention" name="annee_obtention" type="text"  value="{{  $eleve->annee_obtention }}"  >
 
                         </div>
 
@@ -134,7 +130,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="pays_obtention">{{  trans('inscription.pays_obtention')  }} : </label>
-                            <input class="form-control" id="pays_obtention" name="pays_obtention" type="text"  value="{{  $eleve->pays_obtention }}"  >
+                            <input disabled class="form-control" id="pays_obtention" name="pays_obtention" type="text"  value="{{  $eleve->pays_obtention }}"  >
 
                         </div>
 
@@ -143,7 +139,7 @@
                 <div>
                     <div class="form-group">
                         <label for="dernier_etablissement">{{  trans('inscription.dernier_etablissement')  }} : </label>
-                        <input class="form-control" id="dernier_etablissement" name="dernier_etablissement" type="text"  value="{{  $eleve->dernier_etablissement }}"  >
+                        <input disabled class="form-control" id="dernier_etablissement" name="dernier_etablissement" type="text"  value="{{  $eleve->dernier_etablissement }}"  >
 
                     </div>
 
@@ -153,7 +149,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="annee_sortie">{{  trans('inscription.annee_sortie')  }} : </label>
-                            <input class="form-control" id="annee_sortie" name="annee_sortie" type="text"  value="{{  $eleve->annee_sortie }}"  >
+                            <input disabled class="form-control" id="annee_sortie" name="annee_sortie" type="text"  value="{{  $eleve->annee_sortie }}"  >
 
                         </div>
 
@@ -162,7 +158,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="diplome_obtenu">{{  trans('inscription.diplome_obtenu')  }} : </label>
-                            <input class="form-control" id="diplome_obtenu" name="diplome_obtenu" type="text"  value="{{  $eleve->diplome_obtenu }}"  >
+                            <input disabled class="form-control" id="diplome_obtenu" name="diplome_obtenu" type="text"  value="{{  $eleve->diplome_obtenu }}"  >
 
                         </div>
 
@@ -172,14 +168,14 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="premiere_langue">{{  trans('inscription.premiere_langue')  }} : </label>
-                            <input class="form-control" id="premiere_langue" name="premiere_langue" type="text"  value="{{  $eleve->premiere_langue }}"  >
+                            <input disabled class="form-control" id="premiere_langue" name="premiere_langue" type="text"  value="{{  $eleve->premiere_langue }}"  >
 
                         </div>
 
                     </div> <div class="col-md-4">
                         <div class="form-group">
                             <label for="deuxieme_langue">{{  trans('inscription.deuxieme_langue')  }} : </label>
-                            <input class="form-control" id="deuxieme_langue" name="deuxieme_langue" type="text"  value="{{  $eleve->deuxieme_langue }}"  >
+                            <input disabled class="form-control" id="deuxieme_langue" name="deuxieme_langue" type="text"  value="{{  $eleve->deuxieme_langue }}"  >
 
                         </div>
 
@@ -187,7 +183,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="autre_langue">{{  trans('inscription.autre_langue')  }} : </label>
-                            <input class="form-control" id="autre_langue" name="autre_langue" type="text"  value="{{  $eleve->autre_langue }}"  >
+                            <input disabled class="form-control" id="autre_langue" name="autre_langue" type="text"  value="{{  $eleve->autre_langue }}"  >
 
                         </div>
 
@@ -196,7 +192,7 @@
                 <div >
                     <div class="form-group">
                         <label for="profession">{{  trans('inscription.profession')  }} : </label>
-                        <input class="form-control" id="profession" name="profession" type="text"  value="{{  $eleve->profession }}"  >
+                        <input disabled class="form-control" id="profession" name="profession" type="text"  value="{{  $eleve->profession }}"  >
 
                     </div>
 
@@ -206,16 +202,19 @@
                 <div class="col-md-5">
                     <div class="form-group">
                         <label for="lien_tuteur">{{  trans('inscription.lien_tuteur')  }} : </label>
-                        <input class="form-control" id="lien_tuteur" name="lien_tuteur" type="text"  value="{{ $eleve->lien_tuteur }}"  >
+                        <input disabled class="form-control" id="lien_tuteur" name="lien_tuteur" type="text"  value="{{ $eleve->lien_tuteur }}"  >
 
                     </div>
                 </div>
 
 
             </fieldset>
-            <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
+            <input  style="display: none;" id="submit"  class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
 
         </form>
+    </div>
+    <div class="col-md-1">
+        <div id="change_eleve_editable" class="btn btn-primary btn-xs"> <span class="glyphicon glyphicon-edit"></span> @lang('admin.modifier')</div>
     </div>
 <div class="parent col-md-offset-1 col-md-5">
         <h3>{{trans('inscription.parent')}}</h3>
@@ -248,5 +247,41 @@
 
     @endforeach
 </div>
+
+    <script>
+        $(function () {
+            $('#change_eleve_editable').click(function () {
+                $('#nom').removeAttr('disabled');
+                $('#date_naiss').removeAttr('disabled');
+                $('#lieu_naiss').removeAttr('disabled');
+                $('#sexe').removeAttr('disabled');
+                $('#nationalite').removeAttr('disabled');
+                $('#quartier').removeAttr('disabled');
+                $('#email').removeAttr('disabled');
+                $('#tel').removeAttr('disabled');
+                $('#adresse').removeAttr('disabled');
+                $('#type').removeAttr('disabled');
+                $('#matieres').removeAttr('disabled');
+                $('#status_matrimonial').removeAttr('disabled');
+                $('#region_origine').removeAttr('disabled');
+                $('#departement_origine').removeAttr('disabled');
+                $('#diplome_preinscription').removeAttr('disabled');
+                $('#annee_obtention').removeAttr('disabled');
+                $('#pays_obtention').removeAttr('disabled');
+                $('#dernier_etablissement').removeAttr('disabled');
+                $('#diplome_obtenu').removeAttr('disabled');
+                $('#annee_sortie').removeAttr('disabled');
+                $('#premiere_langue').removeAttr('disabled');
+                $('#deuxieme_langue').removeAttr('disabled');
+                $('#autre_langue').removeAttr('disabled');
+                $('#profession').removeAttr('disabled');
+                $('#lien_tuteur').removeAttr('disabled');
+                $('#submit').css('display','block');
+
+
+
+            });
+        });
+    </script>
 
 @endsection

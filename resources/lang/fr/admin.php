@@ -220,5 +220,10 @@ return [
     "no_scolarite"=>"Scolarité non terminée",
     "quantite"=>"Quantité",
     "liste_paiement_personnel"=>"Liste des paiements",
+    "numero_ordre"=>"Numéro d'ordre",
+    "ordre_pris"=>"Ce numéro d'ordre est déja occupé",
+    "inscriptions"=>"Inscriptions",
+    "verrou_note"=>"Verouiller la modification des notes",
+    "mod_locked"=>"La modification des notes a été verrouillée pour cette session !"
 
 ];

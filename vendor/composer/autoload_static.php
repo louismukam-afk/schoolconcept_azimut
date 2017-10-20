@@ -313,6 +313,7 @@ class ComposerStaticInita8e744cd6ac8bb0715dcab13ed5037a3
         'Classe' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_120129_classe.php',
         'ClasseMatiere' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_120147_classe_matiere.php',
         'CreateHeureRealisesTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_27_155005_create_heure_realises_table.php',
+        'CreateVerrouNotesTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_19_152912_create_verrou_notes_table.php',
         'Cycle' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_120204_cycle.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',
         'Decaissement' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_120239_decaissement.php',

@@ -100,6 +100,18 @@
                         <label for="email">{{  trans('admin.email')  }} :</label>
                         <input class="form-control" id="email" name="email" type="text"  value="{{ old('email') }}" >
 
+                        <label >Type :</label>
+                        <select name="type" form="select_sexe" class="form-control">
+                            <option value="0">@lang('admin.enseignant')</option>
+                            <option value="1">@lang('admin.autre')</option>
+                        </select>
+
+                        <label for="matieres">{{  trans('admin.titre_matiere')  }} :</label>
+                        <textarea  class="form-control" id="matieres" name="matieres">{{ old('matieres') }}</textarea>
+
+                        <label for="autre_information">{{  trans('admin.autre')  }} informations:</label>
+                        <textarea  class="form-control" id="autre_information" name="autre_information">{{ old('autre_information') }}</textarea>
+
                     </div>
                     <input class="btn  btn-success pull-right" type="submit" value="{{  trans('admin.confirmer')  }}">
 

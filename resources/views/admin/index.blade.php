@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="page-header">
-        <h3>Inscriptions</h3>
+        <h3>@lang('admin.inscriptions')</h3>
     </div>
     <div class="row text-center pad-top">
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
@@ -71,6 +71,17 @@
                 <a href="{{URL::to('admin/programmes/')}}" >
                     <i class="fa fa-calendar-o fa-5x"></i>
                     <h4>{{trans('admin.programme')}} </h4>
+                </a>
+            </div>
+
+
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+            <div class="div-square">
+                <a href="{{url('/admin/verrou-note/')}}" >
+                    <i class="fa fa-lock fa-5x"></i>
+                    <h4>{{trans('admin.verrou_note')}} </h4>
                 </a>
             </div>
 

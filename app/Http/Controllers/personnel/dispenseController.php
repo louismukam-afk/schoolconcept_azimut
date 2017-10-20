@@ -94,9 +94,10 @@ class dispenseController extends Controller {
             'id_classe'=>'required|numeric',
             'jour'=>'required|numeric',
         ]);
-        $h=horaire::all();
+        $h=horaire::orderBy('ordre')->get();
         $oh=dispense::whereAnneeScolaire(session('year'))
             ->where('id_classe','=',$req->input('id_classe'))
+
             ->where('jour','=',$req->input('jour'))
             ->get();
 
