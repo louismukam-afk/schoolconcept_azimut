@@ -11,10 +11,12 @@
     <link href="{{ URL::asset('css/font-awesome.css')  }}" rel="stylesheet" />
         <!-- CUSTOM STYLES-->
     <link href="{{ URL::asset('css/custom.css')  }}" rel="stylesheet" media="screen"/>
+    <link href="{{ URL::asset('js/jquery-ui/jquery-ui.css')  }}" rel="stylesheet" media="screen"/>
 
      <!-- GOOGLE FONTS-->
 
     <script src="{{ URL::asset('js/jquery.min.js')  }}"></script>
+    <script src="{{ URL::asset('js/jquery-ui/jquery-ui.min.js')  }}"></script>
     <!-- BOOTSTRAP SCRIPTS -->
     <script src="{{ URL::asset('js/bootstrap.min.js')  }}"></script>
     <!-- CUSTOM SCRIPTS -->
@@ -130,7 +132,7 @@
                         <a href="{{URL::to('/comptabilite/')}}"><i class="fa fa-money"></i>{{  trans('admin.comptabilite')  }}</a>
                     </li>
 
-                    <li>
+                    <li style="display: none;">
                         <a href="#"><i class="fa fa-bar-chart-o"></i>{{  trans('menu.bilan')  }}</a>
                     </li>
 

@@ -227,6 +227,10 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/comptabilite/payement-salaire/print/{id}','comptabilite\payementController@print_bulletin');
         Route::get('/comptabilite/payement-salaire/create/{id}','comptabilite\payementController@create');
         Route::post('/comptabilite/payement-salaire/store/','comptabilite\payementController@store');
+        //Bilan
+        Route::any('/comptabilite/bilan/entrees','comptabilite\bilanComptaController@index');
+        Route::any('/comptabilite/bilan/sorties','comptabilite\bilanComptaController@indexSorties');
+
     });
 
 

@@ -224,6 +224,27 @@ return [
     "ordre_pris"=>"Ce numéro d'ordre est déja occupé",
     "inscriptions"=>"Inscriptions",
     "verrou_note"=>"Verouiller la modification des notes",
-    "mod_locked"=>"La modification des notes a été verrouillée pour cette session !"
+    "mod_locked"=>"La modification des notes a été verrouillée pour cette session !",
+    "bilan_entrees"=>"Bilan des entrées",
+    "bilan_sorties"=>"Bilan des sorties",
+    "date_debut"=>"Date de début",
+    "date_fin"=>"Date de fin",
+    "verifier"=>"Vérifier",
+    "toute_lannee"=>"Toute l'année",
+    "facture"=>"Facture",
+    "depenses_totales"=>"Dépenses totales",
+    "total_entrees"=>"Total des entrées",
+    "total_sorties"=>"Total des sorties",
+    "solde_caisse"=>"Solde en caisse",
+    ""=>"",
+    ""=>"",
+    ""=>"",
+    ""=>"",
+    ""=>"",
+    ""=>"",
+    ""=>"",
+    ""=>"",
+    ""=>"",
+
 
 ];

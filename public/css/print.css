@@ -133,6 +133,12 @@ html,body {
         margin-top: 10px;
     }
 
-
+.traduction
+{
+    -webkit-print-color-adjust:exact;
+    font-size: 10px !important;
+    color: grey !important;
+    margin-left: 7mm;
+}
 
 
