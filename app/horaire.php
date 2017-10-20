@@ -12,12 +12,14 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @property int $type
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\horaire whereType($value)
+ * @property int $ordre
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\horaire whereOrdre($value)
  */
 class horaire extends Model {
 
     protected $table='horaire';
 
-    public $fillable=['intervalle','type'];
+    public $fillable=['intervalle','type','ordre'];
 
 
     public $timestamps=false;

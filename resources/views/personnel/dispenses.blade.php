@@ -43,21 +43,25 @@
                     <caption style="font-size: 22px">{{  trans('inscription.search_result')  }}</caption>
                     <th>#</th>
                     <th>{{  trans('admin.nom')  }}</th>
-
                     <th>{{  trans('inscription.sexe')  }}</th>
+                    <th>@lang('admin.titre_matiere')</th>
 
                     </thead>
                     <tbody>
                     <?php $i=1; ?>
                     @foreach($personnel as $p)
-                        <tr>
-                            <td>{{$i++}}</td>
-                            <td><strong >{{$p->nom}}</strong></td>
-                            <td>{{$p->sexe}}</td>
-                            <td>
-                                <a  href="{{url('/personnel/dispense/'.$p->id)}}"   class="btn btn-warning btn-xs"> <span class="glyphicon glyphicon-time"></span> {{  trans('admin.emploi_temps')  }}</a>
-                            </td>
-                        </tr>
+                        @if($p->type==0)
+                            <tr>
+                                <td>{{$i++}}</td>
+                                <td><strong >{{$p->nom}}</strong></td>
+                                <td>{{$p->sexe}}</td>
+                                <td>{{$p->matieres}}</td>
+                                <td>
+                                    <a  href="{{url('/personnel/dispense/'.$p->id)}}"   class="btn btn-warning btn-xs"> <span class="glyphicon glyphicon-time"></span> {{  trans('admin.emploi_temps')  }}</a>
+                                </td>
+                            </tr>
+                        @endif
+
                     @endforeach
                     </tbody>
                 </table>

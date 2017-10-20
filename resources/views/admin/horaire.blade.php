@@ -8,12 +8,20 @@
             </div>
 
         @endif
+            @if(isset($error))
+
+                <div class="alert alert-danger">
+                    {{  $error  }}
+                </div>
+
+            @endif
 
         <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 15px;">
             <thead>
             <th>#</th>
             <th>{{trans('admin.intervalle')}}</th>
             <th>Type</th>
+            <th>@lang('admin.numero_ordre')</th>
             </thead>
             <tbody>
             <?php $i=1; ?>
@@ -24,9 +32,10 @@
                     <td>{{$h->intervalle}}</td>
 
                     <td>@if($h->type==0){{trans('admin.cours')}}@else Pause @endif</td>
+                    <td>{{$h->ordre}}</td>
                     <td>
                         <div class="btn-group">
-                            <a data-toggle="modal" data-backdrop="false" href="#edit_horaire"  onclick="editer_horaire({{$h->id}},'{{$h->intervalle}}',{{$h->type}})" class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-edit"></span> </a>
+                            <a data-toggle="modal" data-backdrop="false" href="#edit_horaire"  onclick="editer_horaire({{$h->id}},'{{$h->intervalle}}',{{$h->type}},{{$h->ordre}})" class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-edit"></span> </a>
                             <a  href="{{url('/admin/horaires/destroy/'.$h->id)}}"   class="btn btn-danger btn-xs "><span class="glyphicon glyphicon-trash"></span> </a>
 
                         </div>
@@ -62,6 +71,10 @@
                                         <option value="0" @if(old('type')==0) selected @endif>{{trans('admin.cours')}}</option>
                                         <option value="1" @if(old('type')==1) selected @endif>Pause</option>
                                     </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="ordre">@lang('admin.numero_ordre') :</label>
+                                        <input type="text" class="form-control" name="ordre" id="ordre">
                                 </div>
                                 <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
 
@@ -110,6 +123,11 @@
                                             <option value="1">Pause</option>
                                         </select>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="edit_ordre">@lang('admin.numero_ordre')  :</label>
+                                            <input type="text" class="form-control" name="ordre" id="edit_ordre">
+
+                                    </div>
                                     <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
 
 
@@ -131,11 +149,12 @@
 
     </div>
     <script>
-        function editer_horaire(id,intervalle,type)
+        function editer_horaire(id,intervalle,type,ordre)
         {
             document.getElementById("edit_id_horaire").value = id;
             document.getElementById("edit_int").value = intervalle;
             document.getElementById("edit_type").value = type;
+            document.getElementById("edit_ordre").value = ordre;
 
         }
     </script>

@@ -37,7 +37,7 @@ class horaireController extends Controller {
 	public function index()
 	{
         $titre=trans('admin.horaire');
-        $h=horaire::all();
+        $h=horaire::orderBy('ordre')->get();
 
         $values= array('titre'=>$titre,'horaire'=>$h);
 
@@ -45,6 +45,10 @@ class horaireController extends Controller {
             Session::forget('success');
             $values['success']=true;
 
+        }
+        if(session('error')){
+            $values['error']=\session('error');
+            Session::forget('error');
         }
 
         return view('admin\horaire',$values);
@@ -70,10 +74,19 @@ class horaireController extends Controller {
         $this->validate($request,[
             'intervalle'=>'required',
             'type'=>'required|numeric',
+            'ordre'=>'required|numeric|min:1',
         ]);
+        $ordre=$request->input('ordre');
+        $h2=horaire::whereOrdre($ordre)->first();
+        if($h2!=null){
+            session(['error'=>trans('admin.ordre_pris')]);
+            return redirect()->action('admin\horaireController@index');
+        }
+
         $h=new horaire();
         $h->intervalle=$request->input('intervalle');
         $h->type=$request->input('type');
+        $h->ordre=$ordre;
         $h->save();
         session(['success'=>true]);
         return redirect()->action('admin\horaireController@index');
@@ -113,10 +126,23 @@ class horaireController extends Controller {
         'intervalle'=>'required',
               'id'=>'required|numeric',
               'type'=>'required|numeric',
+              'ordre'=>'required|numeric|min:1',
     ]);
+        $ordre=$request->input('ordre');
+        $h2=horaire::whereOrdre($ordre)->first();
+        if($h2!=null){
+            if($h2->id!=$request->input('id')){
+                session(['error'=>trans('admin.ordre_pris')]);
+                return redirect()->action('admin\horaireController@index');
+            }
+
+        }
+
+
         $h=horaire::find($request->input('id'));
         $h->intervalle=$request->input('intervalle');
         $h->type=$request->input('type');
+        $h->ordre=$ordre;
         $h->save();
         session(['success'=>true]);
         return redirect()->action('admin\horaireController@index');

@@ -40,6 +40,11 @@ Route::group(['middleware'=>'auth'],function (){
     //Tableau de bord d'admin
     Route::group(['middleware'=>'lvl2'],function (){
         Route::get('/admin/', 'admin\adminController@index');
+        //routes pour le verrou des notes
+        Route::get('/admin/verrou-note/', 'admin\verrou_noteController@index');
+        Route::get('/admin/verrou-note/activate/{sequence}', 'admin\verrou_noteController@activate');
+        Route::get('/admin/verrou-note/deactivate/{sequence}', 'admin\verrou_noteController@deactivate');
+
 //routes pour les cycles
         Route::get('/admin/cycles/', 'admin\cycleController@index');
         Route::get('/admin/cycles/destroy/{id}', 'admin\cycleController@destroy');
