@@ -3,6 +3,10 @@
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
 use gesecole\parametres;
+use gesecole\decaissement;
+use gesecole\payement_salaire;
+use gesecole\payement;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
 class comptabiliteController extends Controller {
@@ -33,7 +37,32 @@ class comptabiliteController extends Controller {
 
 	public function index()
 	{
-		return view('comptabilite\index');
+        $pe=payement::whereAnneeScolaire(\session('year'))->get();
+
+        $total_e=0;
+        foreach ($pe as $pay){
+        $total_e+=$pay->montant;
+        }
+
+
+        $ps=payement_salaire::whereAnneeScolaire(\session('year'))->get();
+
+        $d=decaissement::whereAnneeScolaire(\session('year'))->get();
+
+
+
+
+        $total_ps=0;
+        foreach ($ps as $pay){
+        $total_ps+=$pay->net_a_payer;
+        }
+        $total_d=0;
+        foreach ($d as $pay){
+            $total_d+=$pay->montant;
+        }
+
+        $values= array('entrees'=>$total_e,'sorties'=>$total_ps+$total_d);
+        return view('comptabilite\index',$values);
 	}
 
 	/**

@@ -5,7 +5,7 @@
 
             <div class="alert alert-success">
                 {{  trans('admin.succes')  }}
-    </div>
+            </div>
 
             @endif
 

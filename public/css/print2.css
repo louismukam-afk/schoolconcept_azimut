@@ -76,6 +76,7 @@ html,body {
         min-height: 50px;
         border-color: rgb(188, 232, 241) !important;
         border-bottom: solid 1px ;
+        padding: 5mm;
     }
     .mat-ann
     {
@@ -127,5 +128,12 @@ html,body {
     margin-top: 10px;
 }
 
+.traduction
+{
+    -webkit-print-color-adjust:exact;
+    font-size: 10px !important;
+    color: grey !important;
+    margin-left: 7mm;
+}
 
 

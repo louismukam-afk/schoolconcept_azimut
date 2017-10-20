@@ -80,9 +80,22 @@
                                 <div class="form-group">
                                     <label for="classe">{{  trans('admin.choix_classe')  }} : <span class="required">*</span></label>
                                     <select  name="id_classe" form="edit_manger_form" class="form-control">
-                                        @foreach($classes as $n)
-                                            <option value="{{  $n->id  }}" @if($n->id == old('id_classe')) selected @endif>{{ $n->nom }}</option>
-                                        @endforeach
+                                        <?php $n=0;$i=0; ?>
+
+                                        @foreach($classes as $c)
+                                            @if($i=0)
+                                                <optgroup label="{{\gesecole\niveau::find($c->id_niveau)->nom}}">
+                                                    <?php  $i++; ?>
+                                                    @endif
+                                                    @if($c->id_niveau!=$n)
+                                                        <?php $n=$c->id_niveau ?>
+                                                </optgroup>
+                                                <optgroup label="{{@\gesecole\niveau::find($c->id_niveau)->nom}}">
+                                                    @endif
+                                                    <option value="{{$c->id}}" @if($c->id == old('id_classe')) selected @endif>{{$c->nom}}</option>
+                                                    @endforeach
+                                                </optgroup>
+
                                     </select>
                                 </div>
                                 <input type="hidden" name="id_personnel" value="{{$personnel->id}}">
