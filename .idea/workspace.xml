@@ -2,33 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c5522a3f-f74c-474c-87f2-901ced8f473f" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/css/print_timetable.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/personnel/emploi_temps.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/scolariteController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/scolariteController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/eleves/disciplineController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/eleves/disciplineController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/eleves/noteController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/eleves/noteController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/personnel/dispenseController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/personnel/dispenseController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/app.php" afterPath="$PROJECT_DIR$/config/app.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/lang/en/admin.php" afterPath="$PROJECT_DIR$/resources/lang/en/admin.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/lang/en/eleve.php" afterPath="$PROJECT_DIR$/resources/lang/en/eleve.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/lang/en/inscription.php" afterPath="$PROJECT_DIR$/resources/lang/en/inscription.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/lang/fr/admin.php" afterPath="$PROJECT_DIR$/resources/lang/fr/admin.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/admin/addProgram.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin/addProgram.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/admin/classes.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin/classes.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/admin/scolarite.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin/scolarite.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/admin/selection_classe_programme.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin/selection_classe_programme.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/eleves/classe_note.blade.php" afterPath="$PROJECT_DIR$/resources/views/eleves/classe_note.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/eleves/classe_note_show.blade.php" afterPath="$PROJECT_DIR$/resources/views/eleves/classe_note_show.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/eleves/eleves_notes.blade.php" afterPath="$PROJECT_DIR$/resources/views/eleves/eleves_notes.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/eleves/matiere_note.blade.php" afterPath="$PROJECT_DIR$/resources/views/eleves/matiere_note.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/eleves/matiere_note_show.blade.php" afterPath="$PROJECT_DIR$/resources/views/eleves/matiere_note_show.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/eleves/search.blade.php" afterPath="$PROJECT_DIR$/resources/views/eleves/search.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/inscriptions/add_inscription.blade.php" afterPath="$PROJECT_DIR$/resources/views/inscriptions/add_inscription.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/inscriptions/selection_liste.blade.php" afterPath="$PROJECT_DIR$/resources/views/inscriptions/selection_liste.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/personnel/dispense.blade.php" afterPath="$PROJECT_DIR$/resources/views/personnel/dispense.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/personnel/dispenses.blade.php" afterPath="$PROJECT_DIR$/resources/views/personnel/dispenses.blade.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/inscriptionController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/inscriptionController.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -55,7 +29,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="routes.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="195">
@@ -68,9 +42,62 @@
       <file leaf-file-name="admin.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/lang/fr/admin.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="178">
-              <caret line="69" column="32" lean-forward="false" selection-start-line="69" selection-start-column="24" selection-end-line="69" selection-end-column="32" />
+            <state relative-caret-position="348">
+              <caret line="240" column="44" lean-forward="true" selection-start-line="204" selection-start-column="3" selection-end-line="240" selection-end-column="44" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="admin.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/lang/en/admin.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="443">
+              <caret line="235" column="35" lean-forward="false" selection-start-line="235" selection-start-column="35" selection-end-line="235" selection-end-column="35" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="inscriptionController.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/inscriptions/inscriptionController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="346" column="58" lean-forward="false" selection-start-line="346" selection-start-column="58" selection-end-line="346" selection-end-column="58" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="listesController.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/inscriptions/listesController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="391">
+              <caret line="52" column="5" lean-forward="true" selection-start-line="52" selection-start-column="5" selection-end-line="52" selection-end-column="5" />
+              <folding>
+                <marker date="1506398709639" expanded="true" signature="2048:2291" ph="SELECT e.mat... eleve" />
+                <marker date="1506398709639" expanded="true" signature="2663:2932" ph="SELECT e.mat... eleve" />
+                <marker date="1506398709639" expanded="true" signature="3356:3997" ph="SELECT e.mat... eleve" />
+                <marker date="1506398709639" expanded="true" signature="3574:3751" ph="SELECT SUM(C... eleve" />
+                <marker date="1506398709639" expanded="true" signature="4425:5104" ph="SELECT e.mat... eleve" />
+                <marker date="1506398709639" expanded="true" signature="4643:4820" ph="SELECT SUM(C... eleve" />
+                <marker date="1506398709639" expanded="true" signature="5578:6258" ph="SELECT e.mat... eleve" />
+                <marker date="1506398709639" expanded="true" signature="5822:5999" ph="SELECT SUM(C... eleve" />
+                <marker date="1506398709639" expanded="true" signature="6686:7404" ph="SELECT e.mat... eleve" />
+                <marker date="1506398709639" expanded="true" signature="6930:7107" ph="SELECT SUM(C... eleve" />
+                <marker date="1506398709639" expanded="true" signature="7878:8592" ph="SELECT e.mat... eleve" />
+                <marker date="1506398709639" expanded="true" signature="8144:8321" ph="SELECT SUM(C... eleve" />
+                <marker date="1506398709639" expanded="true" signature="9020:9771" ph="SELECT e.mat... eleve" />
+                <marker date="1506398709639" expanded="true" signature="9286:9463" ph="SELECT SUM(C... eleve" />
+                <marker date="1506398709639" expanded="true" signature="10245:10992" ph="SELECT e.mat... eleve" />
+                <marker date="1506398709639" expanded="true" signature="10533:10710" ph="SELECT SUM(C... eleve" />
+                <marker date="1506398709639" expanded="true" signature="11420:12204" ph="SELECT e.mat... eleve" />
+                <marker date="1506398709639" expanded="true" signature="11708:11885" ph="SELECT SUM(C... eleve" />
+                <marker date="1506398709639" expanded="true" signature="12678:13458" ph="SELECT e.mat... eleve" />
+                <marker date="1506398709639" expanded="true" signature="12988:13165" ph="SELECT SUM(C... eleve" />
+                <marker date="1506398709639" expanded="true" signature="13886:14703" ph="SELECT e.mat... eleve" />
+                <marker date="1506398709639" expanded="true" signature="14196:14373" ph="SELECT SUM(C... eleve" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -127,7 +154,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/resources/views/comptabilite/bulletin_payement.blade.php" />
         <option value="$PROJECT_DIR$/app/personnel.php" />
         <option value="$PROJECT_DIR$/resources/views/personnel/personne.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/personnel/personnelController.php" />
@@ -158,7 +184,6 @@
         <option value="$PROJECT_DIR$/resources/views/inscriptions/selection_liste.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/personnel/dispenseController.php" />
         <option value="$PROJECT_DIR$/resources/lang/fr/admin.php" />
-        <option value="$PROJECT_DIR$/resources/lang/en/admin.php" />
         <option value="$PROJECT_DIR$/public/css/print_timetable.css" />
         <option value="$PROJECT_DIR$/resources/views/personnel/emploi_temps.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/inscriptions/add_inscription.blade.php" />
@@ -178,6 +203,8 @@
         <option value="$PROJECT_DIR$/resources/views/admin/scolarite.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/admin/selection_classe_programme.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/admin/addProgram.blade.php" />
+        <option value="$PROJECT_DIR$/resources/lang/en/admin.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/inscriptions/inscriptionController.php" />
       </list>
     </option>
   </component>
@@ -1203,12 +1230,12 @@
       <workItem from="1508355084874" duration="10514000" />
       <workItem from="1508373384044" duration="28208000" />
       <workItem from="1508525837464" duration="6719000" />
-      <workItem from="1508636708086" duration="7987000" />
+      <workItem from="1508636708086" duration="9279000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="822356000" />
+    <option name="totallyTimeSpent" value="823648000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1547,37 +1574,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/inscriptions/listesController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="49" column="0" lean-forward="true" selection-start-line="42" selection-start-column="6" selection-end-line="49" selection-end-column="0" />
-          <folding>
-            <marker date="1506398709639" expanded="true" signature="2048:2291" ph="SELECT e.mat... eleve" />
-            <marker date="1506398709639" expanded="true" signature="2663:2932" ph="SELECT e.mat... eleve" />
-            <marker date="1506398709639" expanded="true" signature="3356:3997" ph="SELECT e.mat... eleve" />
-            <marker date="1506398709639" expanded="true" signature="3574:3751" ph="SELECT SUM(C... eleve" />
-            <marker date="1506398709639" expanded="true" signature="4425:5104" ph="SELECT e.mat... eleve" />
-            <marker date="1506398709639" expanded="true" signature="4643:4820" ph="SELECT SUM(C... eleve" />
-            <marker date="1506398709639" expanded="true" signature="5578:6258" ph="SELECT e.mat... eleve" />
-            <marker date="1506398709639" expanded="true" signature="5822:5999" ph="SELECT SUM(C... eleve" />
-            <marker date="1506398709639" expanded="true" signature="6686:7404" ph="SELECT e.mat... eleve" />
-            <marker date="1506398709639" expanded="true" signature="6930:7107" ph="SELECT SUM(C... eleve" />
-            <marker date="1506398709639" expanded="true" signature="7878:8592" ph="SELECT e.mat... eleve" />
-            <marker date="1506398709639" expanded="true" signature="8144:8321" ph="SELECT SUM(C... eleve" />
-            <marker date="1506398709639" expanded="true" signature="9020:9771" ph="SELECT e.mat... eleve" />
-            <marker date="1506398709639" expanded="true" signature="9286:9463" ph="SELECT SUM(C... eleve" />
-            <marker date="1506398709639" expanded="true" signature="10245:10992" ph="SELECT e.mat... eleve" />
-            <marker date="1506398709639" expanded="true" signature="10533:10710" ph="SELECT SUM(C... eleve" />
-            <marker date="1506398709639" expanded="true" signature="11420:12204" ph="SELECT e.mat... eleve" />
-            <marker date="1506398709639" expanded="true" signature="11708:11885" ph="SELECT SUM(C... eleve" />
-            <marker date="1506398709639" expanded="true" signature="12678:13458" ph="SELECT e.mat... eleve" />
-            <marker date="1506398709639" expanded="true" signature="12988:13165" ph="SELECT SUM(C... eleve" />
-            <marker date="1506398709639" expanded="true" signature="13886:14703" ph="SELECT e.mat... eleve" />
-            <marker date="1506398709639" expanded="true" signature="14196:14373" ph="SELECT SUM(C... eleve" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/inscriptions/imprimer_recu_p.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="178">
@@ -1675,14 +1671,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="178">
           <caret line="43" column="25" lean-forward="true" selection-start-line="43" selection-start-column="25" selection-end-line="43" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/inscriptions/inscriptionController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="98" column="30" lean-forward="true" selection-start-line="98" selection-start-column="30" selection-end-line="98" selection-end-column="30" />
           <folding />
         </state>
       </provider>
@@ -1891,26 +1879,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/lang/en/admin.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="41" column="29" lean-forward="false" selection-start-line="41" selection-start-column="22" selection-end-line="41" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/lang/en/eleve.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="229">
           <caret line="17" column="24" lean-forward="false" selection-start-line="17" selection-start-column="24" selection-end-line="17" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/lang/fr/admin.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="69" column="32" lean-forward="false" selection-start-line="69" selection-start-column="24" selection-end-line="69" selection-end-column="32" />
           <folding />
         </state>
       </provider>
@@ -2379,6 +2351,61 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="194" column="90" lean-forward="false" selection-start-line="194" selection-start-column="90" selection-end-line="194" selection-end-column="90" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/lang/fr/admin.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="348">
+          <caret line="240" column="44" lean-forward="true" selection-start-line="204" selection-start-column="3" selection-end-line="240" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/lang/en/admin.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="443">
+          <caret line="235" column="35" lean-forward="false" selection-start-line="235" selection-start-column="35" selection-end-line="235" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/inscriptions/listesController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="52" column="5" lean-forward="true" selection-start-line="52" selection-start-column="5" selection-end-line="52" selection-end-column="5" />
+          <folding>
+            <marker date="1506398709639" expanded="true" signature="2048:2291" ph="SELECT e.mat... eleve" />
+            <marker date="1506398709639" expanded="true" signature="2663:2932" ph="SELECT e.mat... eleve" />
+            <marker date="1506398709639" expanded="true" signature="3356:3997" ph="SELECT e.mat... eleve" />
+            <marker date="1506398709639" expanded="true" signature="3574:3751" ph="SELECT SUM(C... eleve" />
+            <marker date="1506398709639" expanded="true" signature="4425:5104" ph="SELECT e.mat... eleve" />
+            <marker date="1506398709639" expanded="true" signature="4643:4820" ph="SELECT SUM(C... eleve" />
+            <marker date="1506398709639" expanded="true" signature="5578:6258" ph="SELECT e.mat... eleve" />
+            <marker date="1506398709639" expanded="true" signature="5822:5999" ph="SELECT SUM(C... eleve" />
+            <marker date="1506398709639" expanded="true" signature="6686:7404" ph="SELECT e.mat... eleve" />
+            <marker date="1506398709639" expanded="true" signature="6930:7107" ph="SELECT SUM(C... eleve" />
+            <marker date="1506398709639" expanded="true" signature="7878:8592" ph="SELECT e.mat... eleve" />
+            <marker date="1506398709639" expanded="true" signature="8144:8321" ph="SELECT SUM(C... eleve" />
+            <marker date="1506398709639" expanded="true" signature="9020:9771" ph="SELECT e.mat... eleve" />
+            <marker date="1506398709639" expanded="true" signature="9286:9463" ph="SELECT SUM(C... eleve" />
+            <marker date="1506398709639" expanded="true" signature="10245:10992" ph="SELECT e.mat... eleve" />
+            <marker date="1506398709639" expanded="true" signature="10533:10710" ph="SELECT SUM(C... eleve" />
+            <marker date="1506398709639" expanded="true" signature="11420:12204" ph="SELECT e.mat... eleve" />
+            <marker date="1506398709639" expanded="true" signature="11708:11885" ph="SELECT SUM(C... eleve" />
+            <marker date="1506398709639" expanded="true" signature="12678:13458" ph="SELECT e.mat... eleve" />
+            <marker date="1506398709639" expanded="true" signature="12988:13165" ph="SELECT SUM(C... eleve" />
+            <marker date="1506398709639" expanded="true" signature="13886:14703" ph="SELECT e.mat... eleve" />
+            <marker date="1506398709639" expanded="true" signature="14196:14373" ph="SELECT SUM(C... eleve" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/inscriptions/inscriptionController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="346" column="58" lean-forward="false" selection-start-line="346" selection-start-column="58" selection-end-line="346" selection-end-column="58" />
           <folding />
         </state>
       </provider>

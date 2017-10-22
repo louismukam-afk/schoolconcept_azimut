@@ -344,7 +344,7 @@ class inscriptionController extends Controller {
             session(['success'=>true]);
             session(['inscription_edition'=>true]);
 
-            return redirect()->action('inscriptions\inscriptionController@search') ;
+            return redirect()->action('inscriptions\listesController@index') ;
         }else{
             session(['custom_error'=>trans('inscription.full_classe')]);
             return redirect()->action('inscriptions\inscriptionController@create',['id_eleve'=>$id_eleve]);
