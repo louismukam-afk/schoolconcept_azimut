@@ -15,7 +15,7 @@ return [
     'choix_classe'=>'Choose speciality',
     'etat_discipline'=>'Discplinary state of',
     'choix_seq'=>'Choose session',
-    'choix_mat'=>'Choisir subject',
+    'choix_mat'=>'Choose subject',
     'gerer_notes'=>'Manage notes of',
     'none'=>'No students in this specialty',
     'bulletins'=>'Report cards',

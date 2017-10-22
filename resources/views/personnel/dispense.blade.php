@@ -29,7 +29,7 @@
 
                     @foreach($classes as $n)
                         @if($n->id == $c->id_classe)
-                            <td>  {{  $n->nom  }}</td>
+                            <td>  {{  (session('locale')=='en')?$n->nom_anglais:$n->nom  }}</td>
                             <?php break; ?>
                         @endif
 
@@ -37,7 +37,7 @@
 
                     @foreach($matieres as $e)
                         @if($e->id == $c->id_matiere)
-                            <td>  {{  $e->nom  }}</td>
+                            <td>  {{  (session('locale')=='en')?$e->nom_anglais:$e->nom }}</td>
                             <?php break; ?>
                         @endif
 
@@ -84,15 +84,15 @@
 
                                         @foreach($classes as $c)
                                             @if($i=0)
-                                                <optgroup label="{{\gesecole\niveau::find($c->id_niveau)->nom}}">
+                                                <optgroup label="{{(session('locale')=='en')?\gesecole\niveau::find($c->id_niveau)->nom_anglais:\gesecole\niveau::find($c->id_niveau)->nom}}">
                                                     <?php  $i++; ?>
                                                     @endif
                                                     @if($c->id_niveau!=$n)
                                                         <?php $n=$c->id_niveau ?>
                                                 </optgroup>
-                                                <optgroup label="{{@\gesecole\niveau::find($c->id_niveau)->nom}}">
+                                                <optgroup label="{{(session('locale')=='en')?\gesecole\niveau::find($c->id_niveau)->nom_anglais:\gesecole\niveau::find($c->id_niveau)->nom}}">
                                                     @endif
-                                                    <option value="{{$c->id}}" @if($c->id == old('id_classe')) selected @endif>{{$c->nom}}</option>
+                                                    <option value="{{$c->id}}" @if($c->id == old('id_classe')) selected @endif>{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</option>
                                                     @endforeach
                                                 </optgroup>
 
@@ -102,7 +102,7 @@
                                 <div class="form-group">
                                     <select  name="id_matiere" form="edit_manger_form" class="form-control">
                                         @foreach($matieres as $e)
-                                            <option value="{{  $e->id  }}" @if($e->id == old('id_matiere')) selected @endif>{{  $e->nom  }}</option>
+                                            <option value="{{  $e->id  }}" @if($e->id == old('id_matiere')) selected @endif>{{  (session('locale')=='en')?$e->nom_anglais:$e->nom  }}</option>
                                         @endforeach
                                     </select>
                                 </div>

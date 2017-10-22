@@ -39,7 +39,7 @@
                     <td>
                         @foreach($niveaux as $n)
                             @if($n->id == $c->id_niveau)
-                                {{  $n->nom  }}
+                                {{  (session('locale')=='en')?$n->nom_anglais:$n->nom  }}
                                 <?php break; ?>
                             @endif
                         @endforeach
@@ -89,7 +89,7 @@
                                     <select id="niveau" name="niveau" form="add_level_form" class="form-control">
 
                                     @foreach($niveaux as $n)
-                                                <option value="{{  $n->id  }}" @if($n->id == old('niveau')) selected @endif>{{  $n->nom  }}</option>
+                                                <option value="{{  $n->id  }}" @if($n->id == old('niveau')) selected @endif>{{  (session('locale')=='en')?$n->nom_anglais:$n->nom  }}</option>
                                         @endforeach
                                     </select>
                                 </div>

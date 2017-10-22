@@ -38,7 +38,7 @@
                 <th>{{  trans('inscription.date_naiss')  }}</th>
                 <th>{{  trans('inscription.lieu_naiss')  }}</th>
                 <th>{{  trans('inscription.sexe')  }}</th>
-                <th>Classe</th>
+                <th>@lang('admin.specialites')</th>
 
                 </thead>
                 <tbody>
@@ -51,7 +51,7 @@
                         <td>{{$e->date_naiss}}</td>
                         <td>{{$e->lieu_naiss}}</td>
                         <td>{{$e->sexe}}</td>
-                        <td>{{$e->nom_classe}}</td>
+                        <td>{{(session('locale')=='en')?$e->nom_classe_anglais:$e->nom_classe}}</td>
                         <td>
 
                                     <a href="{{URL::to('/eleves/discipline/show/'.$e->id)}}"  class=" btn btn-success" ><span class="fa fa-bell-o"></span> {{trans('eleve.titre_discipline')}}</a

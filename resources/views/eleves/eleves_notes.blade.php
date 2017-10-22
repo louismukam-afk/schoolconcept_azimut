@@ -1,7 +1,7 @@
 @extends('skeleton')
 @section('sub-content')
     <div class="add-container col-md-12" style="margin-top: 25px">
-        <h3>{{trans('eleve.gerer_notes').' '.$matiere->nom.'/'.$matiere->nom_anglais}}</h3>
+        <h3>{{trans('eleve.gerer_notes').' '.(session('locale')=='en')?$matiere->nom_anglais:$matiere->nom}}</h3>
         <hr>
         <form accept-charset="UTF-8" role="form" method="POST" id="add_level_form" action="{{URL::to('/eleves/notes/store/')}}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">

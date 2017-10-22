@@ -23,7 +23,7 @@
             @foreach($programmes as $p)
                 <tr>
                     <td>{{$i++}}</td>
-                    <td><strong >{{$p->nom_matiere.'/'.$p->nom_anglais}}</strong></td>
+                    <td><strong >{{(session('locale')=='en')?$p->nom_anglais:$p->nom_matiere}}</strong></td>
                     <td>{{$p->coef}} </td>
                     <td>{{$p->max}}</td>
                     <td>

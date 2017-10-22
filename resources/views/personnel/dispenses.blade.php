@@ -69,5 +69,52 @@
 
                 {{Session::forget('search_result')}}
             @endif
+
+
+
+
+
         </div>
+    <div class="col-md-12">
+        <div id="monaccordeon" class="panel-group col-md-12">
+            <h3>{{trans('admin.ou')}}</h3>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <a class="accordion-toggle" href="#item1" dataparent="#monaccordeon"
+                           data-toggle="collapse">
+                            {{trans('admin.emploi_temps_classe')}}
+                        </a>
+                    </h3>
+                </div>
+
+                <div id="item1"
+                     class="panel-collapse collapsing">
+                    <div
+                            class="panel-body">
+                        @foreach($cycles as $cy)
+                            <h3 class="page-header col-md-12">{{$cy->nom}}</h3>
+
+                            @foreach($niveaux as $n)
+                                <div class="col-md-6">
+                                    <h4 class="page-header"> {{ (session('locale')=='en')?$n->nom_anglais:$n->nom}}</h4>
+
+                                    @foreach($classes as $c)
+                                        <div class="col-md-12">
+                                            @if($c->id_cycle==$cy->id && $c->id_niveau==$n->id)
+                                                <li class="col-md-12"><a href="{{URL::to('/personnel/emploi-temps/show/'.$c->id)}}">{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</a></li>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endforeach
+
+                        @endforeach
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
