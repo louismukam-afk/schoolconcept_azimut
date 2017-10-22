@@ -2,33 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c5522a3f-f74c-474c-87f2-901ced8f473f" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/public/css/print_timetable.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/resources/views/personnel/emploi_temps.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/scolariteController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/scolariteController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/eleves/disciplineController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/eleves/disciplineController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/eleves/noteController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/eleves/noteController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/Controllers/personnel/dispenseController.php" afterPath="$PROJECT_DIR$/app/Http/Controllers/personnel/dispenseController.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/Http/routes.php" afterPath="$PROJECT_DIR$/app/Http/routes.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/config/app.php" afterPath="$PROJECT_DIR$/config/app.php" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/lang/en/admin.php" afterPath="$PROJECT_DIR$/resources/lang/en/admin.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/lang/en/eleve.php" afterPath="$PROJECT_DIR$/resources/lang/en/eleve.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/lang/en/inscription.php" afterPath="$PROJECT_DIR$/resources/lang/en/inscription.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/lang/fr/admin.php" afterPath="$PROJECT_DIR$/resources/lang/fr/admin.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/admin/addProgram.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin/addProgram.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/admin/classes.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin/classes.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/admin/scolarite.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin/scolarite.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/admin/selection_classe_programme.blade.php" afterPath="$PROJECT_DIR$/resources/views/admin/selection_classe_programme.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/eleves/classe_note.blade.php" afterPath="$PROJECT_DIR$/resources/views/eleves/classe_note.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/eleves/classe_note_show.blade.php" afterPath="$PROJECT_DIR$/resources/views/eleves/classe_note_show.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/eleves/eleves_notes.blade.php" afterPath="$PROJECT_DIR$/resources/views/eleves/eleves_notes.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/eleves/matiere_note.blade.php" afterPath="$PROJECT_DIR$/resources/views/eleves/matiere_note.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/eleves/matiere_note_show.blade.php" afterPath="$PROJECT_DIR$/resources/views/eleves/matiere_note_show.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/eleves/search.blade.php" afterPath="$PROJECT_DIR$/resources/views/eleves/search.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/inscriptions/add_inscription.blade.php" afterPath="$PROJECT_DIR$/resources/views/inscriptions/add_inscription.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/inscriptions/selection_liste.blade.php" afterPath="$PROJECT_DIR$/resources/views/inscriptions/selection_liste.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/personnel/dispense.blade.php" afterPath="$PROJECT_DIR$/resources/views/personnel/dispense.blade.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/resources/views/personnel/dispenses.blade.php" afterPath="$PROJECT_DIR$/resources/views/personnel/dispenses.blade.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -55,7 +29,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="routes.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="routes.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/Http/routes.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="195">
@@ -68,8 +42,18 @@
       <file leaf-file-name="admin.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/lang/fr/admin.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="178">
-              <caret line="69" column="32" lean-forward="false" selection-start-line="69" selection-start-column="24" selection-end-line="69" selection-end-column="32" />
+            <state relative-caret-position="348">
+              <caret line="240" column="44" lean-forward="true" selection-start-line="204" selection-start-column="3" selection-end-line="240" selection-end-column="44" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="admin.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/lang/en/admin.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="443">
+              <caret line="235" column="35" lean-forward="false" selection-start-line="235" selection-start-column="35" selection-end-line="235" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -158,7 +142,6 @@
         <option value="$PROJECT_DIR$/resources/views/inscriptions/selection_liste.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/personnel/dispenseController.php" />
         <option value="$PROJECT_DIR$/resources/lang/fr/admin.php" />
-        <option value="$PROJECT_DIR$/resources/lang/en/admin.php" />
         <option value="$PROJECT_DIR$/public/css/print_timetable.css" />
         <option value="$PROJECT_DIR$/resources/views/personnel/emploi_temps.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/inscriptions/add_inscription.blade.php" />
@@ -178,6 +161,7 @@
         <option value="$PROJECT_DIR$/resources/views/admin/scolarite.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/admin/selection_classe_programme.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/admin/addProgram.blade.php" />
+        <option value="$PROJECT_DIR$/resources/lang/en/admin.php" />
       </list>
     </option>
   </component>
@@ -1203,12 +1187,12 @@
       <workItem from="1508355084874" duration="10514000" />
       <workItem from="1508373384044" duration="28208000" />
       <workItem from="1508525837464" duration="6719000" />
-      <workItem from="1508636708086" duration="7987000" />
+      <workItem from="1508636708086" duration="8809000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="822356000" />
+    <option name="totallyTimeSpent" value="823178000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1891,26 +1875,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/lang/en/admin.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="41" column="29" lean-forward="false" selection-start-line="41" selection-start-column="22" selection-end-line="41" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/lang/en/eleve.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="229">
           <caret line="17" column="24" lean-forward="false" selection-start-line="17" selection-start-column="24" selection-end-line="17" selection-end-column="24" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/lang/fr/admin.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="178">
-          <caret line="69" column="32" lean-forward="false" selection-start-line="69" selection-start-column="24" selection-end-line="69" selection-end-column="32" />
           <folding />
         </state>
       </provider>
@@ -2379,6 +2347,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="194" column="90" lean-forward="false" selection-start-line="194" selection-start-column="90" selection-end-line="194" selection-end-column="90" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/lang/fr/admin.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="348">
+          <caret line="240" column="44" lean-forward="true" selection-start-line="204" selection-start-column="3" selection-end-line="240" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/lang/en/admin.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="443">
+          <caret line="235" column="35" lean-forward="false" selection-start-line="235" selection-start-column="35" selection-end-line="235" selection-end-column="35" />
           <folding />
         </state>
       </provider>
