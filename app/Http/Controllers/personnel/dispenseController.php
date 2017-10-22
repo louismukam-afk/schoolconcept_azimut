@@ -1,6 +1,8 @@
 <?php namespace gesecole\Http\Controllers\personnel;
 
 use gesecole\classe;
+use gesecole\cycle;
+use gesecole\niveau;
 use gesecole\dispense;
 use gesecole\horaire;
 use Illuminate\Support\Facades\Session;
@@ -60,9 +62,13 @@ class dispenseController extends Controller {
     public function index1()
     {
         $titre=trans('admin.search_personnel');
-
+        $c=classe::orderBy('nom')->get();
         $values= array('titre'=>$titre);
-
+        $values['classes']=$c;
+        $cy=cycle::all();
+        $n=niveau::all();
+        $values['cycles']=$cy;
+        $values['niveaux']=$n;
 
         return view('personnel\dispenses',$values);
     }
@@ -74,6 +80,13 @@ class dispenseController extends Controller {
             ->orderBy('nom')
             ->paginate(30);
         $values= array('titre'=>trans('admin.search_personnel'));
+
+        $c=classe::orderBy('nom')->get();
+        $values['classes']=$c;
+        $cy=cycle::all();
+        $n=niveau::all();
+        $values['cycles']=$cy;
+        $values['niveaux']=$n;
         $values['personnel']=$p;
         session(['search_result'=>true]);
 
@@ -148,8 +161,25 @@ class dispenseController extends Controller {
 	 */
 	public function show($id)
 	{
-      //
-	}
+        $titre=trans('admin.emploi_temps_classe');
+        $d=dispense::whereAnneeScolaire(\session('year'))
+        ->where('id_classe','=',$id)
+        ->get();
+        $c=classe::find($id);
+        $h=horaire::orderBy('ordre')->get();
+        $p=personnel::whereType(0)->get();
+        $m=matiere::all();
+        $values['titre']=$titre;
+        $values['dispenses']=$d;
+        $values['horaires']=$h;
+        $values['classe']=$c;
+        $values['personnels']=$p;
+        $values['matieres']=$m;
+
+
+        return view('personnel\emploi_temps',$values);
+
+    }
 
 	/**
 	 * Show the form for editing the specified resource.
@@ -159,7 +189,7 @@ class dispenseController extends Controller {
 	 */
 	public function edit($id)
 	{
-		//
+
 	}
 
 	/**

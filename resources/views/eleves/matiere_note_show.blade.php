@@ -25,7 +25,7 @@
     <div class="liste-classe col-md-9">
         <ul>
             @foreach($matieres as $m)
-                <li><a  data-toggle="modal" data-backdrop="false" href="#choose_seq2" onclick="choix_seq({{$m->id}})">{{$m->nom}}</a></li>
+                <li><a  data-toggle="modal" data-backdrop="false" href="#choose_seq2" onclick="choix_seq({{$m->id}})">{{(session('locale')=='en')?$m->nom_anglais:$m->nom}}</a></li>
             @endforeach
         </ul>
     </div>

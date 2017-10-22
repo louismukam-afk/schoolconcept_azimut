@@ -190,6 +190,9 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/personnel/dispense/update', 'personnel\dispenseController@update');
         Route::get('/personnel/dispenses/', 'personnel\dispenseController@index1');
         Route::get('/personnel/dispense/{id}', 'personnel\dispenseController@index');
+        ////
+        /// routes pour les emplois du temps
+        Route::get('/personnel/emploi-temps/show/{id}', 'personnel\dispenseController@show');
 
 
 ////routes pour les titulaires

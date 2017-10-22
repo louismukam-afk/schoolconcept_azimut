@@ -101,7 +101,7 @@ return [
     'jour7'=>'Sunday',
     'gerer_emploi_temps'=>'Manage schedules',
     'emploi_temps'=>'Schedule',
-    'occupe'=>'Occuied by',
+    'occupe'=>'Occupied by',
     'ajouter_titulaire'=>'Add a classroom teacher',
     'titulaire_de'=>'Classroom teacher of',
     'menu_recherche'=>'Search menu',

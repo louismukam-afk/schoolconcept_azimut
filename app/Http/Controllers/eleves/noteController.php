@@ -79,7 +79,7 @@ class noteController extends Controller {
     {
         $id_cycle=$request->input('cycle');
         $values= array('titre'=>'Notes');
-        $m=DB::select('SELECT m.id,m.nom FROM matiere m ,classe_matiere cm WHERE m.id=cm.id_matiere AND cm.id_classe=? AND cm.id_cycle=? ORDER BY m.nom',[$id,$id_cycle]);
+        $m=DB::select('SELECT m.* FROM matiere m ,classe_matiere cm WHERE m.id=cm.id_matiere AND cm.id_classe=? AND cm.id_cycle=? ORDER BY m.nom',[$id,$id_cycle]);
         if(session('success')){
             $values['success']=session('success');
             Session::forget('success');
@@ -98,7 +98,7 @@ class noteController extends Controller {
     {
         $id_cycle=$request->input('cycle');
         $values= array('titre'=>'Notes');
-        $m=DB::select('SELECT m.id,m.nom FROM matiere m ,classe_matiere cm WHERE m.id=cm.id_matiere AND cm.id_classe=? AND cm.id_cycle=? ORDER BY m.nom',[$id,$id_cycle]);
+        $m=DB::select('SELECT m.* FROM matiere m ,classe_matiere cm WHERE m.id=cm.id_matiere AND cm.id_classe=? AND cm.id_cycle=? ORDER BY m.nom',[$id,$id_cycle]);
         if(session('success')){
             $values['success']=session('success');
             Session::forget('success');

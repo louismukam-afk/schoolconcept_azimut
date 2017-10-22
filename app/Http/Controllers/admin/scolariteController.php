@@ -45,7 +45,7 @@ class scolariteController extends Controller {
         $s=scolarite::paginate(15);
         $c=niveau::all();
         $cy=cycle::all();
-        $values= array('titre'=>trans('admin.schoolfees'),'scolarite'=>$s,'classes'=>$c,'niveaux'=>$c,'cycles'=>$cy);
+        $values= array('titre'=>trans('admin.schoolfees'),'scolarite'=>$s,'niveaux'=>$c,'cycles'=>$cy);
         if(session('success')){
             Session::forget('success');
             $values['success']=true;
