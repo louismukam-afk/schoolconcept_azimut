@@ -147,6 +147,10 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/eleves/bulletins/find/','eleves\bulletinController@search');
         Route::post('/eleves/bulletins/print-single-seq','eleves\bulletinController@print_single_seq');
 
+        Route::get('/eleves/releves/','eleves\relevesController@index');
+        Route::get('/eleves/releves/print/{id}','eleves\relevesController@create');
+
+
     });
     Route::group(['middleware'=>'lvl18.5'],function (){
         Route::get('/eleves/', 'eleves\eleveController@index');

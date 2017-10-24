@@ -239,6 +239,24 @@ return [
     "ou"=>"Ou",
     "emploi_temps_classe"=>"Afficher l'emploi de temps d'une spécialité",
     "emploi_temps_de"=>"Emploi du temps de",
+
+    /////////////////////////////////////////////////////////
+    ///
+    ///
+
+
+    "releve_notes"=>"Relevés de notes",
+    ""=>"",
+    ""=>"",
+    ""=>"",
+    ""=>"",
+    ""=>"",
+    ""=>"",
+    ""=>"",
+    ""=>"",
+    ""=>"",
+    ""=>"",
+    ""=>"",
     ""=>"",
     ""=>"",
     ""=>"",

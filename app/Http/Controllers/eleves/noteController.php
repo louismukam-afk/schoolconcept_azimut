@@ -457,7 +457,8 @@ class noteController extends Controller {
                 $sCoef+=$entry->coef;
             }
             $matiere_list=$cm->fetch('id_matiere')->toArray();
-            $m=matiere::whereIn('id',$matiere_list)->whereIn('id',$matieres_pv)->get();
+            //$m=matiere::whereIn('id',$matiere_list)->whereIn('id',$matieres_pv)->get();
+            $m=matiere::whereIn('id',$matiere_list)->get();
 
             $k=0;
             foreach($e as $eleve){

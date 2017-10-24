@@ -206,7 +206,7 @@
       
     
             <div class="row">
-                <div class="col-lg-12 copy" >
+                <div class="copy" >
                     &copy;  2017 SchoolConcept | by: <a href="http://youth-concept.com" style="color:#fff;" target="_blank">youth-concept</a>
                 </div>
             </div>
