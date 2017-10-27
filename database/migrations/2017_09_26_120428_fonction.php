@@ -12,9 +12,10 @@ class Fonction extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('fonction', function(Blueprint $table)
+		Schema::create('fonction', function(Blueprint $table)
 		{
-			//
+			$table->increments('id');
+			$table->string('nom');
 		});
 	}
 
@@ -25,7 +26,7 @@ class Fonction extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('fonction', function(Blueprint $table)
+		Schema::dropIfExists('fonction', function(Blueprint $table)
 		{
 			//
 		});

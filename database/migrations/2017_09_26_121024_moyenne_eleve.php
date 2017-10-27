@@ -12,9 +12,14 @@ class MoyenneEleve extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('moyenne_eleve', function(Blueprint $table)
+		Schema::create('moyenne_eleve', function(Blueprint $table)
 		{
-			//
+			$table->increments('id');
+			$table->integer('id_eleve');
+			$table->integer('id_classe');
+			$table->float('moyenne');
+			$table->string('annee_scolaire');
+			$table->integer('sequence');
 		});
 	}
 
@@ -25,7 +30,7 @@ class MoyenneEleve extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('moyenne_eleve', function(Blueprint $table)
+		Schema::dropIfExists('moyenne_eleve', function(Blueprint $table)
 		{
 			//
 		});

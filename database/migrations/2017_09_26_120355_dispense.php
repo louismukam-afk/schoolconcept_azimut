@@ -31,7 +31,7 @@ class Dispense extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('dispense', function(Blueprint $table)
+		Schema::dropIfExists('dispense', function(Blueprint $table)
 		{
 			//
 		});

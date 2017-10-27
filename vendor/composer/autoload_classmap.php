@@ -23,6 +23,7 @@ return array(
     'File_Iterator_Factory' => $vendorDir . '/phpunit/php-file-iterator/src/Factory.php',
     'Fonction' => $baseDir . '/database/migrations/2017_09_26_120428_fonction.php',
     'FonctionPersonnel' => $baseDir . '/database/migrations/2017_09_26_120445_fonction_personnel.php',
+    'HeureRealise' => $baseDir . '/database/migrations/2017_10_27_053610_heure_realise.php',
     'Horaire' => $baseDir . '/database/migrations/2017_09_26_120459_horaire.php',
     'IlluminateQueueClosure' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/IlluminateQueueClosure.php',
     'Inscription' => $baseDir . '/database/migrations/2017_09_26_120517_inscription.php',

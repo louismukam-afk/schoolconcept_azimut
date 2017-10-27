@@ -12,7 +12,7 @@ class Eleve extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('eleve', function(Blueprint $table)
+		Schema::create('eleve', function(Blueprint $table)
 		{
             $table->increments('id');
             $table->string('nom');
@@ -26,6 +26,19 @@ class Eleve extends Migration {
             $table->string('matricule')->nullable();
             $table->string('email')->nullable();
             $table->string('tel')->nullable();
+            $table->string('status_matrimonial')->nullable;
+            $table->string('region_origine')->nullable;
+            $table->string('departement_origine')->nullable;
+            $table->string('diplome_preinscription')->nullable;
+            $table->string('annee_obtention')->nullable;
+            $table->string('pays_obtention')->nullable;
+            $table->string('dernier_etablissement')->nullable;
+            $table->string('annee_sortie')->nullable;
+            $table->string('diplome_obtenu')->nullable;
+            $table->string('premiere_langue')->nullable;
+            $table->string('deuxieme_langue')->nullable;
+            $table->string('autre_langue')->nullable;
+            $table->string('profession')->nullable;
 
 
         });
@@ -38,7 +51,7 @@ class Eleve extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('eleve', function(Blueprint $table)
+		Schema::dropIfExists('eleve', function(Blueprint $table)
 		{
 			//
 		});

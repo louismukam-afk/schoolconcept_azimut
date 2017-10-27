@@ -12,9 +12,15 @@ class Inscription extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('inscription', function(Blueprint $table)
+		Schema::create('inscription', function(Blueprint $table)
 		{
-			//
+			$table->increments('id');
+			$table->date('date_inscription');
+			$table->integer('id_eleve');
+			$table->string('annee_scolaire',9);
+			$table->integer('id_classe');
+			$table->integer('id_cycle');
+			$table->float('montant');
 		});
 	}
 
@@ -25,7 +31,7 @@ class Inscription extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('inscription', function(Blueprint $table)
+		Schema::dropIfExists('inscription', function(Blueprint $table)
 		{
 			//
 		});

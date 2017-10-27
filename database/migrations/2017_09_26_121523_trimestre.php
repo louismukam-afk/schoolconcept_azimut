@@ -12,9 +12,12 @@ class Trimestre extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('trimestre', function(Blueprint $table)
+		Schema::create('trimestre', function(Blueprint $table)
 		{
-			//
+			$table->increments('id');
+			$table->string('nom');
+			$table->integer('seq1');
+			$table->integer('seq2');
 		});
 	}
 
@@ -25,7 +28,7 @@ class Trimestre extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('trimestre', function(Blueprint $table)
+		Schema::dropIfExists('trimestre', function(Blueprint $table)
 		{
 			//
 		});

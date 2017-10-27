@@ -28,7 +28,7 @@ class BulletinGenere extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('bulletin_genere');
+		Schema::dropIfExists('bulletin_genere');
 	}
 
 }

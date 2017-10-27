@@ -12,9 +12,12 @@ class Matiere extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('matiere', function(Blueprint $table)
+		Schema::create('matiere', function(Blueprint $table)
 		{
-			//
+			$table->increments('id');
+			$table->integer('groupe')->default(0);
+            $table->string('nom');
+            $table->string('nom_anglais');
 		});
 	}
 
@@ -25,7 +28,7 @@ class Matiere extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('matiere', function(Blueprint $table)
+		Schema::dropIfExists('matiere', function(Blueprint $table)
 		{
 			//
 		});

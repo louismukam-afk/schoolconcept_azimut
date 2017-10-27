@@ -12,9 +12,18 @@ class Users extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('users', function(Blueprint $table)
+		Schema::create('users', function(Blueprint $table)
 		{
-			//
+			$table->increments('id');
+			$table->string('name');
+			$table->string('fullname');
+			$table->string('email')->nullable;
+			$table->string('password');
+			$table->string('remember_token');
+			$table->float('role')->default(20);
+			$table->integer('active')->default(0);
+			$table->integer('id_personnel')->nullable;
+			$table->timestamps();
 		});
 	}
 
@@ -25,7 +34,7 @@ class Users extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('users', function(Blueprint $table)
+		Schema::dropIfExists('users', function(Blueprint $table)
 		{
 			//
 		});

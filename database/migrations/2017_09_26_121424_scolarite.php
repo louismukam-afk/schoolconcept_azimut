@@ -12,9 +12,17 @@ class Scolarite extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('scolarite', function(Blueprint $table)
+		Schema::create('scolarite', function(Blueprint $table)
 		{
-			//
+			$table->increments('id');
+			$table->integer('id_cycle');
+			$table->float('tranche1')->nullable;
+			$table->float('tranche2')->nullable;
+			$table->float('tranche3')->nullable;
+			$table->float('tranche4')->nullable;
+			$table->float('tranche5')->nullable;
+			$table->float('total')->nullable;
+			$table->integer('id_niveau');
 		});
 	}
 
@@ -25,7 +33,7 @@ class Scolarite extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('scolarite', function(Blueprint $table)
+		Schema::dropIfExists('scolarite', function(Blueprint $table)
 		{
 			//
 		});
