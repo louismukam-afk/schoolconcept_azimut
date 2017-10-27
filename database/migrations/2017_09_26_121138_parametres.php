@@ -12,9 +12,11 @@ class Parametres extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('parametres', function(Blueprint $table)
+		Schema::create('parametres', function(Blueprint $table)
 		{
-			//
+			$table->increments('id');
+			$table->string('nom');
+			$table->string('valeur',500)->nullable;
 		});
 	}
 
@@ -25,7 +27,7 @@ class Parametres extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('parametres', function(Blueprint $table)
+		Schema::dropIfExists('parametres', function(Blueprint $table)
 		{
 			//
 		});

@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.0.35 on 2017-09-28.
+ * Generated for Laravel 5.0.35 on 2017-10-27.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -1128,6 +1128,16 @@ namespace Illuminate\Support\Facades {
     }
 
     class Artisan {
+        
+        /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function Export_Database($host, $user, $pass, $name, $tables = false, $backup_name = false)
+        {
+            return \gesecole\Console\Kernel::Export_Database($host, $user, $pass, $name, $tables, $backup_name);
+        }
         
         /**
          * Run the console application.

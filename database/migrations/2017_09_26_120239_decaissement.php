@@ -30,7 +30,7 @@ class Decaissement extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('decaissement', function(Blueprint $table)
+		Schema::dropIfExists('decaissement', function(Blueprint $table)
 		{
 			//
 		});

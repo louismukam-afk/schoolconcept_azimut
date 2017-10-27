@@ -12,9 +12,11 @@ class CreateVerrouNotesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('verrou_notes', function(Blueprint $table)
+		Schema::create('verrou_note', function(Blueprint $table)
 		{
 			$table->increments('id');
+			$table->integer('sequence');
+			$table->string('annee_scolaire');
 			$table->timestamps();
 		});
 	}
@@ -26,7 +28,7 @@ class CreateVerrouNotesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('verrou_notes');
+		Schema::dropIfExists('verrou_note');
 	}
 
 }

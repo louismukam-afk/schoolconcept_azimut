@@ -12,9 +12,12 @@ class Horaire extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('horaire', function(Blueprint $table)
+		Schema::create('horaire', function(Blueprint $table)
 		{
-			//
+			$table->increments('id');
+			$table->string('intervalle',11);
+			$table->integer('type')->default(0);
+			$table->integer('ordre');
 		});
 	}
 
@@ -25,7 +28,7 @@ class Horaire extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('horaire', function(Blueprint $table)
+		Schema::dropIfExists('horaire', function(Blueprint $table)
 		{
 			//
 		});

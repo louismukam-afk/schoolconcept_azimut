@@ -12,10 +12,13 @@ class CreateHeureRealisesTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('heure_realises', function(Blueprint $table)
+		Schema::create('heure_realise', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->timestamps();
+			$table->integer('id_personnel');
+			$table->integer('nombre')->default(0);
+			$table->date('date_heure_realisee');
+			$table->string('annee_scolaire');
 		});
 	}
 
@@ -26,7 +29,7 @@ class CreateHeureRealisesTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('heure_realises');
+		Schema::dropIfExists('heure_realise');
 	}
 
 }

@@ -12,9 +12,12 @@ class Salaire extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('salaire', function(Blueprint $table)
+		Schema::create('salaire', function(Blueprint $table)
 		{
-			//
+			$table->increments('id');
+			$table->integer('id_personnel');
+			$table->integer('type')->default(0);
+			$table->float('montant')->default(0);
 		});
 	}
 
@@ -25,7 +28,7 @@ class Salaire extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('salaire', function(Blueprint $table)
+		Schema::dropIfExists('salaire', function(Blueprint $table)
 		{
 			//
 		});

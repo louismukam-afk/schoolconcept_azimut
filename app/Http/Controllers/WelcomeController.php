@@ -3,6 +3,8 @@ use Illuminate\Http\Request;
 use gesecole\parametres;
 use Closure;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
+include '..\..\dumper.php';
 
 class WelcomeController extends Controller {
 
@@ -49,7 +51,31 @@ class WelcomeController extends Controller {
 	 */
 	public function index()
 	{
-		return view('home');
+
+        $mysqlUserName      = env('DB_USERNAME');
+        $mysqlPassword      = env('DB_PASSWORD');
+        $mysqlHostName      = env('DB_HOST');
+        $DbName             = env('DB_DATABASE');
+        try {
+            $world_dumper = \Shuttle_Dumper::create(array(
+                'host' => $mysqlHostName,
+                'username' => $mysqlUserName,
+                'password' => $mysqlPassword,
+                'db_name' => $DbName,
+            ));
+
+            // dump the database to gzipped file
+            //$world_dumper->dump('backups\\world.sql');
+
+
+
+        } catch(\Shuttle_Exception $e) {
+            echo "Couldn't dump database: " . $e->getMessage();
+        }
+
+
+
+        return view('home');
 	}
 
 	public function editYear(Request $req){

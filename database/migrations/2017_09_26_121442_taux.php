@@ -12,9 +12,11 @@ class Taux extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('taux', function(Blueprint $table)
+		Schema::create('taux', function(Blueprint $table)
 		{
-			//
+			$table->increments('id');
+			$table->integer('id_personnel');
+			$table->float('taux');
 		});
 	}
 
@@ -25,7 +27,7 @@ class Taux extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('taux', function(Blueprint $table)
+		Schema::dropIfExists('taux', function(Blueprint $table)
 		{
 			//
 		});

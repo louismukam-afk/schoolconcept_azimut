@@ -12,9 +12,17 @@ class MoyenneMatiere extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('moyenne_matiere', function(Blueprint $table)
+		Schema::create('moyenne_matiere', function(Blueprint $table)
 		{
-			//
+			$table->increments('id');
+			$table->integer('id_matiere');
+			$table->integer('id_classe');
+			$table->float('max');
+			$table->float('min');
+			$table->float('moyenne');
+			$table->integer('sequence');
+			$table->string('annee_scolaire',9);
+
 		});
 	}
 
@@ -25,7 +33,7 @@ class MoyenneMatiere extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('moyenne_matiere', function(Blueprint $table)
+		Schema::dropIfExists('moyenne_matiere', function(Blueprint $table)
 		{
 			//
 		});

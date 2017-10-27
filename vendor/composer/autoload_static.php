@@ -326,6 +326,7 @@ class ComposerStaticInita8e744cd6ac8bb0715dcab13ed5037a3
         'File_Iterator_Factory' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Factory.php',
         'Fonction' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_120428_fonction.php',
         'FonctionPersonnel' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_120445_fonction_personnel.php',
+        'HeureRealise' => __DIR__ . '/../..' . '/database/migrations/2017_10_27_053610_heure_realise.php',
         'Horaire' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_120459_horaire.php',
         'IlluminateQueueClosure' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Queue/IlluminateQueueClosure.php',
         'Inscription' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_120517_inscription.php',

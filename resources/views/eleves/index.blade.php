@@ -33,6 +33,18 @@
 
         </div>
 
+
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6" >
+            <div class="div-square">
+                <a   href="{{url('/eleves/releves/')}}" >
+                    <i class="fa fa-mortar-board fa-5x"></i>
+                    <h4>{{trans('admin.releve_notes')}}</h4>
+                </a>
+            </div>
+
+
+        </div>
+
     </div>
 
 

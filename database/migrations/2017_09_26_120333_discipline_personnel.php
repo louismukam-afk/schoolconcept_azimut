@@ -31,7 +31,7 @@ class DisciplinePersonnel extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('discipline_personnel', function(Blueprint $table)
+		Schema::dropIfExists('discipline_personnel', function(Blueprint $table)
 		{
 			//
 		});

@@ -12,9 +12,12 @@ class Titulaire extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('titulaire', function(Blueprint $table)
+		Schema::create('titulaire', function(Blueprint $table)
 		{
-			//
+			$table->increments('id');
+			$table->integer('id_personnel');
+			$table ->integer('id_classe');
+			$table->string('annee_scolaire',9);
 		});
 	}
 
@@ -25,7 +28,7 @@ class Titulaire extends Migration {
 	 */
 	public function down()
 	{
-		Schema::table('titulaire', function(Blueprint $table)
+		Schema::dropIfExists('titulaire', function(Blueprint $table)
 		{
 			//
 		});
