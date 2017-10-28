@@ -19,7 +19,7 @@ class PayementSalaire extends Migration {
 		    $table->integer('id_user');
 		    $table->float('montant');
 		    $table->date('date_p');
-		    $table->string('numero',20);
+		    $table->string('numero',20)->nullable();
 		    $table->integer('mois');
 		    $table->integer('heure_realise');
 		    $table->float('primes')->default(0);

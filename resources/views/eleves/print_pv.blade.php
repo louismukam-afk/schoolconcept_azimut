@@ -29,7 +29,7 @@
         <thead>
         <th class="number-column">#</th>
         <th class="mat-column">Matricule/Matricle</th>
-        <th>Nom/Name</th>
+        <th class="nom-column">Nom/Name</th>
         <?php $j=0; ?>
         @foreach($matieres as $m)
                 @if($j>=$standartLimite)

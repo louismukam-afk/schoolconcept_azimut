@@ -1,10 +1,12 @@
 <?php namespace gesecole\Http\Controllers;
+use Illuminate\Encryption\Encrypter;
 use Illuminate\Http\Request;
 use gesecole\parametres;
 use Closure;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
-include '..\..\dumper.php';
+use Illuminate\Support\Facades\Validator;
+use Psy\Util\Json;
 
 class WelcomeController extends Controller {
 
@@ -52,29 +54,8 @@ class WelcomeController extends Controller {
 	public function index()
 	{
 
-        $mysqlUserName      = env('DB_USERNAME');
-        $mysqlPassword      = env('DB_PASSWORD');
-        $mysqlHostName      = env('DB_HOST');
-        $DbName             = env('DB_DATABASE');
-        try {
-            $world_dumper = \Shuttle_Dumper::create(array(
-                'host' => $mysqlHostName,
-                'username' => $mysqlUserName,
-                'password' => $mysqlPassword,
-                'db_name' => $DbName,
-            ));
-
-            // dump the database to gzipped file
-            //$world_dumper->dump('backups\\world.sql');
-
-
-
-        } catch(\Shuttle_Exception $e) {
-            echo "Couldn't dump database: " . $e->getMessage();
-        }
-
-
-
+      // $c=new Encrypter(config('env.key'));
+       //dump($c->encrypt('schoooncept'));
         return view('home');
 	}
 
@@ -113,5 +94,34 @@ class WelcomeController extends Controller {
         $prevUrl=\URL::previous();
         session(['locale'=>'en']);
         return redirect()->to($prevUrl) ;
+    }
+    public function change_password(Request $request){
+        $validate_pass=Validator::make($request->all(),
+            [
+                'ancien_mot_de_passe'=>'required',
+                'nouveau_mot_de_passe'=>'required|min:6',
+                'password_again'=>'required|min:6|same:nouveau_mot_de_passe',
+            ]
+            );
+
+
+
+        if($validate_pass->fails()){
+            $errors=$validate_pass->errors();
+            $errors=$errors->all();
+
+           return response()->json($errors);
+        }
+        $password=\Auth::user()->password;
+        $tpass=$request->input('ancien_mot_de_passe');
+
+        if (!\Hash::check($tpass,$password)){
+            return response()->json(['invalid'=>trans('admin.apass_invalide')]);
+        }
+        else {
+            \Auth::user()->password=bcrypt($request->input('nouveau_mot_de_passe'));
+            \Auth::user()->save();
+            return response()->json(['success'=>trans('admin.succes')]);
+        }
     }
 }

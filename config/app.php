@@ -138,7 +138,6 @@ return [
 		'Illuminate\View\ViewServiceProvider',
         Intervention\Image\ImageServiceProvider::class,
 
-
 		/*
 		 * Application Service Providers...
 		 */
