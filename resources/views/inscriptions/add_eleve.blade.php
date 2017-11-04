@@ -36,7 +36,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="date_naiss">{{  trans('inscription.date_naiss')  }} : <span class="required">*</span></label>
-                                <input class="form-control" id="date_naiss" name="date_naiss" type="date"  value="{{ old('date_naiss') }}"  placeholder="10/07/2009">
+                                <input class="form-control" id="date_naiss" name="date_naiss" type="date"  value="{{ old('date_naiss') }}"  placeholder="dd/mm/yyyy">
 
                             </div>
                         </div>

@@ -77,6 +77,9 @@ table{
     line-height: 12px;
 }
 
+.nom-column{
+    min-width:150px ;
+}
 .mat-column{
     width: 100px;
 }
@@ -98,7 +101,7 @@ table{
         margin-right: 2%;
     }
 
-    .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action
+    .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button
     {
         display: none;
     }
@@ -156,11 +159,14 @@ table{
         border-collapse: collapse;
         height: auto;
     }
+    .nom-column{
+        min-width:150px ;
+    }
     .mat-column{
         width: 100px;
     }
     .matiere-column{
-        width: 150px;
+        width: 100px;
     }
     .note-column
     {

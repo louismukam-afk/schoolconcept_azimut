@@ -68,7 +68,7 @@
                     @endforeach
                     </tbody>
                 </table>
-                <div class="paginate" style="text-align: center;"> <?php echo(str_replace('/?', '?', $eleves->render()) ); ?></div>
+                <div class="paginate" style="text-align: center;"> <?php echo(str_replace('/?', '?view=inscriptions\search_edit_eleve&', $eleves->render()) ); ?></div>
 
                 {{Session::forget('search_result')}}
             @endif

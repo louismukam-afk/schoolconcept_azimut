@@ -68,7 +68,7 @@ class relevesController extends Controller {
 	    $this->validate($request,[
 	       "cycle"=>"required|numeric",
         ]);
-
+        $proces_v=[];
 	    $id_cycle=$request->input('cycle');
         $values= array('titre'=>trans('admin.releve_notes'));
         $id_eleves=array();
@@ -214,6 +214,7 @@ class relevesController extends Controller {
                     $l++;
                 }
                 //dump($matieres);
+                if($sCoef==0) $sCoef=1;
                 $proces_v[$k]=new PV($eleve->id,$matieres,$sNote/$sCoef);
                 $k++;
             }

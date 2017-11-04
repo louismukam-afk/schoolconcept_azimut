@@ -155,15 +155,17 @@ table{
         margin-right: 2%;
     }
 
-    .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action
+    .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button
     {
         display: none;
     }
 
     .releve{
-        page-break-after: always;
+        page-break-after: always !important;
         position: relative;
-        height: 293mm;
+        height: 292mm;
+        margin-top: 0;
+        margin-bottom: 0;
     }
 
     .nom-matricule-container{

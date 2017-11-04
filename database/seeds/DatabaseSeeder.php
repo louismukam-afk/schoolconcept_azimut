@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,8 +12,11 @@ class DatabaseSeeder extends Seeder {
 	public function run()
 	{
 		Model::unguard();
+        for ($i=0;$i<200;$i++)
+		 $this->call('database\seeds\eleveTableSeeder');
 
-		// $this->call('UserTableSeeder');
+		for ($i=0;$i<200;$i++)
+		 $this->call('database\seeds\personnelTableSeeder');
 	}
 
 }

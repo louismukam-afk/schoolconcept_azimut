@@ -15,7 +15,7 @@
         <th>{{  trans('inscription.date_naiss')  }}</th>
         <th>{{  trans('inscription.lieu_naiss') }}</th>
         <th>{{  trans('inscription.sexe')  }}</th>
-        <th>Classe</th>
+        @if(isset($show_classe))<th>Classe</th>@endif
         @if(isset($tranche))<th>{{trans('inscription.reste')}}</th>@endif
 
         </thead>
@@ -29,11 +29,16 @@
                 <td>{{$e->date_naiss}}</td>
                 <td>{{$e->lieu_naiss}}</td>
                 <td>{{$e->sexe}}</td>
-                <td>{{$e->nom_classe}}</td>
+                @if(isset($show_classe))<td>{{$e->code_classe}}</td>@endif
                 @if(isset($tranche))<td>{{-$e->reste}}</td>@endif
                 <td class="action">
-
-                            <a style="color: white" href="{{ URL::to('/inscriptions/edit/').'/'.$e->id }}"   class="btn btn-success"><span class="glyphicon glyphicon-edit"></span> {{  trans('admin.edit_inscription')  }}</a></li>
+                    <div class="btn-group">
+                        <a href="#" class=" btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a style="color: white" href="{{ URL::to('/inscriptions/edit/').'/'.$e->id }}"   class="btn-primary"><span class="glyphicon glyphicon-edit"></span> {{  trans('admin.edit_inscription')  }}</a></li>
+                            <li><a style="color: white" href="{{ URL::to('/inscriptions/remove/').'/'.$e->id }}"   class="btn-danger"><span class="glyphicon glyphicon-trash"></span> {{  trans('admin.desinscrire')  }}</a></li>
+                        </ul>
+                    </div>
 
                 </td>
             </tr>

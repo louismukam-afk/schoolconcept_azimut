@@ -134,7 +134,7 @@ return [
     //le premier lancement
     'premier_msg'=>'This page is displayed because you have not yet completely configure School-concept.Please fill all necessary fields',
     'nom_e'=>'Institution name',
-    'initiales_e'=>'Initials of institution',
+    'initiales_e'=>'Initials of institution(at leat 2 letters)',
     'adresse_e'=>'Institution address',
     'numeros_e'=>'Instituton phones number (Separate numbers by - )',
     'site_web_e'=>'Web site',

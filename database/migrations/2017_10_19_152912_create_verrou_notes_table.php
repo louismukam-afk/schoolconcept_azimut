@@ -17,7 +17,6 @@ class CreateVerrouNotesTable extends Migration {
 			$table->increments('id');
 			$table->integer('sequence');
 			$table->string('annee_scolaire');
-			$table->timestamps();
 		});
 	}
 

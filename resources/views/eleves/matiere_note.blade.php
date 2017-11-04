@@ -1,5 +1,17 @@
 @extends('skeleton')
 @section('sub-content')
+    <style>
+        a:visited
+        {
+            color: #d58512;
+        }
+
+        a:hover
+        {
+            color: #d58512;
+        }
+
+    </style>
     <div class="col-md-12">
         @if(isset($success))
 
@@ -20,7 +32,7 @@
     <div class="liste-classe col-md-9">
         <ul>
             @foreach($matieres as $m)
-                <li><a  data-toggle="modal" data-backdrop="false" href="#choose_seq" onclick="choix_seq({{$m->id}})">{{(session('locale')=='en')?$m->nom_anglais:$m->nom}}</a></li>
+                <li><a  data-toggle="modal" data-backdrop="false" href="#choose_seq" onclick="choix_seq({{$m->id}});this.style.color='#d58512'">{{(session('locale')=='en')?$m->nom_anglais:$m->nom}}</a></li>
             @endforeach
         </ul>
     </div>
@@ -48,14 +60,14 @@
                                 <label for="niveau">{{  trans('eleve.choix_seq')  }} : </label>
                                 <select  name="sequence" form="choix_seq_form" class="form-control" >
                                 <optgroup label="@lang('admin.semestre') 1">
-                                    <option value="1">CC</option>
-                                    <option value="3">@lang('admin.session_normale')</option>
-                                    <option value="5">@lang('admin.rattrapage')</option>
+                                    <option value="1">CC 1</option>
+                                    <option value="3">@lang('admin.session_normale') 1</option>
+                                    <option value="5">@lang('admin.rattrapage') 1</option>
                                 </optgroup>
                                     <optgroup label="@lang('admin.semestre') 2">
-                                        <option value="2">CC</option>
-                                        <option value="4">@lang('admin.session_normale')</option>
-                                        <option value="6">@lang('admin.rattrapage')</option>
+                                        <option value="2">CC 2</option>
+                                        <option value="4">@lang('admin.session_normale') 2</option>
+                                        <option value="6">@lang('admin.rattrapage') 2</option>
                                     </optgroup>
 
                                 </select>

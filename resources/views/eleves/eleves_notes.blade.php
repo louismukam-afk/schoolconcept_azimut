@@ -1,7 +1,15 @@
 @extends('skeleton')
 @section('sub-content')
     <div class="add-container col-md-12" style="margin-top: 25px">
-        <h3>{{trans('eleve.gerer_notes').' '.(session('locale')=='en')?$matiere->nom_anglais:$matiere->nom}}</h3>
+        <div class="row">
+            <h3 class="col-md-10">{{trans('eleve.gerer_notes').' '.(session('locale')=='en')?$matiere->nom:$matiere->nom_anglais}}    :     @if($sequence==1 || $sequence==2) CC @elseif($sequence==3 || $sequence==4) @lang('admin.session_normale') @elseif($sequence==5 || $sequence==6) @lang('admin.rattrapage') @endif</h3>
+
+            <div class="col-md-2">
+                <a href="#" class="btn-xs btn btn-danger"><span class="glyphicon glyphicon-trash"></span> @lang('admin.del')</a>
+
+            </div>
+        </div>
+
         <hr>
         <form accept-charset="UTF-8" role="form" method="POST" id="add_level_form" action="{{URL::to('/eleves/notes/store/')}}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -30,7 +38,7 @@
                                         @endif
                                        @endforeach
                                        required>
-                                <span class="input-group-addon">/{{$max}}</span>
+                                <span class="input-group-addon">/@if($sequence==1 || $sequence==2) 30 @elseif($sequence==3 || $sequence==4) 70 @elseif($sequence==5 || $sequence==6) 100 @endif</span>
                             </div>
 
                         </div>

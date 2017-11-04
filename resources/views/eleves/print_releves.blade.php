@@ -117,7 +117,7 @@
                 <p>Fait le {{date('d-m-Y')}}</p>
             </div>
             @if($ne>0)
-            <div class="copy" >
+            <div class="copy col-md-12" >
                 &copy;  2017 SchoolConcept | by: <a href="http://youth-concept.com" style="color:#fff;" target="_blank">youth-concept</a>
             </div>
             @endif

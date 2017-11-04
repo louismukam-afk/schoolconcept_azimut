@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class verrouNote extends Model {
 
-    protected  $table='verrounote';
+    protected  $table='verrou_note';
 
     public $fillable=['sequence','annee_scolaire'];
 
