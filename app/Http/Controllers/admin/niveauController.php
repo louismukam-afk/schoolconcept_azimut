@@ -107,9 +107,23 @@ class niveauController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(Request $req)
 	{
-		//
+        $this->validate($req,[
+            'id'=>'required|numeric',
+            'nom'=>'required',
+            'nom_anglais'=>'required',
+        ]);
+
+        $id=$req->input('id');
+        $nom=$req->input('nom');
+        $nom_anglais=$req->input('nom_anglais');
+        $n=niveau::find($id);
+        $n->nom=$nom;
+        $n->nom_anglais=$nom_anglais;
+        $n->save();
+        session(['success'=>true]);
+        return redirect()->action('admin\niveauController@index');
 	}
 
 	/**

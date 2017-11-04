@@ -69,6 +69,18 @@
         }else
             return trans('admin.echec');
     }
+
+function getSemestre($val){
+    if ($val==1){
+        return 1;
+    }
+    if ($val==2){
+        return 2;
+    }
+    if ($val==0){
+        return '1 & 2';
+    }
+}
 ?>
 
 

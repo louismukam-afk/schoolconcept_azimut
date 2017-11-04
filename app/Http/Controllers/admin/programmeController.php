@@ -65,7 +65,7 @@ class programmeController extends Controller {
 	    $c=classe::find($id);
 	    $cycle= $request->input('cycle');
         $titre=trans('admin.programme');
-        $p=DB::select('SELECT cm.id,cm.id_matiere,cm.id_cycle,m.nom_anglais,m.nom as nom_matiere,coef,max FROM classe_matiere cm, matiere m ,classe c WHERE cm.id_classe=c.id AND cm.id_matiere=m.id And c.id=?  AND cm.id_cycle=?',[$id,$cycle]);
+        $p=DB::select('SELECT cm.id,cm.id_matiere,cm.type,cm.id_cycle,cm.semestre,m.nom_anglais,m.nom as nom_matiere,coef,max FROM classe_matiere cm, matiere m ,classe c WHERE cm.id_classe=c.id AND cm.id_matiere=m.id And c.id=?  AND cm.id_cycle=?',[$id,$cycle]);
         $m=DB::select('select m.id,m.nom,m.nom_anglais FROM matiere m WHERE  m.id NOT IN (SELECT cm.id_matiere FROM classe_matiere cm WHERE cm.id_classe=?  AND cm.id_cycle=?)',[$id,$cycle]);
 
         $values= array('titre'=>$titre,'programmes'=>$p);
@@ -95,12 +95,12 @@ class programmeController extends Controller {
         ]);
 	    $id=$request->input('id');
         $id_cycle=$request->input('id_cycle');
-	    //$matiereList=implode(',',$request->input('matiere'));
-        //$coefList=implode(',',$request->input('coef'));
-       // $maxList=implode(',',$request->input('max'));
+
         $matiereList=$request->input('matiere');
         $coefList=$request->input('coef');
         $maxList=$request->input('max');
+        $semestreList=$request->input('semestre');
+        $typeList=$request->input('type');
         $i=0;
         foreach ($matiereList as $mat){
             $cm=new classeMatiere();
@@ -109,6 +109,8 @@ class programmeController extends Controller {
             $cm->id_matiere=$mat;
             $cm->coef=$coefList[$i];
             $cm->max=$maxList[$i];
+            $cm->semestre=$semestreList[$i];
+            $cm->type=$typeList[$i];
             $cm->save();
 
             $i++;
@@ -160,10 +162,14 @@ class programmeController extends Controller {
         $id_cycle=$request->input('id_cycle');
         $coef=$request->input('coef');
         $max=$request->input('max');
+        $semestre=$request->input('semestre');
+        $type=$request->input('type');
 
         $cm=classeMatiere::find($id);
         $cm->coef=$coef;
         $cm->max=$max;
+        $cm->semestre=$semestre;
+        $cm->type=$type;
         $cm->save();
 
         session(['success'=>true]);

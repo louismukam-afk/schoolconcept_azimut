@@ -30,7 +30,7 @@
     <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 5px;">
         <thead>
         <th class="number-column">#</th>
-        <th class="mat-column">Matricule/Matricle</th>
+        <th class="spec-column">Matricule/Matricle</th>
         <th>Nom/Name</th>
         <?php $j=0; ?>
         @foreach($matieres as $m)
@@ -108,7 +108,44 @@
                 @endif
 
             </tr>
+
         @endforeach
+        <tr style="font-size: 13px">
+            <td></td>
+            <td></td>
+            <td><b>%  validation</b></td>
+
+            <?php $j=0;   ?>
+            @foreach($matieres as $m)
+                @if($j>=$standartLimite)
+                    <?php break; ?>
+                @endif
+                <td class="note-column">
+                    <?php  $nbValid=0;$nbNotes=0;  ?>
+                    @foreach($PV as $pv)
+
+                            @foreach($pv->matieres as $mat)
+                                @if($mat->id_matiere==$m->id )
+                                    <?php $nbNotes++ ?>
+                                    @if(floatval($mat->note)>=50)
+                                        <?php $nbValid++; ?>
+                                    @endif
+                                    <?php break; ?>
+                                @endif
+                            @endforeach
+
+                    @endforeach
+                    <b>{{round(($nbValid/$nbNotes)*100,2)}} %</b>
+
+
+                </td>
+                <?php $j++;
+                $current_note=$j;
+                ?>
+            @endforeach
+
+
+        </tr>
         </tbody>
     </table>
 </div>
@@ -143,7 +180,7 @@
             @foreach($eleves as $e)
                 <?php $total=0; ?>
                 <tr>
-                    <?php $j=$current_note;$limite=$current_note+$standartLimite;$k=0; ?>
+                    <?php $j=$current_note;$limite=$current_note+$standartLimite;$k=0;$current_note2=$current_note; ?>
                     @foreach($matieres as $m)
                         @if($k>=$current_note)
 
@@ -197,14 +234,55 @@
                             <td class="note-column">{{getDecision($mgp)}}</td>
                         @endif
                 </tr>
+
             @endforeach
+            <tr>
+                <?php $j=$current_note;$limite=$current_note+$standartLimite;$k=0; ?>
+                @foreach($matieres as $m)
+                    @if($k>=$current_note)
+
+                        @if($j>=$limite)
+                            <?php break; ?>
+                        @endif
+                        <td class="note-column">
+                            <?php  $nbValid=0;$nbNotes=0;  ?>
+                            @foreach($PV as $pv)
+
+                                    @foreach($pv->matieres as $mat)
+                                        @if($mat->id_matiere==$m->id )
+                                            <?php $nbNotes++ ?>
+                                            @if(floatval($mat->note)>=50)
+                                                <?php $nbValid++; ?>
+                                            @endif
+                                            <?php break; ?>
+                                        @endif
+                                    @endforeach
+
+                            @endforeach
+                                <b>{{round(($nbValid/$nbNotes)*100,2)}} %</b>
+
+                        </td>
+                        <?php $j++;
+                        //$t=$j;
+                        ?>
+                    @endif
+                    <?php $k++; ?>
+
+                @endforeach
+            </tr>
             <?php $current_note=$t; ?>
 
             </tbody>
         </table>
     </div>
 @endwhile
-    <h4><strong>@lang('admin.admis') : </strong> {{$admis}}</h4>
-    <h4><strong>@lang('admin.echec') : </strong>{{$echec}}</h4>
+        @if($admis==0 && $echec== 0)
+            <h4><strong>@lang('admin.admis') : </strong> 0 %</h4>
+            <h4><strong>@lang('admin.echec') : </strong> 0 %</h4>
+            @else
+            <h4><strong>@lang('admin.admis') : </strong> {{round(($admis/($admis+$echec))*100,2)}} %</h4>
+            <h4><strong>@lang('admin.echec') : </strong> {{round(($echec/($admis+$echec))*100,2)}} %</h4>
+        @endif
+
 
 @endsection

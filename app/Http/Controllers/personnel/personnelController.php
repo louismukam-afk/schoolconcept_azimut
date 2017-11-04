@@ -75,6 +75,7 @@ class personnelController extends Controller {
             'nom'=>'required',
             'date_naiss'=>'required|date',
             'lieu_naiss'=>'required',
+            'nationalite'=>'required',
             'sexe'=>'required',
             'tel1'=>'required',
             'adresse'=>'required',
@@ -85,6 +86,7 @@ class personnelController extends Controller {
 
         $c=new personnel();
         $c->nom=$req->input('nom');
+        $c->nationalite=$req->input('nationalite');
         $c->adresse=$req->input('adresse');
         $c->sexe=$req->input('sexe');
         $c->diplome=$req->input('diplome');
@@ -156,6 +158,7 @@ class personnelController extends Controller {
             'date_naiss'=>'required',
             'lieu_naiss'=>'required',
             'sexe'=>'required',
+            'nationalite'=>'required',
             'tel1'=>'required',
             'adresse'=>'required',
             'type'=>'required|numeric',
@@ -165,6 +168,7 @@ class personnelController extends Controller {
 
         $c=personnel::find($id);
         $c->nom=$req->input('nom');
+        $c->nationalite=$req->input('nationalite');
         $c->adresse=$req->input('adresse');
         $c->sexe=$req->input('sexe');
         $c->diplome=$req->input('diplome');

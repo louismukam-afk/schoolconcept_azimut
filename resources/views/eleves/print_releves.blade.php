@@ -113,11 +113,11 @@
                     <p><strong class="traduction">The head of Department</strong></p>
                 </div>
             </div>
-            <div class="releve-fait-le" style="font-size: 10px">
+            <div class="releve-fait-le" style="font-size: 10px;display: none">
                 <p>Fait le {{date('d-m-Y')}}</p>
             </div>
             @if($ne>0)
-            <div class="copy" >
+            <div class="copy col-md-12" >
                 &copy;  2017 SchoolConcept | by: <a href="http://youth-concept.com" style="color:#fff;" target="_blank">youth-concept</a>
             </div>
             @endif

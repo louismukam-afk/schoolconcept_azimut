@@ -36,6 +36,7 @@
             @endforeach
             </tbody>
         </table>
+            <div class="paginate" style="text-align: center;"> <?php echo(str_replace('/?', '?view=personnel\search_personnel&', $personnel->render()) ); ?></div>
 
             <div class="modal fade" id="add_cycle">
                 <div class="modal-dialog">
@@ -65,6 +66,8 @@
                                 <input class="form-control" id="nom" name="lieu_naiss" type="text"  value="{{ old('lieu_naiss') }}" required>
                             </div>
                         </div>
+                        <label for="nationalite">{{  trans('inscription.nationalite')  }} : <span class="required">*</span></label>
+                        <input class="form-control" id="nationalite" name="nationalite" type="text"  value="{{ old('nationalite') }}" required>
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="sexe">{{  trans('inscription.sexe')  }} : <span class="required">*</span></label>
@@ -119,7 +122,6 @@
                 </fieldset>
             </form>
 
-        <div class="paginate" style="text-align: center;"> <?php echo(str_replace('/?', '?', $personnel->render()) ); ?></div>
     </div>
 </div>
 </div>

@@ -10,6 +10,12 @@
 | the IoC container for the system binding all of the various parts.
 |
 */
+$env    = require __DIR__. './../config/env.php';
+$crypt  = new \Illuminate\Encryption\Encrypter($env['key']);
+function secEnv($name) {
+    global $crypt;
+    return $crypt->decrypt($name);
+}
 
 $app = new Illuminate\Foundation\Application(
 	realpath(__DIR__.'/../')

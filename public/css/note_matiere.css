@@ -97,7 +97,7 @@ table{
         margin-right: 2%;
     }
 
-    .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action
+    .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.copy
     {
         display: none;
     }

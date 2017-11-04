@@ -62,13 +62,11 @@
                         </select>
 
                     </div>
-                    @if($e->matricule==null)
                         <div class="form-group">
                             <label>{{trans('admin.matricule')}} : (@lang('admin.no_matricule'))</label>
                             <input type="text" name="matricule"  class="form-control"  value="{{old('matricule')}}">
 
                         </div>
-                    @endif
 
                     <input type="submit" class="btn btn-success form-control" value="{{trans('admin.modifier')}}" >
                 </div>
