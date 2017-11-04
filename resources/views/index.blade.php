@@ -3,7 +3,7 @@
 <head>
       <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SchoolConcept</title>
+    <title>{{  session('big_title')  }}</title>
     <link rel="shortcut icon" href="{{URL::asset('favicon.ico')}}" type="image/x-icon">
 	<!-- BOOTSTRAP STYLES-->
     <link href="{{ URL::asset('css/bootstrap.css')  }}" rel="stylesheet" />
@@ -166,20 +166,31 @@
                  <!-- /. ROW  -->
                   <hr />
                 <div class="row">
+                <div style="height: 70px; background: #214761" class="action"></div>
                     <div class="col-lg-12 ">
+                     @if(isset($isHome))
                         <div class="alert alert-info">
                             @if (Auth::guest())
                             @else
                              <strong>{{trans('admin.bienvenue')}} {{Auth::user()->fullname}} ! </strong>
+                                <a data-toggle="modal" data-backdrop="false" href="#edit_pass" class="pull-right" style="color: #BE5C00"><span class="fa fa-lock"></span> @lang('admin.modifier_pass')</a>
                             @endif
                         </div>
-
+                    @endif
                        
                     </div>
 
                     </div>
-                <div class="row">
+
+
+                <div class="row" >
                     <div class="col-md-12">
+                        <div class="alert alert-danger print-error-msg" style="display: none">
+                            <ul> </ul>
+                        </div>
+                        <div class="alert alert-success print-success-msg" style="display: none">
+                            <ul> </ul>
+                        </div>
                         @if (count($errors) > 0)
                             <div class="alert alert-danger">
                                 <ul>
@@ -202,6 +213,57 @@
         </div>
          <!-- /. PAGE WRAPPER  -->
         </div>
+
+
+<div class="modal fade" id="edit_pass">
+    <div class="modal-dialog">
+        <div class="modal-content col-md-6">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">x</button>
+                <h4 class="modal-title">{{  trans('admin.remplir_champs')  }}</h4>
+            </div>
+            <div
+                    class="modal-body">
+
+
+
+                <form accept-charset="UTF-8" role="form" method="POST" action="#">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <fieldset>
+
+                        <div class="form-group">
+                            <label for="ancien_mot_de_passe">{{  trans('admin.ancien_pass')  }} : <span class="required">*</span></label>
+                            <input class="form-control" id="ancien_mot_de_passe" name="ancien_mot_de_passe" type="password"  value="{{ old('ancien_mot_de_passe') }}" required autofocus>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="nouveau_mot_de_passe">{{  trans('admin.nouveau_pass')  }} : <span class="required">*</span></label>
+                            <input class="form-control" id="nouveau_mot_de_passe" name="nouveau_mot_de_passe" type="password"  value="{{ old('nouveau_mot_de_passe') }}" required >
+
+                        </div>
+                        <div class="form-group">
+                            <label for="password_again">{{  trans('admin.password_again')  }} : <span class="required">*</span></label>
+                            <input class="form-control" id="password_again" name="password_again" type="password"  value="{{ old('password_again') }}" required >
+
+                        </div>
+                        <a id="submit_new_pass" class="btn  btn-success" >{{  trans('admin.confirmer')  }}</a>
+
+
+                    </fieldset>
+                </form>
+
+
+            </div>
+
+
+
+
+
+        </div>
+
+
+    </div>
+</div>
     <div class="footer">
       
     
@@ -220,4 +282,44 @@
     
    
 </body>
+<script>
+    $(function () {
+        $('#submit_new_pass').click(function () {
+            $('#edit_pass').modal('hide')
+            $.post('{{url('/user-profile/edit-password')}}',{ _token:'{{ csrf_token() }}',ancien_mot_de_passe:$("#ancien_mot_de_passe").val(),nouveau_mot_de_passe:$("#nouveau_mot_de_passe").val(),password_again:$("#password_again").val() },function (data) {
+                $(".print-success-msg").find("ul").html('');
+                $(".print-error-msg").find("ul").html('');
+                $(".print-success-msg").css('display', 'none');
+                $(".print-error-msg").css('display', 'none');
+                if(data.success)
+                    printSuccessMsg(data)
+                else
+                    printErrorMsg(data);
+
+            });
+        });
+        function printErrorMsg (msg) {
+
+
+            if(msg)
+            $(".print-error-msg").css('display', 'block');
+
+            $.each(msg, function (key, value) {
+                $(".print-error-msg").find("ul").append('<li>' + value + '</li>');
+            });
+
+        }
+        function printSuccessMsg (msg) {
+
+            if(msg)
+                $(".print-success-msg").css('display', 'block');
+
+            $.each(msg, function (key, value) {
+                $(".print-success-msg").find("ul").append('<li>' + value + '</li>');
+            });
+
+        }
+    });
+
+</script>
 </html>

@@ -25,7 +25,19 @@
                     <td>
                         {{$n->nom_anglais}}
                     </td>
-                    <td><a href="{{ URL::to('/admin/niveaux/destroy/').'/'.$n->id }}"  title="Supprimer" class="btn btn-danger btn-xs pull-right"><span class="glyphicon glyphicon-trash"></span> Supprimer</a></td>
+                    <td>
+                        <div class="btn-group">
+                            <a href="#" class=" btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a style="color: white" class="btn-primary"  data-toggle="modal" data-backdrop="false" href="#edit_niveau" onclick="editer_niveau({{$n->id}},'{{$n->nom}}','{{$n->nom_anglais}}')"><span class="glyphicon glyphicon-pencil"  ></span> {{  trans('admin.edit')  }}</a></li>
+                                <li>
+                                    <a style="color: white" href="{{ URL::to('/admin/niveaux/destroy/').'/'.$n->id }}"   class="btn-danger"><span class="glyphicon glyphicon-trash"></span> @lang('admin.del')</a>
+                                </li>
+                            </ul>
+                        </div>
+
+
+                    </td>
                 </tr>
             @endforeach
             </tbody>
@@ -79,7 +91,67 @@
             </div>
         </div>
 
+
+
+            <div class="modal fade" id="edit_niveau">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">x</button>
+                            <h4 class="modal-title">{{  trans('admin.remplir_champs')  }}</h4>
+                        </div>
+                        <div
+                                class="modal-body">
+
+
+
+                            <form accept-charset="UTF-8" role="form" method="POST" id="edit_level_form" action="{{ url('/admin/niveaux/update/') }}">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <input type="hidden" name="id" id="edit_id_niveau" value=""/>
+                                <fieldset>
+                                    <div class="form-group">
+                                        <label for="nom">{{  trans('admin.nom')  }} : <span class="required">*</span></label>
+                                        <input class="form-control" id="edit_nom" name="nom" type="text"  value="{{ old('nom') }}" required autofocus>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>{{  trans('admin.nom_anglais')  }} : <span class="required">*</span></label>
+                                        <input class="form-control" id="edit_nom_anglais" name="nom_anglais" type="text"  value="{{ old('nom_anglais') }}" required>
+
+                                    </div>
+                                    <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
+
+
+                                </fieldset>
+                            </form>
+
+
+
+                        </div>
+
+
+
+
+
+                    </div>
+
+
+                </div>
+            </div>
+
         <div class="paginate" style="text-align: center;"> <?php echo(str_replace('/?', '?', $niveaux->render()) ); ?></div>
     </div>
+
+    <script>
+        function editer_niveau(id,nom,nom_anglais)
+        {
+
+            document.getElementById("edit_id_niveau").value = id;
+            document.getElementById("edit_nom").value = nom;
+            document.getElementById("edit_nom_anglais").value = nom_anglais;
+
+        }
+    </script>
 
 @endsection

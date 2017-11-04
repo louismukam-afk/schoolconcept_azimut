@@ -1,7 +1,7 @@
 
 <html>
 	<head>
-		<title></title>
+		<title>Register</title>
 		<link rel="stylesheet" href="{{URL::asset('css/bootstrap.css')}}">
 		<link href="{{ URL::asset('css/font-awesome.css')  }}" rel="stylesheet" />
 		<style>

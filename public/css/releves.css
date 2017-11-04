@@ -155,15 +155,17 @@ table{
         margin-right: 2%;
     }
 
-    .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action
+    .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button
     {
         display: none;
     }
 
     .releve{
-        page-break-after: always;
+        page-break-after: always !important;
         position: relative;
-        height: 293mm;
+        height: 273mm;
+        margin-top: 0;
+        margin-bottom: 0;
     }
 
     .nom-matricule-container{
@@ -203,7 +205,7 @@ table{
         width: 100%;
         padding-right: 50px;
         padding-left: 50px;
-        bottom: 30mm;
+        bottom: 18mm;
     }
     .dep{
         position: absolute;
@@ -240,8 +242,8 @@ table{
 
     .titre
     {
-        margin-top: 10mm;
-        margin-bottom: 10mm;
+        margin-top: 5mm;
+        margin-bottom: 7mm;
         text-align: center;
     }
 
@@ -250,7 +252,10 @@ table{
 
     .table{
         position: relative;
+        border: solid black 1px;
+
     }
+
 
 
     table{
@@ -274,10 +279,22 @@ table{
         width: 30px;
     }
 
+
     .table tbody tr,.table tbody tr td{
+                -webkit-print-color-adjust:exact;
         padding-top: 0;
         padding-bottom: 0;
+        border: solid black 1px;
         height: 12px;
+         border-top-color: black; 
+        border-bottom-color: black; 
+
+    }
+    .table thead th,.table thead,.table tbody{
+                -webkit-print-color-adjust:exact;
+
+        border-color: black !important;
+        border: solid black 1px !important;
 
     }
 

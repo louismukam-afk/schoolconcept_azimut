@@ -24,6 +24,7 @@ class Kernel extends ConsoleKernel {
 	 */
 	protected function schedule(Schedule $schedule)
 	{
+
 		$schedule->command('inspire')
 				 ->hourly();
 
@@ -32,32 +33,40 @@ class Kernel extends ConsoleKernel {
 
 
         $schedule->call(function () {
-            $mysqlUserName      = env('DB_USERNAME');
-            $mysqlPassword      = env('DB_PASSWORD');
+
+            $mysqlUserName      = secEnv(env('DB_USERNAME'));
+            $mysqlPassword      = secEnv(env('DB_PASSWORD'));
             $mysqlHostName      = env('DB_HOST');
-            $DbName             = env('DB_DATABASE');
-            $backup_name        = "mybackup.sql";
-            $tables             = "Your tables";
+            $DbName             = secEnv(env('DB_DATABASE'));
+           // $backup_name        = "mybackup.sql";
+            //$tables             = "Your tables";
 
             try {
-                $world_dumper = \Shuttle_Dumper::create(array(
+                exec('pg_dump  --dbname=postgresql://'.secEnv(env('DB_USERNAME')).':'.secEnv(env('DB_PASSWORD')).'@127.0.0.1:5432/'.secEnv(env('DB_DATABASE')).' > "'.public_path().'\\backups\\'.secEnv(env('DB_DATABASE')).'_'.date('H-i-s').'_'.date('d-m-Y').'.sql"');
+
+                /*$world_dumper = \Shuttle_Dumper::create(array(
                     'host' => $mysqlHostName,
                     'username' => $mysqlUserName,
                     'password' => $mysqlPassword,
                     'db_name' => $DbName,
-                ));
-
-                // dump the database to gzipped file
-                $world_dumper->dump(public_path().'\\backups\\'.$DbName.'_'.date('H-i-s').'_'.date('d-m-Y').'.sql');
-
+                ));*/
+                // dump the database  for my sql
+                //$world_dumper->dump(public_path().'\\backups\\'.$DbName.'_'.date('H-i-s').'_'.date('d-m-Y').'.sql');
 
 
             } catch(\Shuttle_Exception $e) {
+
                 echo "Couldn't dump database: " . $e->getMessage();
+
+                //for postgres
+
+                //exec('pg_dump  --dbname=postgresql://'.secEnv(env('DB_USERNAME')).':'.secEnv(env('DB_PASSWORD')).'@127.0.0.1:5432/'.secEnv(env('DB_DATABASE')).' > '.public_path().'\\backups\\'.secEnv(env('DB_DATABASE')).'_'.date('H-i-s').'_'.date('d-m-Y').'.sql');
+
+
             }
 
 
-        })->cron('*/30 12 * * * *');
+        })->cron('0,30 12 * * * *');
 
 
 

@@ -67,7 +67,7 @@
                 @endforeach
                 </tbody>
             </table>
-            <div class="paginate" style="text-align: center;"> <?php echo(str_replace('/?', '?', $personnel->render()) ); ?></div>
+            <div class="paginate" style="text-align: center;"> <?php echo(str_replace('/?', '?view=personnel\search_personnel_presence&', $personnel->render()) ); ?></div>
 
             {{Session::forget('search_result')}}
         @endif

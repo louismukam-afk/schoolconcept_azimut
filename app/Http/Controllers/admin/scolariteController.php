@@ -83,20 +83,20 @@ class scolariteController extends Controller {
 
         $classe=$req->input('classe');
         $cycle=$req->input('cycle');
-        $tranche1=$req->input('tranche1');
+        $tranche1=$req->input('tranche1',0);
         $tranche2=$req->input('tranche2');
         $tranche3=$req->input('tranche3');
         $tranche4=$req->input('tranche4');
         $tranche5=$req->input('tranche5');
 
-        $s=scolarite::firstOrNew(['id_niveau'=>$classe,'id_cycle'=>$cycle]);
+        $s=new scolarite();
         $s->id_niveau=$classe;
         $s->id_cycle=$cycle;
-        $s->tranche1=$tranche1;
-        $s->tranche2=$tranche2;
-        $s->tranche3=$tranche3;
-        $s->tranche4=$tranche4;
-        $s->tranche5=$tranche5;
+        $s->tranche1=floatval($tranche1);
+        $s->tranche2=floatval($tranche2);
+        $s->tranche3=floatval($tranche3);
+        $s->tranche4=floatval($tranche4);
+        $s->tranche5=floatval($tranche5);
         $s->total=$tranche1+$tranche2+$tranche3+$tranche4+$tranche5;
         $s->save();
         session(['success'=>true]);
@@ -154,11 +154,11 @@ class scolariteController extends Controller {
         $s=scolarite::find($id);
         $s->id_niveau=$classe;
         $s->id_cycle=$cycle;
-        $s->tranche1=$tranche1;
-        $s->tranche2=$tranche2;
-        $s->tranche3=$tranche3;
-        $s->tranche4=$tranche4;
-        $s->tranche5=$tranche5;
+        $s->tranche1=floatval($tranche1);
+        $s->tranche2=floatval($tranche2);
+        $s->tranche3=floatval($tranche3);
+        $s->tranche4=floatval($tranche4);
+        $s->tranche5=floatval($tranche5);
         $s->total=$tranche1+$tranche2+$tranche3+$tranche4+$tranche5;
         $s->save();
         session(['success'=>true]);

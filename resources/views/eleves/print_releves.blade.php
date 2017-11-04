@@ -66,9 +66,9 @@
                         <p><strong class="traduction">Academic year : </strong></p>
                     </div>
                 </div>
-                <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 15px;">
+                <table class="table  table-striped table-condensed table-inverse" style="margin-top: 15px;">
                     <thead>
-                    <th><strong>Intitulé de l'UE</strong> <span class="traduction">UE title</span></th>
+                    <th ><strong>Intitulé de l'UE</strong> <span class="traduction">UE title</span></th>
                     <th class="note-column"><strong>Crédit</strong></th>
                     <th class="note-column"><strong>Moy /100</strong>  </th>
                     <th class="note-column"><strong>Qualité /4</strong>  </th>
@@ -113,11 +113,11 @@
                     <p><strong class="traduction">The head of Department</strong></p>
                 </div>
             </div>
-            <div class="releve-fait-le" style="font-size: 10px">
+            <div class="releve-fait-le" style="font-size: 10px;display: none">
                 <p>Fait le {{date('d-m-Y')}}</p>
             </div>
             @if($ne>0)
-            <div class="copy" >
+            <div class="copy col-md-12" >
                 &copy;  2017 SchoolConcept | by: <a href="http://youth-concept.com" style="color:#fff;" target="_blank">youth-concept</a>
             </div>
             @endif

@@ -40,12 +40,14 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\personnel whereAutreInformation($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\personnel whereMatieres($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\personnel whereType($value)
+ * @property string $nationalite
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\personnel whereNationalite($value)
  */
 class personnel extends Model {
 
 	protected $table='personnel';
 
-    public $fillable=['matricule','nom','date_naiss','lieu_naiss','diplome','sexe','date_entree','tel1','tel2','adresse','email','type','matieres','autre_information'];
+    public $fillable=['matricule','nom','date_naiss','lieu_naiss','nationalite','diplome','sexe','date_entree','tel1','tel2','adresse','email','type','matieres','autre_information'];
 
 
     public $timestamps=false;

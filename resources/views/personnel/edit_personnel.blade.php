@@ -34,6 +34,8 @@
                         <input class="form-control" id="lieu_naiss" name="lieu_naiss" type="text"  value="{{ $personnel->lieu_naiss }}" required disabled>
                     </div>
                 </div>
+                <label for="nationalite">{{  trans('inscription.nationalite')  }} : <span class="required">*</span></label>
+                <input class="form-control" id="nationalite" name="nationalite" type="text"  value="{{ $personnel->nationalite }}" required disabled>
                 <div class="row">
                     <div class="col-md-6">
                         <label for="sexe">{{  trans('inscription.sexe')  }} : <span class="required">*</span></label>
@@ -128,6 +130,7 @@
                 $('#lieu_naiss').removeAttr('disabled');
                 $('#sexe').removeAttr('disabled');
                 $('#diplome').removeAttr('disabled');
+                $('#nationalite').removeAttr('disabled');
                 $('#tel1').removeAttr('disabled');
                 $('#tel2').removeAttr('disabled');
                 $('#email').removeAttr('disabled');

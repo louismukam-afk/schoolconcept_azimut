@@ -347,7 +347,7 @@ class inscriptionController extends Controller {
             return redirect()->action('inscriptions\listesController@index') ;
         }else{
             session(['custom_error'=>trans('inscription.full_classe')]);
-            return redirect()->action('inscriptions\inscriptionController@create',['id_eleve'=>$id_eleve]);
+            return redirect()->action('inscriptions\inscriptionController@edit',['id_eleve'=>$id_eleve]);
         }
 	}
 
@@ -357,9 +357,13 @@ class inscriptionController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy($id_eleve)
 	{
-		//
+		$i=inscription::whereAnneeScolaire(\session('year'))
+            ->where('id_eleve','=',$id_eleve)->first();
+		$i->delete();
+        return redirect()->action('inscriptions\listesController@index') ;
+
 	}
 
 }

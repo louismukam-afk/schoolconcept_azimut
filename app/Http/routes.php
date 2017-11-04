@@ -34,6 +34,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/utilisateurs/', 'user\userController@index');
         Route::post('/utilisateurs/activer', 'user\userController@activate');
         Route::get('/utilisateurs/desactiver/{id}', 'user\userController@deactivate');
+        Route::get('/eleves/notes/delete', 'user\userController@deactivate');
 
     });
 
@@ -53,6 +54,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/admin/niveaux/', 'admin\niveauController@index');
         Route::get('/admin/niveaux/destroy/{id}', 'admin\niveauController@destroy');
         Route::post('/admin/niveaux/store', 'admin\niveauController@store');
+        Route::post('/admin/niveaux/update', 'admin\niveauController@update');
 //Les classes
         Route::get('/admin/classes/', 'admin\classeController@index');
         Route::get('/admin/classes/destroy/{id}', 'admin\classeController@destroy');
@@ -128,6 +130,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/inscriptions/selection-listes','inscriptions\listesController@index');
         Route::get('/inscriptions/listes/show/{id}','inscriptions\listesController@show');
         Route::get('/inscriptions/print-certificate/{id}','inscriptions\inscriptionController@certificate');
+        Route::get('/inscriptions/remove/{id_eleve}','inscriptions\inscriptionController@destroy');
 
 
     });
@@ -251,10 +254,11 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('/search/eleve', 'searchController@eleve');
 
     //Pour la langue
-    Route::get('/language/french', 'WelcomeController@fr_locale');
-    Route::get('/language/english','WelcomeController@en_locale');
+    Route::any('/language/french', 'WelcomeController@fr_locale');
+    Route::any('/language/english','WelcomeController@en_locale');
 
-
+    //modifier le mot de passe utilisateur
+    Route::any('/user-profile/edit-password','WelcomeController@change_password');
 
 });
 Route::group(['middleware'=>'start'],function () {

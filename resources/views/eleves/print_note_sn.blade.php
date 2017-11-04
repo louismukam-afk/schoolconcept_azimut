@@ -1,5 +1,6 @@
 @extends('skeleton')
 @section('sub-content')
+
     @include('perso.functions')
     <a href="#" class="btn btn-lg btn-warning" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> @lang('inscription.imprimer')</a>
     @include('perso.header')
@@ -17,9 +18,14 @@
         <div class="filiere">
             <p ><strong>Filière: {{\gesecole\niveau::find($classe->id_niveau)->nom}}</strong></p>
             <strong class="traduction">Path : {{\gesecole\niveau::find($classe->id_niveau)->nom_anglais}}</strong>
-        </div>
+        </div>c
 
     </div>
+    <?php $totalNotes=0;
+        $notesQuant=0;
+        $notesCap=0;
+        $echecs=0;
+    ?>
 <div class="table">
     <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 5px;">
         <thead>
@@ -43,7 +49,9 @@
                 <td class="note-column">
                     @foreach($notes_cc as $n)
                         @if($n->id_eleve==$e->id)
+                            <?php $totalNotes++; ?>
                             {{$n->note}}
+
                             <?php $total+=$n->note; ?>
                         @endif
                     @endforeach
@@ -58,6 +66,13 @@
                 </td>
                 <td class="note-column">
                     {{$total}}
+                    @if($total>=50)
+                        <?php $notesCap++; ?>
+                    @elseif($total>=35)
+                        <?php $notesQuant++; ?>
+                    @else
+                        <?php $echecs++; ?>
+                    @endif
                 </td>
                 <td class="note-column">{{getGrade($total)[1]}}</td>
                 <td class="note-column">{{getGrade($total)[0]}}</td>
@@ -66,6 +81,10 @@
         </tbody>
     </table>
 </div>
-
+    <div>
+        <p><b>Capitalisation :</b> {{round(($notesCap/$totalNotes)*100,2)}} %</p>
+        <p><b>Quantification :</b> {{round(($notesQuant/$totalNotes)*100,2)}} %</p>
+        <p><b>Echec :</b> {{round(($echecs/$totalNotes)*100,2)}} %</p>
+    </div>
 
 @endsection

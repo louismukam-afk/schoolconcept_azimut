@@ -22,23 +22,24 @@ class Eleve extends Migration {
             $table->string('sexe',1);
             $table->string('nationalite');
             $table->string('quartier');
+            $table->string('parent_ens')->nullable();
             $table->string('lien_tuteur')->nullable();
             $table->string('matricule')->nullable();
             $table->string('email')->nullable();
             $table->string('tel')->nullable();
-            $table->string('status_matrimonial')->nullable;
-            $table->string('region_origine')->nullable;
-            $table->string('departement_origine')->nullable;
-            $table->string('diplome_preinscription')->nullable;
-            $table->string('annee_obtention')->nullable;
-            $table->string('pays_obtention')->nullable;
-            $table->string('dernier_etablissement')->nullable;
-            $table->string('annee_sortie')->nullable;
-            $table->string('diplome_obtenu')->nullable;
-            $table->string('premiere_langue')->nullable;
-            $table->string('deuxieme_langue')->nullable;
-            $table->string('autre_langue')->nullable;
-            $table->string('profession')->nullable;
+            $table->string('status_matrimonial')->nullable();
+            $table->string('region_origine')->nullable();
+            $table->string('departement_origine')->nullable();
+            $table->string('diplome_preinscription')->nullable();
+            $table->string('annee_obtention')->nullable();
+            $table->string('pays_obtention')->nullable();
+            $table->string('dernier_etablissement')->nullable();
+            $table->string('annee_sortie')->nullable();
+            $table->string('diplome_obtenu')->nullable();
+            $table->string('premiere_langue')->nullable();
+            $table->string('deuxieme_langue')->nullable();
+            $table->string('autre_langue')->nullable();
+            $table->string('profession')->nullable();
 
 
         });

@@ -12,14 +12,14 @@ class DisciplinePersonnel extends Migration {
 	 */
 	public function up()
 	{
-		Schema::table('discipline_personnel', function(Blueprint $table)
+		Schema::create('discipline_personnel', function(Blueprint $table)
 		{
             $table->increments('id');
-            $table->string('heure_arrive',50)->nullable;
+            $table->string('heure_arrive',50)->nullable();
             $table->integer('id_personnel');
             $table->integer('type');
             $table->date('date_d');
-            $table->integer('nombre')->nullable;
+            $table->integer('nombre')->default(0);
             $table->string('annee_scolaire',9);
         });
 	}

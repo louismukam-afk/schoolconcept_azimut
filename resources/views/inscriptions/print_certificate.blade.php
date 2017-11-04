@@ -40,7 +40,7 @@
 
             </div>
             <div class="s-text"style="margin-top: 20px">
-                <p>En : <strong>{{$classe->name}}</strong></p>
+                <p>En : <strong>{{$classe->nom}}</strong></p>
                 <div class="traduction">In {{$classe->nom_anglais}} </div>
             </div>
 

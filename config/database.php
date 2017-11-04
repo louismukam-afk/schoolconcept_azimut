@@ -1,6 +1,8 @@
 <?php
+use Illuminate\Support\Facades\Crypt;
 
 return [
+
 
 	/*
 	|--------------------------------------------------------------------------
@@ -26,7 +28,7 @@ return [
 	|
 	*/
 
-	'default' => 'mysql',
+	'default' => 'pgsql',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -43,7 +45,6 @@ return [
 	| choice installed on your machine before you begin development.
 	|
 	*/
-
 	'connections' => [
 
 		'sqlite' => [
@@ -54,10 +55,10 @@ return [
 
 		'mysql' => [
 			'driver'    => 'mysql',
-			'host'      => env('DB_HOST', 'localhost'),
-			'database'  => env('DB_DATABASE', 'forge'),
-			'username'  => env('DB_USERNAME', 'forge'),
-			'password'  => env('DB_PASSWORD', ''),
+			'host'      =>env('DB_HOST', 'localhost'),
+			'database'  => secEnv(env('DB_DATABASE', 'forge')),
+			'username'  => secEnv(env('DB_USERNAME', 'forge')),
+			'password'  => secEnv(env('DB_PASSWORD', '')),
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
@@ -67,9 +68,9 @@ return [
 		'pgsql' => [
 			'driver'   => 'pgsql',
 			'host'     => env('DB_HOST', 'localhost'),
-			'database' => env('DB_DATABASE', 'forge'),
-			'username' => env('DB_USERNAME', 'forge'),
-			'password' => env('DB_PASSWORD', ''),
+			'database' => secEnv(env('DB_DATABASE', 'forge')),
+			'username' => secEnv(env('DB_USERNAME', 'forge')),
+			'password' => secEnv(env('DB_PASSWORD', '')),
 			'charset'  => 'utf8',
 			'prefix'   => '',
 			'schema'   => 'public',

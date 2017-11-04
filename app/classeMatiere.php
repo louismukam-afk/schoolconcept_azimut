@@ -18,12 +18,14 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereMax($value)
  * @property int $id_cycle
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereIdCycle($value)
+ * @property string|null $semestre
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereSemestre($value)
  */
 class classeMatiere extends Model {
 
     protected  $table='classe_matiere';
 
-    public $fillable=['id_cycle','id_classe','id_matiere','coef','max',];
+    public $fillable=['id_cycle','id_classe','id_matiere','coef','max','semestre','type'];
 
 
     public $timestamps=false;

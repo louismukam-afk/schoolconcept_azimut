@@ -16,7 +16,7 @@ class Parametres extends Migration {
 		{
 			$table->increments('id');
 			$table->string('nom');
-			$table->string('valeur',500)->nullable;
+			$table->string('valeur',500)->nullable();
 		});
 	}
 

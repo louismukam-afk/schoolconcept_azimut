@@ -10,10 +10,10 @@
             margin-top: 30px;
         }
     </style>
-
+     <h1 style="font-size: 30px;margin-top: 30px;text-align: center">{{  trans('admin.emploi_temps_de').' '.((session('locale')=='en')?$classe->nom_anglais:$classe->nom)  }}</h1>
     <table class="table table-bordered table-striped table-condensed table-inverse">
         <thead>
-        <caption style="font-size: 22px">{{  trans('admin.emploi_temps_de').' '.((session('locale')=='en')?$classe->nom_anglais:$classe->nom)  }}</caption>
+       
         <th>@lang('admin.horaire')</th>
         <th>@lang('admin.jour1')</th>
         <th>@lang('admin.jour2')</th>
@@ -52,6 +52,9 @@
                             <?php break; ?>
                         @endif
                     @endforeach
+                    @if($h->type==1)
+                            <strong class="pause"  style="font-size: 12px;color: gray;" >Pause</strong>
+                    @endif
                 </td>
                 <td> @foreach($dispenses as $d)
                         @if($d->jour==2 && $d->id_horaire==$h->id)
@@ -77,7 +80,11 @@
                             </div>
                             <?php break; ?>
                         @endif
-                    @endforeach</td>
+                    @endforeach
+                     @if($h->type==1)
+                            <strong class="pause" style="font-size: 12px;color: gray;" >Pause</strong>
+                    @endif
+                </td>
                 <td> @foreach($dispenses as $d)
                         @if($d->jour==3 && $d->id_horaire==$h->id)
                             <strong>
@@ -102,7 +109,11 @@
                             </div>
                             <?php break; ?>
                         @endif
-                    @endforeach</td>
+                    @endforeach
+                     @if($h->type==1)
+                            <strong class="pause" style="font-size: 12px;color: gray;" >Pause</strong>
+                    @endif
+                </td>
                 <td> @foreach($dispenses as $d)
                         @if($d->jour==4 && $d->id_horaire==$h->id)
                             <strong>
@@ -127,7 +138,11 @@
                             </div>
                             <?php break; ?>
                         @endif
-                    @endforeach</td>
+                    @endforeach
+                     @if($h->type==1)
+                            <strong class="pause" style="font-size: 12px;color: gray;" >Pause</strong>
+                    @endif
+                </td>
                 <td> @foreach($dispenses as $d)
                         @if($d->jour==5 && $d->id_horaire==$h->id)
                             <strong>
@@ -152,7 +167,11 @@
                             </div>
                             <?php break; ?>
                         @endif
-                    @endforeach</td>
+                    @endforeach
+                     @if($h->type==1)
+                            <strong  class="pause" style="font-size: 12px;color: gray;" >Pause</strong>
+                    @endif
+                </td>
                 <td> @foreach($dispenses as $d)
                         @if($d->jour==6 && $d->id_horaire==$h->id)
                             <strong>
@@ -177,7 +196,11 @@
                             </div>
                             <?php break; ?>
                         @endif
-                    @endforeach</td>
+                    @endforeach
+                     @if($h->type==1)
+                            <strong class="pause" style="font-size: 12px;color: gray;" >Pause</strong>
+                    @endif
+                </td>
             </tr>
         @endforeach
         </tbody>

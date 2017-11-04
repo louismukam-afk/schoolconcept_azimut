@@ -68,7 +68,7 @@ class relevesController extends Controller {
 	    $this->validate($request,[
 	       "cycle"=>"required|numeric",
         ]);
-
+        $proces_v=[];
 	    $id_cycle=$request->input('cycle');
         $values= array('titre'=>trans('admin.releve_notes'));
         $id_eleves=array();
@@ -110,6 +110,7 @@ class relevesController extends Controller {
             foreach ($cm as $entry){
                 $sCoef+=$entry->coef;
             }
+
             $matiere_list=$cm->fetch('id_matiere')->toArray();
             //$m=matiere::whereIn('id',$matiere_list)->whereIn('id',$matieres_pv)->get();
         $m=matiere::whereIn('id',$matiere_list)->get();
@@ -214,6 +215,7 @@ class relevesController extends Controller {
                     $l++;
                 }
                 //dump($matieres);
+                if($sCoef==0) $sCoef=1;
                 $proces_v[$k]=new PV($eleve->id,$matieres,$sNote/$sCoef);
                 $k++;
             }

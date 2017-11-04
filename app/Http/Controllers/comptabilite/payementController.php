@@ -121,7 +121,7 @@ class payementController extends Controller {
         }
         $hr=heure_realise::whereAnneeScolaire(\session('year'))
             ->where('id_personnel','=',$id)
-            ->where('date_heure_realisee','>',$ps->date_p)
+            ->where('date_heure_realisee','>=',$ps?$ps->date_p:'1900-01-01')
             ->sum('nombre');
 
         $t=taux::whereIdPersonnel($id)->first();
@@ -182,20 +182,20 @@ class payementController extends Controller {
         $ps=new payement_salaire();
         $ps->id_personnel=$id;
         $ps->id_user=\Auth::user()->id;
-        $ps->montant=$total-$total_retenu;
+        $ps->montant=floatval($total-$total_retenu);
         $ps->date_p=date('Y-m-d');
         $ps->mois=$mois;
         $ps->heure_realise=$heure_realisee;
         $ps->taux=$taux;
-        $ps->total=$total;
-        $ps->primes=$primes;
-        $ps->acomptes=$acomptes;
-        $ps->cnss=$CNSS;
-        $ps->cas_sociales=$cas_socials;
-        $ps->assurances=$assurances;
-        $ps->autre_retenues=$autres_retenues;
-        $ps->total_retenu=$total_retenu;
-        $ps->net_a_payer=$total-$total_retenu   ;
+        $ps->total=floatval($total);
+        $ps->primes=floatval($primes);
+        $ps->acomptes=floatval($acomptes);
+        $ps->cnss=floatval($CNSS);
+        $ps->cas_sociales=floatval($cas_socials);
+        $ps->assurances=floatval($assurances);
+        $ps->autre_retenues=floatval($autres_retenues);
+        $ps->total_retenu=floatval($total_retenu);
+        $ps->net_a_payer=floatval($total-$total_retenu)   ;
         $ps->annee_scolaire=\session('year');
         $ps->save();
         $numero=sprintf('%08d',$ps->id);
@@ -203,10 +203,7 @@ class payementController extends Controller {
 
         $ps->save();
 
-        $hre=heure_realise::whereIdPersonnel($id)->first();
-        $hre->nombre=0;
-        $hre->save();
-
+      
         session(['success'=>$ps->id]);
         return redirect()->action('comptabilite\payementController@index') ;
 
