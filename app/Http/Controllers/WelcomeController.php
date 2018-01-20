@@ -56,7 +56,7 @@ class WelcomeController extends Controller {
 
       // $c=new Encrypter(config('env.key'));
        //dump($c->encrypt('schoooncept'));
-        return view('home');
+        return view('home',['isHome'=>true]);
 	}
 
 	public function editYear(Request $req){

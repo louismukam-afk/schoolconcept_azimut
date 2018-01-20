@@ -32,6 +32,11 @@
         </thead>
         <tbody>
         <?php $i=1; ?>
+        <?php $totalNotes=0;
+        $notesQuant=0;
+        $notesCap=0;
+        $echecs=0;
+        ?>
         @foreach($eleves as $e)
             <?php $total=0; ?>
             <tr>
@@ -43,6 +48,15 @@
                     @foreach($notes as $n)
                         @if($n->id_eleve==$e->id)
                             {{$n->note}}
+                            <?php $totalNotes++; ?>
+
+                            @if($n->note>=50)
+                                <?php $notesCap++; ?>
+                            @elseif($n->note>=35)
+                                <?php $notesQuant++; ?>
+                            @else
+                                <?php $echecs++; ?>
+                            @endif
                             <?php $total=$n->note; ?>
                         @endif
                     @endforeach
@@ -54,6 +68,14 @@
         @endforeach
         </tbody>
     </table>
+@if($totalNotes==0)
+    <?php $totalNotes=1; ?>
+    @endif
+    <div>
+        <p><b>Capitalisation :</b> {{round(($notesCap/$totalNotes)*100,2)}} %</p>
+        <p><b>Quantification :</b> {{round(($notesQuant/$totalNotes)*100,2)}} %</p>
+        <p><b>Echec :</b> {{round(($echecs/$totalNotes)*100,2)}} %</p>
+    </div>
 </div>
 
 

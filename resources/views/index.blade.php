@@ -166,7 +166,9 @@
                  <!-- /. ROW  -->
                   <hr />
                 <div class="row">
+                <div style="height: 70px; background: #214761" class="action"></div>
                     <div class="col-lg-12 ">
+                     @if(isset($isHome))
                         <div class="alert alert-info">
                             @if (Auth::guest())
                             @else
@@ -174,7 +176,7 @@
                                 <a data-toggle="modal" data-backdrop="false" href="#edit_pass" class="pull-right" style="color: #BE5C00"><span class="fa fa-lock"></span> @lang('admin.modifier_pass')</a>
                             @endif
                         </div>
-
+                    @endif
                        
                     </div>
 

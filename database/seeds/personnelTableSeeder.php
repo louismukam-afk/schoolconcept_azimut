@@ -16,11 +16,11 @@ class personnelTableSeeder extends Seeder {
        personnel::insert(
             [
                 'nom'=>str_random(6).' '.str_random(7).' '.str_random(6),
-                'date_naiss'=>random_int(1990,2000).'-'.random_int(1,12).'-'.random_int(1,31),
+                'date_naiss'=>random_int(1990,2000).'-'.random_int(1,12).'-'.random_int(1,28),
                 'lieu_naiss'=>str_random(10),
                 'sexe'=>$this->makeSex(random_int(0,1)),
                 'diplome'=>str_random(7),
-                'date_entree'=>random_int(1990,2000).'-'.random_int(1,12).'-'.random_int(1,31),
+                'date_entree'=>random_int(1990,2000).'-'.random_int(1,12).'-'.random_int(1,28),
                 'tel1'=>str_random(7),
                 'tel2'=>str_random(7),
                 'adresse'=>str_random(7),

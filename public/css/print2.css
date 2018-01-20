@@ -26,7 +26,7 @@ html,body {
 }
 
 
-.wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.navbar,.navbar-header,.modal,.back-button
+.wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.navbar,.navbar-header,.modal,.back-button,.copy
 {
     display: none;
 }

@@ -28,7 +28,7 @@
     <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 5px;">
         <thead>
         <th class="number-column">#</th>
-        <th class="mat-column">Matricule/Matricle</th>
+        <th class="spec-column">Matricule/Matricle</th>
         <th class="nom-column">Nom/Name</th>
         <?php $j=0; ?>
         @foreach($matieres as $m)

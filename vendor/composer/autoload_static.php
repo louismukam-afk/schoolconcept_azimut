@@ -326,6 +326,7 @@ class ComposerStaticInita8e744cd6ac8bb0715dcab13ed5037a3
         'Discipline' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_120309_discipline.php',
         'DisciplinePersonnel' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_120333_discipline_personnel.php',
         'Dispense' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_120355_dispense.php',
+        'EditClasseMatiere' => __DIR__ . '/../..' . '/database/migrations/2017_12_03_015621_edit_classe_matiere.php',
         'Eleve' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_120408_eleve.php',
         'File_Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',
         'File_Iterator_Facade' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Facade.php',

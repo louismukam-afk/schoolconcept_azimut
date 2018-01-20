@@ -83,6 +83,9 @@ table{
 .mat-column{
     width: 100px;
 }
+.spec-column{
+    width: 180px;
+}
 .note-column
 {
     width: 50px;
@@ -101,7 +104,7 @@ table{
         margin-right: 2%;
     }
 
-    .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button
+    .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.copy
     {
         display: none;
     }
@@ -164,6 +167,9 @@ table{
     }
     .mat-column{
         width: 100px;
+    }
+    .spec-column{
+        width: 180px;
     }
     .matiere-column{
         width: 100px;

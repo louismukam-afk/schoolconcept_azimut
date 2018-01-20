@@ -14,7 +14,7 @@ class eleveTableSeeder extends Seeder {
     {
         \gesecole\eleve::insert(
             ['nom'=>str_random(6).' '.str_random(7).' '.str_random(6),
-                'date_naiss'=>random_int(1990,2000).'-'.random_int(1,12).'-'.random_int(1,31),
+                'date_naiss'=>random_int(1990,2000).'-'.random_int(1,12).'-'.random_int(1,28),
                 'lieu_naiss'=>str_random(10),
                 'sexe'=>$this->makeSex(random_int(0,1)),
                 'nationalite'=>str_random(8),

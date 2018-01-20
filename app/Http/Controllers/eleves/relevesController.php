@@ -110,6 +110,7 @@ class relevesController extends Controller {
             foreach ($cm as $entry){
                 $sCoef+=$entry->coef;
             }
+
             $matiere_list=$cm->fetch('id_matiere')->toArray();
             //$m=matiere::whereIn('id',$matiere_list)->whereIn('id',$matieres_pv)->get();
         $m=matiere::whereIn('id',$matiere_list)->get();
