@@ -3,7 +3,7 @@
 <head>
       <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SchoolConcept</title>
+    <title>{{  session('big_title')  }}</title>
     <link rel="shortcut icon" href="{{URL::asset('favicon.ico')}}" type="image/x-icon">
 	<!-- BOOTSTRAP STYLES-->
     <link href="{{ URL::asset('css/bootstrap.css')  }}" rel="stylesheet" />

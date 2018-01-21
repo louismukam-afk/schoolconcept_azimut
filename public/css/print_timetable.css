@@ -37,7 +37,7 @@
     color: grey !important;
 }
 .table{
-    margin-top: 25mm;
+    margin-top: 10mm;
 }
 
 .list-cont
@@ -51,6 +51,12 @@
     position: absolute;
     bottom: 0;
     right: 0;
+}
+.pause
+{
+        -webkit-print-color-adjust:exact;
+    color: gray !important;
+    font-size: 12px !important;
 }
 
 

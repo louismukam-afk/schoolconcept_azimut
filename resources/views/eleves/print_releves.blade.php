@@ -66,9 +66,9 @@
                         <p><strong class="traduction">Academic year : </strong></p>
                     </div>
                 </div>
-                <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 15px;">
+                <table class="table  table-striped table-condensed table-inverse" style="margin-top: 15px;">
                     <thead>
-                    <th><strong>Intitulé de l'UE</strong> <span class="traduction">UE title</span></th>
+                    <th ><strong>Intitulé de l'UE</strong> <span class="traduction">UE title</span></th>
                     <th class="note-column"><strong>Crédit</strong></th>
                     <th class="note-column"><strong>Moy /100</strong>  </th>
                     <th class="note-column"><strong>Qualité /4</strong>  </th>

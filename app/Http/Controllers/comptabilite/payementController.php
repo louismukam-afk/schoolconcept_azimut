@@ -121,7 +121,7 @@ class payementController extends Controller {
         }
         $hr=heure_realise::whereAnneeScolaire(\session('year'))
             ->where('id_personnel','=',$id)
-            ->where('date_heure_realisee','>',$ps?$ps->date_p:'1900-01-01')
+            ->where('date_heure_realisee','>=',$ps?$ps->date_p:'1900-01-01')
             ->sum('nombre');
 
         $t=taux::whereIdPersonnel($id)->first();
@@ -203,10 +203,7 @@ class payementController extends Controller {
 
         $ps->save();
 
-        $hre=heure_realise::whereIdPersonnel($id)->first();
-        $hre->nombre=0;
-        $hre->save();
-
+      
         session(['success'=>$ps->id]);
         return redirect()->action('comptabilite\payementController@index') ;
 
