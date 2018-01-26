@@ -20,6 +20,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereIdCycle($value)
  * @property string|null $semestre
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereSemestre($value)
+ * @property int $type
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereType($value)
  */
 class classeMatiere extends Model {
 

@@ -113,8 +113,10 @@ class relevesController extends Controller {
 
             $matiere_list=$cm->fetch('id_matiere')->toArray();
             //$m=matiere::whereIn('id',$matiere_list)->whereIn('id',$matieres_pv)->get();
-        $m=matiere::whereIn('id',$matiere_list)->get();
-
+        $m=matiere::whereIn('matiere.id',$matiere_list)
+            ->Join('classe_matiere','matiere.id','=','classe_matiere.id_matiere')
+            ->select('matiere.*','semestre','type')
+            ->get();
             $k=0;
             foreach($e as $eleve){
 
