@@ -300,7 +300,10 @@
         });
         function printErrorMsg (msg) {
 
-
+             if (msg.indexOf("html")>=0) {
+                window.location.href='{{url('/')}}';
+                return 0;
+            }
             if(msg)
             $(".print-error-msg").css('display', 'block');
 
