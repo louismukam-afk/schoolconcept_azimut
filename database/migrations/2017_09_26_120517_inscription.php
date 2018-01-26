@@ -19,7 +19,6 @@ class Inscription extends Migration {
 			$table->integer('id_eleve');
 			$table->string('annee_scolaire',9);
 			$table->integer('id_classe');
-			$table->integer('id_cycle');
 			$table->float('montant');
 		});
 	}

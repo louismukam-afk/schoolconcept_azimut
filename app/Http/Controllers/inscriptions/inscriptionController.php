@@ -73,10 +73,10 @@ class inscriptionController extends Controller {
     public function find(Request $req)
     {
         $pattern=$req->input('search');
-        $e=DB::table('eleve')->where('nom', 'LIKE', '%'.$pattern.'%')
-            ->orWhere('prenom', 'LIKE', '%'.$pattern.'%')
-            ->orWhere('matricule', 'LIKE', '%'.$pattern.'%')
-            ->orderBy('nom')->orderBy('prenom')
+        $e=DB::table('eleve')->whereRaw('lower(nom) LIKE ?', ['%'.strtolower($pattern).'%'])
+            ->orWhereRaw('lower(prenom) LIKE ?', ['%'.strtolower($pattern).'%'])
+            ->orWhereRaw('lower(matricule) LIKE ?', ['%'.strtolower($pattern).'%'])
+            ->orderByRaw('nom')->orderBy('prenom')
             ->paginate(30);
         //$e=DB::table('eleve')->whereRaw("nom LIKE '%?%' or prenom LIKE '%?%' or matricule LIKE '%?%'",[$pattern,$pattern,$pattern])->get();
         //$e=eleve::whereRaw("nom LIKE '%?%' or prenom LIKE '%?%' or matricule LIKE '%?%'",[$pattern,$pattern,$pattern]);
@@ -93,11 +93,9 @@ class inscriptionController extends Controller {
         $c=classe::orderBy('id_niveau')
             ->orderBy('nom')
             ->get();
-        $cy=cycle::all();
         $e=eleve::find($id_eleve);
         $values= array('titre'=>trans('inscription.title_search_register'));
         $values['classes']=$c;
-        $values['cycles']=$cy;
         $values['e']=$e;
         $values['new_record']=true;
         if(session('success')){
@@ -123,12 +121,10 @@ class inscriptionController extends Controller {
        $this->validate($req,[
            'id_eleve'=>'required',
            'classe'=>'required',
-           'cycle'=>'required|numeric',
            'montant'=>'required|numeric'
        ]) ;
        $id_eleve=$req->input('id_eleve');
         $id_classe=$req->input('classe');
-        $id_cycle=$req->input('cycle');
         $montant=$req->input('montant');
        $annee_scolaire=session('year');
        $today=date('Y-m-d');
@@ -149,7 +145,6 @@ class inscriptionController extends Controller {
        $i->id_eleve=$id_eleve;
        $i->id_classe=$id_classe;
        $i->annee_scolaire=$annee_scolaire;
-       $i->id_cycle=$id_cycle;
        $i->date_inscription=$today;
        $i->montant=$montant;
        if($i->save()) {
@@ -160,7 +155,9 @@ class inscriptionController extends Controller {
            $p->montant = $montant;
            $p->motif = 'Inscription';
            $p->save();
-           $numero = sprintf('%08d', $p->id);
+           $front = session('year');
+           $front = substr($front, 2, 2);
+           $numero = $front.sprintf('%08d', $p->id);
            $p->numero = $numero;
            $p->save();
 
@@ -171,14 +168,13 @@ class inscriptionController extends Controller {
                $e->save();
            } else{
                $e = eleve::find($id_eleve);
-               $c = classe::find($id_classe);
                $param = parametres::all();
                $pa = $param->where('nom', 'initiales_etablissement', false)->first();
 
                $front = session('year');
                $front = substr($front, 2, 2);
-               $number = sprintf('%04d', $e->id);
-               $e->matricule = $front . $pa->valeur . '-' . $c->code . $number;
+               $number = sprintf('%05d', $e->id);
+               $e->matricule = $front . $pa->valeur . '-'. $number;
                $e->save();
            }
 
@@ -217,14 +213,12 @@ class inscriptionController extends Controller {
         $c=classe::orderBy('id_niveau')
             ->orderBy('nom')
             ->get();
-        $cy=cycle::all();
         $e=eleve::find($id_eleve);
         $i=inscription::whereAnneeScolaire(\session('year'))
             ->where('id_eleve','=',$id_eleve)
             ->first();
         $values= array('titre'=>trans('inscription.title_search_register'));
         $values['classes']=$c;
-        $values['cycles']=$cy;
         $values['inscription']=$i;
         $values['e']=$e;
         $values['old_record']=true;
@@ -244,13 +238,11 @@ class inscriptionController extends Controller {
 	public function print_receipe($id){
 	    $p=payement::find($id);
         $i=inscription::whereAnneeScolaire(session('year'))->where('id_eleve',$p->id_eleve,false)->first();
-        $cy=cycle::find($i->id_cycle)->nom;
         $c=classe::find($i->id_classe);
         $n=niveau::find($c->id_niveau);
 	    $pa=parametres::all();
 	    $pa=$pa->where('nom','nom_etablissement',false)->first();
 	    $nom_e=$pa->valeur;
-        $values['cycle']=$cy;
         $values['classe']=$c;
         $values['niveau']=$n;
         $values['payement']=$p;
@@ -266,7 +258,6 @@ class inscriptionController extends Controller {
         $i=inscription::whereAnneeScolaire(session('year'))->where('id_eleve',$id,false)->first();
         $values['inscription']=$i;
         if($i!=null){
-            $cy=cycle::find($i->id_cycle);
             $c=classe::find($i->id_classe);
             $n=niveau::find($c->id_niveau);
             $pa=parametres::all();
@@ -274,7 +265,6 @@ class inscriptionController extends Controller {
             $pa2=$pa->where('nom','nom_directeur',false)->first();
             $nom_e=$pa1->valeur;
             $nom_d=$pa2->valeur;
-            $values['cycle']=$cy;
             $values['classe']=$c;
             $values['eleve']=$e;
             $values['niveau']=$n;
@@ -299,12 +289,10 @@ class inscriptionController extends Controller {
         $this->validate($req,[
             'id_eleve'=>'required',
             'classe'=>'required',
-            'cycle'=>'required|numeric',
         ]) ;
         $update=true;
         $id_eleve=$req->input('id_eleve');
         $id_classe=$req->input('classe');
-        $id_cycle=$req->input('cycle');
         $annee_scolaire=session('year');
         $capacite_classe=classe::find($id_classe)->capacite;
         $nb_eleve_classe=inscription::whereRaw('id_classe=? and annee_scolaire=?',[$id_classe,$annee_scolaire])->get()->count();
@@ -318,7 +306,6 @@ class inscriptionController extends Controller {
             ->where('id_eleve','=',$id_eleve)
             ->first();
         $i->id_classe=$id_classe;
-        $i->id_cycle=$id_cycle;
         if($i->save()) {
 
 
@@ -329,14 +316,13 @@ class inscriptionController extends Controller {
                 $e->save();
             } else{
                 $e = eleve::find($id_eleve);
-                $c = classe::find($id_classe);
                 $param = parametres::all();
                 $pa = $param->where('nom', 'initiales_etablissement', false)->first();
 
                 $front = session('year');
                 $front = substr($front, 2, 2);
-                $number = sprintf('%04d', $e->id);
-                $e->matricule = $front . $pa->valeur . '-' . $c->code . $number;
+                $number = sprintf('%05d', $e->id);
+                $e->matricule = $front . $pa->valeur . '-'  . $number;
                 $e->save();
             }
 

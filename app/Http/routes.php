@@ -149,6 +149,9 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/eleves/bulletins/search/','eleves\bulletinController@index2');
         Route::get('/eleves/bulletins/find/','eleves\bulletinController@search');
         Route::post('/eleves/bulletins/print-single-seq','eleves\bulletinController@print_single_seq');
+        Route::any('/eleves/bulletins/print-single-trim/','eleves\bulletinController@print_single_trim');
+        Route::any('/eleves/bulletins/print-single-year/','eleves\bulletinController@print_single_year');
+        Route::any('/eleves/bulletins/regenerate/','eleves\bulletinController@regenerate');
 
         Route::get('/eleves/releves/','eleves\relevesController@index');
         Route::get('/eleves/releves/print/{id}','eleves\relevesController@create');

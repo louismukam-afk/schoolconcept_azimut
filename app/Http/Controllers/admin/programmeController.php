@@ -63,15 +63,13 @@ class programmeController extends Controller {
 	public function create(Request $request,$id)
 	{
 	    $c=classe::find($id);
-	    $cycle= $request->input('cycle');
         $titre=trans('admin.programme');
-        $p=DB::select('SELECT cm.id,cm.id_matiere,cm.type,cm.id_cycle,cm.semestre,m.nom_anglais,m.nom as nom_matiere,coef,max FROM classe_matiere cm, matiere m ,classe c WHERE cm.id_classe=c.id AND cm.id_matiere=m.id And c.id=?  AND cm.id_cycle=?',[$id,$cycle]);
-        $m=DB::select('select m.id,m.nom,m.nom_anglais FROM matiere m WHERE  m.id NOT IN (SELECT cm.id_matiere FROM classe_matiere cm WHERE cm.id_classe=?  AND cm.id_cycle=?)',[$id,$cycle]);
+        $p=DB::select('SELECT cm.id,cm.id_matiere,m.nom_anglais,m.nom as nom_matiere,coef,max FROM classe_matiere cm, matiere m ,classe c WHERE cm.id_classe=c.id AND cm.id_matiere=m.id And c.id=?  ',[$id]);
+        $m=DB::select('select m.id,m.nom,m.nom_anglais FROM matiere m WHERE  m.id NOT IN (SELECT cm.id_matiere FROM classe_matiere cm WHERE cm.id_classe=? )',[$id]);
 
         $values= array('titre'=>$titre,'programmes'=>$p);
         $values['classe']=$c;
         $values['matieres']=$m;
-        $values['id_cycle']=$cycle;
         if(session('success')){
             Session::forget('success');
             $values['success']=true;
@@ -90,27 +88,21 @@ class programmeController extends Controller {
 	{
 	    $this->validate($request,[
 	       'id'=>'required|numeric',
-            'id_cycle'=>'required|numeric',
 
         ]);
 	    $id=$request->input('id');
-        $id_cycle=$request->input('id_cycle');
 
         $matiereList=$request->input('matiere');
         $coefList=$request->input('coef');
         $maxList=$request->input('max');
-        $semestreList=$request->input('semestre');
-        $typeList=$request->input('type');
         $i=0;
         foreach ($matiereList as $mat){
             $cm=new classeMatiere();
             $cm->id_classe=$id;
-            $cm->id_cycle=$id_cycle;
             $cm->id_matiere=$mat;
             $cm->coef=$coefList[$i];
             $cm->max=$maxList[$i];
-            $cm->semestre=$semestreList[$i];
-            $cm->type=$typeList[$i];
+
             $cm->save();
 
             $i++;
@@ -119,7 +111,7 @@ class programmeController extends Controller {
         session(['success'=>true]);
 
         //$request->request->add(['cycle'=>$id_cycle]);
-        return redirect()->to('/admin/programmes/selection-matieres/'.$id.'?cycle='.$id_cycle);
+        return redirect()->to('/admin/programmes/selection-matieres/'.$id);
 	}
 
 	/**
@@ -155,27 +147,23 @@ class programmeController extends Controller {
 	{
         $this->validate($request,[
             'id'=>'required|numeric',
-            'id_cycle'=>'required|numeric',
 
         ]);
         $id=$request->input('id');
-        $id_cycle=$request->input('id_cycle');
         $coef=$request->input('coef');
         $max=$request->input('max');
-        $semestre=$request->input('semestre');
-        $type=$request->input('type');
+
 
         $cm=classeMatiere::find($id);
         $cm->coef=$coef;
         $cm->max=$max;
-        $cm->semestre=$semestre;
-        $cm->type=$type;
+
         $cm->save();
 
         session(['success'=>true]);
 
         //$request->request->add(['cycle'=>$id_cycle]);
-        return redirect()->to('/admin/programmes/selection-matieres/'. $cm->id_classe.'?cycle='.$id_cycle);
+        return redirect()->to('/admin/programmes/selection-matieres/'. $cm->id_classe);
 	}
 
 	/**
@@ -187,7 +175,6 @@ class programmeController extends Controller {
 	public function destroy(Request $request,$id)
 	{
 	    $id_classe=$request->input('id');
-        $id_cycle=$request->input('cycle');
 		$cm=classeMatiere::find($id);
 		$cm->delete();
         session(['success'=>true]);

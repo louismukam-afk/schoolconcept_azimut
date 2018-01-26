@@ -94,6 +94,7 @@
                                             <option value="7">{{trans('eleve.trimestre')}} 1</option>
                                             <option value="8">{{trans('eleve.trimestre')}} 2</option>
                                             <option value="9">{{trans('eleve.trimestre')}} 3</option>
+                                            <option value="10">@lang('admin.annuel')</option>
                                         </select>
                                     </div>
 

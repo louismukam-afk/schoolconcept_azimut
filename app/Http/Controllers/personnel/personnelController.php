@@ -43,7 +43,7 @@ class personnelController extends Controller {
 
 	 public function index_personnel(){
          $titre=trans('admin.personnel');
-         $m=personnel::paginate(30);
+         $m=personnel::orderBy('nom')->paginate(30);
          $values= array('titre'=>$titre,'personnel'=>$m);
             if(session('success')){
                 $values['success']=true;

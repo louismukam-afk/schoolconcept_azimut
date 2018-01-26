@@ -31,15 +31,7 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                 <input type="hidden" name="id_eleve" value="{{$e->id}}">
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label>  Cycle: </label>
-                        <select form="add_inscription_form"  name="cycle" class="form-control">
-                            @foreach($cycles as $c)
-                                <option value="{{$c->id}}" @if($inscription->id_cycle==$c->id) selected @endif>{{$c->nom}}</option>
-                            @endforeach
-                        </select>
 
-                    </div>
                     <div class="form-group">
                         <label>@lang('admin.specialites')  : </label>
 
@@ -83,15 +75,7 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                 <input type="hidden" name="id_eleve" value="{{$e->id}}">
                 <div class="col-md-6">
-                    <div class="form-group">
-                        <label>  Cycle: </label>
-                        <select form="add_inscription_form"  name="cycle" class="form-control">
-                            @foreach($cycles as $c)
-                                <option value="{{$c->id}}" @if(old('cycle')==$c->id) selected @endif>{{$c->nom}}</option>
-                            @endforeach
-                        </select>
 
-                    </div>
                     <div class="form-group">
                         <label>@lang('admin.specialites')  : </label>
 

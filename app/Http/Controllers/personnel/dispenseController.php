@@ -76,7 +76,7 @@ class dispenseController extends Controller {
     public function find(Request $req)
     {
         $pattern=$req->input('search');
-        $p=DB::table('personnel')->where('nom', 'LIKE', '%'.$pattern.'%')
+        $p=DB::table('personnel')->whereRaw('lower(nom) LIKE ?', ['%'.strtolower($pattern).'%'])
             ->orderBy('nom')
             ->paginate(30);
         $values= array('titre'=>trans('admin.search_personnel'));
@@ -110,7 +110,6 @@ class dispenseController extends Controller {
         $h=horaire::orderBy('ordre')->get();
         $oh=dispense::whereAnneeScolaire(session('year'))
             ->where('id_classe','=',$req->input('id_classe'))
-
             ->where('jour','=',$req->input('jour'))
             ->get();
 

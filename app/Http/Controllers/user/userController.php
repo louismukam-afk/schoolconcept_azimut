@@ -82,7 +82,7 @@ class userController extends Controller {
     {
         $u=User::find($id);
         $u->active=0;
-        $u->id_personnel=null;
+        $u->id_personnel=0;
         $u->save();
         session(['success'=>true]);
 

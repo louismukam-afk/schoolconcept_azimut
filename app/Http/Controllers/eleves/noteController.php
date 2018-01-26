@@ -75,11 +75,10 @@ class noteController extends Controller {
 	 *
 	 * @return Response
 	 */
-    public function matiere(Request $request,$id)
+    public function matiere($id)
     {
-        $id_cycle=$request->input('cycle');
         $values= array('titre'=>'Notes');
-        $m=DB::select('SELECT m.* FROM matiere m ,classe_matiere cm WHERE m.id=cm.id_matiere AND cm.id_classe=? AND cm.id_cycle=? ORDER BY m.nom',[$id,$id_cycle]);
+        $m=DB::select('SELECT m.* FROM matiere m ,classe_matiere cm WHERE m.id=cm.id_matiere AND cm.id_classe=? ORDER BY m.nom',[$id]);
         if(session('success')){
             $values['success']=session('success');
             Session::forget('success');
@@ -90,7 +89,6 @@ class noteController extends Controller {
         }
         $values['matieres']=$m;
         $values['id']=$id;
-        $values['id_cycle']=$id_cycle;
 
         return view('eleves\matiere_note',$values);
     }
@@ -118,14 +116,12 @@ class noteController extends Controller {
 	{
 	    $this->validate($request,[
 	        'sequence'=>'required|numeric',
-            'cycle'=>'required|numeric',
         ]);
 
 
         $values= array('titre'=>'Notes');
         $sequence=$request->input('sequence');
         $id_m=$request->input('id');
-        $id_cycle=$request->input('cycle');
 
         $v=verrouNote::whereAnneeScolaire(\session('year'))
             ->where('sequence','=',$sequence)
@@ -133,7 +129,7 @@ class noteController extends Controller {
 
         if($v->count()>0){
             session(['erreur'=>trans('admin.mod_locked')]);
-            return redirect()->to('/eleves/notes/matieres/'.$id.'?cycle='.$id_cycle);
+            return redirect()->to('/eleves/notes/matieres/'.$id);
         }
 
         $user=Auth::user();
@@ -146,14 +142,14 @@ class noteController extends Controller {
             if($d==null){
                 $mat=matiere::find($id_m);
                 session(['erreur'=>trans('admin.no_modification',['matiere'=>$mat->nom.'('.$mat->nom_anglais.')'])]);
-                return redirect()->to('/eleves/notes/matieres/'.$id.'?cycle='.$id_cycle);
+                return redirect()->to('/eleves/notes/matieres/'.$id);
             }
         }
 
         $mat=matiere::find($id_m);
-        $cm=classeMatiere::whereIdClasse($id)->where('id_matiere','=',$id_m)->where('id_cycle','=',$id_cycle)->first();
+        $cm=classeMatiere::whereIdClasse($id)->where('id_matiere','=',$id_m)->first();
 
-		$e=DB::select('SELECT e.id,e.nom,e.prenom FROM eleve e,inscription i WHERE i.annee_scolaire=? AND i.id_classe=? AND i.id_eleve=e.id AND i.id_cycle=? ORDER BY e.nom,e.prenom',[session('year'),$id,$id_cycle]);
+		$e=DB::select('SELECT e.id,e.nom,e.prenom FROM eleve e,inscription i WHERE i.annee_scolaire=? AND i.id_classe=? AND i.id_eleve=e.id  ORDER BY e.nom,e.prenom',[session('year'),$id]);
 		$n=note::whereAnneeScolaire(session('year'))
             ->where('id_matiere','=',$id_m)
             ->where('sequence','=',$sequence)
@@ -163,7 +159,6 @@ class noteController extends Controller {
         $values['notes']=$n;
         $values['max']=$cm->max;
         $values['matiere']=$mat;
-        $values['id_cycle']=$id_cycle;
         $values['id_classe']=$id;
 
         $values['sequence']=$sequence;
@@ -587,7 +582,6 @@ class noteController extends Controller {
             'id_classe'=>'required|numeric',
 
         ]);
-        $id_cycle=$request->input('cycle');
         $id_matiere=$request->input('id_matiere');
         $sequence=$request->input('sequence');
         $id_classe=$request->input('id_classe');
@@ -598,7 +592,7 @@ class noteController extends Controller {
         if($eleveList==null){
             session(['success'=>true]);
 
-            return redirect()->to('/eleves/notes/matieres/'.$id_classe.'?cycle='.$id_cycle);
+            return redirect()->to('/eleves/notes/matieres/'.$id_classe);
         }
         foreach ($eleveList as $e){
             $n=note::firstOrNew(['annee_scolaire'=>session('year'),'id_matiere'=>$id_matiere,'sequence'=>$sequence,'id_eleve'=>$e]);
@@ -615,7 +609,7 @@ class noteController extends Controller {
 
         session(['success'=>true]);
 
-        return redirect()->to('/eleves/notes/matieres/'.$id_classe.'?cycle='.$id_cycle);
+        return redirect()->to('/eleves/notes/matieres/'.$id_classe);
 	}
 
 	/**

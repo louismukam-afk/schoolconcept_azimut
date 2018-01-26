@@ -15,7 +15,6 @@ class ClasseMatiere extends Migration {
 		Schema::create('classe_matiere', function(Blueprint $table)
 		{
             $table->increments('id');
-            $table->integer('id_cycle');
             $table->integer('id_classe');
             $table->integer('id_matiere');
             $table->integer('coef');

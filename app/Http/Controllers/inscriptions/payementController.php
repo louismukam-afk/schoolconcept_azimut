@@ -62,9 +62,9 @@ class payementController extends Controller {
         $pattern=$req->input('search');
         $p=payement::whereNumero($pattern)->first();
         if($p==null) {
-            $e = DB::table('eleve')->where('nom', 'LIKE', '%' . $pattern . '%')
-                ->orWhere('prenom', 'LIKE', '%' . $pattern . '%')
-                ->orWhere('matricule', 'LIKE', '%' . $pattern . '%')
+            $e = DB::table('eleve')->whereRaw('lower(nom) LIKE ?', ['%'.strtolower($pattern).'%'])
+                ->orWhereRaw('lower(prenom) LIKE ?', ['%'.strtolower($pattern).'%'])
+                ->orWhereRaw('lower(matricule) LIKE ?', ['%'.strtolower($pattern).'%'])
                 ->orderBy('nom')->orderBy('prenom')
                 ->paginate(30);
 
@@ -151,7 +151,9 @@ class payementController extends Controller {
         $p->date_payement=$today;
 
         $p->save();
-        $numero=sprintf('%08d',$p->id);
+        $front = session('year');
+        $front = substr($front, 2, 2);
+        $numero=$front.sprintf('%08d',$p->id);
         $p->numero=$numero;
         $p->save();
 
@@ -181,7 +183,6 @@ class payementController extends Controller {
     public function print_receipe($id){
         $p=payement::find($id);
         $i=inscription::whereAnneeScolaire(session('year'))->where('id_eleve',$p->id_eleve,false)->first();
-        $cy=cycle::find($i->id_cycle)->nom;
         $c=classe::find($i->id_classe);
         $n=niveau::find($c->id_niveau);
         $sc=$i->classe->niveau->scolarite;
@@ -194,7 +195,6 @@ class payementController extends Controller {
         $pa=parametres::all();
         $pa=$pa->where('nom','nom_etablissement',false)->first();
         $nom_e=$pa->valeur;
-        $values['cycle']=$cy;
         $values['classe']=$c;
         $values['niveau']=$n;
         $values['payement']=$p;

@@ -21,10 +21,10 @@
             <div style="font-size: 17px;margin-top: 10px"> <strong>{{$eleve->nom.' '.$eleve->prenom}}</strong> </div>
 
             <div class="born-status" style="margin-top: 20px">
-                <div class="the">Né(e) {{$eleve->date_naiss}}
+                <div class="the">Né(e) le {{$eleve->date_naiss}}
                 <div class="traduction">Born the</div>
                 </div>
-                <div class="at">à{{$eleve->lieu_naiss}}
+                <div class="at">à {{$eleve->lieu_naiss}}
                 <div class="traduction">At</div>
                 </div>
             </div>
@@ -35,7 +35,7 @@
             </div>
 
             <div class="s-text" style="margin-top: 20px">
-                <p>Est régulièrement inscrit pour l'année académic <strong>{{session('year')}}</strong> </p>
+                <p>Est régulièrement inscrit pour l'année scolaire <strong>{{session('year')}}</strong> </p>
                 <p class="traduction">Is regularly registered for the academic year {{session('year')}}</p>
 
             </div>
@@ -45,8 +45,8 @@
             </div>
 
             <div class="s-text" style="margin-top: 20px">
-                <p>Filière : <strong>{{$niveau->nom}}</strong></p>
-                <div class="traduction">Path : {{$niveau->nom_anglais}}</div>
+                <p>Niveau : <strong>{{$niveau->nom}}</strong></p>
+                <div class="traduction">Level : {{$niveau->nom_anglais}}</div>
             </div>
 
             <div class="fait" style="margin-top: 40px">

@@ -36,17 +36,15 @@
                     <p class="col-md-12" ><strong>Nom :</strong> {{strtoupper($inscription->eleve->nom.' '.$inscription->eleve->prenom)}}</p>
                     <p class="traduction">Name</p>
                 </div>
+
                 <div class="row specialite">
-                    <p class="col-md-12"><strong>Cycle : </strong>{{strtoupper($cycle)}}</p>
-                </div>
-                <div class="row specialite">
-                    <p class="col-md-12"><strong>Filière : </strong>{{strtoupper($niveau->nom)}}</p>
-                    <p class="traduction">Path : {{strtoupper($niveau->nom_anglais)}}</p>
+                    <p class="col-md-12"><strong>Niveau : </strong>{{strtoupper($niveau->nom)}}</p>
+                    <p class="traduction">Level : {{strtoupper($niveau->nom_anglais)}}</p>
                 </div>
 
                 <div class="row specialite">
-                    <p class="col-md-12"><strong>Spécialité : </strong>{{strtoupper($classe->nom)}}</p>
-                    <p class="traduction">Spéciality : {{strtoupper($classe->nom_anglais)}}</p>
+                    <p class="col-md-12"><strong>Classe : </strong>{{strtoupper($classe->nom)}}</p>
+                    <p class="traduction">Class : {{strtoupper($classe->nom_anglais)}}</p>
                 </div>
                 <div class="row last">
                     <p class="col-md-6 montant"><strong>Montant : <span style="font-size: 19px">{{$payement->montant}}</span> </strong>{{trans('inscription.devise')}}</p>

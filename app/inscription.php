@@ -27,7 +27,7 @@ class inscription extends Model {
 
 	protected  $table='inscription';
 
-    public $fillable=['date_inscription','id_eleve','id_classe','id_cycle','annee_scolaire','montant'];
+    public $fillable=['date_inscription','id_eleve','id_classe','annee_scolaire','montant'];
 
 
     public function classe(){

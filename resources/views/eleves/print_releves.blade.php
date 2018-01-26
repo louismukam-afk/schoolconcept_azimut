@@ -69,6 +69,7 @@
                 <table class="table  table-striped table-condensed table-inverse" style="margin-top: 15px;">
                     <thead>
                     <th ><strong>Intitulé de l'UE</strong> <span class="traduction">UE title</span></th>
+                    <th class="note-column"><strong>Semestre <span class="traduction">Semester</span></strong>  </th>
                     <th class="note-column"><strong>Crédit</strong></th>
                     <th class="note-column"><strong>Moy /100</strong>  </th>
                     <th class="note-column"><strong>Qualité /4</strong>  </th>
@@ -76,24 +77,45 @@
 
                     </thead>
                     <tbody>
+                    <tr>
+                        <td><strong style="font-size: 12px;margin-left: 80px">Transversales\<span class="traduction">Transversal</span></strong></td>
+                    </tr>
                     @foreach($releve->matieres as $matiere)
-                        <tr>
+                        @foreach($matieres as $m)
+                            @if(($matiere->id_matiere == $m->id) && ($m->type==0))
                             <td>
-                                @foreach($matieres as $m)
-                                    @if($matiere->id_matiere == $m->id)
-                                        {{$m->nom}} \ <span class="traduction">{{$m->nom_anglais}}</span>
-                                        <?php break; ?>
-                                    @endif
-                                @endforeach
+                                {{$m->nom}} \ <span class="traduction">{{$m->nom_anglais}}</span>
                             </td>
+                            <td>{{getSemestre($m->semestre)}}</td>
                             <td>{{$matiere->credit}}</td>
                             <td>{{$matiere->note}}</td>
                             <td>{{getGrade($matiere->note)[1]}}</td>
                             <td>{{getGrade($matiere->note)[0]}}</td>
                         </tr>
-
+                            <?php break; ?>
+                            @endif
+                        @endforeach
                     @endforeach
 
+                    <tr>
+                        <td><strong style="font-size: 12px;margin-left: 80px">Professionnelles\<span class="traduction">Professional</span></strong></td>
+                    </tr>
+                    @foreach($releve->matieres as $matiere)
+                        @foreach($matieres as $m)
+                            @if(($matiere->id_matiere == $m->id) && ($m->type==1))
+                                <td>
+                                    {{$m->nom}} \ <span class="traduction">{{$m->nom_anglais}}</span>
+                                </td>
+                                <td>{{getSemestre($m->semestre)}}</td>
+                                <td>{{$matiere->credit}}</td>
+                                <td>{{$matiere->note}}</td>
+                                <td>{{getGrade($matiere->note)[1]}}</td>
+                                <td>{{getGrade($matiere->note)[0]}}</td>
+                                </tr>
+                                <?php break; ?>
+                            @endif
+                        @endforeach
+                    @endforeach
 
                     </tbody>
                 </table>

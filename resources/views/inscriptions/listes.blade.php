@@ -29,7 +29,7 @@
                 <td>{{$e->date_naiss}}</td>
                 <td>{{$e->lieu_naiss}}</td>
                 <td>{{$e->sexe}}</td>
-                @if(isset($show_classe))<td>{{$e->code_classe}}</td>@endif
+                @if(isset($show_classe))<td>{{$e->nom_classe}}</td>@endif
                 @if(isset($tranche))<td>{{-$e->reste}}</td>@endif
                 <td class="action">
                     <div class="btn-group">

@@ -5,7 +5,7 @@
         <h3>@lang('admin.inscriptions')</h3>
     </div>
     <div class="row text-center pad-top">
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6" style="display: none">
             <div class="div-square">
                 <a href="{{  URL::to('admin/cycles')  }}" >
                     <i class="fa fa-circle-o-notch fa-5x"></i>

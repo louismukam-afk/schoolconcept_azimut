@@ -15,7 +15,6 @@ class CreateScolarite extends Migration {
         Schema::create('scolarite', function(Blueprint $table)
         {
             $table->increments('id');
-            $table->integer('id_cycle');
             $table->float('tranche1')->default(0);
             $table->float('tranche2')->default(0);
             $table->float('tranche3')->default(0);

@@ -131,9 +131,8 @@ class payementController extends Controller {
         $values['taux']=$t;
 
         $s=salaire::whereIdPersonnel($id)->first();
-        if($s!= null){
-            $values['salaire']=$s;
-        }
+
+        $values['salaire']=$s;
         $values['personnel']=$p;
 
         return view('comptabilite\create-payment',$values);

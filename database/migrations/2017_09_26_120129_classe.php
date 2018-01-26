@@ -15,11 +15,8 @@ class Classe extends Migration {
 		Schema::create('classe', function(Blueprint $table)
 		{
             $table->increments('id');
-            $table->string('code');
             $table->string('nom');
-            $table->string('nom_anglais');
             $table->integer('id_niveau');
-            $table->integer('id_cycle');
             $table->integer('capacite');
         });
 	}
