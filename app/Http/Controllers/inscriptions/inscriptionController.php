@@ -73,10 +73,10 @@ class inscriptionController extends Controller {
     public function find(Request $req)
     {
         $pattern=$req->input('search');
-        $e=DB::table('eleve')->where('nom', 'LIKE', '%'.$pattern.'%')
-            ->orWhere('prenom', 'LIKE', '%'.$pattern.'%')
-            ->orWhere('matricule', 'LIKE', '%'.$pattern.'%')
-            ->orderBy('nom')->orderBy('prenom')
+        $e=DB::table('eleve')->whereRaw('lower(nom) LIKE ?', ['%'.strtolower($pattern).'%'])
+            ->orWhereRaw('lower(prenom) LIKE ?', ['%'.strtolower($pattern).'%'])
+            ->orWhereRaw('lower(matricule) LIKE ?', ['%'.strtolower($pattern).'%'])
+            ->orderByRaw('nom')->orderBy('prenom')
             ->paginate(30);
         //$e=DB::table('eleve')->whereRaw("nom LIKE '%?%' or prenom LIKE '%?%' or matricule LIKE '%?%'",[$pattern,$pattern,$pattern])->get();
         //$e=eleve::whereRaw("nom LIKE '%?%' or prenom LIKE '%?%' or matricule LIKE '%?%'",[$pattern,$pattern,$pattern]);

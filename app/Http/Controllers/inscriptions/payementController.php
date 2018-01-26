@@ -62,9 +62,9 @@ class payementController extends Controller {
         $pattern=$req->input('search');
         $p=payement::whereNumero($pattern)->first();
         if($p==null) {
-            $e = DB::table('eleve')->where('nom', 'LIKE', '%' . $pattern . '%')
-                ->orWhere('prenom', 'LIKE', '%' . $pattern . '%')
-                ->orWhere('matricule', 'LIKE', '%' . $pattern . '%')
+            $e = DB::table('eleve')->whereRaw('lower(nom) LIKE ?', ['%'.strtolower($pattern).'%'])
+                ->orWhereRaw('lower(prenom) LIKE ?', ['%'.strtolower($pattern).'%'])
+                ->orWhereRaw('lower(matricule) LIKE ?', ['%'.strtolower($pattern).'%'])
                 ->orderBy('nom')->orderBy('prenom')
                 ->paginate(30);
 
