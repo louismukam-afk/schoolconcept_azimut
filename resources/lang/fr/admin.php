@@ -254,7 +254,7 @@ return [
     "desinscrire"=>"Désinscrire",
     "fondamental"=>"Transversale",
     "transversal"=>"Professionelle",
-    ""=>"",
+    "nniveau"=>"Niveau",
     ""=>"",
     ""=>"",
     ""=>"",

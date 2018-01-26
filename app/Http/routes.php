@@ -71,7 +71,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/admin/matieres/store', 'admin\matiereController@store');
 //Programmes
         Route::get('/admin/programmes/', 'admin\programmeController@index');
-        Route::get('/admin/programmes/selection-matieres/{id}', 'admin\programmeController@create');
+        Route::get('/admin/programmes/selection-matieres/', 'admin\programmeController@create');
         Route::post('/admin/programmes/store/', 'admin\programmeController@store');
         Route::post('/admin/programmes/update/', 'admin\programmeController@update');
         Route::get('/admin/programmes/destroy/{id}', 'admin\programmeController@destroy');

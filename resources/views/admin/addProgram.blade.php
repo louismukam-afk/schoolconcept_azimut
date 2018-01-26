@@ -12,7 +12,7 @@
 
         <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 15px;">
             <thead>
-            <caption style="font-size: 22px">{{  trans('admin.titre_table_programme').' '.$classe->nom  }}</caption>
+            <caption style="font-size: 22px">{{  trans('admin.titre_table_programme').' '.$classe->nom.' '.trans('admin.nniveau').' '.\gesecole\NNiveau::find($id_nniveau)->nom  }}</caption>
             <th>#</th>
             <th>{{  trans('admin.titre_matiere')  }}</th>
             <th>Type</th>
@@ -36,7 +36,7 @@
                             <a href="#" class=" btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li><a style="color: white"  class="btn-primary"  data-toggle="modal" data-backdrop="false" href="#edit_programme" onclick="editer_programme({{$p->id}},{{$p->id_cycle}},{{$p->coef}},{{$p->max}},{{$p->semestre}},{{$p->type}})"><span class="glyphicon glyphicon-pencil"  ></span> {{  trans('admin.edit')  }}</a></li>
-                                <li><a style="color: white" href="{{URL::to('/admin/programmes/destroy/'.$p->id.'?id='.$classe->id.'?cycle='.$id_cycle)}}"   class="btn-danger"><span class="glyphicon glyphicon-trash"></span> {{  trans('admin.del')  }}</a></li>
+                                <li><a style="color: white" href="{{URL::to('/admin/programmes/destroy/'.$p->id.'?id='.$classe->id.'&cycle='.$id_cycle.'&nniveau='.$id_nniveau)}}"   class="btn-danger"><span class="glyphicon glyphicon-trash"></span> {{  trans('admin.del')  }}</a></li>
                             </ul>
                         </div>
 
@@ -68,6 +68,8 @@
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                                 <input type="hidden" name="id" id="edit_id_programme" value=""/>
                                 <input type="hidden" name="id_cycle" id="id_cycle_programme" value=""/>
+                                <input type="hidden" name="id_nniveau" id="id_nniveau" value="{{$id_nniveau}}"/>
+
                                 <fieldset>
                                     <div class="form-group">
                                         <label >Type : </label>
@@ -140,6 +142,8 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" name="id" value="{{ $classe->id }}">
             <input type="hidden" name="id_cycle" value="{{ $id_cycle }}">
+            <input type="hidden" name="id_nniveau" id="id_nniveau" value="{{$id_nniveau}}"/>
+
             <fieldset>
                 <?php $i=0; ?>
                 @foreach($matieres as $m)
