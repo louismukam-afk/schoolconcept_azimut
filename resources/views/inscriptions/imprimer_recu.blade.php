@@ -45,8 +45,8 @@
                 </div>
 
                 <div class="row specialite">
-                    <p class="col-md-12"><strong>Spécialité : </strong>{{strtoupper($classe->nom)}}</p>
-                    <p class="traduction">Spéciality : {{strtoupper($classe->nom_anglais)}}</p>
+                    <p class="col-md-12"><strong>Spécialité : </strong>{{strtoupper($classe->nom)}} <strong>Niveau: </strong> {{$nniveau->nom}}</p>
+                    <p class="traduction">Spéciality : {{strtoupper($classe->nom_anglais)}} Level: {{$nniveau->nom}}</p>
                 </div>
                 <div class="row last">
                     <p class="col-md-6 montant"><strong>Montant : <span style="font-size: 19px">{{$payement->montant}}</span> </strong>{{trans('inscription.devise')}}</p>

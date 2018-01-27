@@ -13,6 +13,7 @@
             <thead>
             <th>#</th>
             <th>{{trans('admin.classe')}}</th>
+            <th>@lang('admin.nniveau')</th>
             <th>{{trans('admin.matiere')}}</th>
             <th>{{trans('admin.jour')}}</th>
             <th>{{trans('admin.horaire')}}</th>
@@ -30,6 +31,13 @@
                     @foreach($classes as $n)
                         @if($n->id == $c->id_classe)
                             <td>  {{  (session('locale')=='en')?$n->nom_anglais:$n->nom  }}</td>
+                            <?php break; ?>
+                        @endif
+
+                    @endforeach
+                    @foreach($nniveaux as $nn)
+                        @if($nn->id == $c->id_nniveau)
+                            <td>  {{ $nn->nom  }}</td>
                             <?php break; ?>
                         @endif
 
@@ -96,6 +104,13 @@
                                                     @endforeach
                                                 </optgroup>
 
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <select  name="nniveau" form="edit_manger_form" class="form-control">
+                                        @foreach($nniveaux as $e)
+                                            <option value="{{  $e->id  }}" @if($e->id == old('nniveau')) selected @endif>{{ $e->nom }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <input type="hidden" name="id_personnel" value="{{$personnel->id}}">

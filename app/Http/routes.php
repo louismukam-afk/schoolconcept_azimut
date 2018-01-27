@@ -128,7 +128,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/inscriptions/payement/print/{id}','inscriptions\payementController@print_receipe');
         Route::get('/inscriptions/payement/list/{id}','inscriptions\payementController@index_liste');
         Route::get('/inscriptions/selection-listes','inscriptions\listesController@index');
-        Route::get('/inscriptions/listes/show/{id}','inscriptions\listesController@show');
+        Route::get('/inscriptions/listes/show/','inscriptions\listesController@show');
         Route::get('/inscriptions/print-certificate/{id}','inscriptions\inscriptionController@certificate');
         Route::get('/inscriptions/remove/{id_eleve}','inscriptions\inscriptionController@destroy');
 
@@ -151,7 +151,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/eleves/bulletins/print-single-seq','eleves\bulletinController@print_single_seq');
 
         Route::get('/eleves/releves/','eleves\relevesController@index');
-        Route::get('/eleves/releves/print/{id}','eleves\relevesController@create');
+        Route::get('/eleves/releves/print/','eleves\relevesController@create');
 
 
     });
@@ -162,8 +162,8 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/eleves/notes/edit','eleves\noteController@index');
         Route::get('/eleves/notes/show','eleves\noteController@show');
         Route::any('/eleves/notes/print_note/{id}','eleves\noteController@print_note');
-        Route::get('/eleves/notes/matieres/{id}','eleves\noteController@matiere');
-        Route::get('/eleves/notes/matieres/show/{id}','eleves\noteController@matiere_show');
+        Route::get('/eleves/notes/matieres/','eleves\noteController@matiere');
+        Route::get('/eleves/notes/matieres/show/','eleves\noteController@matiere_show');
         Route::post('/eleves/notes/create/{id}','eleves\noteController@create');
         Route::post('/eleves/notes/store/','eleves\noteController@store');
 
@@ -199,7 +199,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/personnel/dispense/{id}', 'personnel\dispenseController@index');
         ////
         /// routes pour les emplois du temps
-        Route::get('/personnel/emploi-temps/show/{id}', 'personnel\dispenseController@show');
+        Route::get('/personnel/emploi-temps/show/', 'personnel\dispenseController@show');
 
 
 ////routes pour les titulaires

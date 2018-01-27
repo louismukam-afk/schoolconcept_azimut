@@ -25,6 +25,8 @@ return array(
     'DisciplinePersonnel' => $baseDir . '/database/migrations/2017_09_26_120333_discipline_personnel.php',
     'Dispense' => $baseDir . '/database/migrations/2017_09_26_120355_dispense.php',
     'EditClasseMatiere' => $baseDir . '/database/migrations/2017_12_03_015621_edit_classe_matiere.php',
+    'EditDispense' => $baseDir . '/database/migrations/2018_01_27_063117_edit_dispense.php',
+    'EditInscription' => $baseDir . '/database/migrations/2018_01_27_024755_edit_inscription.php',
     'Eleve' => $baseDir . '/database/migrations/2017_09_26_120408_eleve.php',
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',
     'File_Iterator_Facade' => $vendorDir . '/phpunit/php-file-iterator/src/Facade.php',

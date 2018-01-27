@@ -5,6 +5,7 @@ use gesecole\cycle;
 use gesecole\niveau;
 use gesecole\dispense;
 use gesecole\horaire;
+use gesecole\NNiveau;
 use Illuminate\Support\Facades\Session;
 use gesecole\Http\Requests;
 use Illuminate\Support\Facades\DB;
@@ -49,8 +50,10 @@ class dispenseController extends Controller {
         $titre=trans('admin.titre_table_dispense').' '.$p->nom;
         $n=classe::all();
         $e=matiere::all();
+        $nn=NNiveau::all();
         $h=horaire::all();
         $values= array('titre'=>$titre,'dispense'=>$m,'classes'=>$n,'matieres'=>$e,'horaires'=>$h);
+        $values['nniveaux']=$nn;
         $values['personnel']=$p;
         if(session('success')){
             $values['success']=true;
@@ -63,11 +66,13 @@ class dispenseController extends Controller {
     {
         $titre=trans('admin.search_personnel');
         $c=classe::orderBy('nom')->get();
+        $nn=NNiveau::all();
         $values= array('titre'=>$titre);
         $values['classes']=$c;
         $cy=cycle::all();
         $n=niveau::all();
         $values['cycles']=$cy;
+        $values['nniveaux']=$nn;
         $values['niveaux']=$n;
 
         return view('personnel\dispenses',$values);
@@ -80,13 +85,14 @@ class dispenseController extends Controller {
             ->orderBy('nom')
             ->paginate(30);
         $values= array('titre'=>trans('admin.search_personnel'));
-
         $c=classe::orderBy('nom')->get();
         $values['classes']=$c;
         $cy=cycle::all();
+        $nn=NNiveau::all();
         $n=niveau::all();
         $values['cycles']=$cy;
         $values['niveaux']=$n;
+        $values['nniveaux']=$nn;
         $values['personnel']=$p;
         session(['search_result'=>true]);
 
@@ -106,11 +112,13 @@ class dispenseController extends Controller {
             'id_personnel'=>'required|numeric',
             'id_classe'=>'required|numeric',
             'jour'=>'required|numeric',
+            'nniveau'=>'required|numeric',
         ]);
+        $nniveau=$req->input('nniveau');
         $h=horaire::orderBy('ordre')->get();
         $oh=dispense::whereAnneeScolaire(session('year'))
             ->where('id_classe','=',$req->input('id_classe'))
-
+            ->where('id_nniveau','=',$nniveau)
             ->where('jour','=',$req->input('jour'))
             ->get();
 
@@ -118,6 +126,7 @@ class dispenseController extends Controller {
         $values['id_matiere']=$req->input('id_matiere');
         $values['id_personnel']=$req->input('id_personnel');
         $values['id_classe']=$req->input('id_classe');
+        $values['id_nniveau']=$nniveau;
         $values['jour']=$req->input('jour');
         $values['horaires']=$h;
         $values['occupied_horaire']=$oh;
@@ -138,6 +147,7 @@ class dispenseController extends Controller {
             'id_personnel'=>'required',
             'id_classe'=>'required',
             'jour'=>'required',
+            'id_nniveau'=>'required|numeric',
             'id_horaire'=>'required',
 
         ]);
@@ -145,6 +155,7 @@ class dispenseController extends Controller {
         $c->annee_scolaire=session('year');
         $c->id_matiere=$req->input('id_matiere');
         $c->id_personnel=$req->input('id_personnel');
+        $c->id_nniveau=$req->input('id_nniveau');
         $c->id_classe=$req->input('id_classe');
         $c->jour=$req->input('jour');
         $c->id_horaire=$req->input('id_horaire');
@@ -159,11 +170,14 @@ class dispenseController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show(Request $request)
 	{
+	    $id=$request->input('id');
+	    $nniveau=$request->input('nniveau');
         $titre=trans('admin.emploi_temps_classe');
         $d=dispense::whereAnneeScolaire(\session('year'))
         ->where('id_classe','=',$id)
+            ->where('id_nniveau','=',$nniveau)
         ->get();
         $c=classe::find($id);
         $h=horaire::orderBy('ordre')->get();
@@ -172,6 +186,7 @@ class dispenseController extends Controller {
         $values['titre']=$titre;
         $values['dispenses']=$d;
         $values['horaires']=$h;
+        $values['nniveau']=NNiveau::find($nniveau);
         $values['classe']=$c;
         $values['personnels']=$p;
         $values['matieres']=$m;

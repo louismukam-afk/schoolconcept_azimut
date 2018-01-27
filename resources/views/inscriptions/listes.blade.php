@@ -16,6 +16,7 @@
         <th>{{  trans('inscription.lieu_naiss') }}</th>
         <th>{{  trans('inscription.sexe')  }}</th>
         @if(isset($show_classe))<th>Classe</th>@endif
+        @if(isset($show_classe))<th>@lang('admin.nniveau')</th>@endif
         @if(isset($tranche))<th>{{trans('inscription.reste')}}</th>@endif
 
         </thead>
@@ -30,7 +31,8 @@
                 <td>{{$e->lieu_naiss}}</td>
                 <td>{{$e->sexe}}</td>
                 @if(isset($show_classe))<td>{{$e->code_classe}}</td>@endif
-                @if(isset($tranche))<td>{{-$e->reste}}</td>@endif
+                @if(isset($show_classe))<td>{{$e->nniveau}}</td>@endif
+                @if(isset($tranche))<td>{{$e->reste}}</td>@endif
                 <td class="action">
                     <div class="btn-group">
                         <a href="#" class=" btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></a>

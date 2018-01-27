@@ -17,6 +17,8 @@
             <input type="hidden" name="sequence" value="{{ $sequence }}">
             <input type="hidden" name="id_classe" value="{{ $id_classe }}">
             <input type="hidden" name="cycle" value="{{ $id_cycle }}">
+            <input type="hidden" name="nniveau" value="{{ $id_nniveau }}">
+
 
 
             <fieldset>

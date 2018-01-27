@@ -44,6 +44,11 @@
                 <div class="traduction">In {{$classe->nom_anglais}} </div>
             </div>
 
+            <div class="s-text"style="margin-top: 20px">
+                <p>Cycle: <strong>{{$cycle->nom}}</strong> - Niveau : <strong>{{$nniveau->nom}} </strong> </p>
+                <div class="traduction">Cycle: <strong>{{$cycle->nom}}</strong> - Level {{$nniveau->nom}} </div>
+            </div>
+
             <div class="s-text" style="margin-top: 20px">
                 <p>Filière : <strong>{{$niveau->nom}}</strong></p>
                 <div class="traduction">Path : {{$niveau->nom_anglais}}</div>

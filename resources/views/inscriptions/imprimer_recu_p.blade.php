@@ -34,7 +34,7 @@
                     <div class="traduction">Name</div>
                 </div>
                 <div class="row specialite">
-                    <p class="col-md-12"><strong>Cycle : </strong>{{strtoupper($cycle)}}</p>
+                    <p class="col-md-12"><strong>Cycle : </strong>{{strtoupper($cycle)}} - Niveau : {{$nniveau->nom}}</p>
                 </div>
                 <div class="row specialite">
                     <p class="col-md-12"><strong>Filière : </strong>{{strtoupper($niveau->nom)}}</p>

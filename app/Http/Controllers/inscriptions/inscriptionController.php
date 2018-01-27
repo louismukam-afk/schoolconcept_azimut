@@ -5,6 +5,7 @@ use gesecole\cycle;
 use gesecole\eleve;
 use gesecole\inscription;
 use gesecole\niveau;
+use gesecole\NNiveau;
 use gesecole\payement;
 use Illuminate\Support\Facades\DB;
 use gesecole\Http\Requests;
@@ -95,9 +96,11 @@ class inscriptionController extends Controller {
             ->get();
         $cy=cycle::all();
         $e=eleve::find($id_eleve);
+        $nniveau=NNiveau::all();
         $values= array('titre'=>trans('inscription.title_search_register'));
         $values['classes']=$c;
         $values['cycles']=$cy;
+        $values['nniveaux']=$nniveau;
         $values['e']=$e;
         $values['new_record']=true;
         if(session('success')){
@@ -124,22 +127,24 @@ class inscriptionController extends Controller {
            'id_eleve'=>'required',
            'classe'=>'required',
            'cycle'=>'required|numeric',
-           'montant'=>'required|numeric'
+           'montant'=>'required|numeric',
+           'nniveau'=>'required|numeric',
        ]) ;
        $id_eleve=$req->input('id_eleve');
         $id_classe=$req->input('classe');
         $id_cycle=$req->input('cycle');
+        $id_nniveau=$req->input('nniveau');
         $montant=$req->input('montant');
        $annee_scolaire=session('year');
        $today=date('Y-m-d');
        $capacite_classe=classe::find($id_classe)->capacite;
-       $nb_eleve_classe=inscription::whereRaw('id_classe=? and annee_scolaire=?',[$id_classe,$annee_scolaire])->get()->count();
+       $nb_eleve_classe=inscription::whereRaw('id_classe=? and id_nniveau=? and annee_scolaire=?',[$id_classe,$id_nniveau,$annee_scolaire])->get()->count();
        //echo $nb_eleve_classe.'   '.$capacite_classe;
        if($nb_eleve_classe>=$capacite_classe){
             session(['custom_error'=>trans('inscription.full_classe')]);
             return redirect()->action('inscriptions\inscriptionController@create',['id_eleve'=>$id_eleve]);
        }
-       $test=inscription::whereRaw("id_eleve=? and annee_scolaire=?",[$id_eleve,$annee_scolaire])->get()->first();
+       $test=inscription::whereRaw("id_eleve=?  and annee_scolaire=?",[$id_eleve,$annee_scolaire])->get()->first();
 
        if($test!=null){
            session(['custom_error'=>trans('inscription.deja_inscrit')]);
@@ -150,6 +155,7 @@ class inscriptionController extends Controller {
        $i->id_classe=$id_classe;
        $i->annee_scolaire=$annee_scolaire;
        $i->id_cycle=$id_cycle;
+       $i->id_nniveau=$id_nniveau;
        $i->date_inscription=$today;
        $i->montant=$montant;
        if($i->save()) {
@@ -219,6 +225,7 @@ class inscriptionController extends Controller {
             ->get();
         $cy=cycle::all();
         $e=eleve::find($id_eleve);
+        $nniveau=NNiveau::all();
         $i=inscription::whereAnneeScolaire(\session('year'))
             ->where('id_eleve','=',$id_eleve)
             ->first();
@@ -227,6 +234,7 @@ class inscriptionController extends Controller {
         $values['cycles']=$cy;
         $values['inscription']=$i;
         $values['e']=$e;
+        $values['nniveaux']=$nniveau;
         $values['old_record']=true;
         if(session('success')){
             Session::forget('success');
@@ -247,12 +255,14 @@ class inscriptionController extends Controller {
         $cy=cycle::find($i->id_cycle)->nom;
         $c=classe::find($i->id_classe);
         $n=niveau::find($c->id_niveau);
+        $nn=NNiveau::find($i->id_nniveau);
 	    $pa=parametres::all();
 	    $pa=$pa->where('nom','nom_etablissement',false)->first();
 	    $nom_e=$pa->valeur;
         $values['cycle']=$cy;
         $values['classe']=$c;
         $values['niveau']=$n;
+        $values['nniveau']=$nn;
         $values['payement']=$p;
         $values['inscription']=$i;
         $values['nom_etablissement']=$nom_e;
@@ -269,6 +279,7 @@ class inscriptionController extends Controller {
             $cy=cycle::find($i->id_cycle);
             $c=classe::find($i->id_classe);
             $n=niveau::find($c->id_niveau);
+            $nn=nniveau::find($i->id_nniveau);
             $pa=parametres::all();
             $pa1=$pa->where('nom','nom_etablissement',false)->first();
             $pa2=$pa->where('nom','nom_directeur',false)->first();
@@ -278,6 +289,7 @@ class inscriptionController extends Controller {
             $values['classe']=$c;
             $values['eleve']=$e;
             $values['niveau']=$n;
+            $values['nniveau']=$nn;
             $values['nom_etablissement']=$nom_e;
             $values['nom_directeur']=$nom_d;
 
@@ -300,14 +312,16 @@ class inscriptionController extends Controller {
             'id_eleve'=>'required',
             'classe'=>'required',
             'cycle'=>'required|numeric',
+            'nniveau'=>'required|numeric',
         ]) ;
         $update=true;
         $id_eleve=$req->input('id_eleve');
         $id_classe=$req->input('classe');
         $id_cycle=$req->input('cycle');
+        $id_nniveau=$req->input('nniveau');
         $annee_scolaire=session('year');
         $capacite_classe=classe::find($id_classe)->capacite;
-        $nb_eleve_classe=inscription::whereRaw('id_classe=? and annee_scolaire=?',[$id_classe,$annee_scolaire])->get()->count();
+        $nb_eleve_classe=inscription::whereRaw('id_classe=? and id_nniveau=? and annee_scolaire=?',[$id_classe,$id_nniveau,$annee_scolaire])->get()->count();
         //echo $nb_eleve_classe.'   '.$capacite_classe;
         if($nb_eleve_classe>=$capacite_classe){
             session(['custom_error'=>trans('inscription.full_classe')]);
@@ -319,6 +333,7 @@ class inscriptionController extends Controller {
             ->first();
         $i->id_classe=$id_classe;
         $i->id_cycle=$id_cycle;
+        $i->id_nniveau=$id_nniveau;
         if($i->save()) {
 
 
