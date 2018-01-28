@@ -26,7 +26,7 @@
 
                                 @foreach($classes as $c)
                                     <div class="col-md-12">
-                                    @if($c->id_cycle==$cy->id && $c->id_niveau==$n->id)
+                                    @if($c->id_niveau==$n->id)
                                         <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choix_lvl({{$c->id}},{{$cy->id}},'')">{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</a></li>
                                     @endif
                                     </div>
@@ -65,7 +65,7 @@
 
                                     @foreach($classes as $c)
                                         <div class="col-md-12">
-                                            @if($c->id_cycle==$cy->id && $c->id_niveau==$n->id)
+                                            @if($c->id_niveau==$n->id)
                                                 <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choix_lvl({{$c->id}},{{$cy->id}},1)">{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</a></li>
                                             @endif
                                         </div>
@@ -106,7 +106,7 @@
 
                                     @foreach($classes as $c)
                                         <div class="col-md-12">
-                                            @if($c->id_cycle==$cy->id && $c->id_niveau==$n->id)
+                                            @if($c->id_niveau==$n->id)
                                                 <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choix_lvl({{$c->id}},{{$cy->id}},2)">{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</a></li>
                                             @endif
                                         </div>
@@ -145,7 +145,7 @@
 
                                     @foreach($classes as $c)
                                         <div class="col-md-12">
-                                            @if($c->id_cycle==$cy->id && $c->id_niveau==$n->id)
+                                            @if($c->id_niveau==$n->id)
                                                 <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choix_lvl({{$c->id}},{{$cy->id}},3)">{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</a></li>
                                             @endif
                                         </div>
@@ -187,7 +187,7 @@
 
                                     @foreach($classes as $c)
                                         <div class="col-md-12">
-                                            @if($c->id_cycle==$cy->id && $c->id_niveau==$n->id)
+                                            @if($c->id_niveau==$n->id)
                                                 <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choix_lvl({{$c->id}},{{$cy->id}},4)">{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</a></li>
                                             @endif
                                         </div>
@@ -230,7 +230,7 @@
 
                                     @foreach($classes as $c)
                                         <div class="col-md-12">
-                                            @if($c->id_cycle==$cy->id && $c->id_niveau==$n->id)
+                                            @if($c->id_niveau==$n->id)
                                                 <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choix_lvl({{$c->id}},{{$cy->id}},5)">{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</a></li>
                                             @endif
                                         </div>
@@ -275,7 +275,7 @@
 
                                     @foreach($classes as $c)
                                         <div class="col-md-12">
-                                            @if($c->id_cycle==$cy->id && $c->id_niveau==$n->id)
+                                            @if($c->id_niveau==$n->id)
                                                 <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choix_lvl({{$c->id}},{{$cy->id}},5)">{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</a></li>
                                             @endif
                                         </div>

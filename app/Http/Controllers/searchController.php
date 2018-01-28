@@ -40,7 +40,7 @@ class searchController extends Controller {
         $pattern=$req->input('search');
         $view=$req->input('view');
         $titre=$req->input('titre');
-        $p=DB::table('personnel')->where('nom', 'LIKE', '%'.$pattern.'%')
+        $p=DB::table('personnel')->whereRaw('lower(nom) LIKE ?',['%'.strtolower($pattern).'%'])
             ->orderBy('nom')
             ->paginate(30);
         $values= array('titre'=>$titre);
@@ -55,7 +55,7 @@ class searchController extends Controller {
         $pattern=$req->input('search');
         $view=$req->input('view');
         $titre=$req->input('titre');
-        $p=personnel::where('nom', 'LIKE', '%'.$pattern.'%')
+        $p=personnel::whereRaw('lower(nom) LIKE ?',['%'.strtolower($pattern).'%'])
             ->orderBy('nom')
             ->get();
         $arr=[];
@@ -79,9 +79,9 @@ class searchController extends Controller {
 	{
         $pattern=$req->input('search');
         $view=$req->input('view');
-        $e=DB::table('eleve')->where('nom', 'LIKE', '%'.$pattern.'%')
-            ->orWhere('prenom', 'LIKE', '%'.$pattern.'%')
-            ->orWhere('matricule', 'LIKE', '%'.$pattern.'%')
+        $e=DB::table('eleve')->whereRaw('lower(nom) LIKE ?',['%'.strtolower($pattern).'%'])
+            ->orWhereRaw('lower(prenom) LIKE ?',['%'.strtolower($pattern).'%'])
+            ->orWhereRaw('lower(matricule) LIKE ?',['%'.strtolower($pattern).'%'])
             ->orderBy('nom')->orderBy('prenom')
             ->paginate(30);
         //$e=DB::table('eleve')->whereRaw("nom LIKE '%?%' or prenom LIKE '%?%' or matricule LIKE '%?%'",[$pattern,$pattern,$pattern])->get();

@@ -50,6 +50,12 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/admin/cycles/', 'admin\cycleController@index');
         Route::get('/admin/cycles/destroy/{id}', 'admin\cycleController@destroy');
         Route::post('/admin/cycles/store', 'admin\cycleController@store');
+
+        //Les nniveaux
+        Route::get('/admin/nniveaux/', 'admin\nniveauController@index');
+        Route::get('/admin/nniveaux/destroy/{id}', 'admin\nniveauController@destroy');
+        Route::post('/admin/nniveaux/store', 'admin\nniveauController@store');
+        Route::post('/admin/nniveaux/update', 'admin\nniveauController@update');
 // Les niveaux
         Route::get('/admin/niveaux/', 'admin\niveauController@index');
         Route::get('/admin/niveaux/destroy/{id}', 'admin\niveauController@destroy');

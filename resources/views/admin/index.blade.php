@@ -19,7 +19,7 @@
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
             <div class="div-square">
                 <a href="{{  URL::to('/admin/niveaux/')  }}" >
-                    <i class="fa fa-level-up fa-5x "></i>
+                    <i class="fa fa-random fa-5x "></i>
                     <h4>{{  trans('admin.level')  }}</h4>
                 </a>
             </div>
@@ -36,6 +36,24 @@
 
 
         </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                <div class="div-square">
+                    <a href="{{  URL::to('admin/nniveaux')  }}" >
+                        <i class="fa fa-level-up fa-5x"></i>
+                        <h4>@lang('admin.nniveau')</h4>
+                    </a>
+                </div>
+
+
+            </div>
+
+
+
+
+    </div>
+
+    <div class="row text-center pad-top">
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
             <div class="div-square">
                 <a href="{{URL::to('/admin/scolarites/')}}" >
@@ -46,8 +64,6 @@
 
 
         </div>
-
-
     </div>
 
     <div class="page-header">

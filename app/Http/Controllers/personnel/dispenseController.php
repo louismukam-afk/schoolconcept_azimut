@@ -81,7 +81,7 @@ class dispenseController extends Controller {
     public function find(Request $req)
     {
         $pattern=$req->input('search');
-        $p=DB::table('personnel')->where('nom', 'LIKE', '%'.$pattern.'%')
+        $p=DB::table('personnel')->whereRaw('lower(nom) LIKE lower(?)', ['%'.($pattern).'%'])
             ->orderBy('nom')
             ->paginate(30);
         $values= array('titre'=>trans('admin.search_personnel'));
