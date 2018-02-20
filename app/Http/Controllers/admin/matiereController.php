@@ -44,7 +44,7 @@ class matiereController extends Controller {
             $values['success']=true;
 
         }
-        return view('admin\matiere',$values);
+        return view('admin/matiere',$values);
     }
 
     /**

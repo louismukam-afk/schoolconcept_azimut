@@ -15,6 +15,7 @@
 Route::group(['middleware'=>'auth'],function (){
     Route::get('/', 'WelcomeController@index');
     Route::get('home', 'WelcomeController@index');
+    Route::get('/admin/nniveaux/get/{id}', 'admin\nniveauController@get');
 
     Route::group(['middleware'=>'lvl0'],function (){
         Route::post('/update-school-year/', 'WelcomeController@editYear');

@@ -51,7 +51,7 @@ class horaireController extends Controller {
             Session::forget('error');
         }
 
-        return view('admin\horaire',$values);
+        return view('admin/horaire',$values);
 	}
 
 	/**

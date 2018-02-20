@@ -38,7 +38,7 @@ class fonctionController extends Controller {
         $fonction=fonction::paginate(15);
         $values= array('titre'=>$titre,'fonction'=>$fonction);
 
-        return view('admin\fonctions',$values);
+        return view('admin/fonctions',$values);
 	}
 
 	/**

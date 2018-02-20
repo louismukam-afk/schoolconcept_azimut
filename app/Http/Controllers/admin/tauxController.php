@@ -68,7 +68,7 @@ class tauxController extends Controller {
             $values['success']=true;
 
         }
-        return view('admin\taux',$values);
+        return view('admin/taux',$values);
 	}
 
 	/**

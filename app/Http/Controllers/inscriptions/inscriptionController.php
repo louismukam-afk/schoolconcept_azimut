@@ -43,7 +43,7 @@ class inscriptionController extends Controller {
 
 	public function index()
 	{
-        return view('inscriptions\index');
+        return view('inscriptions/index');
 	}
 
 
@@ -68,7 +68,7 @@ class inscriptionController extends Controller {
         }
 
 
-        return view('inscriptions\add_inscription',$values);
+        return view('inscriptions/add_inscription',$values);
     }
 
     public function find(Request $req)
@@ -86,7 +86,7 @@ class inscriptionController extends Controller {
         $values['eleves']=$e;
         session(['search_result'=>true]);
 
-        return view('inscriptions\add_inscription',$values);
+        return view('inscriptions/add_inscription',$values);
     }
 
 
@@ -114,7 +114,7 @@ class inscriptionController extends Controller {
 
         }
 
-        return view('inscriptions\add_inscription',$values);
+        return view('inscriptions/add_inscription',$values);
 	}
 
 	/**
@@ -210,7 +210,7 @@ class inscriptionController extends Controller {
 	 */
 	public function show()
 	{
-		return view('inscriptions\recu_inscription',['titre'=>'Recu']);
+		return view('inscriptions/recu_inscription',['titre'=>'Recu']);
 	}
 
 	/**
@@ -247,7 +247,7 @@ class inscriptionController extends Controller {
 
         }
 
-        return view('inscriptions\add_inscription',$values);
+        return view('inscriptions/add_inscription',$values);
 	}
 
 	public function print_receipe($id){
@@ -268,7 +268,7 @@ class inscriptionController extends Controller {
         $values['inscription']=$i;
         $values['nom_etablissement']=$nom_e;
 
-        return view('inscriptions\imprimer_recu',$values);
+        return view('inscriptions/imprimer_recu',$values);
 
     }
 
@@ -297,7 +297,7 @@ class inscriptionController extends Controller {
         }
 
 
-        return view('inscriptions\print_certificate',$values);
+        return view('inscriptions/print_certificate',$values);
 
     }
 

@@ -50,7 +50,7 @@ class payementController extends Controller {
             Session::forget('success');
         }
 
-        return view('inscriptions\search_deposer',$values);
+        return view('inscriptions/search_deposer',$values);
 	}
 
 	/**
@@ -81,7 +81,7 @@ class payementController extends Controller {
             session(['info_payement' => true]);
 
         }
-        return view('inscriptions\search_deposer',$values);
+        return view('inscriptions/search_deposer',$values);
     }
 
 	public function create($id_eleve)
@@ -99,7 +99,7 @@ class payementController extends Controller {
 
         }
 
-        return view('inscriptions\add_payement',$values);
+        return view('inscriptions/add_payement',$values);
 	}
 
 	public function index_liste($id_eleve){
@@ -116,7 +116,7 @@ class payementController extends Controller {
             Session::forget('success');
         }
 
-        return view('inscriptions\liste_paiement',$values);
+        return view('inscriptions/liste_paiement',$values);
     }
 
 	/**
@@ -187,7 +187,10 @@ class payementController extends Controller {
         $n=niveau::find($c->id_niveau);
         $nn=NNiveau::find($i->id_nniveau);
         $sc=$i->classe->niveau->scolarite;
-        $total=$sc->tranche1+$sc->tranche2+$sc->tranche3+$sc->tranche4+$sc->tranche5;
+        if($sc==null)
+            $total=0;
+        else
+            $total=$sc->tranche1+$sc->tranche2+$sc->tranche3+$sc->tranche4+$sc->tranche5;
         $ps=payement::whereIdEleve($p->id_eleve)->where('annee_scolaire','=',session('year'))->where('motif','<>','Inscription')->get();
         $solde=0;
         foreach ($ps as $pay){
@@ -206,7 +209,7 @@ class payementController extends Controller {
         $values['total']=$total;
         $values['solde']=$solde;
 
-        return view('inscriptions\imprimer_recu_p',$values);
+        return view('inscriptions/imprimer_recu_p',$values);
 
     }
 

@@ -43,7 +43,7 @@ class disciplineController extends Controller {
             Session::forget('success');
         }
 
-        return view('eleves\search',$values);
+        return view('eleves/search',$values);
 	}
 
     public function search(Request $request)
@@ -54,7 +54,7 @@ class disciplineController extends Controller {
         $values['eleves']=$e;
         session(['search_result'=>true]);
 
-        return view('eleves\search',$values);
+        return view('eleves/search',$values);
     }
 	/**
 	 * Show the form for creating a new resource.
@@ -80,7 +80,7 @@ class disciplineController extends Controller {
             Session::forget('success');
         }
 
-        return view('eleves\discipline',$values);
+        return view('eleves/discipline',$values);
 	}
 
 	/**

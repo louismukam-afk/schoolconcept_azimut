@@ -46,7 +46,7 @@ class cycleController extends Controller {
             $values['success']=true;
         }
 
-		return view('admin\cycles',$values);
+		return view('admin/cycles',$values);
 	}
 
 	/**

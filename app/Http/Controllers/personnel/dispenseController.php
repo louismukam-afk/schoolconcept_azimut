@@ -60,7 +60,7 @@ class dispenseController extends Controller {
             Session::forget('success');
         }
 
-        return view('personnel\dispense',$values);
+        return view('personnel/dispense',$values);
 	}
     public function index1()
     {
@@ -75,7 +75,7 @@ class dispenseController extends Controller {
         $values['nniveaux']=$nn;
         $values['niveaux']=$n;
 
-        return view('personnel\dispenses',$values);
+        return view('personnel/dispenses',$values);
     }
 
     public function find(Request $req)
@@ -96,7 +96,7 @@ class dispenseController extends Controller {
         $values['personnel']=$p;
         session(['search_result'=>true]);
 
-        return view('personnel\dispenses',$values);
+        return view('personnel/dispenses',$values);
     }
 
 	/**
@@ -132,7 +132,7 @@ class dispenseController extends Controller {
         $values['occupied_horaire']=$oh;
         $values['titre']=$titre;
 
-        return view('personnel\create_dispense',$values);
+        return view('personnel/create_dispense',$values);
 	}
 
 	/**
@@ -172,6 +172,9 @@ class dispenseController extends Controller {
 	 */
 	public function show(Request $request)
 	{
+         $this->validate($request,[
+            "nniveau"=>"required|numeric",
+        ]);
 	    $id=$request->input('id');
 	    $nniveau=$request->input('nniveau');
         $titre=trans('admin.emploi_temps_classe');
@@ -192,7 +195,7 @@ class dispenseController extends Controller {
         $values['matieres']=$m;
 
 
-        return view('personnel\emploi_temps',$values);
+        return view('personnel/emploi_temps',$values);
 
     }
 

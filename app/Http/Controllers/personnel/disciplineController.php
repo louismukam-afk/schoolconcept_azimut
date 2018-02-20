@@ -41,7 +41,7 @@ class disciplineController extends Controller {
 	{
         $titre=trans('admin.search_personnel');
         $values= array('titre'=>$titre);
-        return view('personnel\search_discipline_personnel',$values);
+        return view('personnel/search_discipline_personnel',$values);
 	}
 
 	/**
@@ -111,7 +111,7 @@ class disciplineController extends Controller {
         $values['retards']=$r;
         $values['personnel']=$p;
 
-        return view('personnel\abscences_retards',$values);
+        return view('personnel/abscences_retards',$values);
 
 
     }

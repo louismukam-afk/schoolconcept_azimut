@@ -56,7 +56,7 @@ class programmeController extends Controller {
             $values['success']=true;
 
         }
-        return view('admin\selection_classe_programme',$values);
+        return view('admin/selection_classe_programme',$values);
     }
 
 	/**
@@ -66,9 +66,13 @@ class programmeController extends Controller {
 	 */
 	public function create(Request $request)
 	{
+        $this->validate($request,[
+            "nniveau"=>"required|numeric",
+        ]);
 	    $id=$request->input('id');
 	    $c=classe::find($id);
 	    $cycle= $request->input('cycle');
+	  
 	    $nniveau=$request->input('nniveau');
         $titre=trans('admin.programme');
         $p=DB::select('SELECT cm.id,cm.id_matiere,cm.type,cm.id_cycle,cm.semestre,m.nom_anglais,m.nom as nom_matiere,coef,max FROM classe_matiere cm, matiere m ,classe c WHERE cm.id_classe=c.id AND cm.id_matiere=m.id And c.id=?  AND cm.id_cycle=? AND cm.id_nniveau=?',[$id,$cycle,$nniveau]);
@@ -85,7 +89,7 @@ class programmeController extends Controller {
 
         }
 
-        return view('admin\addProgram',$values);
+        return view('admin/addProgram',$values);
 	}
 
 	/**

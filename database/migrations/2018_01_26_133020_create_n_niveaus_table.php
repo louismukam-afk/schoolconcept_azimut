@@ -16,6 +16,7 @@ class CreateNNiveausTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('nom');
+			$table->integer('id_cycle')->default(0);
 		});
 	}
 

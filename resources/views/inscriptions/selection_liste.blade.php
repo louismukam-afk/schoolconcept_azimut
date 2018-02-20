@@ -27,7 +27,7 @@
                                 @foreach($classes as $c)
                                     <div class="col-md-12">
                                     @if($c->id_niveau==$n->id)
-                                        <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choix_lvl({{$c->id}},{{$cy->id}},'')">{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</a></li>
+                                        <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="getNniveau({{$cy->id}});choix_lvl({{$c->id}},{{$cy->id}},'')">{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</a></li>
                                     @endif
                                     </div>
                                 @endforeach
@@ -66,7 +66,7 @@
                                     @foreach($classes as $c)
                                         <div class="col-md-12">
                                             @if($c->id_niveau==$n->id)
-                                                <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choix_lvl({{$c->id}},{{$cy->id}},1)">{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</a></li>
+                                                <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="getNniveau({{$cy->id}});choix_lvl({{$c->id}},{{$cy->id}},1)">{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</a></li>
                                             @endif
                                         </div>
                                     @endforeach
@@ -107,7 +107,7 @@
                                     @foreach($classes as $c)
                                         <div class="col-md-12">
                                             @if($c->id_niveau==$n->id)
-                                                <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choix_lvl({{$c->id}},{{$cy->id}},2)">{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</a></li>
+                                                <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="getNniveau({{$cy->id}});choix_lvl({{$c->id}},{{$cy->id}},2)">{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</a></li>
                                             @endif
                                         </div>
                                     @endforeach
@@ -146,7 +146,7 @@
                                     @foreach($classes as $c)
                                         <div class="col-md-12">
                                             @if($c->id_niveau==$n->id)
-                                                <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choix_lvl({{$c->id}},{{$cy->id}},3)">{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</a></li>
+                                                <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="getNniveau({{$cy->id}});choix_lvl({{$c->id}},{{$cy->id}},3)">{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</a></li>
                                             @endif
                                         </div>
                                     @endforeach
@@ -188,7 +188,7 @@
                                     @foreach($classes as $c)
                                         <div class="col-md-12">
                                             @if($c->id_niveau==$n->id)
-                                                <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choix_lvl({{$c->id}},{{$cy->id}},4)">{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</a></li>
+                                                <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="getNniveau({{$cy->id}});choix_lvl({{$c->id}},{{$cy->id}},4)">{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</a></li>
                                             @endif
                                         </div>
                                     @endforeach
@@ -231,7 +231,7 @@
                                     @foreach($classes as $c)
                                         <div class="col-md-12">
                                             @if($c->id_niveau==$n->id)
-                                                <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choix_lvl({{$c->id}},{{$cy->id}},5)">{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</a></li>
+                                                <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="getNniveau({{$cy->id}});choix_lvl({{$c->id}},{{$cy->id}},5)">{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</a></li>
                                             @endif
                                         </div>
                                     @endforeach
@@ -276,7 +276,7 @@
                                     @foreach($classes as $c)
                                         <div class="col-md-12">
                                             @if($c->id_niveau==$n->id)
-                                                <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choix_lvl({{$c->id}},{{$cy->id}},5)">{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</a></li>
+                                                <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="getNniveau({{$cy->id}});choix_lvl({{$c->id}},{{$cy->id}},5)">{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</a></li>
                                             @endif
                                         </div>
                                     @endforeach
@@ -315,8 +315,8 @@
 
                         <fieldset>
                             <div class="form-group">
-                                <label for="niveau">{{  trans('admin.nniveau')  }} : </label>
-                                <select  name="nniveau" form="choix_level_form" class="form-control" >
+                                <label for="nniveau">{{  trans('admin.nniveau')  }} : </label>
+                                <select  name="nniveau" id="nniveau" form="choix_level_form" class="form-control" required>
                                     @foreach($nniveaux as $nn)
                                         <option value="{{$nn->id}}">{{$nn->nom}}</option>
                                     @endforeach
@@ -344,11 +344,11 @@
     </div>
 
     <script>
-        function choix_lvl(id,id_cycle,option)
-        {
-            document.getElementById("id").value = id;
-            document.getElementById("id_cycle").value = id_cycle;
-            document.getElementById("option").value = option;
-        }
+       function choix_lvl(id,id_cycle,option) 
+        { 
+            document.getElementById("id").value = id; 
+            document.getElementById("id_cycle").value = id_cycle; 
+            document.getElementById("option").value = option; 
+        } 
     </script>
 @endsection

@@ -50,7 +50,7 @@ class scolariteController extends Controller {
             Session::forget('success');
             $values['success']=true;
         }
-        return view('admin\scolarite',$values);
+        return view('admin/scolarite',$values);
 	}
 
 	/**

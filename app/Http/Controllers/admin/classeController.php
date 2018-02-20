@@ -41,13 +41,12 @@ class classeController extends Controller {
 	{
         $c=classe::paginate(15);
         $n=niveau::all();
-        $cy=cycle::all();
-        $values= array('titre'=>trans('admin.specialites'),'niveaux'=>$n,'classes'=>$c,'cycles'=>$cy);
+        $values= array('titre'=>trans('admin.specialites'),'niveaux'=>$n,'classes'=>$c);
         if(session('success')){
             Session::forget('success');
             $values['success']=true;
         }
-        return view('admin\classes',$values);
+        return view('admin/classes',$values);
 	}
 
 	/**
@@ -73,14 +72,12 @@ class classeController extends Controller {
             'code'=>'required',
             'niveau'=>'required|numeric',
             'capacite'=>'required|numeric',
-            'cycle'=>'required|numeric'
         ]);
 
         $niveau=$req->input('niveau');
         $niveau=intval($niveau);
         $capacite=$req->input('capacite');
         $nom=$req->input('nom');
-        $cycle=$req->input('cycle');
         $nom_anglais=$req->input('nom_anglais');
         $code=$req->input('code');
 
@@ -88,7 +85,6 @@ class classeController extends Controller {
         $c->nom=$nom;
         $c->nom_anglais=$nom_anglais;
         $c->code=$code;
-        $c->id_cycle=$cycle;
         $c->capacite=$capacite;
         $n=niveau::find($niveau);
         $n->classes()->save($c);
@@ -132,7 +128,6 @@ class classeController extends Controller {
             'nom_anglais'=>'required',
             'code'=>'required',
             'niveau'=>'required|numeric',
-            'cycle'=>'required|numeric',
             'capacite'=>'required|numeric'
         ]);
         $id=$req->input('id');
@@ -141,13 +136,11 @@ class classeController extends Controller {
         $nom=$req->input('nom');
         $nom_anglais=$req->input('nom_anglais');
         $code=$req->input('code');
-        $cycle=$req->input('cycle');
 
         $c=classe::find($id);
         $c->nom=$nom;
         $c->nom_anglais=$nom_anglais;
         $c->code=$code;
-        $c->id_cycle=$cycle;
         $c->capacite=$capacite;
         $c->id_niveau=$niveau;
 

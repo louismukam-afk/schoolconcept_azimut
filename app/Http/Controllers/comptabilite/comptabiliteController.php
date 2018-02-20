@@ -62,7 +62,7 @@ class comptabiliteController extends Controller {
         }
 
         $values= array('entrees'=>$total_e,'sorties'=>$total_ps+$total_d);
-        return view('comptabilite\index',$values);
+        return view('comptabilite/index',$values);
 	}
 
 	/**

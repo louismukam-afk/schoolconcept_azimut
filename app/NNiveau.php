@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 class NNiveau extends Model {
     protected $table='n_niveaus';
     public $timestamps=false;
-    public $fillable=['nom'];
+    public $fillable=['nom','id_cycle'];
 	//
 
 }

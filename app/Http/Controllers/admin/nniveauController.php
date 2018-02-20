@@ -1,5 +1,6 @@
 <?php namespace gesecole\Http\Controllers\admin;
 
+use gesecole\cycle;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
 use gesecole\NNiveau;
@@ -38,13 +39,14 @@ class nniveauController extends Controller {
 	{
         $titre=trans('admin.nniveau');
         $nn=NNiveau::paginate(20);
-        $values= array('titre'=>$titre,'nniveaux'=>$nn);
+        $cy=cycle::all();
+        $values= array('titre'=>$titre,'nniveaux'=>$nn,'cycles'=>$cy);
         if(session('success')){
             Session::forget('success');
             $values['success']=true;
         }
 
-        return view('admin\nniveaux',$values);
+        return view('admin/nniveaux',$values);
 	}
 
 	/**
@@ -66,9 +68,11 @@ class nniveauController extends Controller {
 	{
 		$this->validate($request,[
 		   'nom'=>'required',
+            'cycle'=>'required|numeric',
         ]);
         $nn= new NNiveau();
         $nn->nom=$request->input('nom');
+        $nn->id_cycle=$request->input('cycle');
         $nn->save();
         session(['success'=>true]);
         return redirect()->action('admin\nniveauController@index');
@@ -107,9 +111,11 @@ class nniveauController extends Controller {
         $this->validate($request,[
             'id'=>'required|numeric',
             'nom'=>'required',
+            'cycle'=>'required|numeric',
         ]);
         $nn= NNiveau::find($request->input('id'));
         $nn->nom=$request->input('nom');
+        $nn->id_cycle=$request->input('cycle');
         $nn->save();
         session(['success'=>true]);
         return redirect()->action('admin\nniveauController@index');
@@ -127,5 +133,11 @@ class nniveauController extends Controller {
         session(['success'=>true]);
         return redirect()->action('admin\nniveauController@index');
 	}
+
+	public function get($id){
+	    $nn=NNiveau::where('id_cycle','=',$id)->get();
+	    $nn=$nn->toArray();
+	    return response()->json($nn);
+    }
 
 }

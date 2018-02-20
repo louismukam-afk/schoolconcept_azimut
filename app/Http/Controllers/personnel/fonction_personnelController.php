@@ -51,7 +51,7 @@ class fonction_personnelController extends Controller {
       //  $values['personnel']=$p;
       //  $values['fonction']=$n;
 
-        return view('personnel\fonction_personnel',$values);
+        return view('personnel/fonction_personnel',$values);
 	}
 
     public function index2()
@@ -64,7 +64,7 @@ class fonction_personnelController extends Controller {
         //  $values['personnel']=$p;
         //  $values['fonction']=$n;
 
-        return view('personnel\fonction_pers',$values);
+        return view('personnel/fonction_pers',$values);
     }
 
     /**

@@ -14,13 +14,22 @@
                 <caption style="font-size: 22px">{{  trans('admin.titre_nniveau')  }}</caption>
                 <th>#</th>
                 <th>{{trans('inscription.nom')}}</th>
+                <th>Cycle</th>
                 </thead>
                 <tbody>
                 <?php $i=1; ?>
                 @foreach($nniveaux as $nn)
                     <tr>
                         <td>{{$i++}}</td>
-                        <td><strong ><a data-toggle="modal" data-backdrop="false" href="#edit_niveau" onclick="editer_nniveau({{$nn->id}},'{{$nn->nom}}')" > <span class="glyphicon glyphicon-edit"></span> {{$nn->nom}}</a> </strong></td>
+                        <td><strong ><a data-toggle="modal" data-backdrop="false" href="#edit_niveau" onclick="editer_nniveau({{$nn->id}},'{{$nn->nom}}',{{$nn->id_cycle}})" > <span class="glyphicon glyphicon-edit"></span> {{$nn->nom}}</a> </strong></td>
+                        <td>
+                            @foreach($cycles as $c)
+                                @if($c->id==$nn->id_cycle)
+                                    {{$c->nom}}
+                                    <?php break; ?>
+                                @endif
+                            @endforeach
+                        </td>
                         <td><a href="{{ URL::to('/admin/nniveaux/destroy/').'/'.$nn->id }}"  title="Supprimer" class="btn btn-danger btn-xs pull-right"><span class="glyphicon glyphicon-trash"></span> Supprimer</a></td>
                     </tr>
                 @endforeach
@@ -51,7 +60,15 @@
                                         <input class="form-control" id="nom" name="nom" type="text"  value="{{ old('nom') }}" required autofocus>
 
                                     </div>
+                                    <div class="form-group">
+                                        <label for="cycle">Cycle : </label>
+                                        <select name="cycle" id="cycle" form="add_level_form" class="form-control">
+                                            @foreach($cycles as $c)
+                                                <option value="{{$c->id}}">{{$c->nom}}</option>
+                                            @endforeach
+                                        </select>
 
+                                    </div>
 
                                     <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
 
@@ -115,6 +132,15 @@
                                         <input class="form-control" id="edit_nom" name="nom" type="text"  value="{{ old('nom') }}" required autofocus>
 
                                     </div>
+                                    <div class="form-group">
+                                        <label for="cycle">Cycle : </label>
+                                        <select name="cycle" id="edit_cycle" form="edit_level_form" class="form-control">
+                                            @foreach($cycles as $c)
+                                                <option value="{{$c->id}}">{{$c->nom}}</option>
+                                            @endforeach
+                                        </select>
+
+                                    </div>
 
 
                                     <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
@@ -141,11 +167,12 @@
     </div>
 
     <script>
-        function editer_nniveau(id,nom)
+        function editer_nniveau(id,nom,cycle)
         {
 
             document.getElementById("edit_id_niveau").value = id;
             document.getElementById("edit_nom").value = nom;
+            document.getElementById("edit_cycle").value = cycle;
 
 
         }

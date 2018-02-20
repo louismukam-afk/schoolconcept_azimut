@@ -57,7 +57,7 @@ class relevesController extends Controller {
         $values['nniveaux']=$nn;
         $values['cycles']=$cy;
 
-        return view('eleves\classe_releves',$values);
+        return view('eleves/classe_releves',$values);
 	}
 
 	/**
@@ -233,12 +233,12 @@ class relevesController extends Controller {
             $values['matieres'] = $m;
             $values['nb_matieres'] = $m->count();
             $values['classe'] = $classe;
-            $values['cycle']= cycle::find($classe->id_cycle);
+            $values['cycle']= cycle::find($id_cycle);
             $values['nniveau']=NNiveau::find($nniveau);
             $values['niveau']= niveau::find($classe->id_niveau);
             $values['semestre'] = $semestre;
 
-            return view('eleves\print_releves', $values);
+            return view('eleves/print_releves', $values);
 
 
 	}

@@ -45,7 +45,7 @@ class presenceController extends Controller {
             Session::forget('success');
             $values['success']=true;
         }
-		return view('personnel\search_personnel_presence',$values);
+		return view('personnel/search_personnel_presence',$values);
 	}
 
 	/**
@@ -74,7 +74,7 @@ class presenceController extends Controller {
         $values['realise']=$h;
 
 
-        return view('personnel\updatePresence',$values);
+        return view('personnel/updatePresence',$values);
 	}
 
 	/**

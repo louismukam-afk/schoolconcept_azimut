@@ -47,7 +47,7 @@ class enregistrementController extends Controller {
 
         }
 
-        return view('inscriptions\search_edit_eleve',$values);
+        return view('inscriptions/search_edit_eleve',$values);
 	}
 
 	/**
@@ -72,7 +72,7 @@ class enregistrementController extends Controller {
             Session::forget('error_eleve');
             $values['error_parent']=trans('inscription.deja_enreg');
         }
-        return view('inscriptions\add_eleve',$values);
+        return view('inscriptions/add_eleve',$values);
 	}
 
 	/**
@@ -207,7 +207,7 @@ class enregistrementController extends Controller {
             Session::forget('success');
             $values['success']=true;
         }
-        return view('inscriptions\edit_eleve',$values);
+        return view('inscriptions/edit_eleve',$values);
 	}
 
 	/**

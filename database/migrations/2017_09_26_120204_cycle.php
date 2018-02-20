@@ -16,6 +16,7 @@ class Cycle extends Migration {
 		{
             $table->increments('id');
             $table->string('nom');
+
         });
 	}
 

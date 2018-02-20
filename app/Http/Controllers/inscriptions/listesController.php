@@ -52,7 +52,7 @@ class listesController extends Controller {
         $values['nniveaux']=$nn;
 
 
-        return view('inscriptions\selection_liste',$values);
+        return view('inscriptions/selection_liste',$values);
 	}
 
 	/**
@@ -97,14 +97,14 @@ class listesController extends Controller {
                 $values['eleves'] = $e;
                 $values['show_classe'] = true;
                 $values['titre_liste'] = trans('inscription.all_eleves');
-                return view('inscriptions\listes', $values);
+                return view('inscriptions/listes', $values);
             } else {
                 $values['titre'] = trans('inscription.listes');
                 $classe_name = classe::find($id)->nom;
                 $e = DB::select('SELECT e.matricule,e.id, e.nom ,e.prenom,e.date_naiss,e.lieu_naiss,e.sexe,c.nom as nom_classe  FROM eleve e,inscription,classe c WHERE e.id=inscription.id_eleve and annee_scolaire=? and inscription.id_classe=c.id and c.id=? AND inscription.id_cycle=? AND inscription.id_nniveau=? ORDER BY nom,prenom ', [session('year'), $id,$cycle,$nniveau]);
                 $values['eleves'] = $e;
                 @$values['titre_liste'] = trans('inscription.eleves_de') . ' ' . ($e[0]->nom_classe).' '.NNiveau::find($nniveau)->nom;
-                return view('inscriptions\listes', $values);
+                return view('inscriptions/listes', $values);
             }
         }else if($request->input('option')==1){
             if ($id == 0) {
@@ -115,7 +115,7 @@ class listesController extends Controller {
                 $values['show_classe'] = true;
                 $values['titre_liste'] = trans('inscription.all_eleves');
                 $values['tranche']=true;
-                return view('inscriptions\listes', $values);
+                return view('inscriptions/listes', $values);
             } else {
                 $values['titre'] = trans('inscription.listes');
                 $classe_name = classe::find($id)->nom;
@@ -123,7 +123,7 @@ class listesController extends Controller {
                 $values['eleves'] = $e;
                 $values['titre_liste'] = trans('inscription.eleves_de') . ' ' . $classe_name.' '.NNiveau::find($nniveau)->nom;
                 $values['tranche']=true;
-                return view('inscriptions\listes', $values);
+                return view('inscriptions/listes', $values);
             }
         }else if($request->input('option')==2){
             if ($id == 0) {
@@ -133,7 +133,7 @@ class listesController extends Controller {
                 $values['eleves'] = $e;
                 $values['titre_liste'] = trans('inscription.all_eleves');
                 $values['tranche']=true;
-                return view('inscriptions\listes', $values);
+                return view('inscriptions/listes', $values);
             } else {
                 $values['titre'] = trans('inscription.listes');
                 $classe_name = classe::find($id)->nom;
@@ -141,7 +141,7 @@ class listesController extends Controller {
                 $values['eleves'] = $e;
                 $values['titre_liste'] = trans('inscription.eleves_de') . ' ' . $classe_name.' '.NNiveau::find($nniveau)->nom;
                 $values['tranche']=true;
-                return view('inscriptions\listes', $values);
+                return view('inscriptions/listes', $values);
             }
         }else if($request->input('option')==3){
             if ($id == 0) {
@@ -152,7 +152,7 @@ class listesController extends Controller {
                 $values['titre_liste'] = trans('inscription.all_eleves');
                 $values['tranche']=true;
                 $values['show_classe'] = true;
-                return view('inscriptions\listes', $values);
+                return view('inscriptions/listes', $values);
             } else {
                 $values['titre'] = trans('inscription.listes');
                 $classe_name = classe::find($id)->nom;
@@ -160,7 +160,7 @@ class listesController extends Controller {
                 $values['eleves'] = $e;
                 $values['titre_liste'] = trans('inscription.eleves_de') . ' ' . $classe_name.' '.NNiveau::find($nniveau)->nom;
                 $values['tranche']=true;
-                return view('inscriptions\listes', $values);
+                return view('inscriptions/listes', $values);
             }
         }else if($request->input('option')==4){
             if ($id == 0) {
@@ -171,7 +171,7 @@ class listesController extends Controller {
                 $values['titre_liste'] = trans('inscription.all_eleves');
                 $values['tranche']=true;
                 $values['show_classe'] = true;
-                return view('inscriptions\listes', $values);
+                return view('inscriptions/listes', $values);
             } else {
                 $values['titre'] = trans('inscription.listes');
                 $classe_name = classe::find($id)->nom;
@@ -179,7 +179,7 @@ class listesController extends Controller {
                 $values['eleves'] = $e;
                 $values['titre_liste'] = trans('inscription.eleves_de') . ' ' . $classe_name.' '.NNiveau::find($nniveau)->nom;
                 $values['tranche']=true;
-                return view('inscriptions\listes', $values);
+                return view('inscriptions/listes', $values);
             }
         }else if($request->input('option')==5){
             if ($id == 0) {
@@ -190,7 +190,7 @@ class listesController extends Controller {
                 $values['titre_liste'] = trans('inscription.all_eleves');
                 $values['tranche']=true;
                 $values['show_classe'] = true;
-                return view('inscriptions\listes', $values);
+                return view('inscriptions/listes', $values);
             } else {
                 $values['titre'] = trans('inscription.listes');
                 $classe_name = classe::find($id)->nom;
@@ -198,7 +198,7 @@ class listesController extends Controller {
                 $values['eleves'] = $e;
                 $values['titre_liste'] = trans('inscription.eleves_de') . ' ' . $classe_name.' '.NNiveau::find($nniveau)->nom;
                 $values['tranche']=true;
-                return view('inscriptions\listes', $values);
+                return view('inscriptions/listes', $values);
             }
         }
 	}

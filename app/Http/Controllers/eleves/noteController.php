@@ -62,14 +62,14 @@ class noteController extends Controller {
         $values['nniveaux']=$nn;
         $values['cycles']=$cy;
 
-        return view('eleves\classe_note',$values);
+        return view('eleves/classe_note',$values);
 	}
     public function index2()
     {
         $values= array('titre'=>'Notes');
 
 
-        return view('eleves\notes_index',$values);
+        return view('eleves/notes_index',$values);
     }
 
 	/**
@@ -79,6 +79,9 @@ class noteController extends Controller {
 	 */
     public function matiere(Request $request)
     {
+         $this->validate($request,[
+            "nniveau"=>"required|numeric",
+        ]);
         $id=$request->input('id');
         $id_cycle=$request->input('cycle');
         $nniveau=$request->input('nniveau');
@@ -97,10 +100,13 @@ class noteController extends Controller {
         $values['id_cycle']=$id_cycle;
         $values['id_nniveau']=$nniveau;
 
-        return view('eleves\matiere_note',$values);
+        return view('eleves/matiere_note',$values);
     }
     public function matiere_show(Request $request)
     {
+         $this->validate($request,[
+            "nniveau"=>"required|numeric",
+        ]);
         $id=$request->input('id');
         $id_cycle=$request->input('cycle');
         $nniveau=$request->input('nniveau');
@@ -119,7 +125,7 @@ class noteController extends Controller {
         $values['id_cycle']=$id_cycle;
         $values['id_nniveau']=$nniveau;
 
-        return view('eleves\matiere_note_show',$values);
+        return view('eleves/matiere_note_show',$values);
     }
 
 	public function create(Request $request,$id)
@@ -178,7 +184,7 @@ class noteController extends Controller {
         $values['id_classe']=$id;
         $values['id_nniveau']=$nniveau;
         $values['sequence']=$sequence;
-        return view('eleves\eleves_notes',$values);
+        return view('eleves/eleves_notes',$values);
 	}
 
     public function print_note(Request $request,$id)
@@ -221,7 +227,7 @@ class noteController extends Controller {
             $values['nniveau']=NNiveau::find($nniveau);
             $values['sequence'] = $sequence;
 
-            return view('eleves\print_note_cc', $values);
+            return view('eleves/print_note_cc', $values);
         }
 
         if($sequence==3 || $sequence==4) {
@@ -267,7 +273,7 @@ class noteController extends Controller {
                 $values['semestre'] = 2;
             $values['sequence'] = $sequence;
 
-            return view('eleves\print_note_sn', $values);
+            return view('eleves/print_note_sn', $values);
         }
         if($sequence==5 || $sequence==6) {
             if($sequence==5) {
@@ -315,7 +321,7 @@ class noteController extends Controller {
                 $values['semestre'] = 2;
             $values['sequence'] = $sequence;
 
-            return view('eleves\print_note_rat', $values);
+            return view('eleves/print_note_rat', $values);
         }
         if($sequence==7 || $sequence==8) {
             if($sequence==7){
@@ -425,10 +431,11 @@ class noteController extends Controller {
             $values['PV'] = $proces_v;
             $values['matieres'] = $m;
             $values['nb_matieres'] = $m->count();
+            $values['nniveau']=NNiveau::find($nniveau);
             $values['classe'] = classe::find($id);
             $values['semestre'] = $semestre;
 
-            return view('eleves\print_pv', $values);
+            return view('eleves/print_pv', $values);
 
         }
         if($sequence==9) {
@@ -585,7 +592,7 @@ class noteController extends Controller {
             $values['semestre'] = $semestre;
             $values['nniveau']=NNiveau::find($nniveau);
 
-            return view('eleves\print_bilan', $values);
+            return view('eleves/print_bilan', $values);
         }
     }
 
@@ -658,7 +665,7 @@ class noteController extends Controller {
         $values['nniveaux']=$nn
         ;
 
-        return view('eleves\classe_note_show',$values);
+        return view('eleves/classe_note_show',$values);
 	}
 
 	/**

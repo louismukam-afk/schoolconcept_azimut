@@ -274,5 +274,6 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="image-bg" />
   </component>
 </module>

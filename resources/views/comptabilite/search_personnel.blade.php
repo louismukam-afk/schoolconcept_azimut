@@ -23,7 +23,7 @@
     <div class="col-md-8">
         <form class="form-horizontal" id="add_inscription_form" method="get" action="{{URL::to('/search/personnel/')}}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-            <input type="hidden" name="view" value="comptabilite\search_personnel">
+            <input type="hidden" name="view" value="comptabilite/search_personnel">
             <input type="hidden" name="titre" value="{{trans('admin.search_personnel')}}">
             <div class="col-md-6">
                 <div class="form-group">
@@ -72,7 +72,7 @@
                 @endforeach
                 </tbody>
             </table>
-            <div class="paginate" style="text-align: center;"> <?php echo(str_replace('/?', '?', $personnel->render()) ); ?></div>
+            <div class="paginate" style="text-align: center;"> <?php echo(str_replace('/?', '?view=comptabilite/search_personnel&', $personnel->render()) ); ?></div>
 
             {{Session::forget('search_result')}}
         @endif

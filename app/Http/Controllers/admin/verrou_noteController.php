@@ -45,7 +45,7 @@ class verrou_noteController extends Controller {
         }
 
 
-        return view('admin\verrouNote',$values);
+        return view('admin/verrouNote',$values);
 	}
 
     public function activate($sequence)
