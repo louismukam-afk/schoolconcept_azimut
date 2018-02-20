@@ -16,7 +16,7 @@
                             @foreach($classes as $c)
                                 <div class="col-md-12">
                                     @if($c->id_niveau==$n->id)
-                                        <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choix_lvl({{$c->id}},{{$cy->id}})">{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</a></li>
+                                        <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="getNniveau({{$cy->id}});choix_lvl({{$c->id}},{{$cy->id}})">{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</a></li>
                                     @endif
                                 </div>
                             @endforeach
@@ -49,7 +49,7 @@
                         <fieldset>
                             <div class="form-group">
                                 <label for="niveau">{{  trans('admin.nniveau')  }} : </label>
-                                <select  name="nniveau" form="choix_level_form" class="form-control" >
+                                <select  name="nniveau" id="nniveau" form="choix_level_form" class="form-control" >
                                     @foreach($nniveaux as $nn)
                                         <option value="{{$nn->id}}">{{$nn->nom}}</option>
                                     @endforeach
@@ -77,6 +77,22 @@
     </div>
 
     <script>
+        function getNniveau(cycle) {
+            $.ajax({
+                type: 'GET',
+                url: '{{url('/admin/nniveaux/get/')}}/'+cycle,
+                timeout: 3000,
+                success: function (data) {
+                    $('#nniveau').empty()
+                    $.each(data,function (key,val) {
+                        $('#nniveau').append('<option value="'+val.id+'">'+val.nom+'</option>');
+                    })
+                },
+                error: function (data) {
+                    alert('La requete a échoué');
+                }
+            });
+        }
         function choix_lvl(id,id_cycle)
         {
             document.getElementById("id").value = id;

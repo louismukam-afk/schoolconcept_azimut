@@ -30,7 +30,7 @@ use Illuminate\Database\Eloquent\Model;
 class classe extends Model {
      protected  $table='classe';
 
-    public $fillable=['nom','nom_anglais','code','id_niveau','capacite','id_cycle'];
+    public $fillable=['nom','nom_anglais','code','id_niveau','capacite'];
 
     
     public $timestamps = false;
