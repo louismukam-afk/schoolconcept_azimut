@@ -16,9 +16,9 @@
 
             @endif
             <ul>
-                <li><a href="{{ url('/eleves/notes/print_note/'.$id.'?sequence=7&cycle='.$id_cycle) }}"><h4>{{trans('admin.PV').' '.trans('admin.semestre').' 1'}}</h4></a></li>
-                <li><a href="{{ url('/eleves/notes/print_note/'.$id.'?sequence=8&cycle='.$id_cycle) }}"><h4>{{trans('admin.PV').' '.trans('admin.semestre').' 2'}}</h4></a></li>
-                <li><a href="{{ url('/eleves/notes/print_note/'.$id.'?sequence=9&cycle='.$id_cycle) }}"><h4>@lang('admin.bilan_annuel')</h4></a></li>
+                <li><a href="{{ url('/eleves/notes/print_note/'.$id.'?sequence=7&cycle='.$id_cycle.'&nniveau='.$id_nniveau) }}"><h4>{{trans('admin.PV').' '.trans('admin.semestre').' 1'}}</h4></a></li>
+                <li><a href="{{ url('/eleves/notes/print_note/'.$id.'?sequence=8&cycle='.$id_cycle.'&nniveau='.$id_nniveau) }}"><h4>{{trans('admin.PV').' '.trans('admin.semestre').' 2'}}</h4></a></li>
+                <li><a href="{{ url('/eleves/notes/print_note/'.$id.'?sequence=9&cycle='.$id_cycle.'&nniveau='.$id_nniveau) }}"><h4>@lang('admin.bilan_annuel')</h4></a></li>
             </ul>
     <h4>{{trans('eleve.choix_mat')}}</h4>
     <hr>
@@ -47,6 +47,7 @@
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                         <input type="hidden" name="id" id="id" value=""/>
                         <input type="hidden" name="cycle" id="id_cycle" value="{{$id_cycle}}"/>
+                        <input type="hidden" name="nniveau" id="id_nniveau" value="{{$id_nniveau}}"/>
 
                         <fieldset>
                             <div class="form-group">

@@ -3,7 +3,7 @@
 use gesecole\cycle;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
-
+use gesecole\parametres;
 use gesecole\niveau;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;

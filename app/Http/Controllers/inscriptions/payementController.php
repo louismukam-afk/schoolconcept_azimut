@@ -2,6 +2,7 @@
 
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
+use gesecole\NNiveau;
 use gesecole\payement;
 use gesecole\parametres;
 use gesecole\cycle;
@@ -62,9 +63,9 @@ class payementController extends Controller {
         $pattern=$req->input('search');
         $p=payement::whereNumero($pattern)->first();
         if($p==null) {
-            $e = DB::table('eleve')->where('nom', 'LIKE', '%' . $pattern . '%')
-                ->orWhere('prenom', 'LIKE', '%' . $pattern . '%')
-                ->orWhere('matricule', 'LIKE', '%' . $pattern . '%')
+            $e = DB::table('eleve')->whereRaw('lower(nom) LIKE ?',['%'.strtolower($pattern).'%'])
+                ->orWhereRaw('lower(prenom) LIKE ?',['%'.strtolower($pattern).'%'])
+                ->orWhereRaw('lower(matricule) LIKE ?',['%'.strtolower($pattern).'%'])
                 ->orderBy('nom')->orderBy('prenom')
                 ->paginate(30);
 
@@ -184,6 +185,7 @@ class payementController extends Controller {
         $cy=cycle::find($i->id_cycle)->nom;
         $c=classe::find($i->id_classe);
         $n=niveau::find($c->id_niveau);
+        $nn=NNiveau::find($i->id_nniveau);
         $sc=$i->classe->niveau->scolarite;
         $total=$sc->tranche1+$sc->tranche2+$sc->tranche3+$sc->tranche4+$sc->tranche5;
         $ps=payement::whereIdEleve($p->id_eleve)->where('annee_scolaire','=',session('year'))->where('motif','<>','Inscription')->get();
@@ -197,6 +199,7 @@ class payementController extends Controller {
         $values['cycle']=$cy;
         $values['classe']=$c;
         $values['niveau']=$n;
+        $values['nniveau']=$nn;
         $values['payement']=$p;
         $values['inscription']=$i;
         $values['nom_etablissement']=$nom_e;

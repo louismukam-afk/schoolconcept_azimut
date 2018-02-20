@@ -7,6 +7,7 @@ use gesecole\Http\Controllers\Controller;
 use gesecole\matiere;
 use gesecole\cycle;
 use gesecole\niveau;
+use gesecole\NNiveau;
 use gesecole\parametres;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -43,9 +44,12 @@ class programmeController extends Controller {
         $m=classe::orderBy('nom')->get();
         $cy=cycle::all();
         $n=niveau::all();
+        $nn=NNiveau::all();
         $values= array('titre'=>$titre,'classes'=>$m);
         $values['cycles']=$cy;
         $values['niveaux']=$n;
+        $values['nniveaux']=$nn;
+
 
         if(session('success')){
             Session::forget('success');
@@ -60,18 +64,21 @@ class programmeController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function create(Request $request,$id)
+	public function create(Request $request)
 	{
+	    $id=$request->input('id');
 	    $c=classe::find($id);
 	    $cycle= $request->input('cycle');
+	    $nniveau=$request->input('nniveau');
         $titre=trans('admin.programme');
-        $p=DB::select('SELECT cm.id,cm.id_matiere,cm.type,cm.id_cycle,cm.semestre,m.nom_anglais,m.nom as nom_matiere,coef,max FROM classe_matiere cm, matiere m ,classe c WHERE cm.id_classe=c.id AND cm.id_matiere=m.id And c.id=?  AND cm.id_cycle=?',[$id,$cycle]);
-        $m=DB::select('select m.id,m.nom,m.nom_anglais FROM matiere m WHERE  m.id NOT IN (SELECT cm.id_matiere FROM classe_matiere cm WHERE cm.id_classe=?  AND cm.id_cycle=?)',[$id,$cycle]);
+        $p=DB::select('SELECT cm.id,cm.id_matiere,cm.type,cm.id_cycle,cm.semestre,m.nom_anglais,m.nom as nom_matiere,coef,max FROM classe_matiere cm, matiere m ,classe c WHERE cm.id_classe=c.id AND cm.id_matiere=m.id And c.id=?  AND cm.id_cycle=? AND cm.id_nniveau=?',[$id,$cycle,$nniveau]);
+        $m=DB::select('select m.id,m.nom,m.nom_anglais FROM matiere m WHERE  m.id NOT IN (SELECT cm.id_matiere FROM classe_matiere cm WHERE cm.id_classe=?  AND cm.id_cycle=? AND cm.id_nniveau=?)',[$id,$cycle,$nniveau]);
 
         $values= array('titre'=>$titre,'programmes'=>$p);
         $values['classe']=$c;
         $values['matieres']=$m;
         $values['id_cycle']=$cycle;
+        $values['id_nniveau']=$nniveau;
         if(session('success')){
             Session::forget('success');
             $values['success']=true;
@@ -91,11 +98,12 @@ class programmeController extends Controller {
 	    $this->validate($request,[
 	       'id'=>'required|numeric',
             'id_cycle'=>'required|numeric',
+            'id_nniveau'=>'required|numeric'
 
         ]);
 	    $id=$request->input('id');
         $id_cycle=$request->input('id_cycle');
-
+        $nniveau=$request->input('id_nniveau');
         $matiereList=$request->input('matiere');
         $coefList=$request->input('coef');
         $maxList=$request->input('max');
@@ -107,6 +115,7 @@ class programmeController extends Controller {
             $cm->id_classe=$id;
             $cm->id_cycle=$id_cycle;
             $cm->id_matiere=$mat;
+            $cm->id_nniveau=$nniveau;
             $cm->coef=$coefList[$i];
             $cm->max=$maxList[$i];
             $cm->semestre=$semestreList[$i];
@@ -119,7 +128,7 @@ class programmeController extends Controller {
         session(['success'=>true]);
 
         //$request->request->add(['cycle'=>$id_cycle]);
-        return redirect()->to('/admin/programmes/selection-matieres/'.$id.'?cycle='.$id_cycle);
+        return redirect()->to('/admin/programmes/selection-matieres/?id='.$id.'&cycle='.$id_cycle.'&nniveau='.$nniveau);
 	}
 
 	/**
@@ -156,10 +165,12 @@ class programmeController extends Controller {
         $this->validate($request,[
             'id'=>'required|numeric',
             'id_cycle'=>'required|numeric',
-
+            'id_nniveau'=>'required|numeric',
         ]);
         $id=$request->input('id');
         $id_cycle=$request->input('id_cycle');
+        $nniveau=$request->input('id_nniveau');
+
         $coef=$request->input('coef');
         $max=$request->input('max');
         $semestre=$request->input('semestre');
@@ -168,6 +179,7 @@ class programmeController extends Controller {
         $cm=classeMatiere::find($id);
         $cm->coef=$coef;
         $cm->max=$max;
+
         $cm->semestre=$semestre;
         $cm->type=$type;
         $cm->save();
@@ -175,7 +187,7 @@ class programmeController extends Controller {
         session(['success'=>true]);
 
         //$request->request->add(['cycle'=>$id_cycle]);
-        return redirect()->to('/admin/programmes/selection-matieres/'. $cm->id_classe.'?cycle='.$id_cycle);
+        return redirect()->to('/admin/programmes/selection-matieres/?id='.$cm->id_classe.'&cycle='.$id_cycle.'&nniveau='.$nniveau);
 	}
 
 	/**
@@ -188,10 +200,11 @@ class programmeController extends Controller {
 	{
 	    $id_classe=$request->input('id');
         $id_cycle=$request->input('cycle');
+        $nniveau=$request->input('nniveau');
 		$cm=classeMatiere::find($id);
 		$cm->delete();
         session(['success'=>true]);
-        return redirect()->to('/admin/programmes/selection-matieres/'.$id_classe);
+        return redirect()->to('/admin/programmes/selection-matieres/?id='.$id_classe.'&nniveau='.$nniveau.'&cycle='.$id_cycle);
 	}
 
 }

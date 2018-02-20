@@ -252,7 +252,7 @@ class enregistrementController extends Controller {
         $e->profession=$req->input('profession');
         $e->save();
         session(['success'=>true]);
-        return redirect()->action('inscriptions\inscriptionController@search') ;
+        return redirect()->action('inscriptions\enregistrementController@edit',[$id]) ;
 	}
 
 	/**

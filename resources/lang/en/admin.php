@@ -234,4 +234,17 @@ return [
     "ou"=>"Or",
     "emploi_temps_classe"=>"View the schedule of a specialty",
     "emploi_temps_de"=>"Schedule of",
+
+    "releve_notes"=>"Report card",
+    /////////////////////////////////////////////////
+    "modifier_pass"=>"Edit password",
+    "ancien_pass"=>"Old password",
+    "nouveau_pass"=>"New password",
+    "apass_invalide"=>"Old password is incorrect",
+    "desinscrire"=>"Unsubscribe",
+    "fondamental"=>"Transversal",
+    "transversal"=>"Professional",
+    "nniveau"=>"Level",
+    "titre_nniveau"=>"Level list",
+    "nouveau_nniveau"=>"Add a level",
 ];

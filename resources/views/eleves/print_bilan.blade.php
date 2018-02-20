@@ -16,8 +16,8 @@
     </div>
     <div class="classe">
         <div class="specialite">
-            <p><strong>Spécialité : {{$classe->nom}}</strong></p>
-            <strong class="traduction">Speciality : {{$classe->nom_anglais}}</strong>
+            <p><strong>Spécialité : {{$classe->nom}} - Niveau  {{$nniveau->nom}}</strong></p>
+            <strong class="traduction">Speciality : {{$classe->nom_anglais}} - Level  {{$nniveau->nom}}</strong>
         </div>
 
         <div class="filiere">

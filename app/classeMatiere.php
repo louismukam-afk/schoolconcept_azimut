@@ -20,12 +20,16 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereIdCycle($value)
  * @property string|null $semestre
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereSemestre($value)
+ * @property int $type
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereType($value)
+ * @property int $id_nniveau
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereIdNniveau($value)
  */
 class classeMatiere extends Model {
 
     protected  $table='classe_matiere';
 
-    public $fillable=['id_cycle','id_classe','id_matiere','coef','max','semestre','type'];
+    public $fillable=['id_cycle','id_classe','id_nniveau','id_matiere','coef','max','semestre','type'];
 
 
     public $timestamps=false;

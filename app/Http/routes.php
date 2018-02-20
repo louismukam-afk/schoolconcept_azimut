@@ -50,6 +50,13 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/admin/cycles/', 'admin\cycleController@index');
         Route::get('/admin/cycles/destroy/{id}', 'admin\cycleController@destroy');
         Route::post('/admin/cycles/store', 'admin\cycleController@store');
+
+        //Les nniveaux
+        Route::get('/admin/nniveaux/', 'admin\nniveauController@index');
+        Route::get('/admin/nniveaux/destroy/{id}', 'admin\nniveauController@destroy');
+        Route::post('/admin/nniveaux/store', 'admin\nniveauController@store');
+        Route::post('/admin/nniveaux/update', 'admin\nniveauController@update');
+        Route::get('/admin/nniveaux/get/{id}', 'admin\nniveauController@get');
 // Les niveaux
         Route::get('/admin/niveaux/', 'admin\niveauController@index');
         Route::get('/admin/niveaux/destroy/{id}', 'admin\niveauController@destroy');
@@ -71,7 +78,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/admin/matieres/store', 'admin\matiereController@store');
 //Programmes
         Route::get('/admin/programmes/', 'admin\programmeController@index');
-        Route::get('/admin/programmes/selection-matieres/{id}', 'admin\programmeController@create');
+        Route::get('/admin/programmes/selection-matieres/', 'admin\programmeController@create');
         Route::post('/admin/programmes/store/', 'admin\programmeController@store');
         Route::post('/admin/programmes/update/', 'admin\programmeController@update');
         Route::get('/admin/programmes/destroy/{id}', 'admin\programmeController@destroy');
@@ -128,7 +135,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/inscriptions/payement/print/{id}','inscriptions\payementController@print_receipe');
         Route::get('/inscriptions/payement/list/{id}','inscriptions\payementController@index_liste');
         Route::get('/inscriptions/selection-listes','inscriptions\listesController@index');
-        Route::get('/inscriptions/listes/show/{id}','inscriptions\listesController@show');
+        Route::get('/inscriptions/listes/show/','inscriptions\listesController@show');
         Route::get('/inscriptions/print-certificate/{id}','inscriptions\inscriptionController@certificate');
         Route::get('/inscriptions/remove/{id_eleve}','inscriptions\inscriptionController@destroy');
 
@@ -151,7 +158,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/eleves/bulletins/print-single-seq','eleves\bulletinController@print_single_seq');
 
         Route::get('/eleves/releves/','eleves\relevesController@index');
-        Route::get('/eleves/releves/print/{id}','eleves\relevesController@create');
+        Route::get('/eleves/releves/print/','eleves\relevesController@create');
 
 
     });
@@ -162,8 +169,8 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/eleves/notes/edit','eleves\noteController@index');
         Route::get('/eleves/notes/show','eleves\noteController@show');
         Route::any('/eleves/notes/print_note/{id}','eleves\noteController@print_note');
-        Route::get('/eleves/notes/matieres/{id}','eleves\noteController@matiere');
-        Route::get('/eleves/notes/matieres/show/{id}','eleves\noteController@matiere_show');
+        Route::get('/eleves/notes/matieres/','eleves\noteController@matiere');
+        Route::get('/eleves/notes/matieres/show/','eleves\noteController@matiere_show');
         Route::post('/eleves/notes/create/{id}','eleves\noteController@create');
         Route::post('/eleves/notes/store/','eleves\noteController@store');
 
@@ -199,7 +206,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/personnel/dispense/{id}', 'personnel\dispenseController@index');
         ////
         /// routes pour les emplois du temps
-        Route::get('/personnel/emploi-temps/show/{id}', 'personnel\dispenseController@show');
+        Route::get('/personnel/emploi-temps/show/', 'personnel\dispenseController@show');
 
 
 ////routes pour les titulaires

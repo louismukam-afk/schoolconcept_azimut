@@ -54,6 +54,7 @@
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                         <input type="hidden" name="id" id="id" value=""/>
                         <input type="hidden" name="cycle" id="id_cycle" value="{{$id_cycle}}"/>
+                        <input type="hidden" name="nniveau" id="id_nniveau" value="{{$id_nniveau}}"/>
 
                         <fieldset>
                             <div class="form-group">

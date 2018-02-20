@@ -3,6 +3,7 @@
 use gesecole\eleve;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
+use gesecole\NNiveau;
 use Illuminate\Support\Facades\Session;
 use gesecole\parametres;
 use gesecole\classe;
@@ -50,9 +51,10 @@ class relevesController extends Controller {
         }
         $cy=cycle::all();
         $n=niveau::all();
-
+        $nn=NNiveau::all();
         $values['niveaux']=$n;
         $values['classes']=$c;
+        $values['nniveaux']=$nn;
         $values['cycles']=$cy;
 
         return view('eleves\classe_releves',$values);
@@ -63,13 +65,16 @@ class relevesController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function create(Request $request,$id)
+	public function create(Request $request)
 	{
+	    $id=$request->input('id');
 	    $this->validate($request,[
 	       "cycle"=>"required|numeric",
+            "nniveau"=>"required|numeric",
         ]);
         $proces_v=[];
 	    $id_cycle=$request->input('cycle');
+	    $nniveau=$request->input('nniveau');
         $values= array('titre'=>trans('admin.releve_notes'));
         $id_eleves=array();
             $semestre=array(1,2);
@@ -79,7 +84,7 @@ class relevesController extends Controller {
             $sequences_pv=array(1,2,3,4,5,6);
 
 
-            $e = DB::select('SELECT e.* FROM eleve e,inscription i WHERE i.annee_scolaire=? AND i.id_classe=? AND i.id_eleve=e.id AND i.id_cycle=? ORDER BY e.nom,e.prenom', [session('year'), $id, $id_cycle]);
+            $e = DB::select('SELECT e.* FROM eleve e,inscription i WHERE i.annee_scolaire=? AND i.id_classe=? AND i.id_eleve=e.id AND i.id_cycle=? AND i.id_nniveau=? ORDER BY e.nom,e.prenom', [session('year'), $id, $id_cycle,$nniveau]);
             $j=0;
             $matieres=array();
             foreach ($e as $el){
@@ -106,7 +111,7 @@ class relevesController extends Controller {
 
             $matieres_pv=$notes_sequences_pv->fetch('id_matiere')->toArray();
             $sCoef=0;
-            $cm = classeMatiere::whereIdClasse($id)->get();
+            $cm = classeMatiere::whereIdClasse($id)->where('id_nniveau','=',$nniveau)->get();
             foreach ($cm as $entry){
                 $sCoef+=$entry->coef;
             }
@@ -115,6 +120,7 @@ class relevesController extends Controller {
             //$m=matiere::whereIn('id',$matiere_list)->whereIn('id',$matieres_pv)->get();
         $m=matiere::whereIn('matiere.id',$matiere_list)
             ->Join('classe_matiere','matiere.id','=','classe_matiere.id_matiere')
+            ->where('classe_matiere.id_nniveau','=',$nniveau)
             ->select('matiere.*','semestre','type')
             ->get();
             $k=0;
@@ -211,14 +217,14 @@ class relevesController extends Controller {
                     }
 
 
-                    $matieres[$l]=new pv_matiere($matiere->id,$note,$credit);
+                    $matieres[$l]=new pv_matiere1($matiere->id,$note,$credit);
 
 
                     $l++;
                 }
                 //dump($matieres);
                 if($sCoef==0) $sCoef=1;
-                $proces_v[$k]=new PV($eleve->id,$matieres,$sNote/$sCoef);
+                $proces_v[$k]=new PV1($eleve->id,$matieres,$sNote/$sCoef);
                 $k++;
             }
             $classe=classe::find($id);
@@ -228,6 +234,7 @@ class relevesController extends Controller {
             $values['nb_matieres'] = $m->count();
             $values['classe'] = $classe;
             $values['cycle']= cycle::find($classe->id_cycle);
+            $values['nniveau']=NNiveau::find($nniveau);
             $values['niveau']= niveau::find($classe->id_niveau);
             $values['semestre'] = $semestre;
 
@@ -354,7 +361,7 @@ class relevesController extends Controller {
 
     }
 }
-class PV{
+class PV1{
     public $eleve;
     public $matieres;
     public $mgp;
@@ -366,7 +373,7 @@ class PV{
 
     }
 }
-class pv_matiere{
+class pv_matiere1{
     public $id_matiere;
     public $note;
     public $credit;
