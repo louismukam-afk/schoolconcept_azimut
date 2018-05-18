@@ -9,6 +9,7 @@ return array(
     'BulletinGenere' => $baseDir . '/database/migrations/2017_09_26_115836_bulletin_genere.php',
     'Classe' => $baseDir . '/database/migrations/2017_09_26_120129_classe.php',
     'ClasseMatiere' => $baseDir . '/database/migrations/2017_09_26_120147_classe_matiere.php',
+    'CreateGroupeMatieresTable' => $baseDir . '/database/migrations/2018_05_04_153612_create_groupe_matieres_table.php',
     'CreateHeureRealisesTable' => $baseDir . '/database/migrations/2017_09_27_155005_create_heure_realises_table.php',
     'CreateNiveau' => $baseDir . '/database/migrations/2017_10_28_043623_create_niveau.php',
     'CreateNote' => $baseDir . '/database/migrations/2017_10_28_043721_create_note.php',

@@ -2,9 +2,7 @@
 
 use gesecole\classe;
 use gesecole\classeMatiere;
-use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
-use gesecole\matiere;
 use gesecole\cycle;
 use gesecole\niveau;
 use gesecole\parametres;
@@ -65,7 +63,7 @@ class programmeController extends Controller {
 	    $c=classe::find($id);
 	    $cycle= $request->input('cycle');
         $titre=trans('admin.programme');
-        $p=DB::select('SELECT cm.id,cm.id_matiere,cm.type,cm.id_cycle,cm.semestre,m.nom_anglais,m.nom as nom_matiere,coef,max FROM classe_matiere cm, matiere m ,classe c WHERE cm.id_classe=c.id AND cm.id_matiere=m.id And c.id=?  AND cm.id_cycle=?',[$id,$cycle]);
+        $p=DB::select('SELECT cm.id,cm.id_matiere,cm.type,cm.id_cycle,cm.semestre,m.nom_anglais,m.id AS id_matiere,m.nom as nom_matiere,coef,max FROM classe_matiere cm, matiere m ,classe c WHERE cm.id_classe=c.id AND cm.id_matiere=m.id And c.id=?  AND cm.id_cycle=?',[$id,$cycle]);
         $m=DB::select('select m.id,m.nom,m.nom_anglais FROM matiere m WHERE  m.id NOT IN (SELECT cm.id_matiere FROM classe_matiere cm WHERE cm.id_classe=?  AND cm.id_cycle=?)',[$id,$cycle]);
 
         $values= array('titre'=>$titre,'programmes'=>$p);

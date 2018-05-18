@@ -1,6 +1,6 @@
 @extends('skeleton')
 @section('sub-content')
-    <div class="col-md-6">
+    <div class="col-md-8">
         @if(isset($success))
 
             <div class="alert alert-success">

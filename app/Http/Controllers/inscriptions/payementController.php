@@ -185,6 +185,9 @@ class payementController extends Controller {
         $c=classe::find($i->id_classe);
         $n=niveau::find($c->id_niveau);
         $sc=$i->classe->niveau->scolarite;
+        if($sc==null)
+            $total=0;
+        else
         $total=$sc->tranche1+$sc->tranche2+$sc->tranche3+$sc->tranche4+$sc->tranche5;
         $ps=payement::whereIdEleve($p->id_eleve)->where('annee_scolaire','=',session('year'))->where('motif','<>','Inscription')->get();
         $solde=0;
