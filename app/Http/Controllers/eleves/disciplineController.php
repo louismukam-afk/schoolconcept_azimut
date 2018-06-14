@@ -49,7 +49,7 @@ class disciplineController extends Controller {
     public function search(Request $request)
     {
         $pattern=$request->input('search');
-        $e=DB::select('SELECT e.matricule,e.id, e.nom,e.prenom,e.date_naiss,e.lieu_naiss,e.sexe,c.nom as nom_classe FROM eleve e,inscription i,classe c WHERE (lower(e.nom) LIKE ? OR lower(e.prenom) LIKE ? OR lower(e.matricule) LIKE ?) AND e.id=i.id_eleve AND i.id_classe= c.id AND annee_scolaire=?',['%'.strtolower($pattern).'%','%'.strtolower($pattern).'%','%'.strtolower($pattern).'%',session('year')]);
+        $e=DB::select('SELECT e.matricule,e.id, e.nom,e.prenom,e.date_naiss,e.lieu_naiss,e.sexe,c.nom as nom_classe,c.nom_anglais as nom_classe_anglais FROM eleve e,inscription i,classe c WHERE (lower(e.nom) LIKE ? OR lower(e.prenom) LIKE ? OR lower(e.matricule) LIKE ?) AND e.id=i.id_eleve AND i.id_classe= c.id AND annee_scolaire=?',['%'.strtolower($pattern).'%','%'.strtolower($pattern).'%','%'.strtolower($pattern).'%',session('year')]);
         $values= array('titre'=>trans('inscription.title_search'));
         $values['eleves']=$e;
         session(['search_result'=>true]);

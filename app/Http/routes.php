@@ -76,6 +76,13 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/admin/programmes/update/', 'admin\programmeController@update');
         Route::get('/admin/programmes/destroy/{id}', 'admin\programmeController@destroy');
 
+        Route::get('/admin/programmes/groupe/{id}', 'admin\groupeController@create');
+        Route::get('/admin/programmes/groupe/destroy/{id}', 'admin\groupeController@destroy');
+        Route::post('/admin/programmes/groupe/store/', 'admin\groupeController@store');
+
+
+
+
 //routes pour les fonctions
         Route::get('/admin/fonctions/', 'admin\fonctionController@index');
         Route::get('/admin/fonctions/destroy/{id}', 'admin\fonctionController@destroy');

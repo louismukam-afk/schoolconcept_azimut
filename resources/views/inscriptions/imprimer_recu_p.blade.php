@@ -52,11 +52,11 @@
                 <div class="row" style="margin-top: 50px">
                     <div class="col-md-6"><strong>Motif :</strong>{{$payement->motif}}</div>
                     <div class="traduction">Reason for payment</div>
-                    <div class="col-md-6"><strong>Total pension :</strong>{{$total.' '.trans('inscription.devise')}}</div>
+                    <div class="col-md-6"><strong>Total pension :</strong><span class="{{$total==0?'text-danger':'' }}">{{$total==0?'Le montant n\'est pas défini':$total}}</span></div>
                     <div class="traduction">Total school fees</div>
                     <div class="col-md-6"><strong>Solde en Caisse : </strong>{{$solde.' '.trans('inscription.devise')}}</div>
                     <div class="traduction">Cash balance : </div>
-                    <div class="col-md-6"><strong>Reste à payer : </strong>{{$total-$solde.' '.trans('inscription.devise')}}</div>
+                    <div class="col-md-6"><strong>Reste à payer : </strong><span class="{{$total==0?'text-danger':'' }}">{{$total==0?'Le montant n\'est pas défini':$total-$solde.' '.trans('inscription.devise')}}</span></div>
                     <div class="traduction">Left to pay</div>
 
                 </div>

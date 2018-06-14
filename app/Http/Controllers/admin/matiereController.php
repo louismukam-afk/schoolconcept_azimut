@@ -37,7 +37,7 @@ class matiereController extends Controller {
     public function index()
     {
         $titre=trans('admin.titre_matiere');
-        $m=matiere::paginate(15);
+        $m=matiere::paginate(200);
         $values= array('titre'=>$titre,'matieres'=>$m);
         if(session('success')){
             Session::forget('success');

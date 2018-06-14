@@ -2,6 +2,14 @@
 @section('sub-content')
     @include('perso.functions')
 
+    <style>
+        .result-table thead,.result-table thead th
+        {
+            height: 5px !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+        }
+    </style>
     <a href="#" class="btn btn-lg btn-warning" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> @lang('inscription.imprimer')</a>
 
     <link rel="stylesheet"  href="{{URL::asset('css/releves.css')}}">
@@ -9,16 +17,26 @@
     @foreach($PV as $releve)
         <?php
         $sCoef=0;
+        $TMP=0;
+        $TMV=0;
+        $sNote=0;
 
         ?>
         <div class="releve">
             @include('perso.header')
+           
             <div class="content">
+            <div class="titre1">
+              <p><strong>INSTITUT SUPERIEUR HINTEL (IS-HINTEL)</strong></p>
+    <p>Email & Facebook: institutsuphintel@yahoo.fr/Web hintelhotel.com</p>
+     <p>BP:4615 Yaounde-Cameroon Tel:(+237) 677 61 67 19 /(+237 697 04 26 87</p>
+     <p>Fax:(+237)220 04 68 Site web:hintelhotel.com</p>
                 <div class="titre">
-                    <p style="font-size: 22px;"><strong>RELEVE DE NOTES</strong></p>
+                    <p style="font-size: 22px;"><strong>RELEVE DE NOTES ANNUEL</strong></p>
                     <strong>
-                        <p class="big-traduction"> TRANSCRIPT </p>
+                        <p class="big-traduction"> TRANSCRIPT</p>
                     </strong>
+                </div>
                 </div>
                 <div class="nom-matricule-container">
                     <div class="nom">
@@ -66,11 +84,11 @@
                         <p><strong class="traduction">Academic year : </strong></p>
                     </div>
                 </div>
-                <table class="table  table-striped table-condensed table-inverse" style="margin-top: 15px;">
+                <table class="table  table-striped table-condensed table-inverse" style="margin-top: 15px; margin-bottom: 10px;">
                     <thead>
                     <th ><strong>Intitulé de l'UE</strong> <span class="traduction">UE title</span></th>
                     <th class="note-column"><strong>Semestre <span class="traduction">Semester</span></strong>  </th>
-                    <th class="note-column"><strong>Crédit</strong></th>
+                  <!--<th class="note-column"><strong>Crédit</strong></th>-->
                     <th class="note-column"><strong>Moy /100</strong>  </th>
                     <th class="note-column"><strong>Qualité /4</strong>  </th>
                     <th class="note-column"><strong>Mention</strong> <span class="traduction">Grade</span></th>
@@ -78,61 +96,115 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td><strong style="font-size: 12px;margin-left: 80px">Transversales\<span class="traduction">Transversal</span></strong></td>
+                        <td><strong style="font-size: 12px;margin-left: 80px;text-align: center;">Unités d'enseignements Transversales\<span class="traduction">Transversal</span></strong></td>
                     </tr>
                     @foreach($releve->matieres as $matiere)
-                        @foreach($matieres as $m)
-                            @if(($matiere->id_matiere == $m->id) && ($m->type==0))
+                            @if(($matiere->type==0))
+                                <?php $sNote+= ($matiere->note*$matiere->credit) ;$sCoef+=$matiere->credit;$TMP++; ?>
+                                @if($matiere->note>=50)
+                                    <?php $TMV++; ?>
+                                @endif
                             <td>
-                                {{$m->nom}} \ <span class="traduction">{{$m->nom_anglais}}</span>
+                                    {{$matiere->altName}}
+
                             </td>
-                            <td>{{getSemestre($m->semestre)}}</td>
-                            <td>{{$matiere->credit}}</td>
+                            <td>{{getSemestre($matiere->semestre)}}</td>
+                          <!--<td>{{$matiere->credit}}</td>-->
                             <td>{{$matiere->note}}</td>
                             <td>{{getGrade($matiere->note)[1]}}</td>
                             <td>{{getGrade($matiere->note)[0]}}</td>
                         </tr>
-                            <?php break; ?>
                             @endif
-                        @endforeach
                     @endforeach
 
                     <tr>
-                        <td><strong style="font-size: 12px;margin-left: 80px">Professionnelles\<span class="traduction">Professional</span></strong></td>
+                        <td><strong style="font-size: 12px;margin-left: 80px;text-align: center;">Unités d'enseignement Professionnelles\<span class="traduction">Professional</span></strong></td>
                     </tr>
                     @foreach($releve->matieres as $matiere)
-                        @foreach($matieres as $m)
-                            @if(($matiere->id_matiere == $m->id) && ($m->type==1))
+                            @if( ($matiere->type==1))
+                                <?php $sNote+= ($matiere->note*$matiere->credit);$sCoef+=$matiere->credit;$TMP++; ?>
+                                @if($matiere->note>=50)
+                                    <?php $TMV++; ?>
+                                @endif
                                 <td>
-                                    {{$m->nom}} \ <span class="traduction">{{$m->nom_anglais}}</span>
+                                    {{$matiere->altName}}
                                 </td>
-                                <td>{{getSemestre($m->semestre)}}</td>
-                                <td>{{$matiere->credit}}</td>
+                                <td>{{getSemestre($matiere->semestre)}}</td>
+                               <!--<td>{{$matiere->credit}}</td>-->
                                 <td>{{$matiere->note}}</td>
                                 <td>{{getGrade($matiere->note)[1]}}</td>
                                 <td>{{getGrade($matiere->note)[0]}}</td>
                                 </tr>
-                                <?php break; ?>
                             @endif
-                        @endforeach
                     @endforeach
 
                     </tbody>
                 </table>
-                <div class="req" style="font-size: 15px; text-align: center">
-                    <p>Moyenne générale pondérée(MGP) \ <span class="traduction">Grade Point Average(GPA)</span>  : <strong>{{round($releve->mgp,2)}} /4</strong> </p>
-                    <p>Décision \ <span class="traduction">Decision </span> : <strong>{{getDecision(round($releve->mgp,2))}}</strong> </p>
-                </div>
+               
+
+<table class="table result-table table-striped table-condensed table-inverse" style="font-size: 11px;margin-top: 0;">
+<thead>
+    <th colspan="2">Travail annuel</th>
+    <th>T.M.P</th>
+    <th>T.M.V</th>
+    <th>Moyenne</th>
+    <th>Points</th>
+    <th>Cote</th>
+    <th colspan="2">Mention</th>
+</thead>
+<tbody style="text-align: center">
+<tr>
+    <?php $moy=$sNote/$sCoef ?>
+    <td rowspan="2">Moy.Annuelle/<span class="traduction">Annual Av.</span></td>
+    <td>/ 100 </td>
+    <td rowspan="2">{{$TMP}}</td>
+    <td rowspan="2">{{$TMV}}</td>
+    <td>{{round($moy,2)}}</td>
+    <td rowspan="2">{{getGrade($moy)[1]}}</td>
+    <td rowspan="2">{{getGrade($moy)[0]}}</td>
+    <td colspan="2">{{getMention($moy,100)}}</td>
+
+</tr>
+<tr>
+    <td>/ 20</td>
+    <td>{{round($moy/5,2)}}</td>
+    <td>Decision :</td>
+    <td><strong style="font-size: 13px">{{getDecision(round($moy/20,2))}}</strong></td>
+</tr>
+<tr>
+    <td colspan="9">
+        <strong class="traduction">T.M.P: </strong> <em class="traduction">Total des modules prévus</em>
+        &emsp;
+        <strong class="traduction">T.M.V: </strong> <em class="traduction">Total des modules Validés</em>
+
+    </td>
+
+
+</tr>
+    
+</tbody>
+
+
+
+
+             </table>
+
             </div>
+
+ 
+
+
             <div class="sign-footer">
                 <div class="jury">
-                    <p><strong>Le président du jury</strong></p>
-                    <p><strong class="traduction">The president of the jury</strong></p>
+                  <p><strong class="traduction"></strong></p>
+                  <P></P>
+                    <p><u><strong>Le Responsable des Affaires Accadémiques</u></strong></p>
+                  
                 </div>
                 <div class="dep">
-                    <p><strong>Le ..........................</strong></p>
-                    <p><strong>Le chef de département</strong></p>
-                    <p><strong class="traduction">The head of Department</strong></p>
+                <p></p>
+                    <p><strong>YAOUNDE Le ..........................</strong></p>
+                    <p><u><strong>Le Directeur</strong></u></p>
                 </div>
             </div>
             <div class="releve-fait-le" style="font-size: 10px;display: none">
