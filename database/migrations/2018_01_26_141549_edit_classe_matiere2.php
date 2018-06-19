@@ -27,7 +27,8 @@ class EditClasseMatiere2 extends Migration {
 	{
 		Schema::table('classe_matiere', function(Blueprint $table)
 		{
-			//
+            if (Schema::hasColumn('classe_matiere','id_nniveau'))
+                $table->dropColumn("id_nniveau");
 		});
 	}
 
