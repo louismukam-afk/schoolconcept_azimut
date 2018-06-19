@@ -155,7 +155,7 @@ class relevesController extends Controller {
                         $cpstList=$gm->where('id_matiere_mere',$matiere->id,false)->fetch('id_classe_matiere')->toArray();
 
                     }
-                    $nom=\session('locale')=='en'?$matiere->nom_anglais:$matiere->nom;
+                    $nom=\App::getLocale()=='en'?$matiere->nom_anglais:$matiere->nom;
                     if($this->isIn($matiere->id,$m_cpst))
                         $cpst=true;
 

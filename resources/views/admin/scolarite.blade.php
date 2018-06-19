@@ -42,7 +42,7 @@
                             @foreach($niveaux as $c)
 
                                     @if($c->id==$s->id_niveau)
-                                        {{(session('locale')=='en')?$c->nom_anglais:$c->nom}}
+                                        {{(App::getLocale()=='en')?$c->nom_anglais:$c->nom}}
                                         <?php break; ?>
                                     @endif
                             @endforeach
@@ -95,7 +95,7 @@
                                     <label for="classe">{{trans('admin.level')}} : <span class="required">*</span></label>
                                     <select id="classe" name="classe" form="add_level_form" class="form-control">
                                         @foreach($niveaux as $c)
-                                            <option value="{{  $c->id  }}" @if($c->id == old('classe')) selected @endif>{{  (session('locale')=='en')?$c->nom_anglais:$c->nom  }}</option>
+                                            <option value="{{  $c->id  }}" @if($c->id == old('classe')) selected @endif>{{  (App::getLocale()=='en')?$c->nom_anglais:$c->nom  }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -179,7 +179,7 @@
                                     <label for="edit_classes">{{trans('admin.level')}} : <span class="required">*</span></label>
                                     <select id="edit_classes" name="classes" form="edit_scolarite_form" class="form-control">
                                         @foreach($niveaux as $c)
-                                            <option value="{{  $c->id  }}" @if($c->id == old('classes')) selected @endif>{{  ((session('locale')=='en')?$c->nom_anglais:$c->nom)  }}</option>
+                                            <option value="{{  $c->id  }}" @if($c->id == old('classes')) selected @endif>{{  ((App::getLocale()=='en')?$c->nom_anglais:$c->nom)  }}</option>
                                         @endforeach
                                     </select>
                                 </div>

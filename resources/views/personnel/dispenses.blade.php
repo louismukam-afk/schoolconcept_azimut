@@ -97,12 +97,12 @@
 
                             @foreach($niveaux as $n)
                                 <div class="col-md-6">
-                                    <h4 class="page-header"> {{ (session('locale')=='en')?$n->nom_anglais:$n->nom}}</h4>
+                                    <h4 class="page-header"> {{ (App::getLocale()=='en')?$n->nom_anglais:$n->nom}}</h4>
 
                                     @foreach($classes as $c)
                                         <div class="col-md-12">
                                             @if($c->id_niveau==$n->id)
-                                                <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="getNniveau({{$cy->id}});choix_lvl({{$c->id}},'')">{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</a></li>
+                                                <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="getNniveau({{$cy->id}});choix_lvl({{$c->id}},'')">{{(App::getLocale()=='en')?$c->nom_anglais:$c->nom}}</a></li>
                                             @endif
                                         </div>
                                     @endforeach

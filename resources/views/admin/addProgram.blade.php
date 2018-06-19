@@ -26,7 +26,7 @@
             @foreach($programmes as $p)
                 <tr>
                     <td>{{$i++}}</td>
-                    <td><strong >{{(session('locale')=='en')?$p->nom_anglais:$p->nom_matiere}}</strong></td>
+                    <td><strong >{{(App::getLocale()=='en')?$p->nom_anglais:$p->nom_matiere}}</strong></td>
                     <td>@if($p->type==0)@lang('admin.fondamental')@else @lang('admin.transversal') @endif</td>
                     <td>{{$p->coef}} </td>
                     <td>{{$p->max}}</td>
@@ -152,7 +152,7 @@
 
                         <div class="form-group col-md-3">
                             <input type="checkbox" name="matiere[]" value="{{$m->id}}" onchange="onCheckedChange(this,'coef{{$i}}','max{{$i}}','semestre{{$i}}','type{{$i}}')">
-                            <label >{{(session('locale')=='en')?$m->nom_anglais:$m->nom}} : </label>
+                            <label >{{(App::getLocale()=='en')?$m->nom_anglais:$m->nom}} : </label>
                         </div>
                         <div class="form-group col-md-3">
                             <label >Type : </label>

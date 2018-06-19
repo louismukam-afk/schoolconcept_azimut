@@ -68,7 +68,6 @@ class classeController extends Controller {
 	{
         $this->validate($req,[
             'nom'=>'required',
-            'nom_anglais'=>'required',
             'code'=>'required',
             'niveau'=>'required|numeric',
             'capacite'=>'required|numeric',
@@ -125,7 +124,6 @@ class classeController extends Controller {
         $this->validate($req,[
             'id'=>'required|numeric',
             'nom'=>'required',
-            'nom_anglais'=>'required',
             'code'=>'required',
             'niveau'=>'required|numeric',
             'capacite'=>'required|numeric'

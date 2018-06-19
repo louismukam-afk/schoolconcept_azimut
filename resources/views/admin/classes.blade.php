@@ -31,7 +31,7 @@
                     <td>
                         @foreach($niveaux as $n)
                             @if($n->id == $c->id_niveau)
-                                {{  (session('locale')=='en')?$n->nom_anglais:$n->nom  }}
+                                {{  (App::getLocale()=='en')?$n->getNom_anglais():$n->getNom()  }}
                                 <?php break; ?>
                             @endif
                         @endforeach
@@ -73,7 +73,7 @@
                                     <select id="niveau" name="niveau" form="add_level_form" class="form-control">
 
                                     @foreach($niveaux as $n)
-                                                <option value="{{  $n->id  }}" @if($n->id == old('niveau')) selected @endif>{{  (session('locale')=='en')?$n->nom_anglais:$n->nom  }}</option>
+                                                <option value="{{  $n->id  }}" @if($n->id == old('niveau')) selected @endif>{{  (App::getLocale()=='en')?$n->nom_anglais:$n->nom  }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -88,7 +88,7 @@
 
                                 </div>
                                 <div class="form-group">
-                                    <label>{{  trans('admin.nom_anglais')  }} : <span class="required">*</span></label>
+                                    <label>{{  trans('admin.nom_anglais')  }} : </label>
                                     <input class="form-control" name="nom_anglais" type="text"  value="{{ old('nom_anglais') }}"  >
 
                                 </div>
@@ -148,12 +148,12 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="nom">{{  trans('admin.nom')  }} : <span class="required">*</span></label>
-                                        <input class="form-control" id="edit_nom" name="nom" type="text"  value="{{ old('nom') }}"  >
+                                        <input class="form-control" id="edit_nom" name="nom" type="text"  value="{{ old('nom') }}"  required>
 
                                     </div>
 
                                     <div class="form-group">
-                                        <label>{{  trans('admin.nom_anglais')  }} : <span class="required">*</span></label>
+                                        <label>{{  trans('admin.nom_anglais')  }} : </label>
                                         <input class="form-control" id="edit_nom_anglais" name="nom_anglais" type="text"  value="{{ old('nom_anglais') }}"  >
 
                                     </div>

@@ -26,17 +26,12 @@
             @include('perso.header')
            
             <div class="content">
-            <div class="titre1">
-              <p><strong>INSTITUT SUPERIEUR HINTEL (IS-HINTEL)</strong></p>
-    <p>Email & Facebook: institutsuphintel@yahoo.fr/Web hintelhotel.com</p>
-     <p>BP:4615 Yaounde-Cameroon Tel:(+237) 677 61 67 19 /(+237 697 04 26 87</p>
-     <p>Fax:(+237)220 04 68 Site web:hintelhotel.com</p>
+
                 <div class="titre">
                     <p style="font-size: 22px;"><strong>RELEVE DE NOTES ANNUEL</strong></p>
                     <strong>
                         <p class="big-traduction">ANNUAL TRANSCRIPT </p>
                     </strong>
-                </div>
                 </div>
                 <div class="nom-matricule-container">
                     <div class="nom">
@@ -88,7 +83,7 @@
                     <thead>
                     <th ><strong>Intitulé de l'UE</strong> <span class="traduction">UE title</span></th>
                     <th class="note-column"><strong>Semestre <span class="traduction">Semester</span></strong>  </th>
-                  <!--<th class="note-column"><strong>Crédit</strong></th>-->
+                  <th class="note-column"><strong>Crédit</strong></th>
                     <th class="note-column"><strong>Moy /100</strong>  </th>
                     <th class="note-column"><strong>Qualité /4</strong>  </th>
                     <th class="note-column"><strong>Mention</strong> <span class="traduction">Grade</span></th>
@@ -109,7 +104,7 @@
 
                             </td>
                             <td>{{getSemestre($matiere->semestre)}}</td>
-                          <!--<td>{{$matiere->credit}}</td>-->
+                          <td>{{$matiere->credit}}</td>
                             <td>{{$matiere->note}}</td>
                             <td>{{getGrade($matiere->note)[1]}}</td>
                             <td>{{getGrade($matiere->note)[0]}}</td>
@@ -130,7 +125,7 @@
                                     {{$matiere->altName}}
                                 </td>
                                 <td>{{getSemestre($matiere->semestre)}}</td>
-                               <!--<td>{{$matiere->credit}}</td>-->
+                               <td>{{$matiere->credit}}</td>
                                 <td>{{$matiere->note}}</td>
                                 <td>{{getGrade($matiere->note)[1]}}</td>
                                 <td>{{getGrade($matiere->note)[0]}}</td>
@@ -140,6 +135,7 @@
 
                     </tbody>
                 </table>
+
                
 
 <table class="table result-table table-striped table-condensed table-inverse" style="font-size: 11px;margin-top: 0;">
@@ -169,7 +165,7 @@
     <td>/ 20</td>
     <td>{{round($moy/5,2)}}</td>
     <td>Decision :</td>
-    <td><strong style="font-size: 13px">{{getDecision(round($moy/20,2))}}</strong></td>
+    <td><strong style="font-size: 13px">{{getDecision(round($moy/25,2))}}</strong></td>
 </tr>
 <tr>
     <td colspan="9">
@@ -198,7 +194,7 @@
                 <div class="jury">
                   <p><strong class="traduction"></strong></p>
                   <P></P>
-                    <p><u><strong>Le Responsable des Affaires Accadémiques</u></strong></p>
+                    <p><strong><u>Le Responsable des Affaires Accadémiques</u></strong></p>
                   
                 </div>
                 <div class="dep">

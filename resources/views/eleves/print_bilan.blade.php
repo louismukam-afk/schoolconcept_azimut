@@ -37,7 +37,7 @@
                 @if($j>=$standartLimite)
                     <?php break; ?>
                 @endif
-                <th class="matiere-column"><p>{{$m->nom}}</p> <p class="traduction">{{$m->nom_anglais}}</p></th>
+                <th class="matiere-column"><p>{{(App::getLocale()=='en')?$m->nom_anglais:$m->nom}}</p></th>
                 <?php $j++;
                     $current_matiere=$j;
                 ?>
@@ -161,7 +161,7 @@
                     @if($j>=$limite)
                         <?php break; ?>
                     @endif
-                    <th class="matiere-column"><p>{{$m->nom}}</p> <p class="traduction">{{$m->nom_anglais}}</p></th>
+                    <th class="matiere-column"><p>{{(App::getLocale()=='en')?$m->nom_anglais:$m->nom}}</p></th>
                     <?php $j++;
                     $current_matiere=$j;
                     ?>

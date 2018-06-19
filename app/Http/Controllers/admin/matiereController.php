@@ -66,7 +66,6 @@ class matiereController extends Controller {
     {
         $this->validate($req,[
             'nom'=>'required',
-            'nom_anglais'=>'required'
         ]);
         $c=new matiere();
         $c->nom=$req->input('nom');
@@ -112,7 +111,6 @@ class matiereController extends Controller {
         $this->validate($req,[
             'id'=>'required|numeric',
             'nom'=>'required',
-            'nom_anglais'=>'required'
         ]);
         $id=$req->input('id');
         $c=matiere::find($id);

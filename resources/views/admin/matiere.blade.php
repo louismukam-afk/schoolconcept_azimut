@@ -53,7 +53,7 @@
 
                                 </div>
                                 <div class="form-group">
-                                    <label for="nom_anglais">{{  trans('admin.nom_anglais')  }} : <span class="required">*</span></label>
+                                    <label for="nom_anglais">{{  trans('admin.nom_anglais')  }} : </label>
                                     <input class="form-control" id="nom_anglais" name="nom_anglais" type="text"  value="{{ old('nom_anglais') }}" >
 
                                 </div>
@@ -104,8 +104,8 @@
 
                                     </div>
                                     <div class="form-group">
-                                        <label for="edit_nom_anglais">{{  trans('admin.nom_anglais')  }} : <span class="required">*</span></label>
-                                        <input class="form-control" id="edit_nom_anglais" name="nom_anglais" type="text"  value="{{ old('nom_anglais') }}" required autofocus>
+                                        <label for="edit_nom_anglais">{{  trans('admin.nom_anglais')  }} : </label>
+                                        <input class="form-control" id="edit_nom_anglais" name="nom_anglais" type="text"  value="{{ old('nom_anglais') }}"  autofocus>
 
                                     </div>
                                     <div class="form-group">

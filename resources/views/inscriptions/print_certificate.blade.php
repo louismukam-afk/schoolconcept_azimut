@@ -10,7 +10,7 @@
         @include('perso.header')
         <link rel="stylesheet" href="{{URL::asset('css/certificat.css')}}">
         <div class="titre">
-            @if(session('locale')=="fr")
+            @if(App::getLocale()!="en")
             <p><strong>CERTIFICAT DE SCOLARITE</strong> </p>
             @else
                 <p><strong >SCHOOL CERTFICATE</strong></p>
@@ -19,22 +19,22 @@
         </div>
 
         <div class="body">
-            @if(session('locale')=="fr")
+            @if(App::getLocale()!="en")
             <p>Le directeur de {{$nom_etablissement}}, {{$nom_directeur}} atteste que l'étudiant <strong>{{$eleve->nom.' '.$eleve->prenom}}</strong>
                 Né(e) le {{$eleve->date_naiss}} à {{$eleve->lieu_naiss}} de matricule <strong>{{$eleve->matricule}}
                 </strong>
-                est régulièrement inscrit pour l'année académique <strong>{{session('year')}}</strong> En  <strong>{{$classe->nom}}</strong> Filière  <strong>{{$niveau->nom}}</strong>
-                en voie de quoi le présent certificat lui est délivré.
+                est régulièrement inscrit pour l'année académique <strong>{{session('year')}}</strong> en filière  <strong>{{$niveau->nom}}</strong> spécialité <strong>{{$classe->nom}}</strong>
+                au niveau  <strong>{{$nniveau->nom}}</strong> en voie de quoi le présent certificat lui est délivré.
             </p>
             @else
             <p>
                 The manager of {{$nom_etablissement}}, {{$nom_directeur}} certifies that the student <strong> {{$eleve->nom. ' '. $eleve->prenom}} </strong> Born on {{$eleve->date_naiss}} at {{$eleve->lieu_naiss}} with registration number <strong> {{$eleve->matricule}}</Strong>
-                is regularly registered for the academic year <strong> {{session ('year')}} </strong> In <strong> {{$classe->nom}} </strong> in <strong> {{$niveau ->nom}} </strong>
-                this certificate is issued to him.
+                is regularly registered for the academic year <strong> {{session ('year')}} </strong> In <strong> {{$niveau->nom}} </strong> speciality <strong> {{$classe->nom}} </strong> at level {{$nniveau->nom}}
+                .This certificate is issued to him.
             </p>
             @endif
 
-                @if(session('locale')=="fr")
+                @if(App::getLocale()!="en")
             <div class="fait" style="margin-top: 90px">
                 <div>Fait le {{date('d/m/Y') }}</div>
 

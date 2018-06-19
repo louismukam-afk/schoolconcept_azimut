@@ -7,7 +7,7 @@
                 @foreach($occupied_horaire as $oh)
                     @if($h->id==$oh->id_horaire)
 
-                        <li><strong><a href="#">{{$h->intervalle}}</a> - </strong> {{trans('admin.occupe')}}  <?php $mat=\gesecole\matiere::find($oh->id_matiere);$pers=\gesecole\personnel::find($oh->id_personnel) ?>  {{(session('locale')=='en')?$mat->nom_anglais:$mat->nom}} - <strong>{{$pers->nom}}</strong></li>
+                        <li><strong><a href="#">{{$h->intervalle}}</a> - </strong> {{trans('admin.occupe')}}  <?php $mat=\gesecole\matiere::find($oh->id_matiere);$pers=\gesecole\personnel::find($oh->id_personnel) ?>  {{(App::getLocale()=='en')?$mat->nom_anglais:$mat->nom}} - <strong>{{$pers->nom}}</strong></li>
                     <?php $i++;break; ?>
                     @endif
                 @endforeach

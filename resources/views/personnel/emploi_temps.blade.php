@@ -10,7 +10,7 @@
             margin-top: 30px;
         }
     </style>
-     <h1 style="font-size: 30px;margin-top: 30px;text-align: center">{{  trans('admin.emploi_temps_de').' '.((session('locale')=='en')?$classe->nom_anglais:$classe->nom.' '.$nniveau->nom)  }}</h1>
+     <h1 style="font-size: 30px;margin-top: 30px;text-align: center">{{  trans('admin.emploi_temps_de').' '.((App::getLocale()=='en')?$classe->nom_anglais:$classe->nom.' '.$nniveau->nom)  }}</h1>
     <table class="table table-bordered table-striped table-condensed table-inverse">
         <thead>
        
@@ -32,7 +32,7 @@
                             <strong>
                                 @foreach($matieres as $m)
                                     @if($m->id==$d->id_matiere)
-                                        {{((session('locale')=='en')?$m->nom_anglais:$m->nom)}}
+                                        {{((App::getLocale()=='en')?$m->nom_anglais:$m->nom)}}
                                         <?php break; ?>
 
                                     @endif
@@ -61,7 +61,7 @@
                             <strong>
                                 @foreach($matieres as $m)
                                     @if($m->id==$d->id_matiere)
-                                        {{((session('locale')=='en')?$m->nom_anglais:$m->nom)}}
+                                        {{((App::getLocale()=='en')?$m->nom_anglais:$m->nom)}}
                                         <?php break; ?>
 
                                     @endif
@@ -90,7 +90,7 @@
                             <strong>
                                 @foreach($matieres as $m)
                                     @if($m->id==$d->id_matiere)
-                                        {{((session('locale')=='en')?$m->nom_anglais:$m->nom)}}
+                                        {{((App::getLocale()=='en')?$m->nom_anglais:$m->nom)}}
                                         <?php break; ?>
 
                                     @endif
@@ -119,7 +119,7 @@
                             <strong>
                                 @foreach($matieres as $m)
                                     @if($m->id==$d->id_matiere)
-                                        {{((session('locale')=='en')?$m->nom_anglais:$m->nom)}}
+                                        {{((App::getLocale()=='en')?$m->nom_anglais:$m->nom)}}
                                         <?php break; ?>
 
                                     @endif
@@ -148,7 +148,7 @@
                             <strong>
                                 @foreach($matieres as $m)
                                     @if($m->id==$d->id_matiere)
-                                        {{((session('locale')=='en')?$m->nom_anglais:$m->nom)}}
+                                        {{((App::getLocale()=='en')?$m->nom_anglais:$m->nom)}}
                                         <?php break; ?>
 
                                     @endif
@@ -177,7 +177,7 @@
                             <strong>
                                 @foreach($matieres as $m)
                                     @if($m->id==$d->id_matiere)
-                                        {{((session('locale')=='en')?$m->nom_anglais:$m->nom)}}
+                                        {{((App::getLocale()=='en')?$m->nom_anglais:$m->nom)}}
                                         <?php break; ?>
 
                                     @endif

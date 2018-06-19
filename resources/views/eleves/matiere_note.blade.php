@@ -32,7 +32,7 @@
     <div class="liste-classe col-md-9">
         <ul>
             @foreach($matieres as $m)
-                <li><a  data-toggle="modal" data-backdrop="false" href="#choose_seq" onclick="choix_seq({{$m->id}});this.style.color='#d58512'">{{(session('locale')=='en')?$m->nom_anglais:$m->nom}}</a></li>
+                <li><a  data-toggle="modal" data-backdrop="false" href="#choose_seq" onclick="choix_seq({{$m->id}});this.style.color='#d58512'">{{(App::getLocale()=='en')?$m->nom_anglais:$m->nom}}</a></li>
             @endforeach
         </ul>
     </div>

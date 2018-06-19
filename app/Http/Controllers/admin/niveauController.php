@@ -66,7 +66,6 @@ class niveauController extends Controller {
 	{
         $this->validate($req,[
             'nom'=>'required',
-            'nom_anglais'=>'required',
         ]);
 
         $nom=$req->input('nom');
@@ -112,7 +111,6 @@ class niveauController extends Controller {
         $this->validate($req,[
             'id'=>'required|numeric',
             'nom'=>'required',
-            'nom_anglais'=>'required',
         ]);
 
         $id=$req->input('id');

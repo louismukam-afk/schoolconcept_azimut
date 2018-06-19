@@ -418,13 +418,13 @@ class noteController extends Controller {
                     }
 
 
-                    $matieres[$l]=new pv_matiere1($matiere->id,$note,$credit);
+                    $matieres[$l]=new pv_matiere($matiere->id,$note,$credit);
 
 
                     $l++;
                 }
                 //dump($matieres);
-                $proces_v[$k]=new PV1($eleve->id,$matieres,$sNote/$sCoef);
+                $proces_v[$k]=new PV($eleve->id,$matieres,$sNote/$sCoef);
             $k++;
             }
             $values['eleves'] = $e;

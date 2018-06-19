@@ -48,15 +48,15 @@
 
                             @foreach($classes as $c)
                                 @if($i=0)
-                                    <optgroup label="{{(session('locale')=='en')?\gesecole\niveau::find($c->id_niveau)->nom_anglais:\gesecole\niveau::find($c->id_niveau)->nom}}">
+                                    <optgroup label="{{(App::getLocale()=='en')?\gesecole\niveau::find($c->id_niveau)->nom_anglais:\gesecole\niveau::find($c->id_niveau)->nom}}">
                                         <?php  $i++; ?>
                                         @endif
                                         @if($c->id_niveau!=$n)
                                             <?php $n=$c->id_niveau ?>
                                     </optgroup>
-                                    <optgroup label="{{(session('locale')=='en')?\gesecole\niveau::find($c->id_niveau)->nom_anglais:\gesecole\niveau::find($c->id_niveau)->nom}}">
+                                    <optgroup label="{{(App::getLocale()=='en')?\gesecole\niveau::find($c->id_niveau)->nom_anglais:\gesecole\niveau::find($c->id_niveau)->nom}}">
                                         @endif
-                                        <option value="{{$c->id}}" @if($inscription->id_classe==$c->id) selected @endif>{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</option>
+                                        <option value="{{$c->id}}" @if($inscription->id_classe==$c->id) selected @endif>{{(App::getLocale()=='en')?$c->nom_anglais:$c->nom}}</option>
                                         @endforeach
                                     </optgroup>
                         </select>
@@ -110,15 +110,15 @@
 
                             @foreach($classes as $c)
                                     @if($i=0)
-                                        <optgroup label="<{{(session('locale')=='en')?\gesecole\niveau::find($c->id_niveau)->nom_anglais:\gesecole\niveau::find($c->id_niveau)->nom}}">
+                                        <optgroup label="<{{(App::getLocale()=='en')?\gesecole\niveau::find($c->id_niveau)->nom_anglais:\gesecole\niveau::find($c->id_niveau)->nom}}">
                                             <?php  $i++; ?>
                                     @endif
                                 @if($c->id_niveau!=$n)
                                     <?php $n=$c->id_niveau ?>
                                     </optgroup>
-                                    <optgroup label="{{(session('locale')=='en')?\gesecole\niveau::find($c->id_niveau)->nom_anglais:\gesecole\niveau::find($c->id_niveau)->nom}}">
+                                    <optgroup label="{{(App::getLocale()=='en')?\gesecole\niveau::find($c->id_niveau)->nom_anglais:\gesecole\niveau::find($c->id_niveau)->nom}}">
                                         @endif
-                                <option value="{{$c->id}}" @if(old('classe')==$c->id) selected @endif>{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</option>
+                                <option value="{{$c->id}}" @if(old('classe')==$c->id) selected @endif>{{(App::getLocale()=='en')?$c->nom_anglais:$c->nom}}</option>
                             @endforeach
                                     </optgroup>
                         </select>

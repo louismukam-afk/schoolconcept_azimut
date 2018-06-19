@@ -86,14 +86,17 @@ class WelcomeController extends Controller {
         return redirect()->action('WelcomeController@index');
     }
     public function fr_locale(){
+
         $prevUrl=\URL::previous();
-        session(['locale'=>'fr']);
-        return redirect()->to($prevUrl) ;
+        //session(['locale'=>'fr']);
+        $cook=cookie('locale','fr',432000);
+        return redirect()->to($prevUrl)->withCookie($cook);
     }
     public function en_locale(){
         $prevUrl=\URL::previous();
-        session(['locale'=>'en']);
-        return redirect()->to($prevUrl) ;
+        //session(['locale'=>'en']);
+        $cook=cookie('locale','en',432000);
+        return redirect()->to($prevUrl)->withCookie($cook);
     }
     public function change_password(Request $request){
         $validate_pass=Validator::make($request->all(),

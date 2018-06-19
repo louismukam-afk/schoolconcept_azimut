@@ -167,7 +167,7 @@ min-height: 80px;
     float:right;
     color:#fff;
     font-size:22px;
-    font-weight:800;
+    font-weight:400;
     margin:20px;
     margin: 10px 25px 10px 50px;
 }
@@ -373,6 +373,14 @@ tr
 p
 {
     margin: 0;
+}
+
+.nom-etab
+{
+    color: white;
+    font-size: 28px;
+    position: absolute;
+    left:10%;
 }
 
 
