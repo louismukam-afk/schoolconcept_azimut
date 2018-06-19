@@ -49,7 +49,7 @@ class userController extends Controller {
             Session::forget('success');
             $values['success']=true;
         }
-		return view('admin\utilisateurs',$values);
+		return view('admin/utilisateurs',$values);
 	}
 
 	/**

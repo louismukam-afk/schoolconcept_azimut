@@ -54,7 +54,7 @@ class salaireController extends Controller {
 
         }
 
-        return view('admin\salaire',$values);
+        return view('admin/salaire',$values);
 	}
 
 	/**

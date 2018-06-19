@@ -50,7 +50,7 @@ class scolariteController extends Controller {
             Session::forget('success');
             $values['success']=true;
         }
-        return view('admin\scolarite',$values);
+        return view('admin/scolarite',$values);
 	}
 
 	/**
@@ -73,6 +73,7 @@ class scolariteController extends Controller {
 
         $this->validate($req,[
             'classe'=>'required|numeric',
+            'cycle'=>'required|numeric',
             'tranche1'=>'required|numeric',
             'tranche2'=>'required|numeric',
             'tranche3'=>'numeric',
@@ -81,6 +82,7 @@ class scolariteController extends Controller {
         ]);
 
         $classe=$req->input('classe');
+        $cycle=$req->input('cycle');
         $tranche1=$req->input('tranche1',0);
         $tranche2=$req->input('tranche2');
         $tranche3=$req->input('tranche3');
@@ -89,6 +91,7 @@ class scolariteController extends Controller {
 
         $s=new scolarite();
         $s->id_niveau=$classe;
+        $s->id_cycle=$cycle;
         $s->tranche1=floatval($tranche1);
         $s->tranche2=floatval($tranche2);
         $s->tranche3=floatval($tranche3);
@@ -133,6 +136,7 @@ class scolariteController extends Controller {
         $this->validate($req,[
             'id'=>'required|numeric',
             'classes'=>'required|numeric',
+            'cycle'=>'required|numeric',
             'tranche1'=>'required|numeric',
             'tranche2'=>'required|numeric',
             'tranche3'=>'numeric',
@@ -141,6 +145,7 @@ class scolariteController extends Controller {
         ]);
         $id=$req->input('id');
         $classe=$req->input('classes');
+        $cycle=$req->input('cycle');
         $tranche1=$req->input('tranche1');
         $tranche2=$req->input('tranche2');
         $tranche3=$req->input('tranche3');
@@ -148,6 +153,7 @@ class scolariteController extends Controller {
         $tranche5=$req->input('tranche5');
         $s=scolarite::find($id);
         $s->id_niveau=$classe;
+        $s->id_cycle=$cycle;
         $s->tranche1=floatval($tranche1);
         $s->tranche2=floatval($tranche2);
         $s->tranche3=floatval($tranche3);

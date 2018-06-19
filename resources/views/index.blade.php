@@ -12,8 +12,10 @@
         <!-- CUSTOM STYLES-->
     <link href="{{ URL::asset('css/custom.css')  }}" rel="stylesheet" media="screen"/>
     <link href="{{ URL::asset('js/jquery-ui/jquery-ui.css')  }}" rel="stylesheet" media="screen"/>
+    <link href="{{ URL::asset('js/datatables/datatables.min.css')  }}" rel="stylesheet"/>
 
-     <!-- GOOGLE FONTS-->
+
+    <!-- GOOGLE FONTS-->
 
     <script src="{{ URL::asset('js/jquery.min.js')  }}"></script>
     <script src="{{ URL::asset('js/jquery-ui/jquery-ui.min.js')  }}"></script>
@@ -22,10 +24,24 @@
     <!-- CUSTOM SCRIPTS -->
     <script src="{{ URL::asset('js/custom.js')  }}"></script>
 
+   <!-- <script src="{{ URL::asset('js/datatables/datatables.min.js')  }}"></script> -->
+
+
 </head>
 <body>
 <div class="col-md-12" >
     <img class="back-button" src="{{URL::asset('img/back_button.png')}}" onclick="history.back()" width="50px" height="50px">
+</div>
+<div class="loading_icon" style="
+    position: fixed;
+    Left: calc(50% - 37.5px);
+    top: calc(50% - 37.5px);
+    z-index: 10000;
+     width: 75px;
+     height: 75px;
+     display: none;
+">
+    <img src="{{URL::asset('img/loading.gif')}}" alt="" style="width: inherit;height: inherit">
 </div>
     <div id="wrapper">
          <div class="navbar navbar-inverse navbar-fixed-top">
@@ -324,5 +340,63 @@
         }
     });
 
+
+    function export_to_excel(idTable)
+    {
+
+        var tab_text="<table ><tr >";
+        var textRange; var j=0;
+        tab = document.getElementById(idTable); // id of table
+
+        for(j = 0 ; j < (tab.rows.length) ; j++)
+        {
+            tab_text=tab_text+tab.rows[j].innerHTML+"</tr>";
+            //tab_text=tab_text+"</tr>";
+        }
+
+        tab_text=tab_text+"</table>";
+        tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+        tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
+        tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input paras
+        tab_text= tab_text.replace(/<a[^>]*>|<\/a>/gi, "");
+        tab_text= tab_text.replace(/<div[^>]*>|<\/div>/gi, "");
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+
+        if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+        {
+            txtArea1.document.open("txt/html","replace");
+            txtArea1.document.write(tab_text);
+            txtArea1.document.close();
+            txtArea1.focus();
+            sa=txtArea1.document.execCommand("SaveAs",true,"dataExport.xls");
+        }
+        else                 //other browser not tested on IE 11
+            sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
+
+
+        return (sa);
+    }
+
+      function getNniveau(cycle) {
+             $('#nniveau').empty()
+            $('.loading_icon').css('display','inline');
+            $.ajax({
+                type: 'GET',
+                url: '{{url('/admin/nniveaux/get/')}}/'+cycle,
+                timeout: 20000,
+                success: function (data) {
+                    $.each(data,function (key,val) {
+                        $('#nniveau').append('<option value="'+val.id+'">'+val.nom+'</option>');
+                    })
+                    $('.loading_icon').css('display','none');
+                },
+                error: function (data) {
+                    $('.loading_icon').css('display','none');
+                }
+
+
+            });
+        }
 </script>
 </html>

@@ -116,7 +116,6 @@
 .bulletin-notes
 {
     position: relative;
-    margin-top: 15px;
 }
 .custom-table
 {
@@ -182,22 +181,6 @@
 p
 {
     margin: 0;
-}
-
-.table tbody tr,.table tbody tr td{
-    -webkit-print-color-adjust:exact;
-    padding-top: 0;
-    padding-bottom: 0;
-    height: 12px;
-
-    border: solid black 1px !important;
-
-}
-.table thead th,.table thead,.table tbody{
-    -webkit-print-color-adjust:exact;
-
-    border: solid black 1px !important;
-
 }
 
 

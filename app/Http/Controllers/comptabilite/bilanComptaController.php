@@ -85,7 +85,7 @@ class bilanComptaController extends Controller {
         }
 
 
-        return view('comptabilite\bilanEntrees',$values);
+        return view('comptabilite/bilanEntrees',$values);
 	}
 
     public function indexSorties(Request $request)
@@ -152,7 +152,7 @@ class bilanComptaController extends Controller {
         }
 
 
-        return view('comptabilite\bilanSorties',$values);
+        return view('comptabilite/bilanSorties',$values);
     }
 
 	/**

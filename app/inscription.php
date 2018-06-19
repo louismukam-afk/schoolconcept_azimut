@@ -22,12 +22,14 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\inscription whereMontant($value)
  * @property-read \gesecole\classe $classe
  * @property-read \gesecole\eleve $eleve
+ * @property int $id_nniveau
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\inscription whereIdNniveau($value)
  */
 class inscription extends Model {
 
 	protected  $table='inscription';
 
-    public $fillable=['date_inscription','id_eleve','id_classe','annee_scolaire','montant'];
+    public $fillable=['date_inscription','id_eleve','id_nniveau','id_classe','id_cycle','annee_scolaire','montant'];
 
 
     public function classe(){

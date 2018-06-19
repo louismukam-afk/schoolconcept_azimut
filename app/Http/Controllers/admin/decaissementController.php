@@ -45,7 +45,7 @@ class decaissementController extends Controller {
             Session::forget('success');
         }
 
-        return view('admin\search_decaissement',$values);
+        return view('admin/search_decaissement',$values);
 	}
 
 	/**

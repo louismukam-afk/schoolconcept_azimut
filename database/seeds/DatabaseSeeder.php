@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder {
 	public function run()
 	{
 		Model::unguard();
-        for ($i=0;$i<1000;$i++)
+        for ($i=0;$i<1800;$i++)
 		 $this->call('database\seeds\eleveTableSeeder');
 
 		for ($i=0;$i<30;$i++)

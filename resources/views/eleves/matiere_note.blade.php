@@ -53,20 +53,23 @@
                     <form accept-charset="UTF-8" role="form" method="POST" id="choix_seq_form" action="{{ url('/eleves/notes/create/'.$id) }}">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                         <input type="hidden" name="id" id="id" value=""/>
+                        <input type="hidden" name="cycle" id="id_cycle" value="{{$id_cycle}}"/>
+                        <input type="hidden" name="nniveau" id="id_nniveau" value="{{$id_nniveau}}"/>
 
                         <fieldset>
                             <div class="form-group">
                                 <label for="niveau">{{  trans('eleve.choix_seq')  }} : </label>
                                 <select  name="sequence" form="choix_seq_form" class="form-control" >
-                                    <option value="1">Séquence 1</option>
-                                    <option value="2">Séquence 2</option>
-                                    <option value="3">Séquence 3</option>
-                                    <option value="4">Séquence 4</option>
-                                    <option value="5">Séquence 5</option>
-                                    <option value="6">Séquence 6</option>
-                                   <!-- <option value="7">{{trans('eleve.trimestre')}} 1</option>
-                                    <option value="8">{{trans('eleve.trimestre')}} 2</option>
-                                    <option value="9">{{trans('eleve.trimestre')}} 3</option> -->
+                                <optgroup label="@lang('admin.semestre') 1">
+                                    <option value="1">CC 1</option>
+                                    <option value="3">@lang('admin.session_normale') 1</option>
+                                    <option value="5">@lang('admin.rattrapage') 1</option>
+                                </optgroup>
+                                    <optgroup label="@lang('admin.semestre') 2">
+                                        <option value="2">CC 2</option>
+                                        <option value="4">@lang('admin.session_normale') 2</option>
+                                        <option value="6">@lang('admin.rattrapage') 2</option>
+                                    </optgroup>
 
                                 </select>
                             </div>

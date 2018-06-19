@@ -87,7 +87,7 @@
 
                        <?php $curGroup=$group; ?>
                        <tr>
-                           <td>{{(session('locale')=='en')?$m->nom_anglais:$m->nom}}</td>
+                           <td>{{$m->nom.'/'.$m->nom_anglais}}</td>
                            <td>
                                <?php $z=0;?>
                                @foreach($notes as $n)
@@ -253,66 +253,38 @@
     <?php
     function getMention($note,$max){
         $palier=10;
-        if($note<($max*$palier)/100){
-            $mention= (session('locale')=='en')?  "Almost zero" :  "Presque nul";
-            return $mention;
-        }
-
+        if($note<($max*$palier)/100)
+            return "Presque nul/Almost zero";
         $palier=20;
-        if($note<($max*$palier)/100){
-            $mention= (session('locale')=='en')?  "Very weak" :  "Très faible";
-            return $mention;
-        }
+        if($note<($max*$palier)/100)
+            return "Très faible/Very weak";
         $palier=30;
         if($note<($max*$palier)/100)
-        {
-            $mention= (session('locale')=='en')?  "Weak" :  "Faible";
-            return $mention;
-        }
+            return "Faible/Weak";
         $palier=40;
         if($note<($max*$palier)/100)
-        {
-            $mention= (session('locale')=='en')?  "Insufficient" :  "Insuffisant";
-            return $mention;
-        }
+            return "Insuffisant/Insufficient";
         $palier=50;
         if($note<($max*$palier)/100)
-        {
-            $mention= (session('locale')=='en')?  "Poor" :  "Médiocre";
-            return $mention;
-        }
+            return "Médiocre/Poor";
         $palier=60;
         if($note<($max*$palier)/100)
-        {
-            $mention= (session('locale')=='en')?  "Fair" :  "Passable";
-            return $mention;
-        }
+            return "Passable/Fair";
         $palier=70;
         if($note<($max*$palier)/100)
-        {
-            $mention= (session('locale')=='en')?  "Pretty good" :  "Assez bien";
-            return $mention;
-        }        $palier=80;
+            return "Assez bien/Pretty good";
+        $palier=80;
         if($note<($max*$palier)/100)
-        {
-            $mention= (session('locale')=='en')?  "Good" :  "Bien";
-            return $mention;
-        }
+            return "Bien/Good";
         $palier=90;
         if($note<($max*$palier)/100)
-        {
-            $mention= (session('locale')=='en')?  "Very good" :  "Très bien";
-            return $mention;
-        }
+            return "Très bien/Very good";
         $palier=100;
         if($note<($max*$palier)/100)
             return "Excellent";
 
 
-
-            $mention= (session('locale')=='en')?  "Perfect" :  "Parfait";
-            return $mention;
-
+            return "Parfait/Perfect";
     }
     ?>
 

@@ -21,7 +21,7 @@
         <div class="col-md-8">
             <form class="form-horizontal" id="add_inscription_form" method="get" action="{{URL::to('/search/eleve')}}">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-                <input type="hidden" name="view" value="inscriptions\search_edit_eleve">
+                <input type="hidden" name="view" value="inscriptions/search_edit_eleve">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="search">{{  trans('inscription.recherche')  }} : </label>
@@ -68,7 +68,7 @@
                     @endforeach
                     </tbody>
                 </table>
-                <div class="paginate" style="text-align: center;"> <?php echo(str_replace('/?', '?view=inscriptions\search_edit_eleve&', $eleves->render()) ); ?></div>
+                <div class="paginate" style="text-align: center;"> <?php echo(str_replace('/?', '?view=inscriptions/search_edit_eleve&', $eleves->render()) ); ?></div>
 
                 {{Session::forget('search_result')}}
             @endif

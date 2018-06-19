@@ -27,15 +27,23 @@
         <p style="font-size: 18px"> <strong>{{trans('admin.nom')}} : {{$e->nom.' '.$e->prenom}} </strong></p>
 
         <div class="col-md-8">
-            <form class="form-horizontal" id="add_inscription_form" method="post" action="{{URL::to('/inscriptions/update/')}}">
+            <form class="form-horizontal" id="edit_inscription_form" method="post" action="{{URL::to('/inscriptions/update/')}}">
                 <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                 <input type="hidden" name="id_eleve" value="{{$e->id}}">
                 <div class="col-md-6">
+                    <div class="form-group">
+                        <label>  Cycle: </label>
+                        <select form="edit_inscription_form"  name="cycle" class="form-control">
+                            @foreach($cycles as $c)
+                                <option value="{{$c->id}}" @if($inscription->id_cycle==$c->id) selected @endif>{{$c->nom}}</option>
+                            @endforeach
+                        </select>
 
+                    </div>
                     <div class="form-group">
                         <label>@lang('admin.specialites')  : </label>
 
-                        <select form="add_inscription_form" id="classe" name="classe" class="form-control">
+                        <select form="edit_inscription_form" id="classe" name="classe" class="form-control">
                             <?php $n=0;$i=0; ?>
 
                             @foreach($classes as $c)
@@ -51,6 +59,16 @@
                                         <option value="{{$c->id}}" @if($inscription->id_classe==$c->id) selected @endif>{{(session('locale')=='en')?$c->nom_anglais:$c->nom}}</option>
                                         @endforeach
                                     </optgroup>
+                        </select>
+
+
+                    </div>
+                    <div class="form-group">
+                        <label>  @lang('admin.nniveau') </label>
+                        <select form="edit_inscription_form"  name="nniveau" class="form-control">
+                            @foreach($nniveaux as $nn)
+                                <option value="{{$nn->id}}" @if($inscription->id_nniveau==$nn->id) selected @endif>{{$nn->nom}}</option>
+                            @endforeach
                         </select>
 
                     </div>
@@ -75,7 +93,15 @@
                 <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                 <input type="hidden" name="id_eleve" value="{{$e->id}}">
                 <div class="col-md-6">
+                    <div class="form-group">
+                        <label>  Cycle: </label>
+                        <select form="add_inscription_form"  name="cycle" class="form-control">
+                            @foreach($cycles as $c)
+                                <option value="{{$c->id}}" @if(old('cycle')==$c->id) selected @endif>{{$c->nom}}</option>
+                            @endforeach
+                        </select>
 
+                    </div>
                     <div class="form-group">
                         <label>@lang('admin.specialites')  : </label>
 
@@ -98,6 +124,16 @@
                         </select>
 
                     </div>
+                    <div class="form-group">
+                        <label>  @lang('admin.nniveau') </label>
+                        <select form="add_inscription_form"  name="nniveau" class="form-control">
+                            @foreach($nniveaux as $nn)
+                                <option value="{{$nn->id}}"  @if(old('nniveau')==$nn->id) selected @endif>{{$nn->nom}}</option>
+                            @endforeach
+                        </select>
+
+                    </div>
+
                     @if($e->matricule==null)
                     <div class="form-group">
                         <label>{{trans('admin.matricule')}} : (@lang('admin.no_matricule'))</label>

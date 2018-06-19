@@ -31,7 +31,7 @@ class scolarite extends Model {
 
 	protected  $table='scolarite';
 
-    public $fillable=['id_niveau','tranche1','tranche2','tranche3','tranche4',' tranche5'];
+    public $fillable=['id_niveau','id_cycle','tranche1','tranche2','tranche3','tranche4',' tranche5'];
 
     public $timestamps=false;
 

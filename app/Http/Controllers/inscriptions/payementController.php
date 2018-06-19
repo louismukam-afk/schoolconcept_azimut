@@ -2,6 +2,7 @@
 
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
+use gesecole\NNiveau;
 use gesecole\payement;
 use gesecole\parametres;
 use gesecole\cycle;
@@ -49,7 +50,7 @@ class payementController extends Controller {
             Session::forget('success');
         }
 
-        return view('inscriptions\search_deposer',$values);
+        return view('inscriptions/search_deposer',$values);
 	}
 
 	/**
@@ -62,9 +63,9 @@ class payementController extends Controller {
         $pattern=$req->input('search');
         $p=payement::whereNumero($pattern)->first();
         if($p==null) {
-            $e = DB::table('eleve')->whereRaw('lower(nom) LIKE ?', ['%'.strtolower($pattern).'%'])
-                ->orWhereRaw('lower(prenom) LIKE ?', ['%'.strtolower($pattern).'%'])
-                ->orWhereRaw('lower(matricule) LIKE ?', ['%'.strtolower($pattern).'%'])
+            $e = DB::table('eleve')->whereRaw('lower(nom) LIKE ?',['%'.strtolower($pattern).'%'])
+                ->orWhereRaw('lower(prenom) LIKE ?',['%'.strtolower($pattern).'%'])
+                ->orWhereRaw('lower(matricule) LIKE ?',['%'.strtolower($pattern).'%'])
                 ->orderBy('nom')->orderBy('prenom')
                 ->paginate(30);
 
@@ -80,7 +81,7 @@ class payementController extends Controller {
             session(['info_payement' => true]);
 
         }
-        return view('inscriptions\search_deposer',$values);
+        return view('inscriptions/search_deposer',$values);
     }
 
 	public function create($id_eleve)
@@ -98,7 +99,7 @@ class payementController extends Controller {
 
         }
 
-        return view('inscriptions\add_payement',$values);
+        return view('inscriptions/add_payement',$values);
 	}
 
 	public function index_liste($id_eleve){
@@ -115,7 +116,7 @@ class payementController extends Controller {
             Session::forget('success');
         }
 
-        return view('inscriptions\liste_paiement',$values);
+        return view('inscriptions/liste_paiement',$values);
     }
 
 	/**
@@ -151,9 +152,7 @@ class payementController extends Controller {
         $p->date_payement=$today;
 
         $p->save();
-        $front = session('year');
-        $front = substr($front, 2, 2);
-        $numero=$front.sprintf('%08d',$p->id);
+        $numero=sprintf('%08d',$p->id);
         $p->numero=$numero;
         $p->save();
 
@@ -183,13 +182,15 @@ class payementController extends Controller {
     public function print_receipe($id){
         $p=payement::find($id);
         $i=inscription::whereAnneeScolaire(session('year'))->where('id_eleve',$p->id_eleve,false)->first();
+        $cy=cycle::find($i->id_cycle)->nom;
         $c=classe::find($i->id_classe);
         $n=niveau::find($c->id_niveau);
+        $nn=NNiveau::find($i->id_nniveau);
         $sc=$i->classe->niveau->scolarite;
         if($sc==null)
             $total=0;
         else
-        $total=$sc->tranche1+$sc->tranche2+$sc->tranche3+$sc->tranche4+$sc->tranche5;
+            $total=$sc->tranche1+$sc->tranche2+$sc->tranche3+$sc->tranche4+$sc->tranche5;
         $ps=payement::whereIdEleve($p->id_eleve)->where('annee_scolaire','=',session('year'))->where('motif','<>','Inscription')->get();
         $solde=0;
         foreach ($ps as $pay){
@@ -198,15 +199,17 @@ class payementController extends Controller {
         $pa=parametres::all();
         $pa=$pa->where('nom','nom_etablissement',false)->first();
         $nom_e=$pa->valeur;
+        $values['cycle']=$cy;
         $values['classe']=$c;
         $values['niveau']=$n;
+        $values['nniveau']=$nn;
         $values['payement']=$p;
         $values['inscription']=$i;
         $values['nom_etablissement']=$nom_e;
         $values['total']=$total;
         $values['solde']=$solde;
 
-        return view('inscriptions\imprimer_recu_p',$values);
+        return view('inscriptions/imprimer_recu_p',$values);
 
     }
 

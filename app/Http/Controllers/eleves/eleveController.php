@@ -33,7 +33,7 @@ class eleveController extends Controller {
 
 	public function index()
 	{
-        return view('eleves\index');
+        return view('eleves/index');
 	}
 
 	/**

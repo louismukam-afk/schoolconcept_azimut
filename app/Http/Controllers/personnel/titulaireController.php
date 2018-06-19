@@ -58,7 +58,7 @@ class titulaireController extends Controller {
         }
 
 
-        return view('personnel\titulaire',$value);
+        return view('personnel/titulaire',$value);
 	}
 
 	/**

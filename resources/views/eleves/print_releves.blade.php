@@ -34,7 +34,7 @@
                 <div class="titre">
                     <p style="font-size: 22px;"><strong>RELEVE DE NOTES ANNUEL</strong></p>
                     <strong>
-                        <p class="big-traduction"> TRANSCRIPT</p>
+                        <p class="big-traduction">ANNUAL TRANSCRIPT </p>
                     </strong>
                 </div>
                 </div>
@@ -76,8 +76,8 @@
 
                 <div class="specialite-annee">
                     <div class="specialite">
-                        <p><strong>Spécialité : </strong> {{$classe->nom}}</p>
-                        <p class="traduction"><strong class="traduction">Spéciality : </strong> {{$classe->nom_anglais}}</p>
+                        <p><strong>Spécialité : </strong> {{$classe->nom}} <strong>- Niveau : </strong>{{$nniveau->nom}}</p>
+                        <p class="traduction"><strong class="traduction">Spéciality : </strong> {{$classe->nom_anglais}}  <strong class="traduction">- Niveau : </strong>{{$nniveau->nom}}</p>
                     </div>
                     <div class="annee_a">
                         <p><strong>Année académique : </strong> {{session('year')}}</p>

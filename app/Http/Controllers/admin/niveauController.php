@@ -43,7 +43,7 @@ class niveauController extends Controller {
             Session::forget('success');
             $values['success']=true;
         }
-        return view('admin\niveau',$values);
+        return view('admin/niveau',$values);
 	}
 
 	/**

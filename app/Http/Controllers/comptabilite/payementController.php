@@ -64,7 +64,7 @@ class payementController extends Controller {
             $values['user']=$u;
             Session::forget('success');
         }
-        return view('comptabilite\search_personnel',$values);
+        return view('comptabilite/search_personnel',$values);
 	}
 
 
@@ -88,7 +88,7 @@ class payementController extends Controller {
             $values['user']=$u;
             Session::forget('success');
 
-        return view('comptabilite\search_personnel',$values);
+        return view('comptabilite/search_personnel',$values);
     }
 
 	/**
@@ -131,11 +131,12 @@ class payementController extends Controller {
         $values['taux']=$t;
 
         $s=salaire::whereIdPersonnel($id)->first();
-
-        $values['salaire']=$s;
+        if($s!= null){
+            $values['salaire']=$s;
+        }
         $values['personnel']=$p;
 
-        return view('comptabilite\create-payment',$values);
+        return view('comptabilite/create-payment',$values);
 
 
     }
@@ -225,7 +226,7 @@ class payementController extends Controller {
             ->get();
         $values['payements']=$py;
         $values['personnel']=$p;
-        return view('comptabilite\liste_paiement',$values);
+        return view('comptabilite/liste_paiement',$values);
 	}
 
 	/**

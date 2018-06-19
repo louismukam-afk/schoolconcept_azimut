@@ -38,12 +38,15 @@ class personnelController extends Controller {
     }
 	public function index()
 	{
-        return view('personnel\index');
+        return view('personnel/index');
 	}
 
 	 public function index_personnel(){
          $titre=trans('admin.personnel');
-         $m=personnel::orderBy('nom')->paginate(30);
+         $m=personnel::orderBy('nom')
+         ->paginate(30)
+
+         ;
          $values= array('titre'=>$titre,'personnel'=>$m);
             if(session('success')){
                 $values['success']=true;
@@ -51,7 +54,7 @@ class personnelController extends Controller {
             }
 
 
-         return view('personnel\personne',$values);
+         return view('personnel/personne',$values);
      }
 
 	/**
@@ -124,7 +127,7 @@ class personnelController extends Controller {
 	{
         $titre=trans('admin.search_personnel');
         $values= array('titre'=>$titre);
-        return view('personnel\search_personnel',$values);
+        return view('personnel/search_personnel',$values);
 	}
 
 	/**
@@ -141,7 +144,7 @@ class personnelController extends Controller {
         $fp=fonction_personnel::whereIdPersonnel($id)->get();
         $t=titulaire::whereAnneeScolaire(\session('year'))->where('id_personnel','=',$id)->get()->first();
         $values= array('titre'=>$titre,'personnel'=>$p,'fonctions'=>$fp,'titulaire'=>$t,'fonction'=>$f2);
-        return view('personnel\edit_personnel',$values);
+        return view('personnel/edit_personnel',$values);
 
     }
 
