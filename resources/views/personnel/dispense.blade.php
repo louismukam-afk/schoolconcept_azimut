@@ -42,6 +42,13 @@
                         @endif
 
                     @endforeach
+                    @foreach($nniveaux as $nn)
+                        @if($nn->id == $c->id_nniveau)
+                            <td>  {{ $nn->nom  }}</td>
+                            <?php break; ?>
+                        @endif
+
+                    @endforeach
 
                     @foreach($matieres as $e)
                         @if($e->id == $c->id_matiere)
