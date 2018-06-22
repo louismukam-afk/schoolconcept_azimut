@@ -36,6 +36,25 @@ class classe extends Model {
     public $timestamps = false;
 
 
+    public function getNom_anglais()
+    {
+        if($this->nom_anglais==null){
+            return $this->nom;
+        }
+        else
+            return $this->nom_anglais;
+    }
+
+    public function getNom()
+    {
+        if($this->nom==null){
+            return $this->nom_anglais;
+        }
+        else
+            return $this->nom;
+    }
+
+
     public function titulaires(){
         return $this->hasMany(titulaire::class ,'id_classe');
 }

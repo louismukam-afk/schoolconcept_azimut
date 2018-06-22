@@ -2,6 +2,7 @@
 
 use Closure;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Cookie;
 
 class locale {
 
@@ -14,11 +15,17 @@ class locale {
 	 */
 	public function handle($request, Closure $next)
 	{
-	    if(session('locale')=='en'){
+	    $cook=Cookie::get('locale');
+        if($cook=='en'){
+            App::setLocale('en');
+        }else{
+            App::setLocale('fr');
+        }
+	    /*if(session('locale')=='en'){
 	        App::setLocale('en');
         }else{
 	        App::setLocale('fr');
-        }
+        }*/
 		return $next($request);
 	}
 

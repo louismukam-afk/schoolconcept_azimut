@@ -33,4 +33,22 @@ class matiere extends Model {
         return $this->hasMany(dispense::class,'id_matiere');
 
     }
+
+    public function getNom_anglais()
+    {
+        if($this->nom_anglais==null){
+            return $this->nom;
+        }
+        else
+            return $this->nom_anglais;
+    }
+
+    public function getNom()
+    {
+        if($this->nom==null){
+            return $this->nom_anglais;
+        }
+        else
+            return $this->nom;
+    }
 }

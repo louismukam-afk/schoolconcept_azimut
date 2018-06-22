@@ -26,7 +26,7 @@
             @foreach($programmes as $p)
                 <tr>
                     <td>{{$i++}}</td>
-                    <td><strong >{{(session('locale')=='en')?$p->nom_anglais:$p->nom_matiere}}</strong></td>
+                    <td><strong >{{(App::getLocale()=='en')?$p->nom_anglais:$p->nom_matiere}}</strong></td>
                     <td>@if($p->type==0)@lang('admin.fondamental')@else @lang('admin.transversal') @endif</td>
                     <td>{{$p->coef}} </td>
                     <td>{{$p->max}}</td>
@@ -37,6 +37,7 @@
                             <ul class="dropdown-menu">
                                 <li><a style="color: white"  class="btn-primary"  data-toggle="modal" data-backdrop="false" href="#edit_programme" onclick="editer_programme({{$p->id}},{{$p->id_cycle}},{{$p->coef}},{{$p->max}},{{$p->semestre}},{{$p->type}})"><span class="glyphicon glyphicon-pencil"  ></span> {{  trans('admin.edit')  }}</a></li>
                                 <li><a style="color: white" href="{{URL::to('/admin/programmes/destroy/'.$p->id.'?id='.$classe->id.'&cycle='.$id_cycle.'&nniveau='.$id_nniveau)}}"   class="btn-danger"><span class="glyphicon glyphicon-trash"></span> {{  trans('admin.del')  }}</a></li>
+                                <li><a style="color: white" href="{{URL::to('/admin/programmes/groupe/'.$p->id)}}"   class="btn-warning"><span class="glyphicon glyphicon-folder-open"></span> {{  trans('admin.groupe')  }}</a></li>
                             </ul>
                         </div>
 
@@ -151,7 +152,7 @@
 
                         <div class="form-group col-md-3">
                             <input type="checkbox" name="matiere[]" value="{{$m->id}}" onchange="onCheckedChange(this,'coef{{$i}}','max{{$i}}','semestre{{$i}}','type{{$i}}')">
-                            <label >{{ $m->nom.'/'.$m->nom_anglais  }} : </label>
+                            <label >{{(App::getLocale()=='en')?$m->nom_anglais:$m->nom}} : </label>
                         </div>
                         <div class="form-group col-md-3">
                             <label >Type : </label>

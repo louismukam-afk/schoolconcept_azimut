@@ -83,6 +83,13 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/admin/programmes/update/', 'admin\programmeController@update');
         Route::get('/admin/programmes/destroy/{id}', 'admin\programmeController@destroy');
 
+        Route::get('/admin/programmes/groupe/{id}', 'admin\groupeController@create');
+        Route::get('/admin/programmes/groupe/destroy/{id}', 'admin\groupeController@destroy');
+        Route::post('/admin/programmes/groupe/store/', 'admin\groupeController@store');
+
+
+
+
 //routes pour les fonctions
         Route::get('/admin/fonctions/', 'admin\fonctionController@index');
         Route::get('/admin/fonctions/destroy/{id}', 'admin\fonctionController@destroy');
@@ -138,6 +145,9 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/inscriptions/listes/show/','inscriptions\listesController@show');
         Route::get('/inscriptions/print-certificate/{id}','inscriptions\inscriptionController@certificate');
         Route::get('/inscriptions/remove/{id_eleve}','inscriptions\inscriptionController@destroy');
+        Route::any('/inscriptions/photos/','inscriptions\photosController@create');
+        Route::any('/inscriptions/photos/store',['as'=>'store_photo','uses'=>'inscriptions\photosController@store']);
+
 
 
     });
@@ -259,6 +269,7 @@ Route::group(['middleware'=>'auth'],function (){
 
     Route::get('/search/personnel', 'searchController@personnel');
     Route::get('/search/eleve', 'searchController@eleve');
+    Route::any('/select/classe', 'searchController@select_classe');
 
     //Pour la langue
     Route::any('/language/french', 'WelcomeController@fr_locale');

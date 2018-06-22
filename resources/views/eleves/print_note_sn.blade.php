@@ -42,6 +42,7 @@
         <?php $i=1; ?>
         @foreach($eleves as $e)
             <?php $total=0; ?>
+             <?php $totalNotes++; ?>
             <tr>
                 <td class="number-column">{{$i++}}</td>
                 <td class="mat-column">{{$e->matricule}}</td>
@@ -49,7 +50,7 @@
                 <td class="note-column">
                     @foreach($notes_cc as $n)
                         @if($n->id_eleve==$e->id)
-                            <?php $totalNotes++; ?>
+                           
                             {{$n->note}}
 
                             <?php $total+=$n->note; ?>
@@ -68,7 +69,7 @@
                     {{$total}}
                     @if($total>=50)
                         <?php $notesCap++; ?>
-                    @elseif($total>=35)
+                    @elseif(($total>=35))
                         <?php $notesQuant++; ?>
                     @else
                         <?php $echecs++; ?>

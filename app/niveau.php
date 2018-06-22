@@ -24,6 +24,23 @@ class niveau extends Model {
 
 
 
+    public function getNom_anglais()
+    {
+        if($this->nom_anglais==null){
+            return $this->nom;
+        }
+        else
+            return $this->nom_anglais;
+    }
+
+    public function getNom()
+    {
+        if($this->nom==null){
+            return $this->nom_anglais;
+        }
+        else
+            return $this->nom;
+    }
     public $timestamps=false;
 
     public function classes(){

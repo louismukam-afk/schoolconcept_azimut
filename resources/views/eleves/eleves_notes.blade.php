@@ -2,7 +2,7 @@
 @section('sub-content')
     <div class="add-container col-md-12" style="margin-top: 25px">
         <div class="row">
-            <h3 class="col-md-10">{{trans('eleve.gerer_notes').' '.(session('locale')=='en')?$matiere->nom:$matiere->nom_anglais}}    :     @if($sequence==1 || $sequence==2) CC @elseif($sequence==3 || $sequence==4) @lang('admin.session_normale') @elseif($sequence==5 || $sequence==6) @lang('admin.rattrapage') @endif</h3>
+            <h3 class="col-md-10">{{trans('eleve.gerer_notes').' '.(App::getLocale()=='en')?$matiere->nom_anglais:$matiere->nom}}    :     @if($sequence==1 || $sequence==2) CC @elseif($sequence==3 || $sequence==4) @lang('admin.session_normale') @elseif($sequence==5 || $sequence==6) @lang('admin.rattrapage') @endif</h3>
 
             <div class="col-md-2">
                 <a href="#" class="btn-xs btn btn-danger"><span class="glyphicon glyphicon-trash"></span> @lang('admin.del')</a>

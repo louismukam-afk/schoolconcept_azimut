@@ -2,9 +2,7 @@
 
 use gesecole\classe;
 use gesecole\classeMatiere;
-use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
-use gesecole\matiere;
 use gesecole\cycle;
 use gesecole\niveau;
 use gesecole\NNiveau;

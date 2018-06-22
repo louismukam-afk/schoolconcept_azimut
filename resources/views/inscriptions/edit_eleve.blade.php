@@ -11,13 +11,34 @@
         @endif
 
 
+            <style>
+                .icon-choose-image
+                {
+                    width: 150px;
+                    height: 150px;
+                    border: solid 1px;
+                    border-radius: 3px;
+                }
+            </style>
 
-
-        <form accept-charset="UTF-8" role="form" method="POST" id="enregistrer_eleve_form" action="{{URL::to('/inscriptions/enregistrement/update/'.$eleve->id)}}">
+        <form accept-charset="UTF-8" role="form" method="POST" id="enregistrer_eleve_form" action="{{URL::to('/inscriptions/enregistrement/update/'.$eleve->id)}}" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 
             <fieldset>
                 <legend style="margin-top:20px;margin-bottom:30px;"><strong> {{trans('inscription.eleve')}}</strong></legend>
+
+                <div id="targetOuter">
+                    <div id="targetLayer">
+                        @if(isset($photoUrl))
+                            <img src="{{URL::asset($photoUrl)}}"  class="icon-choose-image" />
+                        @else
+                            <img src="{{URL::asset('img/avatar.png')}}"  class="icon-choose-image" />
+                        @endif
+                    </div>
+                    <div  >
+                        <input name="photo" id="userImage" disabled type="file" class=" form-control" onChange="showPreview(this);" />
+                    </div>
+                </div>
 
                 <div class="form-group">
                     <label for="nom">{{  trans('inscription.nom')  }} : <span class="required">*</span></label>
@@ -251,6 +272,7 @@
     <script>
         $(function () {
             $('#change_eleve_editable').click(function () {
+                $('#userImage').removeAttr('disabled');
                 $('#nom').removeAttr('disabled');
                 $('#date_naiss').removeAttr('disabled');
                 $('#lieu_naiss').removeAttr('disabled');
@@ -282,6 +304,20 @@
 
             });
         });
+
+        function showPreview(objFileInput) {
+            if (objFileInput.files[0]) {
+                var fileReader = new FileReader();
+                fileReader.onload = function (e) {
+                    $('#blah').attr('src', e.target.result);
+                    $("#targetLayer").html('<img src="'+e.target.result+'" width="200px" height="200px" class="icon-choose-image" />');
+                    $("#targetLayer").css('opacity','0.8');
+                };
+                startLoading();
+                fileReader.readAsDataURL(objFileInput.files[0]);
+                stopLoading();
+            }
+        }
     </script>
 
 @endsection

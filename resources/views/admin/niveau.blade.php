@@ -68,8 +68,8 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label>{{  trans('admin.nom_anglais')  }} : <span class="required">*</span></label>
-                                    <input class="form-control"  name="nom_anglais" type="text"  value="{{ old('nom_anglais') }}" required>
+                                    <label>{{  trans('admin.nom_anglais')  }} : </label>
+                                    <input class="form-control"  name="nom_anglais" type="text"  value="{{ old('nom_anglais') }}">
 
                                 </div>
                                 <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
@@ -116,8 +116,8 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label>{{  trans('admin.nom_anglais')  }} : <span class="required">*</span></label>
-                                        <input class="form-control" id="edit_nom_anglais" name="nom_anglais" type="text"  value="{{ old('nom_anglais') }}" required>
+                                        <label>{{  trans('admin.nom_anglais')  }} : </label>
+                                        <input class="form-control" id="edit_nom_anglais" name="nom_anglais" type="text"  value="{{ old('nom_anglais') }}" >
 
                                     </div>
                                     <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">

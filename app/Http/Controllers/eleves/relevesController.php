@@ -1,6 +1,7 @@
 <?php namespace gesecole\Http\Controllers\eleves;
 
 use gesecole\eleve;
+use gesecole\groupeMatieres;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
 use gesecole\NNiveau;
@@ -14,6 +15,7 @@ use gesecole\note;
 use gesecole\classeMatiere;
 use gesecole\matiere;
 use Illuminate\Http\Request;
+use PhpParser\Node\Expr\Array_;
 
 class relevesController extends Controller {
 
@@ -120,20 +122,51 @@ class relevesController extends Controller {
             //$m=matiere::whereIn('id',$matiere_list)->whereIn('id',$matieres_pv)->get();
         $m=matiere::whereIn('matiere.id',$matiere_list)
             ->Join('classe_matiere','matiere.id','=','classe_matiere.id_matiere')
+            ->where('id_classe','=',$id)
+            ->where('id_cycle','=',$id_cycle)
             ->where('classe_matiere.id_nniveau','=',$nniveau)
-            ->select('matiere.*','semestre','type')
+            ->select(['matiere.*','semestre','type','classe_matiere.id AS id_classe_matiere'])
             ->get();
+
             $k=0;
+            $gm=groupeMatieres::whereIdClasse($id)->get();
+            $m_cps=$gm->fetch('id_matiere_mere')->toArray();
+
+            $calc=$gm->fetch('id_classe_matiere')->toArray();
+            $m_cpst= classeMatiere::whereIn('id',$calc)->get()->fetch('id_matiere')->toArray();
+
+            $composes= array();
+            $composantes= array();
+            $cpstList= array();
+            $minus_credit_cpst=false;
+
             foreach($e as $eleve){
 
                 $l=0;
+                $c=0;
+                $cst=0;
                 $sNote=0;
                 foreach ($m as $matiere){
+                    $cps=false;
+                    $cpst=false;
 
+                    if($this->isIn($matiere->id,$m_cps)){
+                        $cps=true;
+                        $cpstList=$gm->where('id_matiere_mere',$matiere->id,false)->fetch('id_classe_matiere')->toArray();
+
+                    }
+                    $nom=\App::getLocale()=='en'?$matiere->nom_anglais:$matiere->nom;
+                    if($this->isIn($matiere->id,$m_cpst))
+                        $cpst=true;
 
                     $credit=$cm->where('id_matiere',$matiere->id)
                         ->first()
                         ->coef;
+                    if ($cpst)
+                        if(!$minus_credit_cpst) {
+                            $sCoef -= $credit;
+                        }
+
                     $note_cc1=$n_cc->where('id_matiere',$matiere->id,false)
                         ->where('id_eleve',$eleve->id,false)
                         ->where('sequence',1,false)
@@ -213,16 +246,55 @@ class relevesController extends Controller {
 
 
                     if(is_numeric($note)){
+                        if((!$cpst) && (!$cps))
                         $sNote+=($this->getGrade($note)[1])*$credit;
                     }
 
 
-                    $matieres[$l]=new pv_matiere1($matiere->id,$note,$credit);
-
+                    if((!$cpst) && (!$cps)){
+                        $matieres[$l]=new pv1_matiere($matiere->id,$note,$credit,$nom,$matiere->type,$matiere->semestre);
+                    }
+                    if($cpst){
+                       $composantes[$cst]= new composante($matiere->id,$note,$matiere->id_classe_matiere,$nom);
+                       $cst++;
+                    }
+                    if($cps){
+                        $composes[$c]= new compose($matiere->id,$note,$credit,$cpstList,$nom,$credit,$matiere->type,$matiere->semestre);
+                        $c++;
+                    }
 
                     $l++;
+
                 }
-                //dump($matieres);
+                $minus_credit_cpst=true;
+                foreach($composes as $co){
+                    $co_note=0;
+                    $co_n=0;
+                    $lnoms='';
+                    foreach ($composantes as $compt){
+                        if($this->isIn($compt->id_classe_matiere,$co->cpsList)){
+                            $co_note+=$compt->note;
+                            $lnoms.=$compt->nom.' ,';
+                            $co_n++;
+                        }
+                    }
+
+                    if($co_n>0){
+                        $co_note=$co_note/$co_n;
+                    }
+                   if(is_numeric($co_note))
+                    $co_note=round(($co_note+$co->note)/2,2);
+
+                    if(sizeof($lnoms)>=1)
+                        $lnoms='('.substr($lnoms,0,sizeof($lnoms)-2).')';
+
+                    $sNote+=($this->getGrade($co_note)[1])*$co->credit;
+                    $matieres[$l]=new pv1_matiere($co->id_matiere,$co_note,$co->credit,$co->nom.' '.$lnoms,$co->type,$co->semestre);
+                    $l++;
+
+                }
+
+
                 if($sCoef==0) $sCoef=1;
                 $proces_v[$k]=new PV1($eleve->id,$matieres,$sNote/$sCoef);
                 $k++;
@@ -297,6 +369,15 @@ class relevesController extends Controller {
 		//
 	}
 
+	function isIn($val,$array)
+{
+        $n=sizeof($array);
+        for($i=0;$i<$n;$i++){
+            if($val==$array[$i])
+                return true;
+        }
+        return false;
+}
 
     function getGrade($note){
         if($note>=80){
@@ -373,16 +454,61 @@ class PV1{
 
     }
 }
-class pv_matiere1{
+class pv1_matiere{
     public $id_matiere;
     public $note;
     public $credit;
+    public $altName;
+    public $type;
+    public $semestre;
 
-    public  function __construct($id_m,$not,$cr)
+    public  function __construct($id_m,$not,$cr,$an,$ty,$se)
     {
         $this->id_matiere=$id_m;
         $this->note=$not;
         $this->credit=$cr;
+        $this->altName=$an;
+        $this->type=$ty;
+        $this->semestre=$se;
+
+
     }
 
+}
+
+class composante{
+    public $id_matiere;
+    public $note;
+    public $id_classe_matiere;
+    public $nom;
+
+    public function __construct($id,$n,$icm,$no)
+    {
+        $this->id_matiere=$id;
+        $this->note=$n;
+        $this->id_classe_matiere=$icm;
+        $this->nom=$no;
+    }
+}
+class compose{
+    public $id_matiere;
+    public $note;
+    public $coef;
+    public $cpsList;
+    public $nom;
+    public $credit;
+    public $type;
+    public $semestre;
+
+    public function __construct($id,$n,$c,$cl,$no,$cr,$ty,$se)
+    {
+        $this->id_matiere=$id;
+        $this->note=$n;
+        $this->coef=$c;
+        $this->cpsList=$cl;
+        $this->nom=$no;
+        $this->credit=$cr;
+        $this->type=$ty;
+        $this->semestre=$se;
+    }
 }

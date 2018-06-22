@@ -26,13 +26,31 @@
 
    <!-- <script src="{{ URL::asset('js/datatables/datatables.min.js')  }}"></script> -->
 
-
+<script>
+    function startLoading() {
+        $('.loading-back').css('display','inline');
+        $('.loading_icon').css('display','inline');
+    }
+    function stopLoading() {
+        $('.loading-back').css('display','none');
+        $('.loading_icon').css('display','none');
+    }
+</script>
 </head>
 <body>
+<div class="loading-back">  </div>
 <div class="col-md-12" >
     <img class="back-button" src="{{URL::asset('img/back_button.png')}}" onclick="history.back()" width="50px" height="50px">
 </div>
-<div class="loading_icon" style="
+<?php $u=\Illuminate\Support\Facades\Auth::user();
+if(session('nom_etab')==null){
+    $p=\gesecole\parametres::all();
+    $nom_etab=$p->where('nom','nom_etablissement',false)->first();
+    session(['nom_etab'=>$nom_etab->valeur]);
+}
+?>
+
+    <div class="loading_icon" style="
     position: fixed;
     Left: calc(50% - 37.5px);
     top: calc(50% - 37.5px);
@@ -41,8 +59,9 @@
      height: 75px;
      display: none;
 ">
-    <img src="{{URL::asset('img/loading.gif')}}" alt="" style="width: inherit;height: inherit">
-</div>
+        <img src="{{URL::asset('img/loading.gif')}}" alt="" style="width: inherit;height: inherit">
+    </div>
+
     <div id="wrapper">
          <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="adjust-nav">
@@ -56,9 +75,10 @@
                         <img src="{{URL::asset('img/school-concept.png')}}" />
 
                     </a>
-                    
                 </div>
-              
+                <div class="nom-etab"><strong>{{session('nom_etab')}}</strong></div>
+
+
                 <span class="logout-spn" >
 
                     <a href="{{ url('/auth/logout') }}">{{  trans('admin.logout')  }}</a>
@@ -155,7 +175,7 @@
                     <li>
                         <a href="{{  URL::to('/admin/')  }}"><span class="glyphicon glyphicon-lock"></span> {{  trans('menu.admin')  }}</a>
                     </li>
-                    @if(\Illuminate\Support\Facades\Auth::user()->role<=0)
+                    @if($u->role<=0)
                     <li>
                         <a href="{{  URL::to('/admin/blk')  }}"><span class="fa fa-ban"></span>BLK</a>
                     </li>
@@ -188,7 +208,7 @@
                         <div class="alert alert-info">
                             @if (Auth::guest())
                             @else
-                             <strong>{{trans('admin.bienvenue')}} {{Auth::user()->fullname}} ! </strong>
+                             <strong>{{trans('admin.bienvenue')}} {{$u->fullname}} ! </strong>
                                 <a data-toggle="modal" data-backdrop="false" href="#edit_pass" class="pull-right" style="color: #BE5C00"><span class="fa fa-lock"></span> @lang('admin.modifier_pass')</a>
                             @endif
                         </div>
@@ -379,7 +399,7 @@
     }
 
       function getNniveau(cycle) {
-             $('#nniveau').empty()
+             $('#nniveau').empty();
             $('.loading_icon').css('display','inline');
             $.ajax({
                 type: 'GET',
@@ -398,5 +418,6 @@
 
             });
         }
+
 </script>
 </html>

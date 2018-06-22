@@ -38,7 +38,8 @@ class Authenticate {
 		if ($this->auth->guest())
 		{
 
-            $p=parametres::where('nom','=','configuration')->first();
+            $p=parametres::all();
+            $p->where('nom','configuration',false)->first();
             if($p==null){
                 return redirect()->to('/start');
             }
