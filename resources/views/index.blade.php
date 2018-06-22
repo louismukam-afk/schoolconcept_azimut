@@ -26,9 +26,19 @@
 
    <!-- <script src="{{ URL::asset('js/datatables/datatables.min.js')  }}"></script> -->
 
-
+<script>
+    function startLoading() {
+        $('.loading-back').css('display','inline');
+        $('.loading_icon').css('display','inline');
+    }
+    function stopLoading() {
+        $('.loading-back').css('display','none');
+        $('.loading_icon').css('display','none');
+    }
+</script>
 </head>
 <body>
+<div class="loading-back">  </div>
 <div class="col-md-12" >
     <img class="back-button" src="{{URL::asset('img/back_button.png')}}" onclick="history.back()" width="50px" height="50px">
 </div>
@@ -39,7 +49,8 @@ if(session('nom_etab')==null){
     session(['nom_etab'=>$nom_etab->valeur]);
 }
 ?>
-<div class="loading_icon" style="
+
+    <div class="loading_icon" style="
     position: fixed;
     Left: calc(50% - 37.5px);
     top: calc(50% - 37.5px);
@@ -48,8 +59,9 @@ if(session('nom_etab')==null){
      height: 75px;
      display: none;
 ">
-    <img src="{{URL::asset('img/loading.gif')}}" alt="" style="width: inherit;height: inherit">
-</div>
+        <img src="{{URL::asset('img/loading.gif')}}" alt="" style="width: inherit;height: inherit">
+    </div>
+
     <div id="wrapper">
          <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="adjust-nav">
@@ -387,7 +399,7 @@ if(session('nom_etab')==null){
     }
 
       function getNniveau(cycle) {
-             $('#nniveau').empty()
+             $('#nniveau').empty();
             $('.loading_icon').css('display','inline');
             $.ajax({
                 type: 'GET',
@@ -406,5 +418,6 @@ if(session('nom_etab')==null){
 
             });
         }
+
 </script>
 </html>

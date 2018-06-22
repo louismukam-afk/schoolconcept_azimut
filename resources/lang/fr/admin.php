@@ -260,7 +260,7 @@ return [
     "nniveau"=>"Niveau",
     "titre_nniveau"=>"Liste des niveaux",
     "nouveau_nniveau"=>"Ajouter un niveau",
-    ""=>"",
+    "add_photo_to"=>"Ajouter les photos des",
     ""=>"",
     ""=>"",
     ""=>"",

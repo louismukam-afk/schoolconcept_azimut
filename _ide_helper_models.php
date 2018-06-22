@@ -74,6 +74,8 @@ namespace gesecole{
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereSemestre($value)
  * @property int $type
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereType($value)
+ * @property int $id_nniveau
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\classeMatiere whereIdNniveau($value)
  */
 	class classeMatiere extends \Eloquent {}
 }
@@ -184,6 +186,8 @@ namespace gesecole{
  * @property int $id_horaire
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\dispense whereIdHoraire($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\dispense whereJour($value)
+ * @property int $id_nniveau
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\dispense whereIdNniveau($value)
  */
 	class dispense extends \Eloquent {}
 }
@@ -301,6 +305,7 @@ namespace gesecole{
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\groupeMatieres whereIdClasseMatiere($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\groupeMatieres whereIdMatiereMere($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\groupeMatieres whereSemestre($value)
+ * @mixin \Eloquent
  */
 	class groupeMatieres extends \Eloquent {}
 }
@@ -362,6 +367,8 @@ namespace gesecole{
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\inscription whereMontant($value)
  * @property-read \gesecole\classe $classe
  * @property-read \gesecole\eleve $eleve
+ * @property int $id_nniveau
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\inscription whereIdNniveau($value)
  */
 	class inscription extends \Eloquent {}
 }
@@ -470,6 +477,21 @@ namespace gesecole{
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\niveau whereNomAnglais($value)
  */
 	class niveau extends \Eloquent {}
+}
+
+namespace gesecole{
+/**
+ * gesecole\NNiveau
+ *
+ * @mixin \Eloquent
+ * @property int $id
+ * @property string $nom
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\NNiveau whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\NNiveau whereNom($value)
+ * @property int $id_cycle
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\NNiveau whereIdCycle($value)
+ */
+	class NNiveau extends \Eloquent {}
 }
 
 namespace gesecole{
@@ -651,6 +673,15 @@ namespace gesecole{
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\personnel whereNationalite($value)
  */
 	class personnel extends \Eloquent {}
+}
+
+namespace gesecole{
+/**
+ * gesecole\Photo
+ *
+ * @mixin \Eloquent
+ */
+	class Photo extends \Eloquent {}
 }
 
 namespace gesecole{

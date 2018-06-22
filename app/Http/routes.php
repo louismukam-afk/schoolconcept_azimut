@@ -145,6 +145,9 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/inscriptions/listes/show/','inscriptions\listesController@show');
         Route::get('/inscriptions/print-certificate/{id}','inscriptions\inscriptionController@certificate');
         Route::get('/inscriptions/remove/{id_eleve}','inscriptions\inscriptionController@destroy');
+        Route::any('/inscriptions/photos/','inscriptions\photosController@create');
+        Route::any('/inscriptions/photos/store',['as'=>'store_photo','uses'=>'inscriptions\photosController@store']);
+
 
 
     });
@@ -266,6 +269,7 @@ Route::group(['middleware'=>'auth'],function (){
 
     Route::get('/search/personnel', 'searchController@personnel');
     Route::get('/search/eleve', 'searchController@eleve');
+    Route::any('/select/classe', 'searchController@select_classe');
 
     //Pour la langue
     Route::any('/language/french', 'WelcomeController@fr_locale');

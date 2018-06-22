@@ -1,8 +1,12 @@
 <?php namespace gesecole\Http\Controllers;
 
+use gesecole\classe;
+use gesecole\cycle;
 use gesecole\decaissement;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
+use gesecole\niveau;
+use gesecole\NNiveau;
 use gesecole\personnel;
 use Illuminate\Support\Facades\DB;
 use gesecole\parametres;
@@ -98,9 +102,26 @@ class searchController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function store()
+	public function select_classe(Request $request)
 	{
-		//
+	    $url=$request->input('url');
+        $titre=trans('admin.selectionner_classe');
+        $m=classe::orderBy('nom')->get();
+        $cy=cycle::all();
+        $n=niveau::all();
+        $nn=NNiveau::all();
+        $values= array('titre'=>$titre,'classes'=>$m);
+        $values['cycles']=$cy;
+        $values['niveaux']=$n;
+        $values['nniveaux']=$nn;
+        $values['url']=$url;
+
+        if(session('success')){
+            Session::forget('success');
+            $values['success']=true;
+
+        }
+        return view('inscriptions/selection_classe',$values);
 	}
 
 	/**

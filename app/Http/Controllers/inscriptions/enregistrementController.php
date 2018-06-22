@@ -4,11 +4,13 @@ use gesecole\eleve;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
 use gesecole\parametres;
+use gesecole\Photo;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Session;
 use gesecole\parents;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Validator;
+use Intervention\Image\Facades\Image;
 
 class enregistrementController extends Controller {
 
@@ -89,12 +91,14 @@ class enregistrementController extends Controller {
             'sexe'=>'required',
             'nationalite'=>'required',
             'quartier'=>'required',
+            'photo'=>'image',
 
         ]);
         $e=new eleve();
         $p0=new parents();
         $p1=new parents();
         $p2=new parents();
+
         //élève
 
         $e->nom=$req->input('nom');
@@ -153,6 +157,7 @@ class enregistrementController extends Controller {
         }
         else{
 
+
                 $e->save();
                 if ($p0->nom != null) {
                     $p0->id_eleve = $e->id;
@@ -166,6 +171,19 @@ class enregistrementController extends Controller {
                     $p2->id_eleve = $e->id;
                     $p2->save();
                 }
+            $photo=$req->file('photo');
+            if($photo!=null){
+
+
+                Image::make($photo->getRealPath())->encode('png')->save('img/photos/'.$e->id.'-'.session('year').'.png');
+                $ph=new Photo();
+                $ph->eleve_id=$e->id;
+                $ph->annee_scolaire=\session('year');
+                $ph->url='img/photos/'.$e->id.'-'.session('year').'.png';
+                $ph->save();
+
+
+            }
 
 
                 session(['success' => $e->id]);
@@ -199,7 +217,13 @@ class enregistrementController extends Controller {
 	{
 		$e=eleve::find($id);
 		$p=$e->parents;
-        $values= array('titre'=>trans('inscription.edit_eleve'),'eleve'=>$e);
+		$photo=Photo::whereEleveId($id)->where('annee_scolaire','=',session('year'))->first();
+        $values= array('titre'=>trans('inscription.edit_eleve'));
+        if($photo!=null)
+        {
+            $pUrl=$photo->url;
+            $values['photoUrl']=$pUrl;
+        }
         $values['eleve']=$e;
         $values['parents']=$p;
 
@@ -224,6 +248,7 @@ class enregistrementController extends Controller {
         'sexe'=>'required',
         'nationalite'=>'required',
         'quartier'=>'required',
+        'photo'=>'image',
 
     ]);
         $e=eleve::find($id);
@@ -251,6 +276,18 @@ class enregistrementController extends Controller {
         $e->autre_langue=$req->input('autre_langue');
         $e->profession=$req->input('profession');
         $e->save();
+
+        $photo=$req->file('photo');
+        if($photo!=null){
+
+
+            Image::make($photo->getRealPath())->encode('png')->save('img/photos/'.$e->id.'-'.session('year').'.png');
+            $ph=Photo::firstOrNew(['eleve_id'=>$id,'annee_scolaire'=>\session('year')]);
+            $ph->url='img/photos/'.$e->id.'-'.session('year').'.png';
+            $ph->save();
+
+
+        }
         session(['success'=>true]);
         return redirect()->action('inscriptions\enregistrementController@edit',[$id]) ;
 	}
