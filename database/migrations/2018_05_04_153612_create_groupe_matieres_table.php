@@ -18,6 +18,7 @@ class CreateGroupeMatieresTable extends Migration {
 			$table->integer('id_classe_matiere');
 			$table->integer('id_matiere_mere');
 			$table->integer('id_classe');
+			$table->integer('id_nniveau');
 			$table->integer('semestre');
 		});
 	}

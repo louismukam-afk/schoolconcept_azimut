@@ -1,5 +1,6 @@
 <?php namespace gesecole\Http\Controllers\comptabilite;
 
+use Carbon\Carbon;
 use gesecole\decaissement;
 use gesecole\eleve;
 use gesecole\Http\Requests;
@@ -45,6 +46,8 @@ class bilanComptaController extends Controller {
            'date_debut'=>'date',
             'date_fin'=>'date',
         ]);
+        $tt=trans('admin.toute_lannee');
+        $option=$request->input('option');
         $titre=trans('admin.bilan_entrees');
 
         $date_debut=$request->input('date_debut');
@@ -55,25 +58,52 @@ class bilanComptaController extends Controller {
                 ->where('date_payement','>=',(new \DateTime($date_debut))->format('Y-m-d'))
                 ->where('date_payement','<=',(new \DateTime($date_fin))->format('Y-m-d'))
                 ->orderBy('date_payement','desc')
-                ->paginate(30);
-            $p2=payement::whereAnneeScolaire(\session('year'))
-                ->where('date_payement','>=',(new \DateTime($date_debut))->format('Y-m-d'))
-                ->where('date_payement','<=',(new \DateTime($date_fin))->format('Y-m-d'))
                 ->get();
 
 
+
         }else{
-            $p=payement::whereAnneeScolaire(\session('year'))->orderBy('date_payement','desc')->paginate(30);
-            $p2=payement::whereAnneeScolaire(\session('year'))->get();
+            if($option=='month')
+            {
+                $tt=trans('admin.mois');
+
+                $dd=date('Y-m-01');
+                $df=date('Y-m-t');
+
+                $p=payement::whereAnneeScolaire(\session('year'))
+                    ->where('date_payement','>=',(new \DateTime($dd))->format('Y-m-d'))
+                    ->where('date_payement','<=',(new \DateTime($df))->format('Y-m-d'))
+                    ->orderBy('date_payement','desc')
+                    ->get();
+
+
+            }
+            elseif ($option=='week'){
+                $tt=trans('admin.semaine');
+
+                $monday = Carbon::now()->startOfWeek()->toDateString();
+                $sunday = Carbon::now()->endOfWeek()->toDateString();
+                $p=payement::whereAnneeScolaire(\session('year'))
+                    ->where('date_payement','>=',(new \DateTime($monday))->format('Y-m-d'))
+                    ->where('date_payement','<=',(new \DateTime($sunday))->format('Y-m-d'))
+                    ->orderBy('date_payement','desc')
+                    ->get();
+
+            }
+            else{
+                $tt=trans('admin.toute_lannee');
+                $p=payement::whereAnneeScolaire(\session('year'))->orderBy('date_payement','desc')->get();
+            }
+
         }
 
 
 
         $total=0;
-        foreach ($p2 as $pay){
+        foreach ($p as $pay){
             $total+=$pay->montant;
         }
-        $values= array('titre'=>$titre,'payements'=>$p,'total'=>$total);
+        $values= array('titre'=>$titre,'payements'=>$p,'total'=>$total,'table_titre'=>$tt);
         if($date_debut!=null && $date_fin!=null)
         {
             $values['date_debut']=$date_debut;
@@ -90,70 +120,103 @@ class bilanComptaController extends Controller {
 
     public function indexSorties(Request $request)
     {
-        $this->validate($request,[
-            'date_debut'=>'date',
-            'date_fin'=>'date',
+        $this->validate($request, [
+            'date_debut' => 'date',
+            'date_fin' => 'date',
         ]);
-        $titre=trans('admin.bilan_sorties');
 
-        $date_debut=$request->input('date_debut');
-        $date_fin=$request->input('date_fin');
+        $titre = trans('admin.bilan_sorties');
 
-        if($date_debut!=null && $date_fin!=null){
-            $p=payement_salaire::whereAnneeScolaire(\session('year'))
-                ->where('date_p','>=',(new \DateTime($date_debut))->format('Y-m-d'))
-                ->where('date_p','<=',(new \DateTime($date_fin))->format('Y-m-d'))
-                ->orderBy('date_p','desc')
-                ->paginate(30);
-            $p2=payement_salaire::whereAnneeScolaire(\session('year'))
-                ->where('date_p','>=',(new \DateTime($date_debut))->format('Y-m-d'))
-                ->where('date_p','<=',(new \DateTime($date_fin))->format('Y-m-d'))
-                ->get();
+        $tt = trans('admin.toute_lannee');
+        $option = $request->input('option');
+        $date_debut = $request->input('date_debut');
+        $date_fin = $request->input('date_fin');
 
-            $d=decaissement::whereAnneeScolaire(\session('year'))
-                ->where('date','>=',(new \DateTime($date_debut))->format('Y-m-d'))
-                ->where('date','<=',(new \DateTime($date_fin))->format('Y-m-d'))
-                ->orderBy('date','desc')
-                ->paginate(30);
-            $d2=decaissement::whereAnneeScolaire(\session('year'))
-                ->where('date','>=',(new \DateTime($date_debut))->format('Y-m-d'))
-                ->where('date','<=',(new \DateTime($date_fin))->format('Y-m-d'))
+        if ($date_debut != null && $date_fin != null) {
+            $p = payement_salaire::whereAnneeScolaire(\session('year'))
+                ->where('date_p', '>=', (new \DateTime($date_debut))->format('Y-m-d'))
+                ->where('date_p', '<=', (new \DateTime($date_fin))->format('Y-m-d'))
+                ->orderBy('date_p', 'desc')
                 ->get();
 
 
-        }else{
-            $p=payement_salaire::whereAnneeScolaire(\session('year'))->orderBy('date_p','desc')->paginate(30);
-            $p2=payement_salaire::whereAnneeScolaire(\session('year'))->get();
+            $d = decaissement::whereAnneeScolaire(\session('year'))
+                ->where('date', '>=', (new \DateTime($date_debut))->format('Y-m-d'))
+                ->where('date', '<=', (new \DateTime($date_fin))->format('Y-m-d'))
+                ->orderBy('date', 'desc')
+                ->get();
 
-            $d=decaissement::whereAnneeScolaire(\session('year'))->orderBy('date','desc')->paginate(30);
-            $d2=decaissement::whereAnneeScolaire(\session('year'))->get();
+
+        } else {
+            if ($option == 'month') {
+                $tt = trans('admin.mois');
+
+                $dd = date('Y-m-01');
+                $df = date('Y-m-t');
+
+                $p = payement_salaire::whereAnneeScolaire(\session('year'))
+                    ->where('date_p', '>=', (new \DateTime($dd))->format('Y-m-d'))
+                    ->where('date_p', '<=', (new \DateTime($df))->format('Y-m-d'))
+                    ->orderBy('date_p', 'desc')
+                    ->get();
+                $d = decaissement::whereAnneeScolaire(\session('year'))
+                    ->where('date', '>=', (new \DateTime($dd))->format('Y-m-d'))
+                    ->where('date', '<=', (new \DateTime($df))->format('Y-m-d'))
+                    ->orderBy('date', 'desc')
+                    ->get();
+
+
+            } elseif ($option == 'week') {
+                $tt = trans('admin.semaine');
+
+                $monday = Carbon::now()->startOfWeek()->toDateString();
+                $sunday = Carbon::now()->endOfWeek()->toDateString();
+                $p = payement_salaire::whereAnneeScolaire(\session('year'))
+                    ->where('date_p', '>=', (new \DateTime($monday))->format('Y-m-d'))
+                    ->where('date_p', '<=', (new \DateTime($sunday))->format('Y-m-d'))
+                    ->orderBy('date_p', 'desc')
+                    ->get();
+
+                $d = decaissement::whereAnneeScolaire(\session('year'))
+                    ->where('date', '>=', (new \DateTime($monday))->format('Y-m-d'))
+                    ->where('date', '<=', (new \DateTime($sunday))->format('Y-m-d'))
+                    ->orderBy('date', 'desc')
+                    ->get();
+
+            } else {
+                $tt = trans('admin.toute_lannee');
+                $p = payement_salaire::whereAnneeScolaire(\session('year'))->orderBy('date_p', 'desc')->get();
+
+                $d = decaissement::whereAnneeScolaire(\session('year'))->orderBy('date', 'desc')->get();
+
+
+            }
         }
 
 
-
-        $total_p=0;
-        foreach ($p2 as $pay){
-            $total_p+=$pay->net_a_payer;
-        }
-        $total_d=0;
-        foreach ($d2 as $pay){
-            $total_d+=$pay->montant;
-        }
-        $pers=personnel::all();
-        $values= array('titre'=>$titre,'payements'=>$p,'total'=>$total_p,'total_d'=>$total_d,'decaissements'=>$d,'personnels'=>$pers);
-        if($date_debut!=null && $date_fin!=null)
-        {
-            $values['date_debut']=$date_debut;
-            $values['date_fin']=$date_fin;
-        }
-        if(session('success')){
-            $values['success']=true;
-            Session::forget('success');
-        }
+            $total_p = 0;
+            foreach ($p as $pay) {
+                $total_p += $pay->net_a_payer;
+            }
+            $total_d = 0;
+            foreach ($d as $pay) {
+                $total_d += $pay->montant;
+            }
+            $pers = personnel::all();
+            $values = array('titre' => $titre, 'payements' => $p, 'total' => $total_p, 'total_d' => $total_d, 'decaissements' => $d, 'personnels' => $pers, 'table_titre' => $tt);
+            if ($date_debut != null && $date_fin != null) {
+                $values['date_debut'] = $date_debut;
+                $values['date_fin'] = $date_fin;
+            }
+            if (session('success')) {
+                $values['success'] = true;
+                Session::forget('success');
+            }
 
 
-        return view('comptabilite/bilanSorties',$values);
-    }
+            return view('comptabilite/bilanSorties', $values);
+        }
+
 
 	/**
 	 * Show the form for creating a new resource.

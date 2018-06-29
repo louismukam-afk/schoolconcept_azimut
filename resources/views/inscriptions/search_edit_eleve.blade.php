@@ -39,7 +39,7 @@
 
         <div>
             @if(session('search_result'))
-                <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 15px;">
+                <table class="table  table-striped table-condensed table-inverse" style="margin-top: 15px;">
                     <thead>
                     <caption style="font-size: 22px">{{  trans('inscription.search_result')  }}</caption>
                     <th>#</th>
@@ -48,6 +48,7 @@
                     <th>{{  trans('inscription.date_naiss')  }}</th>
                     <th>{{  trans('inscription.lieu_naiss')  }}</th>
                     <th>{{  trans('inscription.sexe')  }}</th>
+                    <th></th>
 
                     </thead>
                     <tbody>

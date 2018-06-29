@@ -129,7 +129,7 @@ class relevesController extends Controller {
             ->get();
 
             $k=0;
-            $gm=groupeMatieres::whereIdClasse($id)->get();
+            $gm=groupeMatieres::whereIdClasse($id)->where('id_nniveau','=',$nniveau)->get();
             $m_cps=$gm->fetch('id_matiere_mere')->toArray();
 
             $calc=$gm->fetch('id_classe_matiere')->toArray();

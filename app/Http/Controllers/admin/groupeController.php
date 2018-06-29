@@ -5,6 +5,7 @@ use gesecole\classeMatiere;
 use gesecole\groupeMatieres;
 use gesecole\Http\Controllers\Controller;
 use gesecole\matiere;
+use gesecole\NNiveau;
 use gesecole\parametres;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -49,14 +50,16 @@ class groupeController extends Controller {
     public function create($id)
     {
         $cm=classeMatiere::find($id);
+        $nniveau=$cm->id_nniveau;
         $m=$cm->id_matiere;
         $c=classe::find($cm->id_classe);
+        $nn=NNiveau::find($nniveau);
         $cycle= $cm->id_cycle;
-        $titre=trans('admin.gestion_groupe').' : '.((session('locale')=='en')?$c->nom_anglais:$c->nom);
+        $titre=trans('admin.gestion_groupe').' : '.((session('locale')=='en')?$c->nom_anglais:$c->nom).' - '.$nn->nom;
 
         //AND cm.id IN (SELECT id_classe_matiere FROM groupe_matieres)
-        $g=DB::select('SELECT  cm.id,cm.id_matiere,cm.id_classe,cm.type,cm.id_cycle,m.nom_anglais,m.nom as nom_matiere, g.id AS id_groupe,g.semestre FROM classe_matiere cm, matiere m ,classe c,groupe_matieres g WHERE cm.id_classe=c.id And c.id=? AND cm.id_matiere=m.id   AND cm.id_cycle =? AND g.id_classe_matiere=cm.id AND g.id_matiere_mere=? ',[$cm->id_classe,$cycle,$m]);
-        $p=DB::select('SELECT cm.id,cm.id_matiere,cm.type,cm.id_cycle,cm.semestre,m.nom_anglais,m.nom as nom_matiere,coef,max FROM classe_matiere cm, matiere m ,classe c WHERE cm.id_classe=c.id AND cm.id_matiere=m.id And c.id=?  AND cm.id_cycle=? AND cm.id <> ? AND cm.id NOT IN (SELECT id_classe_matiere FROM groupe_matieres)',[$cm->id_classe,$cycle,$id]);
+        $g=DB::select('SELECT  cm.id,cm.id_matiere,cm.id_classe,cm.type,cm.id_cycle,m.nom_anglais,m.nom as nom_matiere, g.id AS id_groupe,g.semestre FROM classe_matiere cm, matiere m ,classe c,groupe_matieres g WHERE cm.id_classe=c.id And c.id=? AND cm.id_matiere=m.id   AND cm.id_cycle =? AND g.id_classe_matiere=cm.id AND g.id_matiere_mere=? AND cm.id_nniveau=? ',[$cm->id_classe,$cycle,$m,$nniveau]);
+        $p=DB::select('SELECT cm.id,cm.id_matiere,cm.type,cm.id_cycle,cm.semestre,m.nom_anglais,m.nom as nom_matiere,coef,max FROM classe_matiere cm, matiere m ,classe c WHERE cm.id_classe=c.id AND cm.id_matiere=m.id AND cm.id_nniveau=? And c.id=?  AND cm.id_cycle=? AND cm.id <> ? AND cm.id NOT IN (SELECT id_classe_matiere FROM groupe_matieres)',[$nniveau,$cm->id_classe,$cycle,$id]);
 
         $values= array('titre'=>$titre);
         $values['groupes']=$g;
@@ -95,6 +98,7 @@ class groupeController extends Controller {
             $gm->id_classe_matiere=$mat;
             $gm->id_matiere_mere=$cm->id_matiere;
             $gm->id_classe=$cm->id_classe;
+            $gm->id_nniveau=$cm->id_nniveau;
             $gm->semestre=$semestreList[$i];
             $gm->save();
 

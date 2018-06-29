@@ -20,9 +20,22 @@
     =============================================*/
 
 
-.wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.navbar,.navbar-header,.modal,.copy,.back-button,.copy
+.wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.navbar,.navbar-header,.modal,.copy,.back-button,.copy,.dt-buttons,.dataTables_filter,.dataTables_info,.dataTables_paginate
 {
     display: none;
+}
+table.dataTable thead th,table.dataTable tbody tr,.table.dataTable tbody tr td
+{
+    padding: 2px;
+    padding-top: 0;
+    padding-bottom: 0;
+
+    height: 12px;
+}
+
+table.dataTable thead .classe
+{
+    width: 50px;
 }
 
 .caption
@@ -42,6 +55,7 @@
     height: 12px;
 
 }
+
 .copy
 {
     font-size: 10px;

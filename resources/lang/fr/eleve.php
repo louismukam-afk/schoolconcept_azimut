@@ -1,6 +1,6 @@
 <?php
 return [
-    'big_title'=>'Gestion des élèves et des notes',
+    'big_title'=>'Gestion des étudiants et des notes',
     'titre_discipline'=>'Discipline',
     'sequence'=>'Session',
     'retard'=>'Retards',
@@ -17,7 +17,7 @@ return [
     'choix_seq'=>'Choisir la Session',
     'choix_mat'=>'Choisir la matière',
     'gerer_notes'=>'Gérer les notes de',
-    'none'=>'Aucun élève dans cette spécialité',
+    'none'=>'Aucun étudiant dans cette spécialité',
     'bulletins'=>'Bulletins',
     'mode'=>'Choisir le mode',
     'trimestre'=>'Trimestre',

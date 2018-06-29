@@ -121,25 +121,32 @@ namespace gesecole{
 /**
  * gesecole\discipline
  *
- * @mixin \Eloquent
  * @property int $id
  * @property int $id_eleve
+ * @property int $id_personnel
  * @property string $annee_scolaire
+ * @property int $sequence
+ * @property int $type
+ * @property int $nb_heures
+ * @property int $just
  * @property int $retard
- * @property int $avertissement
- * @property int $blame
+ * @property int $nb_jours
+ * @property int $exclus_def
+ * @property string $description
+ * @property string $ddate
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\discipline whereAnneeScolaire($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\discipline whereAvertissement($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\discipline whereBlame($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\discipline whereDdate($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\discipline whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\discipline whereExclusDef($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\discipline whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\discipline whereIdEleve($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\discipline whereIdPersonnel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\discipline whereJust($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\discipline whereNbHeures($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\discipline whereNbJours($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\discipline whereRetard($value)
- * @property int $abscence_just
- * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\discipline whereAbscenceJust($value)
- * @property int $abscence_inj
- * @property int $exclusion
- * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\discipline whereAbscenceInj($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\discipline whereExclusion($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\discipline whereSequence($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\discipline whereType($value)
  */
 	class discipline extends \Eloquent {}
 }
@@ -306,6 +313,8 @@ namespace gesecole{
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\groupeMatieres whereIdMatiereMere($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\groupeMatieres whereSemestre($value)
  * @mixin \Eloquent
+ * @property int $id_nniveau
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\groupeMatieres whereIdNniveau($value)
  */
 	class groupeMatieres extends \Eloquent {}
 }
@@ -680,6 +689,18 @@ namespace gesecole{
  * gesecole\Photo
  *
  * @mixin \Eloquent
+ * @property int $id
+ * @property int $eleve_id
+ * @property string $annee_scolaire
+ * @property string $url
+ * @property \Carbon\Carbon $updated_at
+ * @property \Carbon\Carbon $created_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\Photo whereAnneeScolaire($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\Photo whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\Photo whereEleveId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\Photo whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\Photo whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\Photo whereUrl($value)
  */
 	class Photo extends \Eloquent {}
 }

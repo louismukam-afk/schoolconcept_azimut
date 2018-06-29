@@ -14,15 +14,22 @@
 
             <div class="col-md-12">
                 <div class="col-md-8">
-                    <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 15px;">
-                        <caption><h4>
-                                @if(isset($date_debut))
-                                    <strong>{{trans('admin.salaire').' : '}}</strong>{{$date_debut.' - '.$date_fin}}
-                                @else
-                                    <strong>{{trans('admin.salaire').' : ' }}</strong> @lang('admin.toute_lannee')
-                                @endif
+                    <div class="btn-group" >
+                        <a href="{{url('/comptabilite/bilan/sorties').'?option=year'}}" class="btn btn-success"> @lang('admin.toute_lannee')</a>
+                        <a href="{{url('/comptabilite/bilan/sorties').'?option=month'}}" class="btn btn-info"> @lang('admin.mois')</a>
+                        <a href="{{url('/comptabilite/bilan/sorties').'?option=week'}}" class="btn btn-warning"> @lang('admin.semaine')</a>
 
-                            </h4></caption>
+                    </div>
+                    <h4 style="margin-top: 15px;">
+                        @if(isset($date_debut))
+                            <strong>{{trans('admin.salaire').' : '}}</strong>{{$date_debut.' - '.$date_fin}}
+                        @else
+                            <strong>{{trans('admin.salaire').' : ' }}</strong> {{$table_titre}}
+                        @endif
+
+                    </h4>
+
+                    <table id="table-salaire" class="table table-bordered table-striped table-condensed table-inverse" >
                         <thead>
                         <th>#</th>
                         <th>@lang('admin.personnel')</th>
@@ -46,13 +53,11 @@
                                 <td><strong >@lang('admin.salaire')</strong></td>
                                 <td>{{(new DateTime($p->date_p))->format('d-m-Y')}}</td>
                                 <td>{{$p->net_a_payer}}</td>
-                                <td>                        </td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
 
-                    <div class="paginate" style="text-align: center;"> <?php echo(str_replace('/?', '?', $payements->render()) ); ?></div>
 
                     <h4 class="alert alert-warning">
                         Total : <strong>{{$total.' '.trans('inscription.devise')}} </strong>
@@ -71,12 +76,12 @@
 
                                     <div class="form-group ">
                                         <label for="date_debut">{{  trans('admin.date_debut')  }} : </label>
-                                        <input placeholder="jj-mm-aaaa" class="form-control" id="date_debut" name="date_debut" type="text"  value="{{ old('date_debut') }}" required>
+                                        <input placeholder="jj-mm-aaaa" class="form-control" id="date_debut" name="date_debut" type="date"  value="{{ old('date_debut') }}" required>
 
                                     </div>
                                     <div class="form-group">
                                         <label for="date_fin">{{  trans('admin.date_fin')  }} : </label>
-                                        <input placeholder="jj-mm-aaaa" class="form-control" id="date_fin" name="date_fin" type="text"  value="{{ old('date_fin') }}" required >
+                                        <input placeholder="jj-mm-aaaa" class="form-control" id="date_fin" name="date_fin" type="date"  value="{{ old('date_fin') }}" required >
 
                                     </div>
                                     <input class="btn  btn-primary pull-right " type="submit" value="{{  trans('admin.confirmer')  }}">
@@ -90,15 +95,16 @@
 
 
                 <div class="col-md-8">
-                    <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 15px;">
-                        <caption><h4>
-                                @if(isset($date_debut))
-                                    <strong>{{trans('admin.facture').' : '}}</strong>{{$date_debut.' - '.$date_fin}}
-                                @else
-                                    <strong>{{trans('admin.facture').' : ' }}</strong> @lang('admin.toute_lannee')
-                                @endif
+                    <h4 style="margin-top: 15px;">
+                        @if(isset($date_debut))
+                            <strong>{{trans('admin.facture').' : '}}</strong>{{$date_debut.' - '.$date_fin}}
+                        @else
+                            <strong>{{trans('admin.facture').' : ' }}</strong>{{$table_titre}}
 
-                            </h4></caption>
+                        @endif
+
+                    </h4>
+                    <table id="table-decaissement" class="table table-bordered table-striped table-condensed table-inverse" >
                         <thead>
                         <th>#</th>
                         <th>@lang('admin.personnel')</th>
@@ -122,13 +128,11 @@
                                 <td><strong >{{$p->motif}}</strong></td>
                                 <td>{{(new DateTime($p->date))->format('d-m-Y')}}</td>
                                 <td>{{$p->montant}}</td>
-                                <td>                        </td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
 
-                    <div class="paginate" style="text-align: center;"> <?php echo(str_replace('/?', '?', $decaissements->render()) ); ?></div>
 
                     <h4 class="alert alert-warning">
                         Total : <strong>{{$total_d.' '.trans('inscription.devise')}} </strong>
@@ -150,9 +154,82 @@
 
 
     <script>
+        $('#table-salaire').dataTable( {
+            dom: 'Bfrtip',
+            buttons: [
+                //'copy', 'csv', 'excel', 'pdf', 'print'
+                {
+                    extend: 'excelHtml5',
+                    text: '<i class="fa fa-file-excel-o"></i> Excel',
+                    titleAttr: 'Export to Excel',
+                    title: 'Bilan entrées {{$table_titre}}',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    }
+                }
+                ,
+                {
+                    extend: 'pdfHtml5',
+                    text: '<i class="fa fa-file-pdf-o"></i> PDF',
+                    titleAttr: 'PDF',
+                    title: 'Bilan entrées {{$table_titre}}',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    }
+                }
+                ,
+                {
+                    extend: 'print',
+                    text: '<i class="fa fa-print"></i> @lang("inscription.imprimer")',
+                    titleAttr: 'Imprimer',
+                    title: 'Bilan entrées {{$table_titre}}',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    }
+                }
+            ]
+        } );
+
+        $('#table-decaissement').dataTable( {
+            dom: 'Bfrtip',
+            buttons: [
+                //'copy', 'csv', 'excel', 'pdf', 'print'
+                {
+                    extend: 'excelHtml5',
+                    text: '<i class="fa fa-file-excel-o"></i> Excel',
+                    titleAttr: 'Export to Excel',
+                    title: 'Bilan entrées {{$table_titre}}',
+                    exportOptions: {
+                        columns: 'visible'
+                    }
+                }
+                ,
+                {
+                    extend: 'pdfHtml5',
+                    text: '<i class="fa fa-file-pdf-o"></i> PDF',
+                    titleAttr: 'PDF',
+                    title: 'Bilan entrées {{$table_titre}}',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    }
+                }
+                ,
+                {
+                    extend: 'print',
+                    text: '<i class="fa fa-print"></i> @lang("inscription.imprimer")',
+                    titleAttr: 'Imprimer',
+                    title: 'Bilan entrées {{$table_titre}}',
+                    exportOptions: {
+                        columns: 'visible'
+                    }
+                }
+            ]
+        } );
         $(function () {
-            $('#date_debut').datepicker({ dateFormat: 'dd-mm-yy' });
-            $('#date_fin').datepicker({ dateFormat: 'dd-mm-yy' });
+
+
+           // $('#date_debut').datepicker({ dateFormat: 'dd-mm-yy' });
+           // $('#date_fin').datepicker({ dateFormat: 'dd-mm-yy' });
         })
     </script>
     @endsection

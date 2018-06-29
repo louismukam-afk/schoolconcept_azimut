@@ -1,5 +1,6 @@
 <?php namespace gesecole\Http\Controllers\personnel;
 
+use gesecole\discipline;
 use gesecole\discipline_personnel;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
@@ -8,6 +9,7 @@ use gesecole\personnel;
 use gesecole\titulaire;
 use Illuminate\Http\Request;
 use gesecole\parametres;
+use Illuminate\Support\Facades\Session;
 
 class disciplineController extends Controller {
 
@@ -49,107 +51,195 @@ class disciplineController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function create()
-	{
-		//
-	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store(Request $request)
-	{
-        $this->validate($request,[
-           'id_personnel'=>'required',
-            'type'=>'required|min:0|max:1',
-        ]);
 
-        $dp=new discipline_personnel();
-        $dp->annee_scolaire=session('year');
-        $dp->nombre=$request->input('nombre');
-        $dp->heure_arrive=$request->input('heure_arrive');
-        $dp->date_d=date('Y-m-d');
-        $dp->id_personnel=$request->input('id_personnel');
-        $dp->type=$request->input('type');
-        $dp->save();
 
-        session(['success'=>true]);
-        return redirect()->action('personnel\disciplineController@show',['id'=>$request->input('id_personnel')]);
-	}
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show(Request $request,$id)
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create($id)
     {
-        $option = $request->input('option');
-        $p = personnel::find($id);
-        $titre = trans('admin.titre_discipline_personnel') . ' ' . $p->nom;
-        if ($option == 0){
-            $a = discipline_personnel::whereType(0)
-                ->where('id_personnel','=',$id)
-                ->paginate(30);
-            $r = discipline_personnel::whereType(1)
-                ->where('id_personnel','=',$id)
-                ->paginate(30);
-        }
-        else{
-            $a = discipline_personnel::whereType(0)
-                ->where('id_personnel','=',$id)
-                ->paginate(30);
-            $r = discipline_personnel::whereType(1)
-                ->where('id_personnel','=',$id)
-                ->paginate(30);
-        }
-        $values['titre']=$titre;
-        $values['abscences']=$a;
-        $values['retards']=$r;
-        $values['personnel']=$p;
+        $e=personnel::find($id);
+        $values= array('titre'=>trans('eleve.titre_discipline'));
+        $values['pers']=$e;
 
-        return view('personnel/abscences_retards',$values);
+        $d=discipline::whereAnneeScolaire(session('year'))->where('id_personnel','=',$id)->get();
+        $abscence_inj=$d->where('type',0,false)
+            ->where('just','0',false)
+            ->sum('nb_heures');
+        $abscence_just=$d->where('type',0,false)
+            ->where('just','1',false)
+            ->sum('nb_heures');
+        $retard=$d->where('type',1,false)
+            ->count();
+        $avertissement=$d->where('type',3,false)
+            ->count();
+        $blame=$d->where('type',4,false)
+            ->count();
+        $exclusion=$d->where('type',2,false)
+            ->sum('nb_jours');
+        $exclu_def=$d->where('type',5,false)
+            ->first();
+        $values['abscence_just']=$abscence_just;
+        $values['abscence_inj']=$abscence_inj;
+        $values['retard']=$retard;
+        $values['avertissement']=$avertissement;
+        $values['blame']=$blame;
+        $values['exclusion']=$exclusion;
+        if($exclu_def!=null)
+            $values['exclus_def']=$exclu_def;
 
+
+
+
+
+
+
+        if(session('success')){
+            $values['success']=session('success');
+            Session::forget('success');
+        }
+
+        /*
+        $d=discipline::whereAnneeScolaire(session('year'))->where('id_eleve','=',$id)->first();
+        if($d==null){
+            $d=new discipline();
+            $d->id_eleve=$id;
+            $d->annee_scolaire=session('year');
+            $d->save();
+        }
+        $values['discipline']=$d;
+
+
+        */
+
+        return view('personnel/discipline',$values);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @return Response
+     */
+    public function store()
+    {
 
     }
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function show(Request $request,$id)
+    {
+        $type=$request->input('type');
+        $just=$request->input('just');
+        $e=personnel::find($id);
+        $d=null;
+        if($type==0) {
+            $d = discipline::whereAnneeScolaire(session('year'))
+                ->where('id_personnel', '=', $id)
+                ->where('type', '=', $type)
+                ->where('just', '=', $just)
+                ->orderBy('ddate','desc')
+                ->get();
+        }else
+        {
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
+            $d = discipline::whereAnneeScolaire(session('year'))
+                ->where('id_personnel', '=', $id)
+                ->where('type', '=', $type)
+                ->orderBy('ddate','desc')
+                ->get();
+        }
+        return response()->json($d);
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id_p,$id)
-	{
-		$dp=discipline_personnel::find($id);
-		$dp->delete();
+    }
+
+    public function justify(Request $request)
+    {
+        $justify=$request->input('justify');
+        foreach ($justify as $j)
+        {
+            $jst=discipline::find($j);
+            $jst->just=1;
+            $jst->save();
+        }
+
+        return response('',200);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function update(Request $request)
+
+    {
+        $this->validate($request,[
+            'id'=>'required|numeric',
+            'type'=>'required|numeric',
+            "nb_heures"=>"numeric",
+            "nb_jours"=>"numeric",
+        ]);
+        $id=$request->input('id');
+        $type=$request->input('type');
+        $nb_heures=$request->input('nb_heures');
+        $nb_jours=$request->input('nb_jours');
+        $desc=$request->input('description');
+        $date=$request->input('date');
+        $sequence=$request->input('sequence');
+
+        $d=new discipline();
+        $d->id_personnel=$id;
+        $d->type=$type;
+        $d->description=$desc;
+        $d->annee_scolaire=\session('year');
+        if($date==null)
+            $d->ddate=date('Y-m-d');
+        else
+            $d->ddate=$date;
+        if($sequence!=null)
+            $d->sequence=$sequence;
+        if($type==0)
+            $d->nb_heures=$nb_heures;
+        if($type==2)
+            $d->nb_jours=$nb_jours;
+        if($type==5)
+            $d->exclus_def=1;
+
+
+        $d->save();
         session(['success'=>true]);
-        return redirect()->action('personnel\disciplineController@show',['id'=>$id_p]);
-	}
+        return redirect()->action('personnel\disciplineController@create',[$id]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
 
 }

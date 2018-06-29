@@ -9,12 +9,13 @@
 
         @endif
 
-        <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 15px;">
+        <table class="table  table-striped table-condensed table-inverse" style="margin-top: 15px;">
             <thead>
             <caption style="font-size: 22px">{{  trans('admin.titre_table_niveau')  }}</caption>
             <th>#</th>
             <th>@lang('admin.nom')</th>
             <th>@lang('admin.nom_anglais')</th>
+            <th></th>
             </thead>
             <tbody>
             <?php $i=1; ?>
