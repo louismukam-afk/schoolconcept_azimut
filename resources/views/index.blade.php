@@ -6,7 +6,7 @@
     <title>{{  session('big_title')  }}</title>
     <link rel="shortcut icon" href="{{URL::asset('favicon.ico')}}" type="image/x-icon">
 	<!-- BOOTSTRAP STYLES-->
-    <link href="{{ URL::asset('css/bootstrap.css')  }}" rel="stylesheet" />
+    <link href="{{ URL::asset('dist/css/bootstrap.min.css')  }}" rel="stylesheet" />
      <!-- FONTAWESOME STYLES-->
     <link href="{{ URL::asset('css/font-awesome.css')  }}" rel="stylesheet" />
         <!-- CUSTOM STYLES-->
@@ -16,25 +16,27 @@
 
 
     <!-- GOOGLE FONTS-->
-
     <script src="{{ URL::asset('js/jquery.min.js')  }}"></script>
+
     <script src="{{ URL::asset('js/jquery-ui/jquery-ui.min.js')  }}"></script>
     <!-- BOOTSTRAP SCRIPTS -->
-    <script src="{{ URL::asset('js/bootstrap.min.js')  }}"></script>
+    <script src="{{ URL::asset('dist/js/bootstrap.min.js')  }}"></script>
     <!-- CUSTOM SCRIPTS -->
     <script src="{{ URL::asset('js/custom.js')  }}"></script>
 
-   <!-- <script src="{{ URL::asset('js/datatables/datatables.min.js')  }}"></script> -->
+    <script src="{{ URL::asset('js/datatables/datatables.min.js')  }}"></script>
 
 <script>
     function startLoading() {
-        $('.loading-back').css('display','inline');
+       // $('.loading-back').css('display','inline');
         $('.loading_icon').css('display','inline');
     }
     function stopLoading() {
-        $('.loading-back').css('display','none');
+        //$('.loading-back').css('display','none');
         $('.loading_icon').css('display','none');
     }
+
+
 </script>
 </head>
 <body>
@@ -52,11 +54,12 @@ if(session('nom_etab')==null){
 
     <div class="loading_icon" style="
     position: fixed;
-    Left: calc(50% - 37.5px);
+    Left: calc(50% - 75px);
     top: calc(50% - 37.5px);
     z-index: 10000;
-     width: 75px;
+     width: 150px;
      height: 75px;
+         box-shadow: 0 10px 20px rgba(0, 0, 0, .5);
      display: none;
 ">
         <img src="{{URL::asset('img/loading.gif')}}" alt="" style="width: inherit;height: inherit">
@@ -202,7 +205,7 @@ if(session('nom_etab')==null){
                  <!-- /. ROW  -->
                   <hr />
                 <div class="row">
-                <div style="height: 70px; background: #214761" class="action"></div>
+                <div style="height: 10px; background: #214761" class="action"></div>
                     <div class="col-lg-12 ">
                      @if(isset($isHome))
                         <div class="alert alert-info">
@@ -321,14 +324,14 @@ if(session('nom_etab')==null){
 <script>
     $(function () {
         $('#submit_new_pass').click(function () {
-            $('#edit_pass').modal('hide')
+            $('#edit_pass').modal('hide');
             $.post('{{url('/user-profile/edit-password')}}',{ _token:'{{ csrf_token() }}',ancien_mot_de_passe:$("#ancien_mot_de_passe").val(),nouveau_mot_de_passe:$("#nouveau_mot_de_passe").val(),password_again:$("#password_again").val() },function (data) {
                 $(".print-success-msg").find("ul").html('');
                 $(".print-error-msg").find("ul").html('');
                 $(".print-success-msg").css('display', 'none');
                 $(".print-error-msg").css('display', 'none');
                 if(data.success)
-                    printSuccessMsg(data)
+                    printSuccessMsg(data);
                 else
                     printErrorMsg(data);
 

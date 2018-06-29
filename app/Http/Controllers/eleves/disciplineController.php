@@ -2,6 +2,7 @@
 
 use gesecole\discipline;
 use gesecole\eleve;
+use gesecole\parametres;
 use Illuminate\Support\Facades\Session;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
@@ -65,8 +66,47 @@ class disciplineController extends Controller {
 	{
 	    $e=eleve::find($id);
         $values= array('titre'=>trans('eleve.titre_discipline'));
+        $values['pers']=$e;
+
+        $d=discipline::whereAnneeScolaire(session('year'))->where('id_eleve','=',$id)->get();
+        $abscence_inj=$d->where('type',0,false)
+            ->where('just','0',false)
+            ->sum('nb_heures');
+        $abscence_just=$d->where('type',0,false)
+            ->where('just','1',false)
+            ->sum('nb_heures');
+        $retard=$d->where('type',1,false)
+            ->count();
+        $avertissement=$d->where('type',3,false)
+            ->count();
+        $blame=$d->where('type',4,false)
+            ->count();
+        $exclusion=$d->where('type',2,false)
+            ->sum('nb_jours');
+        $exclu_def=$d->where('type',5,false)
+            ->first();
+        $values['abscence_just']=$abscence_just;
+        $values['abscence_inj']=$abscence_inj;
+        $values['retard']=$retard;
+        $values['avertissement']=$avertissement;
+        $values['blame']=$blame;
+        $values['exclusion']=$exclusion;
+        if($exclu_def!=null)
+            $values['exclus_def']=$exclu_def;
+
+
+
+
+
+
+
+        if(session('success')){
+            $values['success']=session('success');
+            Session::forget('success');
+        }
+
+        /*
         $d=discipline::whereAnneeScolaire(session('year'))->where('id_eleve','=',$id)->first();
-        $values['eleve']=$e;
         if($d==null){
             $d=new discipline();
             $d->id_eleve=$id;
@@ -75,10 +115,8 @@ class disciplineController extends Controller {
         }
         $values['discipline']=$d;
 
-        if(session('success')){
-            $values['success']=session('success');
-            Session::forget('success');
-        }
+
+        */
 
         return view('eleves/discipline',$values);
 	}
@@ -90,7 +128,7 @@ class disciplineController extends Controller {
 	 */
 	public function store()
 	{
-		//
+
 	}
 
 	/**
@@ -99,10 +137,44 @@ class disciplineController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($id)
+	public function show(Request $request,$id)
 	{
-		//
-	}
+	    $type=$request->input('type');
+	    $just=$request->input('just');
+        $e=eleve::find($id);
+        $d=null;
+        if($type==0) {
+            $d = discipline::whereAnneeScolaire(session('year'))
+                ->where('id_eleve', '=', $id)
+                ->where('type', '=', $type)
+                ->where('just', '=', $just)
+                ->orderBy('ddate','desc')
+                ->get();
+        }else
+        {
+
+                $d = discipline::whereAnneeScolaire(session('year'))
+                    ->where('id_eleve', '=', $id)
+                    ->where('type', '=', $type)
+                    ->orderBy('ddate','desc')
+                    ->get();
+        }
+        return response()->json($d);
+
+    }
+
+    public function justify(Request $request)
+    {
+        $justify=$request->input('justify');
+        foreach ($justify as $j)
+        {
+            $jst=discipline::find($j);
+            $jst->just=1;
+            $jst->save();
+        }
+
+        return response('',200);
+    }
 
 	/**
 	 * Show the form for editing the specified resource.
@@ -125,24 +197,41 @@ class disciplineController extends Controller {
 
 	{
 		$this->validate($request,[
-		   'id'=>'required|numeric',
-            'retard'=>'required|numeric|min:0',
-            'abscence_inj'=>'required|numeric|min:0',
-            'abscence_just'=>'required|numeric|min:0',
-            'avertissement'=>'required|numeric|min:0',
-            'blame'=>'required|numeric|min:0',
-            'exclusion'=>'required|numeric|min:0',
+            'id'=>'required|numeric',
+		   'type'=>'required|numeric',
+            "nb_heures"=>"numeric",
+            "nb_jours"=>"numeric",
         ]);
-		$d=discipline::whereIdEleve($request->input('id'))->where('annee_scolaire','=',session('year'))->first();
-		$d->retard=$request->input('retard');
-        $d->abscence_inj=$request->input('abscence_inj');
-        $d->abscence_just=$request->input('abscence_just');
-        $d->avertissement=$request->input('avertissement');
-        $d->blame=$request->input('blame');
-        $d->exclusion=$request->input('exclusion');
+        $id=$request->input('id');
+		$type=$request->input('type');
+        $nb_heures=$request->input('nb_heures');
+        $nb_jours=$request->input('nb_jours');
+        $desc=$request->input('description');
+        $date=$request->input('date');
+        $sequence=$request->input('sequence');
+
+		$d=new discipline();
+		$d->id_eleve=$id;
+		$d->type=$type;
+		$d->description=$desc;
+		$d->annee_scolaire=\session('year');
+		if($date==null)
+		    $d->ddate=date('Y-m-d');
+		else
+            $d->ddate=$date;
+        if($sequence!=null)
+            $d->sequence=$sequence;
+		if($type==0)
+		    $d->nb_heures=$nb_heures;
+        if($type==2)
+            $d->nb_jours=$nb_jours;
+        if($type==5)
+            $d->exclus_def=1;
+
+
         $d->save();
         session(['success'=>true]);
-        return redirect()->action('eleves\disciplineController@create',[$request->input('id')]);
+        return redirect()->action('eleves\disciplineController@create',[$id]);
     }
 
 	/**

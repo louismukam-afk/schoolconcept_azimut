@@ -39,7 +39,7 @@
         'montant'=>'Amount',
         'devise'=>'FCFA',
         'full_classe'=>'This class is full. Please choose another one',
-        'deja_inscrit'=>'This student is already registered for this school year',
+        'deja_inscrit'=>'This student is already registered for this academic year',
         'get_payement'=>'Receive payment',
         'add_payement'=>'Add payment',
         'info_payement'=>'Payment informations',

@@ -15,14 +15,18 @@ class Discipline extends Migration {
 		Schema::create('discipline', function(Blueprint $table)
 		{
             $table->increments('id');
-            $table->string('id_eleve');
+            $table->integer('id_eleve')->default(0);
+            $table->integer('id_personnel')->default(0);
             $table->string('annee_scolaire',9);
-            $table->integer('abscence_inj')->default(0);
-            $table->integer('abscence_just')->default(0);
+            $table->integer('sequence')->default(0);
+            $table->integer('type');
+            $table->integer('nb_heures')->default(0);
+            $table->integer('just')->default(0);
             $table->integer('retard')->default(0);
-            $table->integer('avertissement')->default(0);
-            $table->integer('blame')->default(0);
-            $table->integer('exclusion')->default(0);
+            $table->integer('nb_jours')->default(0);
+            $table->integer('exclus_def')->default(0);
+            $table->string('description')->nullable();
+            $table->date('ddate');
         });
 	}
 

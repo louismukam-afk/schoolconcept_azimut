@@ -4,13 +4,14 @@ return [
     "dashboard"=>'ADMINISTRATION DASHBOARD',
     'gestion_personnel'=>'Staff management',
     'nom'=>'Name',
+    'nouveau'=>'New',
     'classe'=>'Speciality',
     'titre_table_cycle'=>'Cycles list',
     'titre_table_niveau'=>'Liste of courses',
     'nouveau_niveau'=>'Add a course',
     'choose_cycle'=>'Choose cycle',
     'nouveau_cycle'=>'Add a cycle',
-    'annuler'=>'Cncel',
+    'annuler'=>'Cancel',
     'remplir_champs'=>'Please complete the following fields',
     'confirmer'=>'Confirm',
     'succes'=>'Operation performed',
@@ -247,4 +248,12 @@ return [
     "nniveau"=>"Level",
     "titre_nniveau"=>"Level list",
     "nouveau_nniveau"=>"Add a level",
+    "mod","Reason/details/punishment",
+    "exclus_def"=>"Definitive exclusion",
+    "nb_jours_ex"=>"Number of days of exclusion",
+    'voir'=>'See',
+    "just_abscence"=>"Justify abscences",
+    "semaine"=>"Week",
+
+
 ];

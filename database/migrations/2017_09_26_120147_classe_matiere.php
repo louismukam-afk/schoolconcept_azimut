@@ -20,6 +20,10 @@ class ClasseMatiere extends Migration {
             $table->integer('id_matiere');
             $table->integer('coef');
             $table->integer('max');
+            $table->integer("semestre")->default(0);
+            $table->integer("type")->default(0);
+            $table->integer('id_nniveau')->default(0);
+
         });
 	}
 

@@ -76,7 +76,7 @@
             <div class="div-square">
                 <a href="{{URL::to('/personnel/discipline/')}}" >
                     <i class="fa fa-5x fa-bar-chart-o"></i>
-                    <h4>{{trans('admin.etat')}}</h4>
+                    <h4>{{trans('eleve.titre_discipline')}}</h4>
                 </a>
             </div>
 

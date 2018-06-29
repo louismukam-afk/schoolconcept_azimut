@@ -59,12 +59,7 @@
                         <td><strong >{{$p->nom}}</strong></td>
                         <td>{{$p->sexe}}</td>
                         <td>
-                            <div class="btn-group">
-                                <a href="#" class=" btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li><a style="color: white" href="{{ URL::to('/personnel/discipline/').'/'.$p->id }}"   class="btn-warning"><span class="glyphicon glyphicon-time"></span> {{  trans('admin.abscence_retard')  }}</a></li>
-                                </ul>
-                            </div>
+                                    <a href="{{ URL::to('/personnel/discipline/show').'/'.$p->id }}"   class="btn btn-warning"><span class="fa fa-bell-o"></span> {{  trans('eleve.titre_discipline')  }}</a>
                         </td>
                     </tr>
                 @endforeach

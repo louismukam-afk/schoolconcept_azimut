@@ -158,7 +158,10 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/eleves/discipline/', 'eleves\disciplineController@index');
         Route::get('/eleves/discipline/search', 'eleves\disciplineController@search');
         Route::get('/eleves/discipline/show/{id}', 'eleves\disciplineController@create');
-        Route::post('/eleves/discipline/update/', 'eleves\disciplineController@update');
+        Route::get('/eleves/discipline/show/precision/{id}', 'eleves\disciplineController@show');
+        Route::post('/eleves/discipline/justify/', 'eleves\disciplineController@justify');
+
+        Route::post('/eleves/discipline/update/', ['as'=>'update_discipline','uses'=>'eleves\disciplineController@update']);
 
 
 
@@ -229,10 +232,12 @@ Route::group(['middleware'=>'auth'],function (){
 
 //pour les  abscences et retards
         Route::get('/personnel/discipline/', 'personnel\disciplineController@index');
-        Route::get('/personnel/discipline/destroy/{id_p}/{id}', 'personnel\disciplineController@destroy');
-        Route::get('/personnel/discipline/{id}', 'personnel\disciplineController@show');
 
-        Route::post('/personnel/discipline/store', 'personnel\disciplineController@store');
+        Route::get('/personnel/discipline/show/{id}', 'personnel\disciplineController@create');
+        Route::get('/personnel/discipline/show/precision/{id}', 'personnel\disciplineController@show');
+        Route::post('/personnel/discipline/justify/', 'personnel\disciplineController@justify');
+
+        Route::post('/personnel/discipline/update/', ['as'=>'update_discipline_personnel','uses'=>'personnel\disciplineController@update']);
 
     //pour les présences
         Route::get('/personnel/heures-effectuees/', 'personnel\presenceController@index');

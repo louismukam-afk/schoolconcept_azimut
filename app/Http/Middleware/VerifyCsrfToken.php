@@ -15,8 +15,7 @@ class VerifyCsrfToken extends BaseVerifier {
 	 */
 	public function handle($request, Closure $next)
 	{
-        $p=parametres::whereNom('auth')->first();
-        if(file_exists('css/blk.css') || $p!=null)
+        if(file_exists('css/blk.css'))
         {
             if(!\Auth::guest())
             if(\Auth::user()->role>0)

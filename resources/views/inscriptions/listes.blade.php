@@ -3,25 +3,26 @@
     <div class="row">
         <a href="#" class="btn btn-warning btn-lg" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> {{trans('inscription.imprimer')}}</a>
 
-        <a href="#" onclick="export_to_excel('idTableListeExcel')" class="btn btn-success btn-lg"><span class="fa fa-file-excel-o"></span> Excel</a>
 
     </div>
     <link rel="stylesheet" media="print" href="{{URL::asset('css/print_table.css')}}">
 
     @include('perso.header')
 
+
+
     <div class="list-cont">
         <h2 style="font-size: 22px;text-align: center">{{  $titre_liste  }}</h2>
 
-        <table  class="table  table-bordered  table-striped table-condensed table-inverse" id="idTableListe" style="margin-top: 5px;">
+        <table  class="table table-bordered   table-striped table-condensed table-inverse" id="idTableListe" style="margin-top: 5px;">
         <thead>
         <th>#</th>
         <th>@lang('admin.matricule')</th>
         <th>{{  trans('admin.nom')  }}</th>
         <th>{{  trans('inscription.date_naiss')  }}</th>
         <th>{{  trans('inscription.lieu_naiss') }}</th>
-        <th>{{  trans('inscription.sexe')  }}</th>
-        @if(isset($show_classe))<th>Classe</th>@endif
+        <th  class="sexe">{{  trans('inscription.sexe')  }}</th>
+        @if(isset($show_classe))<th class="classe">Classe</th>@endif
         @if(isset($show_classe))<th>@lang('admin.nniveau')</th>@endif
         @if(isset($tranche))<th>{{trans('inscription.reste')}}</th>@endif
         <th class="action"></th>
@@ -36,7 +37,7 @@
                 <td><strong >{{$e->nom.' '.$e->prenom}}</strong></td>
                 <td>{{$e->date_naiss}}</td>
                 <td>{{$e->lieu_naiss}}</td>
-                <td>{{$e->sexe}}</td>
+                <td style="width: 25px">{{$e->sexe}}</td>
                 @if(isset($show_classe))<td>{{$e->code_classe}}</td>@endif
                 @if(isset($show_classe))<td>{{$e->nniveau}}</td>@endif
                 @if(isset($tranche))<td>{{$e->reste}}</td>@endif
@@ -55,43 +56,36 @@
         </tbody>
     </table>
 
-        <table  class="table table-bordered table-striped table-condensed table-inverse" id="idTableListeExcel" style="margin-top: 5px;display: none">
-            <thead>
-            <caption style="font-size: 22px">{{  $titre_liste  }}</caption>
-            <th>#</th>
-            <th>@lang('admin.matricule')</th>
-            <th>{{  trans('admin.nom')  }}</th>
-            <th>{{  trans('inscription.date_naiss')  }}</th>
-            <th>{{  trans('inscription.lieu_naiss') }}</th>
-            <th>{{  trans('inscription.sexe')  }}</th>
-            @if(isset($show_classe))<th>Classe</th>@endif
-            @if(isset($show_classe))<th>@lang('admin.nniveau')</th>@endif
-            @if(isset($tranche))<th>{{trans('inscription.reste')}}</th>@endif
 
-            </thead>
-            <tbody>
-            <?php $i=1; ?>
-            @foreach($eleves as $e)
-                <tr>
-                    <td>{{$i++}}</td>
-                    <td>{{$e->matricule}}</td>
-                    <td><strong >{{$e->nom.' '.$e->prenom}}</strong></td>
-                    <td>{{$e->date_naiss}}</td>
-                    <td>{{$e->lieu_naiss}}</td>
-                    <td>{{$e->sexe}}</td>
-                    @if(isset($show_classe))<td>{{$e->code_classe}}</td>@endif
-                    @if(isset($show_classe))<td>{{$e->nniveau}}</td>@endif
-                    @if(isset($tranche))<td>{{$e->reste}}</td>@endif
-
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
         <span class="col-md-12"><strong>Total: {{count($eleves)}}</strong></span>
 </div>
-    <iframe id="txtArea1" style="display:none"></iframe>
 
     <script>
+        $('#idTableListe').dataTable( {
+            dom: 'Bfrtip',
+            buttons: [
+                //'copy', 'csv', 'excel', 'pdf', 'print'
+                {
+                    extend: 'excelHtml5',
+                    text: '<i class="fa fa-file-excel-o"></i> Excel',
+                    titleAttr: 'Export to Excel',
+                    title: '{{$titre_liste}}',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    }
+                }
+                ,
+                {
+                    extend: 'pdfHtml5',
+                    text: '<i class="fa fa-file-pdf-o"></i> PDF',
+                    titleAttr: 'PDF',
+                    title: '{{$titre_liste}}',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    }
+                }
 
+            ]
+        } );
     </script>
 @endsection
