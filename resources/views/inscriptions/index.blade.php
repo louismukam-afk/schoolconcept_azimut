@@ -1,6 +1,9 @@
 @extends('index')
 
 @section('content')
+    <div class="alert alert-info">
+        <span class="fa fa-3x fa-users"> {{ $nb_eleves.' '.trans('admin.inscrits')}}</span>
+    </div>
     <div class="row text-center pad-top">
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
             <div class="div-square">

@@ -7,7 +7,7 @@ use gesecole\Http\Controllers\Controller;
 use gesecole\personnel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-
+use gesecole\parametres;
 class decaissementController extends Controller {
 
 	/**

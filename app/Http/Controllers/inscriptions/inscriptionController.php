@@ -43,7 +43,9 @@ class inscriptionController extends Controller {
 
 	public function index()
 	{
-        return view('inscriptions/index');
+        $nb_eleve=inscription::whereAnneeScolaire(\session('year'))->get()->count();
+
+        return view('inscriptions/index',["nb_eleves"=>$nb_eleve]);
 	}
 
 

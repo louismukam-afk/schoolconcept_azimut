@@ -215,6 +215,20 @@ if(session('nom_etab')==null){
                                 <a data-toggle="modal" data-backdrop="false" href="#edit_pass" class="pull-right" style="color: #BE5C00"><span class="fa fa-lock"></span> @lang('admin.modifier_pass')</a>
                             @endif
                         </div>
+                            @if(isset($_SESSION['lr']))
+                                <?php $lr=$_SESSION['lr'];
+                                ?>
+                                @if($lr<40)
+                                    <div class="alert alert-danger text-uppercase" style="font-weight: 600">
+                                        {{  trans('admin.exp_lic_g',['jours'=>$lr]) }}
+                                    </div>
+                                @else
+                                    <div class="alert alert-warning text-uppercase" style="font-weight: 600">
+                                        {{  trans('admin.exp_lic',['jours'=>$lr]) }}
+
+                                    </div>
+                                @endif
+                            @endif
                     @endif
                        
                     </div>

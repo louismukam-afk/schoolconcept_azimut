@@ -44,7 +44,7 @@
                                 <td>{{$i++}}</td>
                                 <td>
                                     @foreach($personnels as $pers)
-                                        @if($pers->id=$p->id_personnel)
+                                        @if($pers->id==$p->id_personnel)
                                             {{$pers->nom}}
                                             <?php break; ?>
                                         @endif
@@ -119,7 +119,7 @@
                                 <td>{{$i++}}</td>
                                 <td>
                                     @foreach($personnels as $pers)
-                                        @if($pers->id=$p->id_personnel)
+                                        @if($pers->id==$p->id_personnel)
                                             {{$pers->nom}}
                                             <?php break; ?>
                                         @endif
