@@ -9,11 +9,18 @@
         .table{
             margin-top: 30px;
         }
+
+        .item-emploi:hover
+        {
+            background: dodgerblue;
+            color: white;
+        }
+
     </style>
-     <h1 style="font-size: 30px;margin-top: 30px;text-align: center">{{  trans('admin.emploi_temps_de').' '.((App::getLocale()=='en')?$classe->nom_anglais:$classe->nom.' '.$nniveau->nom)  }}</h1>
+    <h1 style="font-size: 30px;margin-top: 30px;text-align: center">{{  trans('admin.emploi_temps_de').' '.((App::getLocale()=='en')?$classe->nom_anglais:$classe->nom)  }}</h1>
     <table class="table table-bordered table-striped table-condensed table-inverse">
         <thead>
-       
+
         <th>@lang('admin.horaire')</th>
         <th>@lang('admin.jour1')</th>
         <th>@lang('admin.jour2')</th>
@@ -26,7 +33,7 @@
         @foreach($horaires as $h)
             <tr>
                 <td>{{$h->intervalle}}</td>
-                <td>
+                <td class="item-emploi" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},1)" @endif>
                     @foreach($dispenses as $d)
                         @if($d->jour==1 && $d->id_horaire==$h->id)
                             <strong>
@@ -53,10 +60,10 @@
                         @endif
                     @endforeach
                     @if($h->type==1)
-                            <strong class="pause"  style="font-size: 12px;color: gray;" >Pause</strong>
+                        <strong class="pause"  style="font-size: 12px;color: gray;" >Pause</strong>
                     @endif
                 </td>
-                <td> @foreach($dispenses as $d)
+                <td class="item-emploi" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},2)" @endif> @foreach($dispenses as $d)
                         @if($d->jour==2 && $d->id_horaire==$h->id)
                             <strong>
                                 @foreach($matieres as $m)
@@ -81,11 +88,11 @@
                             <?php break; ?>
                         @endif
                     @endforeach
-                     @if($h->type==1)
-                            <strong class="pause" style="font-size: 12px;color: gray;" >Pause</strong>
+                    @if($h->type==1)
+                        <strong class="pause" style="font-size: 12px;color: gray;" >Pause</strong>
                     @endif
                 </td>
-                <td> @foreach($dispenses as $d)
+                <td class="item-emploi" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},3)" @endif> @foreach($dispenses as $d)
                         @if($d->jour==3 && $d->id_horaire==$h->id)
                             <strong>
                                 @foreach($matieres as $m)
@@ -110,11 +117,11 @@
                             <?php break; ?>
                         @endif
                     @endforeach
-                     @if($h->type==1)
-                            <strong class="pause" style="font-size: 12px;color: gray;" >Pause</strong>
+                    @if($h->type==1)
+                        <strong class="pause" style="font-size: 12px;color: gray;" >Pause</strong>
                     @endif
                 </td>
-                <td> @foreach($dispenses as $d)
+                <td class="item-emploi" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},4)" @endif> @foreach($dispenses as $d)
                         @if($d->jour==4 && $d->id_horaire==$h->id)
                             <strong>
                                 @foreach($matieres as $m)
@@ -139,11 +146,11 @@
                             <?php break; ?>
                         @endif
                     @endforeach
-                     @if($h->type==1)
-                            <strong class="pause" style="font-size: 12px;color: gray;" >Pause</strong>
+                    @if($h->type==1)
+                        <strong class="pause" style="font-size: 12px;color: gray;" >Pause</strong>
                     @endif
                 </td>
-                <td> @foreach($dispenses as $d)
+                <td class="item-emploi" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},5)" @endif> @foreach($dispenses as $d)
                         @if($d->jour==5 && $d->id_horaire==$h->id)
                             <strong>
                                 @foreach($matieres as $m)
@@ -168,11 +175,11 @@
                             <?php break; ?>
                         @endif
                     @endforeach
-                     @if($h->type==1)
-                            <strong  class="pause" style="font-size: 12px;color: gray;" >Pause</strong>
+                    @if($h->type==1)
+                        <strong  class="pause" style="font-size: 12px;color: gray;" >Pause</strong>
                     @endif
                 </td>
-                <td> @foreach($dispenses as $d)
+                <td class="item-emploi" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},6)" @endif> @foreach($dispenses as $d)
                         @if($d->jour==6 && $d->id_horaire==$h->id)
                             <strong>
                                 @foreach($matieres as $m)
@@ -197,12 +204,90 @@
                             <?php break; ?>
                         @endif
                     @endforeach
-                     @if($h->type==1)
-                            <strong class="pause" style="font-size: 12px;color: gray;" >Pause</strong>
+                    @if($h->type==1)
+                        <strong class="pause" style="font-size: 12px;color: gray;" >Pause</strong>
                     @endif
                 </td>
             </tr>
         @endforeach
         </tbody>
     </table>
+
+
+    <div class="modal fade" id="edit-horaire">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">x</button>
+                    <h4 class="modal-title">{{  trans('admin.remplir_champs')  }}</h4>
+                </div>
+                <div
+                        class="modal-body">
+
+
+
+                    <form accept-charset="UTF-8" role="form" method="POST" id="edit_horaire_form" action="{{ url('/personnel/emploi-temps/edit').'/'.$classe->id }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                        <input type="hidden" name="nniveau" id="nniveau" value="{{$nniveau->id}}" required/>
+                        <input type="hidden" name="id_horaire" id="id_horaire" value="" required/>
+                        <input type="hidden" name="jour" id="jour" value="" required/>
+
+
+                        <fieldset>
+
+                            <div class="form-group">
+                                <label for="personnel">{{trans('admin.personnel')}} : </label>
+                                <select id="personnel" name="personnel" form="edit_horaire_form" class="form-control">
+                                    @foreach($personnels as $p)
+                                        <option value="{{  $p->id  }}" @if($p->id == old('personnel')) selected @endif>{{$p->nom}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="matiere">{{trans('admin.matiere')}} :</label>
+                                <select id="matiere" name="matiere" form="edit_horaire_form" class="form-control">
+                                    @foreach($matieres as $m)
+                                        <option value="{{  $m->id  }}" @if($m->id == old('matiere')) selected @endif>{{(App::getLocale()=='en')?$m->nom_anglais:$m->nom}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
+
+
+                        </fieldset>
+                    </form>
+
+
+                </div>
+
+
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+
+
+    <script>
+
+
+
+        function editer_emplois_temps(id,jour)
+        {
+            document.getElementById("id_horaire").value = id;
+            document.getElementById("jour").value = jour;
+
+            jQuery.noConflict();
+            $('#edit-horaire').modal('show');
+
+
+        }
+    </script>
 @endsection

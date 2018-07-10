@@ -184,8 +184,13 @@ class dispenseController extends Controller {
         ->get();
         $c=classe::find($id);
         $h=horaire::orderBy('ordre')->get();
-        $p=personnel::whereType(0)->get();
-        $m=matiere::all();
+        $p=personnel::whereType(0)->orderBy('nom')->get();
+        $m=matiere::join('classe_matiere','matiere.id','=','classe_matiere.id_matiere')
+            ->where('id_classe','=',$id)
+            ->where('id_nniveau','=',$nniveau)
+            ->select(['matiere.*'])
+            ->get()
+        ;
         $values['titre']=$titre;
         $values['dispenses']=$d;
         $values['horaires']=$h;
@@ -197,6 +202,47 @@ class dispenseController extends Controller {
 
         return view('personnel/emploi_temps',$values);
 
+    }
+    public function edit_timetable(Request  $req,$id)
+    {
+        $this->validate($req,[
+            'matiere'=>'required',
+            'personnel'=>'required',
+            'jour'=>'required',
+            "nniveau"=>"required|numeric",
+            'id_horaire'=>'required',
+
+        ]);
+        $disp=dispense::whereAnneeScolaire(\session('year'))
+            ->where('id_classe','=',$id)
+            ->where('jour','=',$req->input('jour'))
+            ->where('id_nniveau','=',$req->input('nniveau'))
+            ->where('id_horaire','=',$req->input('id_horaire'))
+            ->first();
+        if($disp!=null){
+            $disp->delete();
+        }
+        $disp=dispense::whereAnneeScolaire(\session('year'))
+            ->where('jour','=',$req->input('jour'))
+            ->where('id_personnel','=',$req->input('personnel'))
+            ->where('id_horaire','=',$req->input('id_horaire'))
+            ->first();
+        if($disp!=null){
+            $disp->delete();
+        }
+
+        $c=new dispense();
+        $c->annee_scolaire=session('year');
+        $c->id_matiere=$req->input('matiere');
+        $c->id_personnel=$req->input('personnel');
+        $c->id_classe=$id;
+        $c->id_nniveau=$req->input('nniveau');
+        $c->jour=$req->input('jour');
+        $c->id_horaire=$req->input('id_horaire');
+        $c->save();
+
+        session(['success'=>true]);
+        return redirect()->to('/personnel/emploi-temps/show/'.'?id='.$id.'&nniveau='.$req->input('nniveau'));
     }
 
 	/**

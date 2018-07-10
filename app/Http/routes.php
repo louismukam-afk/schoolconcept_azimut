@@ -18,7 +18,6 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('/admin/nniveaux/get/{id}', 'admin\nniveauController@get');
 
     Route::group(['middleware'=>'lvl0'],function (){
-        Route::post('/update-school-year/', 'WelcomeController@editYear');
         Route::get('/admin/blk/', 'WelcomeController@blk');
         Route::get('/admin/unblk/', 'WelcomeController@unblk');
 
@@ -220,6 +219,7 @@ Route::group(['middleware'=>'auth'],function (){
         ////
         /// routes pour les emplois du temps
         Route::get('/personnel/emploi-temps/show/', 'personnel\dispenseController@show');
+        Route::any('/personnel/emploi-temps/edit/{id}', 'personnel\dispenseController@edit_timetable');
 
 
 ////routes pour les titulaires
@@ -275,6 +275,7 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('/search/personnel', 'searchController@personnel');
     Route::get('/search/eleve', 'searchController@eleve');
     Route::any('/select/classe', 'searchController@select_classe');
+    Route::post('/update-school-year/', 'WelcomeController@editYear');
 
     //Pour la langue
     Route::any('/language/french', 'WelcomeController@fr_locale');

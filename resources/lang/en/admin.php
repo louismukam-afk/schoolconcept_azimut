@@ -254,6 +254,11 @@ return [
     'voir'=>'See',
     "just_abscence"=>"Justify abscences",
     "semaine"=>"Week",
+    "inscrits"=>"subscribed students",
+    "etat_disc"=>"Disciplinary states",
+    "exp_lic"=>"Your licence will expire in :jours day(s)",
+    "exp_lic_g"=>"Warning ! Your licence will expire in :jours day(s)",
+
 
 
 ];
