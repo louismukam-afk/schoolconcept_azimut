@@ -48,7 +48,7 @@ return [
     'selectionner_eleve'=>'Choose a student',
     'ajouter_matiere'=>'Add subjects',
     'ajouter_classe_matiere'=>'Assign a subject to a Specialty',
-    'nom_anglais'=>'Name in english',
+    'nom_anglais'=>'Name in 2nd language',
     'groupe'=>'GROUP',
     'programme'=>'Specialty Program',
     'titre_table_programme'=>'Speciality program of',
@@ -258,6 +258,12 @@ return [
     "etat_disc"=>"Disciplinary states",
     "exp_lic"=>"Your licence will expire in :jours day(s)",
     "exp_lic_g"=>"Warning ! Your licence will expire in :jours day(s)",
+    "nb_heures"=>"Number of hours",
+    "taux_defaut"=>"Default rate",
+    "date_enr"=>"Registering date",
+    "no_matiere_programme" => "This subject is not in the program for this specialty",
+    "heure_prise" => "This period is already occupied for this teacher",
+
 
 
 

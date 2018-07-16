@@ -147,6 +147,24 @@ function getSemestre($val){
 
     }
 
+function jour($n){
+    if ($n==1)
+        return trans('admin.jour1');
+    if ($n==2)
+        return trans('admin.jour2');
+    if ($n==3)
+        return trans('admin.jour3');
+    if ($n==4)
+        return trans('admin.jour4');
+    if ($n==5)
+        return trans('admin.jour5');
+    if ($n==6)
+        return trans('admin.jour6');
+    if ($n==7)
+        return trans('admin.jour7');
+    return trans('admin.aucun');
+}
+
 ?>
 
 

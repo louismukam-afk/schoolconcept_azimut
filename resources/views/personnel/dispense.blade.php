@@ -1,6 +1,6 @@
 @extends('skeleton')
 @section('sub-content')
-    <div class="col-md-8">
+    <div class="col-md-10">
         @if(isset($success))
 
             <div class="alert alert-success">
@@ -8,8 +8,12 @@
             </div>
 
         @endif
+            <div class="col-md-12">
+                <button class="btn btn-primary" data-toggle="modal" data-backdrop="false" href="#add_cycle"
+                ><span class="glyphicon glyphicon-plus"></span> {{  trans('admin.ajouter_dispense')  }}</button>
+            </div>
 
-        <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 15px;">
+        <table class="table table-striped table-condensed table-inverse" style="margin-top: 15px;">
             <thead>
             <th>#</th>
             <th>{{trans('admin.classe')}}</th>
@@ -42,13 +46,7 @@
                         @endif
 
                     @endforeach
-                    @foreach($nniveaux as $nn)
-                        @if($nn->id == $c->id_nniveau)
-                            <td>  {{ $nn->nom  }}</td>
-                            <?php break; ?>
-                        @endif
 
-                    @endforeach
 
                     @foreach($matieres as $e)
                         @if($e->id == $c->id_matiere)
@@ -74,8 +72,9 @@
             @endforeach
             </tbody>
         </table>
-        <button class="btn btn-primary" data-toggle="modal" data-backdrop="false" href="#add_cycle"
-        ><span class="glyphicon glyphicon-plus"></span> {{  trans('admin.ajouter_dispense')  }}</button>
+            @if($i>1)
+                <a href="{{url('admin/taux/create/').'/'.$personnel->id}}" class="btn btn-warning btn-xs"><span class="fa fa-euro"></span> @lang('admin.taux_enseignant')</a>
+            @endif
         <div class="modal fade" id="add_cycle">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -114,7 +113,8 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <select  name="nniveau" form="edit_manger_form" class="form-control">
+                                    <label for="nniveau">@lang('admin.nniveau')</label>
+                                    <select  id="nniveau" name="nniveau" form="edit_manger_form" class="form-control">
                                         @foreach($nniveaux as $e)
                                             <option value="{{  $e->id  }}" @if($e->id == old('nniveau')) selected @endif>{{ $e->nom }}</option>
                                         @endforeach
@@ -122,14 +122,17 @@
                                 </div>
                                 <input type="hidden" name="id_personnel" value="{{$personnel->id}}">
                                 <div class="form-group">
-                                    <select  name="id_matiere" form="edit_manger_form" class="form-control">
+                                    <label for="id_matiere">@lang('admin.titre_matiere')</label>
+                                    <select  name="id_matiere" id="id_matiere" form="edit_manger_form" class="form-control">
                                         @foreach($matieres as $e)
                                             <option value="{{  $e->id  }}" @if($e->id == old('id_matiere')) selected @endif>{{  (App::getLocale()=='en')?$e->nom_anglais:$e->nom  }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <select  name="jour" form="edit_manger_form" class="form-control">
+                                    <label for="jour">@lang('admin.jour')</label>
+
+                                    <select  name="jour" id="jour" form="edit_manger_form" class="form-control">
                                         <option value="1" @if(1 == old('jour')) selected @endif>{{ trans('admin.jour1') }}</option>
                                         <option value="2" @if(2 == old('jour')) selected @endif>{{ trans('admin.jour2') }}</option>
                                         <option value="3" @if(3 == old('jour')) selected @endif>{{ trans('admin.jour3') }}</option>

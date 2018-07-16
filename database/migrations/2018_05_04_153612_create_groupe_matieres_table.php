@@ -30,7 +30,7 @@ class CreateGroupeMatieresTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('groupe_matieres');
+		Schema::dropIfExists('groupe_matieres');
 	}
 
 }

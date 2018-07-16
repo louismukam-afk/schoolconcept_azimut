@@ -18,6 +18,10 @@ class CreateHeureRealisesTable extends Migration {
 			$table->integer('id_personnel');
 			$table->integer('nombre')->default(0);
 			$table->date('date_heure_realisee');
+			$table->float('taux')->default(0);
+			$table->integer('jour')->default(0);
+			$table->string('intervalle')->nullable();
+			$table->date('date_enregistrement');
 			$table->string('annee_scolaire');
 		});
 	}

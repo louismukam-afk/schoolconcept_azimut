@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../GEICOM/.idea/GEICOM.iml" filepath="$PROJECT_DIR$/../GEICOM/.idea/GEICOM.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/gesecole.iml" filepath="$PROJECT_DIR$/.idea/gesecole.iml" />
       <module fileurl="file://C:\Users\Joel\image-bg\.idea\image-bg.iml" filepath="C:\Users\Joel\image-bg\.idea\image-bg.iml" />
     </modules>

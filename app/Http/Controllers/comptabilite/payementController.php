@@ -109,24 +109,37 @@ class payementController extends Controller {
             ->first();
         if($ps!= null){
             $values['dernier_payement']=$ps;
-            $d=discipline_personnel::whereAnneeScolaire(\session('year'))
-                ->where('id_personnel','=',$id)
-                ->where('date_d','>=',$ps->date_p)
-                ->get();
-        }else
-            {
-                $d=discipline_personnel::whereAnneeScolaire(\session('year'))
-                    ->where('id_personnel','=',$id)
-                    ->get();
+
         }
-        $hr=heure_realise::whereAnneeScolaire(\session('year'))
+
+        $hrs=heure_realise::whereAnneeScolaire(\session('year'))
             ->where('id_personnel','=',$id)
             ->where('date_heure_realisee','>=',$ps?$ps->date_p:'1900-01-01')
-            ->sum('nombre');
+            ->get();
+        $hr=$hrs->sum('nombre');
 
-        $t=taux::whereIdPersonnel($id)->first();
+        $sumHr=0;
+        $sumTaux=0;$nTaux=0;
 
-        $values['discipline']=$d;
+        foreach ($hrs as $heure)
+        {
+            $sumHr+= $heure->nombre*$heure->taux;
+            $sumTaux+=$heure->taux;
+            $nTaux++;
+        }
+        if($hr!=0)
+        {
+            $t=round(($sumHr/$hr),2);
+        }
+        else
+            $t=0;
+
+
+
+
+
+        $values['somme_heure']=$sumHr;
+
         $values['heure_realisee']=$hr;
         $values['taux']=$t;
 

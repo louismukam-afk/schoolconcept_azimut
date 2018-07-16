@@ -77,6 +77,7 @@ class horaireController extends Controller {
             'ordre'=>'required|numeric|min:1',
         ]);
         $ordre=$request->input('ordre');
+        $nb_heures=$request->input('heures');
         $h2=horaire::whereOrdre($ordre)->first();
         if($h2!=null){
             session(['error'=>trans('admin.ordre_pris')]);
@@ -84,6 +85,8 @@ class horaireController extends Controller {
         }
 
         $h=new horaire();
+        if($nb_heures!=null)
+            $h->nb_heures=$nb_heures;
         $h->intervalle=$request->input('intervalle');
         $h->type=$request->input('type');
         $h->ordre=$ordre;
@@ -129,6 +132,7 @@ class horaireController extends Controller {
               'ordre'=>'required|numeric|min:1',
     ]);
         $ordre=$request->input('ordre');
+        $nb_heures=$request->input('heures');
         $h2=horaire::whereOrdre($ordre)->first();
         if($h2!=null){
             if($h2->id!=$request->input('id')){
@@ -140,6 +144,8 @@ class horaireController extends Controller {
 
 
         $h=horaire::find($request->input('id'));
+        if($nb_heures!=null)
+            $h->nb_heures=$nb_heures;
         $h->intervalle=$request->input('intervalle');
         $h->type=$request->input('type');
         $h->ordre=$ordre;

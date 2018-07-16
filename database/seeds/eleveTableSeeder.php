@@ -1,5 +1,6 @@
 <?php
 namespace database\seeds;
+use gesecole\parents;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,16 +15,26 @@ class eleveTableSeeder extends Seeder {
 
     public function run()
     {
-        \gesecole\eleve::insert(
-            ['nom'=>$this->getNom().' '.$this->getPrenom(),
-                'date_naiss'=>random_int(1990,2002).'-'.random_int(1,12).'-'.random_int(1,28),
-                'lieu_naiss'=>$this->getQuartier(),
-                'sexe'=>$this->makeSex(random_int(0,1)),
-                'nationalite'=>"Cameroun",
-                'quartier'=>$this->getQuartier()
-        ]
-        );
-    }
+        for ($i=0;$i<320;$i++)
+        {
+            \gesecole\eleve::insert(
+                ['nom'=>$this->getNom().' '.$this->getPrenom(),
+                    'date_naiss'=>random_int(1990,2002).'-'.random_int(1,12).'-'.random_int(1,28),
+                    'lieu_naiss'=>$this->getQuartier(),
+                    'sexe'=>$this->makeSex(random_int(0,1)),
+                    'nationalite'=>"Cameroun",
+                    'quartier'=>$this->getQuartier()
+                ]
+            );
+
+            parents::insert([
+                'nom'=>$this->getNom().' '.$this->getPrenom(),
+                'type'=>random_int(0,2),
+                'id_eleve'=>$i
+                ]);
+
+        }
+               }
 
     public function makeSex($n){
             if ($n==0)

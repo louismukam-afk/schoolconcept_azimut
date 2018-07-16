@@ -12,14 +12,16 @@
             <button class="btn btn-primary" data-toggle="modal" data-backdrop="false" href="#add_cycle"
             ><span class="glyphicon glyphicon-plus"></span> {{  trans('admin.ajouter_personnel')  }}</button>
             <span class="col-md-12"><strong>Total : {{count($personnel)}}</strong></span>
-        <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 5px;">
+            <h3 style="font-size: 22px">{{  trans('admin.personnels')  }}</h3>
+
+            <table class="table  table-striped table-condensed table-inverse" id="table-personnel" style="margin-top: 5px;">
             <thead>
-            <caption style="font-size: 22px">{{  trans('admin.personnels')  }}</caption>
             <th>#</th>
             <th>Nom</th>
             <th>Lieu de naissance</th>
             <th>{{trans('inscription.sexe')}}</th>
             <th>Tel</th>
+            <th></th>
             </thead>
             <tbody>
             <?php $i=1; ?>
@@ -127,4 +129,49 @@
 </div>
     </div>
     </div>
+
+    <script>
+
+        $('#table-personnel').dataTable( {
+            dom: 'Bfrtip',
+            buttons: [
+                //'copy', 'csv', 'excel', 'pdf', 'print'
+                {
+                    extend: 'excelHtml5',
+                    text: '<i class="fa fa-file-excel-o"></i> Excel',
+                    titleAttr: 'Export to Excel',
+                    title: 'Liste personnel',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    }
+                }
+                ,
+                {
+                    extend: 'pdfHtml5',
+                    text: '<i class="fa fa-file-pdf-o"></i> PDF',
+                    titleAttr: 'PDF',
+                    title: 'Liste personnel',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    }
+                }
+                ,
+                {
+                    extend: 'print',
+                    text: '<i class="fa fa-print"></i> @lang("inscription.imprimer")',
+                    titleAttr: 'Imprimer',
+                    title: 'Liste personnel',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    }
+                }
+            ]
+        } );
+        $(function () {
+            //$('#date_debut').datepicker({ dateFormat: 'dd-mm-yy' });
+            //$('#date_fin').datepicker({ dateFormat: 'dd-mm-yy' });
+        });
+
+
+    </script>
 @endsection

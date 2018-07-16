@@ -16,6 +16,9 @@ class Taux extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('id_personnel');
+			$table->integer('id_matiere')->default(0);
+            $table->integer('id_classe')->default(0);
+            $table->integer('id_nniveau')->default(0);
 			$table->float('taux');
 		});
 	}

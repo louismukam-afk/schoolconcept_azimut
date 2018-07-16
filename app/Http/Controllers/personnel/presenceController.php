@@ -6,6 +6,7 @@ use gesecole\horaire;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
 use gesecole\parametres;
+use gesecole\taux;
 use Illuminate\Support\Facades\Session;
 use gesecole\matiere;
 use gesecole\personnel;
@@ -60,10 +61,11 @@ class presenceController extends Controller {
         $h=heure_realise::whereAnneeScolaire(\session('year'))
             ->where('id_personnel','=',$id)
             ->orderBy('date_heure_realisee','desc')
-            ->paginate(10);
+            ->paginate(30);
 
 
-
+        $d=dispense::where('id_personnel','=',$id)->get();
+        $ho=horaire::orderBy('ordre')->get();
 
         $values=array('titre'=>trans('admin.compte_heure_de').' '.$p->nom);
         if(session('success')){
@@ -71,6 +73,8 @@ class presenceController extends Controller {
             Session::forget('success');
         }
 		$values['personnel']=$p;
+        $values['dispenses']=$d;
+        $values['horaires']=$ho;
         $values['realise']=$h;
 
 
@@ -119,11 +123,73 @@ class presenceController extends Controller {
 	{
         $this->validate($request,[
             'nombre'=>'numeric|required',
+            'date'=>'date'
         ]);
+        $dispense=$request->input('dispense');
         $nombre=$request->input('nombre');
+        $date=$request->input('date');
+
         $h=new heure_realise();
+
+        if($dispense==0){
+           $t=taux::whereIdPersonnel($id)
+               ->where('id_matiere','=',0)
+               ->where('id_classe','=',0)
+               ->where('id_nniveau','=',0)
+               ->first();
+
+           if($t==null)
+           {
+            $taux=0;
+           }
+           else
+           {
+               $taux=$t->taux;
+           }
+        }else{
+            $d=dispense::find($dispense);
+            $ho=horaire::find($d->id_horaire);
+            $t=taux::whereIdPersonnel($id)
+                ->where('id_matiere','=',$d->id_matiere)
+                ->where('id_classe','=',$d->id_classe)
+                ->where('id_nniveau','=',$d->id_nniveau)
+                ->first();
+
+            if($t==null)
+            {
+                $t=taux::whereIdPersonnel($id)
+                    ->where('id_matiere','=',0)
+                    ->where('id_classe','=',0)
+                    ->where('id_nniveau','=',0)
+                    ->first();
+                if($t==null)
+                {
+                    $taux=0;
+                }
+                else
+                {
+                    $taux=$t->taux;
+                }
+            }
+            else
+            {
+                $taux=$t->taux;
+            }
+
+
+            $h->jour=$d->jour;
+            $h->intervalle=$ho->intervalle;
+        }
+
+        $h->taux=$taux;
         $h->id_personnel=$id;
-        $h->date_heure_realisee=date('Y-m-d');
+        if($date!=null)
+            $h->date_heure_realisee=$date;
+        else
+            $h->date_heure_realisee=date('Y-m-d');
+
+        $h->date_enregistrement=date('Y-m-d');
+
         $h->annee_scolaire=\session('year');
         $h->nombre=$nombre;
         $h->save();
