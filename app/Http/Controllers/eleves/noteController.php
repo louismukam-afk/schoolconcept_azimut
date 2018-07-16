@@ -364,7 +364,7 @@ class noteController extends Controller {
 
             $matieres_pv=$notes_sequences_pv->fetch('id_matiere')->toArray();
             $sCoef=0;
-            $cm = classeMatiere::whereIdClasse($id)->where('id_nniveau','=',$nniveau)->get();
+            $cm = classeMatiere::whereIdClasse($id)->where('id_nniveau','=',$nniveau)->where('id_cycle','=',$id_cycle)->get();
             foreach ($cm as $entry){
                 $sCoef+=$entry->coef;
             }
@@ -418,13 +418,13 @@ class noteController extends Controller {
                     }
 
 
-                    $matieres[$l]=new pv_matiere1($matiere->id,$note,$credit);
+                    $matieres[$l]=new pv_matiere($matiere->id,$note,$credit);
 
 
                     $l++;
                 }
                 //dump($matieres);
-                $proces_v[$k]=new PV1($eleve->id,$matieres,$sNote/$sCoef);
+                $proces_v[$k]=new PV($eleve->id,$matieres,$sNote/$sCoef);
             $k++;
             }
             $values['eleves'] = $e;
@@ -453,6 +453,7 @@ class noteController extends Controller {
                 $id_eleves[$j]=$el->id;
                 $j++;
             }
+
             $n_rattrap = note::whereAnneeScolaire(session('year'))
                 ->whereIn('sequence',$rattrap)
                 ->whereIn('id_eleve',$id_eleves)
@@ -473,7 +474,7 @@ class noteController extends Controller {
 
             $matieres_pv=$notes_sequences_pv->fetch('id_matiere')->toArray();
             $sCoef=0;
-            $cm = classeMatiere::whereIdClasse($id)->where('id_nniveau','=',$nniveau)->get();
+            $cm = classeMatiere::whereIdClasse($id)->where('id_nniveau','=',$nniveau)->where('id_cycle','=',$id_cycle)->get();
             foreach ($cm as $entry){
                 $sCoef+=$entry->coef;
             }
@@ -489,7 +490,7 @@ class noteController extends Controller {
                 foreach ($m as $matiere){
 
 
-                    $credit=$cm->where('id_matiere',$matiere->id)
+                    $credit=$cm->where('id_matiere',$matiere->id,false)
                         ->first()
                         ->coef;
                     $note_cc1=$n_cc->where('id_matiere',$matiere->id,false)
@@ -569,7 +570,6 @@ class noteController extends Controller {
 
 
 
-
                     if(is_numeric($note)){
                         $sNote+=($this->getGrade($note)[1])*$credit;
                     }
@@ -580,9 +580,10 @@ class noteController extends Controller {
 
                     $l++;
                 }
-                //dump($matieres);
                 $proces_v[$k]=new PV($eleve->id,$matieres,$sNote/$sCoef);
+
                 $k++;
+
             }
             $values['eleves'] = $e;
             $values['PV'] = $proces_v;

@@ -1,11 +1,13 @@
 <?php namespace gesecole\Http\Controllers\personnel;
 
 use gesecole\classe;
+use gesecole\classeMatiere;
 use gesecole\cycle;
 use gesecole\niveau;
 use gesecole\dispense;
 use gesecole\horaire;
 use gesecole\NNiveau;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 use gesecole\Http\Requests;
 use Illuminate\Support\Facades\DB;
@@ -49,7 +51,8 @@ class dispenseController extends Controller {
         $p=personnel::find($id);
         $titre=trans('admin.titre_table_dispense').' '.$p->nom;
         $n=classe::all();
-        $e=matiere::all();
+
+        $e=matiere::orderBy('nom')->get();
         $nn=NNiveau::all();
         $h=horaire::all();
         $values= array('titre'=>$titre,'dispense'=>$m,'classes'=>$n,'matieres'=>$e,'horaires'=>$h);
@@ -115,6 +118,18 @@ class dispenseController extends Controller {
             'nniveau'=>'required|numeric',
         ]);
         $nniveau=$req->input('nniveau');
+
+        $nn=NNiveau::find($nniveau);
+        $cm=classeMatiere::whereIdClasse($req->input('id_classe'))
+            ->where('id_cycle','=',$nn->id_cycle)
+            ->where('id_nniveau','=',$nn->id)
+            ->where('id_matiere','=',$req->input('id_matiere'))
+            ->first();
+        if($cm==null)
+        {
+            return redirect()->action('personnel\dispenseController@index',['id'=>$req->input('id_personnel')])->withErrors(['matiere'=>trans('admin.no_matiere_programme')]);
+        }
+
         $h=horaire::orderBy('ordre')->get();
         $oh=dispense::whereAnneeScolaire(session('year'))
             ->where('id_classe','=',$req->input('id_classe'))
@@ -151,6 +166,17 @@ class dispenseController extends Controller {
             'id_horaire'=>'required',
 
         ]);
+        $d=dispense::whereIdPersonnel($req->input('id_personnel'))
+            ->where('jour','=',$req->input('jour'))
+            ->where('id_horaire','=',$req->input('id_horaire'))
+            ->first();
+
+        if($d!=null)
+        {
+
+            return redirect()->action('personnel\dispenseController@index',['id'=>$req->input('id_personnel')])->withErrors(['jour'=>trans('admin.heure_prise')]);
+        }
+
         $c=new dispense();
         $c->annee_scolaire=session('year');
         $c->id_matiere=$req->input('id_matiere');
@@ -177,6 +203,7 @@ class dispenseController extends Controller {
         ]);
 	    $id=$request->input('id');
 	    $nniveau=$request->input('nniveau');
+	    $nn=NNiveau::find($nniveau);
         $titre=trans('admin.emploi_temps_classe');
         $d=dispense::whereAnneeScolaire(\session('year'))
         ->where('id_classe','=',$id)
@@ -188,7 +215,9 @@ class dispenseController extends Controller {
         $m=matiere::join('classe_matiere','matiere.id','=','classe_matiere.id_matiere')
             ->where('id_classe','=',$id)
             ->where('id_nniveau','=',$nniveau)
+            ->where('id_cycle','=',$nn->id_cycle)
             ->select(['matiere.*'])
+            ->orderBy((App::getLocale()=='en')?'nom':'nom_anglais')
             ->get()
         ;
         $values['titre']=$titre;

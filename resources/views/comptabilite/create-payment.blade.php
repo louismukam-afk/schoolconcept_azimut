@@ -21,20 +21,9 @@
             <div class="panel-body">
                 <h4><strong>Nom :</strong> {{$personnel->nom}}</h4>
                 @if(isset($dernier_payement))
-                    <h4>{{trans('admin.date_dernier_payement').': '.$dernier_payement->date_p}}</h4>
+                    <h4 class="alert alert-info"><strong> {{trans('admin.date_dernier_payement').': '.$dernier_payement->date_p}}</strong> </h4>
                 @endif
-                <h5 class="alert alert-info"><strong>{{trans('admin.depuis_dernier_payement')}}</strong></h5>
-                <p><strong>{{trans('admin.abscences')}} :</strong>
 
-                    <?php $s=0; ?>
-                    @foreach($discipline as $d)
-                        @if($d->type==0)
-                            <?php $s+=$d->nombre; ?>
-                        @endif
-                    @endforeach
-                    {{$s.' '.trans('admin.heure')}}
-                </p>
-                <p><strong>{{trans('admin.retards')}} :</strong>  {{$discipline->where('type',1,false)->count()}}</p>
 
                 <div class="alert alert-warning"><strong>{{trans('admin.salaire_base')}}</strong>
                     <p><strong>{{$salaire->montant.' '.trans('inscription.devise')}}</strong></p>
@@ -46,15 +35,12 @@
                 </div>
 
                 <div class="alert alert-warning"><strong>{{trans('admin.taux')}}</strong>
-                    <p><strong>{{$taux?$taux->taux.' '.trans('inscription.devise').' / '.trans('admin.heure'):'0 '.trans('inscription.devise').' / '.trans('admin.heure')}}</strong></p>
+                    <p><strong>{{$taux.' '.trans('inscription.devise').' / '.trans('admin.heure')}}</strong></p>
 
                 </div>
-                <?php
-                    $taux?$t=$taux->taux:$t=0;
 
-                ?>
                 <div class="alert alert-success"><strong>Total</strong>
-                    <p><strong>{{$salaire->montant+$heure_realisee*$t.' '.trans('inscription.devise')}}</strong></p>
+                    <p><strong>{{$salaire->montant+$somme_heure.' '.trans('inscription.devise')}}</strong></p>
 
                 </div>
                 <div class="col-md-6">
@@ -62,8 +48,8 @@
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="id" value="{{$personnel->id }}">
                         <input type="hidden" name="heure_realisee" value="{{$heure_realisee}}">
-                        <input type="hidden" name="taux" value="{{$t}}">
-                        <input type="hidden" name="total" value="{{$salaire->montant+$heure_realisee*$t}}">
+                        <input type="hidden" name="taux" value="{{$taux}}">
+                        <input type="hidden" name="total" value="{{$salaire->montant+$somme_heure}}">
 
                         <fieldset>
                             <div class="form-group">

@@ -1,8 +1,11 @@
 <?php namespace gesecole\Http\Controllers\admin;
 
+use gesecole\classe;
+use gesecole\dispense;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
 use gesecole\matiere;
+use gesecole\NNiveau;
 use gesecole\personnel;
 use gesecole\taux;
 use Illuminate\Support\Facades\Session;
@@ -37,9 +40,10 @@ class tauxController extends Controller {
     }
 	public function index()
 	{
+        $titre=trans('admin.taux');
+        $values= array('titre'=>$titre);
+        return view('admin/taux',$values);
 
-
-        return redirect()->action('admin\tauxController@create');
 	}
 
 	/**
@@ -47,19 +51,41 @@ class tauxController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function create()
+	public function create($id)
 	{
         $titre=trans('admin.taux');
-        $t=taux::all();
-        $p=personnel::all();
-        $pe=$t->fetch('id_personnel')->toArray();
-        $ps=personnel::whereNotIn('id',$pe)->get();
+        $t=taux::where('id_personnel','=',$id)->orderBy('id_classe')->orderBy('id_matiere')->orderBy('id_nniveau')->get();
+        $p=personnel::find($id);
+
+        $d=dispense::distinct()->get(['id_classe','id_matiere','id_nniveau']);
+
+        foreach ($t as $taux)
+        {
+            foreach ($d as $key=>$dis)
+            {
+
+
+                if(($taux->id_matiere==$dis->id_matiere) && ($taux->id_classe==$dis->id_classe) && ($taux->id_nniveau==$dis->id_nniveau))
+                {
+                    unset($d[$key]);
+                    break;
+                }
+            }
+        }
+
+
+        $c=classe::all();
+        $m=matiere::all();
+        $nn=NNiveau::all();
 
 
         $values= array('titre'=>$titre);
         $values['taux']=$t;
-        $values['personnels']=$p;
-        $values['personnel_sans']=$ps;
+        $values['matieres']=$m;
+        $values['classes']=$c;
+        $values['nniveaux']=$nn;
+        $values['dispenses']=$d;
+        $values['personnel']=$p;
 
 
 
@@ -68,7 +94,7 @@ class tauxController extends Controller {
             $values['success']=true;
 
         }
-        return view('admin/taux',$values);
+        return view('admin/taux_enseignant',$values);
 	}
 
 	/**
@@ -80,16 +106,38 @@ class tauxController extends Controller {
 	{
 		$this->validate($request,[
 		   'id_personnel'=>'required|numeric',
-            'taux'=>'required|numeric',
         ]);
+        $id=$request->input('id_personnel');
+        $matiereList=$request->input('matiere');
+        $tauxList=$request->input('taux');
+        $classeList=$request->input('classe');
+        $nniveauList=$request->input('nniveau');
 
-		$t=new taux();
-		$t->id_personnel=$request->input('id_personnel');
-        $t->taux=$request->input('taux');
+        $i=0;
+        foreach ($matiereList as $mat){
+            if(($mat==0) &&($nniveauList[$i]==0) && ($classeList[$i]==0)){
+                $t=taux::firstOrNew(['id_personnel'=>$id,'id_matiere'=>0,'id_classe'=>0,'id_nniveau'=>0]);
+                $t->taux=$tauxList[$i];
+                $t->save();
+            }else
+            {
+                $t=new taux();
+                $t->id_personnel=$id;
+                $t->id_classe=$classeList[$i];
+                $t->id_matiere=$mat;
+                $t->id_nniveau=$nniveauList[$i];
+                $t->taux=$tauxList[$i];
+                $t->save();
+            }
 
-        $t->save();
+
+            $i++;
+        }
+
+
+
         \session(['success'=>true]);
-        return redirect()->action('admin\tauxController@create');
+        return redirect()->action('admin\tauxController@create',['id'=>$id]);
 	}
 
 	/**

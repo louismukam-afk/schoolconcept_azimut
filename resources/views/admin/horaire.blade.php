@@ -35,7 +35,7 @@
                     <td>{{$h->ordre}}</td>
                     <td>
                         <div class="btn-group">
-                            <a data-toggle="modal" data-backdrop="false" href="#edit_horaire"  onclick="editer_horaire({{$h->id}},'{{$h->intervalle}}',{{$h->type}},{{$h->ordre}})" class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-edit"></span> </a>
+                            <a data-toggle="modal" data-backdrop="false" href="#edit_horaire"  onclick="editer_horaire({{$h->id}},'{{$h->intervalle}}',{{$h->type}},{{$h->nb_heures}},{{$h->ordre}})" class="btn btn-primary btn-xs "><span class="glyphicon glyphicon-edit"></span> </a>
                             <a  href="{{url('/admin/horaires/destroy/'.$h->id)}}"   class="btn btn-danger btn-xs "><span class="glyphicon glyphicon-trash"></span> </a>
 
                         </div>
@@ -71,6 +71,10 @@
                                         <option value="0" @if(old('type')==0) selected @endif>{{trans('admin.cours')}}</option>
                                         <option value="1" @if(old('type')==1) selected @endif>Pause</option>
                                     </select>
+                                </div>
+                                <div class="form-group" style="display: none">
+                                    <label for="heures">@lang('admin.nb_heures') :</label>
+                                    <input type="text" class="form-control" name="heures" id="heures">
                                 </div>
                                 <div class="form-group">
                                     <label for="ordre">@lang('admin.numero_ordre') :</label>
@@ -123,6 +127,10 @@
                                             <option value="1">Pause</option>
                                         </select>
                                     </div>
+                                    <div class="form-group" style="display: none">
+                                        <label for="heures">@lang('admin.nb_heures') :</label>
+                                        <input type="text" class="form-control"  name="heures" id="edit_heures">
+                                    </div>
                                     <div class="form-group">
                                         <label for="edit_ordre">@lang('admin.numero_ordre')  :</label>
                                             <input type="text" class="form-control" name="ordre" id="edit_ordre">
@@ -149,12 +157,14 @@
 
     </div>
     <script>
-        function editer_horaire(id,intervalle,type,ordre)
+        function editer_horaire(id,intervalle,type,heures,ordre)
         {
             document.getElementById("edit_id_horaire").value = id;
             document.getElementById("edit_int").value = intervalle;
             document.getElementById("edit_type").value = type;
             document.getElementById("edit_ordre").value = ordre;
+            document.getElementById("edit_heures").value = heures;
+
 
         }
     </script>

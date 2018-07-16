@@ -36,13 +36,13 @@ class salaireController extends Controller {
 	public function index()
 	{
         $titre=trans('admin.salaire');
-        $m=salaire::all();
+        $m=salaire::orderBy('montant','desc')->get();
         $arr=[];
         foreach ($m as $s){
             array_push($arr,$s->id_personnel);
         }
-        $p=personnel::all();
-        $p1=personnel::whereNotIn('id',$arr)->get();
+        $p=personnel::orderBy('nom')->get();
+        $p1=personnel::whereNotIn('id',$arr)->orderBy('nom')->get();
 
         $values= array('titre'=>$titre,'salaire'=>$m);
 

@@ -13,7 +13,9 @@ class personnelTableSeeder extends Seeder {
      */
     public function run()
     {
-       personnel::insert(
+        for ($i=0;$i<35;$i++)
+
+            personnel::insert(
             [
                 'nom'=>$this->getNom().' '.$this->getPrenom(),
                 'date_naiss'=>random_int(1955,1990).'-'.random_int(1,12).'-'.random_int(1,28),

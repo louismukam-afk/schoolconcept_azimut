@@ -34,15 +34,15 @@ class Kernel extends ConsoleKernel {
 
         $schedule->call(function () {
 
-            $mysqlUserName      = secEnv(env('DB_USERNAME'));
-            $mysqlPassword      = secEnv(env('DB_PASSWORD'));
+            $mysqlUserName      = secEnv2(env('DB_USERNAME'));
+            $mysqlPassword      = secEnv2(env('DB_PASSWORD'));
             $mysqlHostName      = env('DB_HOST');
-            $DbName             = secEnv(env('DB_DATABASE'));
+            $DbName             = secEnv2(env('DB_DATABASE'));
            // $backup_name        = "mybackup.sql";
             //$tables             = "Your tables";
 
             try {
-                exec('pg_dump  --dbname=postgresql://'.secEnv(env('DB_USERNAME')).':'.secEnv(env('DB_PASSWORD')).'@127.0.0.1:5432/'.secEnv(env('DB_DATABASE')).' > "'.public_path().'\\backups\\'.secEnv(env('DB_DATABASE')).'_'.date('H-i-s').'_'.date('d-m-Y').'.sql"');
+                exec('pg_dump  --dbname=postgresql://'.secEnv2(env('DB_USERNAME')).':'.secEnv2(env('DB_PASSWORD')).'@127.0.0.1:5432/'.secEnv2(env('DB_DATABASE')).' > "'.public_path().'\\backups\\'.secEnv2(env('DB_DATABASE')).'_'.date('H-i-s').'_'.date('d-m-Y').'.sql"');
 
                 /*$world_dumper = \Shuttle_Dumper::create(array(
                     'host' => $mysqlHostName,

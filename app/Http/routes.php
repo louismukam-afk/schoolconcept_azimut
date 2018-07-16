@@ -11,7 +11,6 @@
 |
 */
 
-
 Route::group(['middleware'=>'auth'],function (){
     Route::get('/', 'WelcomeController@index');
     Route::get('home', 'WelcomeController@index');
@@ -111,7 +110,7 @@ Route::group(['middleware'=>'auth'],function (){
 
         //pour les taux
         Route::get('/admin/taux/', 'admin\tauxController@index');
-        Route::get('/admin/taux/create/', 'admin\tauxController@create');
+        Route::get('/admin/taux/create/{id}', 'admin\tauxController@create');
         Route::post('/admin/taux/store/', 'admin\tauxController@store');
         Route::get('/admin/taux/destroy/{id}', 'admin\tauxController@destroy');
 
