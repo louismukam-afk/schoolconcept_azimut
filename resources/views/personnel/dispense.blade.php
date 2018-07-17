@@ -1,6 +1,6 @@
 @extends('skeleton')
 @section('sub-content')
-    <div class="col-md-10">
+    <div class="col-md-12">
         @if(isset($success))
 
             <div class="alert alert-success">
@@ -15,47 +15,88 @@
 
         <table class="table table-striped table-condensed table-inverse" style="margin-top: 15px;">
             <thead>
-            <th>#</th>
             <th>{{trans('admin.classe')}}</th>
             <th>@lang('admin.nniveau')</th>
             <th>{{trans('admin.matiere')}}</th>
-            <th>{{trans('admin.jour')}}</th>
+            <th>{{trans('admin.jour').'/'.trans('admin.salle')}}</th>
             <th>{{trans('admin.horaire')}}</th>
+            <th style="width: 50px" > @lang('admin.heure_prevue')</th>
+            <th style="width: 50px">@lang('admin.compte_heure_')</th>
             </thead>
             <tbody>
-            <?php  $i=1; ?>
+            <?php  $i=1; $id_classe=-1;$id_nniveau=-1;$id_matiere=-1;?>
+
             @foreach($dispense as $c)
+                <?php $i++ ?>
+                @if((($id_classe!=$c->id_classe) || ($id_nniveau!=$c->id_nniveau) || ($id_matiere!=$c->id_matiere))  )
+                    <tr>
+                        @foreach($classes as $n)
+                            @if($n->id == $c->id_classe)
+                                <td><strong><a href="#show_heure_prevue" data-toggle="modal" data-backdrop="false" onclick="edit_form({{$c->id_personnel}},{{$c->id_classe}},{{$c->id_nniveau}},{{$c->id_matiere}})"><span class="glyphicon glyphicon-time"></span> {{  (App::getLocale()=='en')?$n->nom_anglais:$n->nom  }}</a></strong>  </td>
+                                <?php break; ?>
+                            @endif
+
+                        @endforeach
+                        @foreach($nniveaux as $nn)
+                            @if($nn->id == $c->id_nniveau)
+                                <td><strong>{{ $nn->nom  }} </strong>  </td>
+                                <?php break; ?>
+                            @endif
+
+                        @endforeach
+                        @foreach($matieres as $e)
+                            @if($e->id == $c->id_matiere)
+                                <td> <strong>{{  (App::getLocale()=='en')?$e->nom_anglais:$e->nom }}</strong> </td>
+                                <?php break; ?>
+                            @endif
+
+                        @endforeach
+                        <td colspan="2"></td>
+                            <td class="text-center">
+                                @foreach($heuresP as $h)
+                                    @if(($h->id_nniveau == $c->id_nniveau) && ($h->id_classe == $c->id_classe) && ($h->id_matiere == $c->id_matiere))
+                                       <strong>{{  $h->total  }}</strong>
+                                        <?php break; ?>
+                                    @endif
+
+                                @endforeach
+                            </td>
+                            <?php $sum=0; ?>
+                            <td class="text-center">
+                            @foreach($heuresR as $h)
+                                @if(($h->id_nniveau == $c->id_nniveau) && ($h->id_classe == $c->id_classe) && ($h->id_matiere == $c->id_matiere))
+                                    <?php $sum+=$h->nombre; ?>
+                                    @endif
+
+                            @endforeach
+                                <strong>{{$sum}}</strong>
+                        </td>
+                        <td></td>
+                    </tr>
+
+
+                @endif
+                <?php $id_classe= $c->id_classe ;$id_nniveau=$c->id_nniveau;$id_matiere=$c->id_matiere; ?>
 
                 <tr>
-                    <td>{{$i++}}</td>
 
 
 
 
-                    @foreach($classes as $n)
-                        @if($n->id == $c->id_classe)
-                            <td>  {{  (App::getLocale()=='en')?$n->nom_anglais:$n->nom  }}</td>
+                 <td></td>
+                   <td></td>
+
+
+                    <td></td>
+                    <td>{{jour($c->jour)}}
+                    @foreach($salles as $s)
+                        @if($s->id == $c->id_salle)
+                              {{  '/'.$s->nom }}
                             <?php break; ?>
-                        @endif
+                            @endif
 
-                    @endforeach
-                    @foreach($nniveaux as $nn)
-                        @if($nn->id == $c->id_nniveau)
-                            <td>  {{ $nn->nom  }}</td>
-                            <?php break; ?>
-                        @endif
-
-                    @endforeach
-
-
-                    @foreach($matieres as $e)
-                        @if($e->id == $c->id_matiere)
-                            <td>  {{  (App::getLocale()=='en')?$e->nom_anglais:$e->nom }}</td>
-                            <?php break; ?>
-                        @endif
-
-                    @endforeach
-                    <td>{{jour($c->jour)}}</td>
+                            @endforeach
+                    </td>
                     @foreach($horaires as $h)
                         @if($h->id == $c->id_horaire)
                             <td>  {{  $h->intervalle  }}</td>
@@ -63,7 +104,8 @@
                             @endif
 
                             @endforeach
-
+<td></td>
+                    <td></td>
 
 
 
@@ -91,7 +133,7 @@
                             <input type="hidden" name="id_personnel" value="{{$personnel->id}}">
 
                             <fieldset>
-                                <div class="form-group">
+                                <div class="form-group col-md-6">
                                     <label for="classe">{{  trans('admin.choix_classe')  }} : <span class="required">*</span></label>
                                     <select  name="id_classe" form="edit_manger_form" class="form-control">
                                         <?php $n=0;$i=0; ?>
@@ -112,7 +154,7 @@
 
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group col-md-6">
                                     <label for="nniveau">@lang('admin.nniveau')</label>
                                     <select  id="nniveau" name="nniveau" form="edit_manger_form" class="form-control">
                                         @foreach($nniveaux as $e)
@@ -121,7 +163,7 @@
                                     </select>
                                 </div>
                                 <input type="hidden" name="id_personnel" value="{{$personnel->id}}">
-                                <div class="form-group">
+                                <div class="form-group col-md-6">
                                     <label for="id_matiere">@lang('admin.titre_matiere')</label>
                                     <select  name="id_matiere" id="id_matiere" form="edit_manger_form" class="form-control">
                                         @foreach($matieres as $e)
@@ -129,7 +171,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group">
+                                <div class="form-group col-md-6">
                                     <label for="jour">@lang('admin.jour')</label>
 
                                     <select  name="jour" id="jour" form="edit_manger_form" class="form-control">
@@ -143,8 +185,19 @@
                                     </select>
                                 </div>
 
+                                <div class="form-group col-md-6">
+                                    <label for="id_classe">@lang('admin.salle')</label>
+                                    <select  name="id_classe" id="id_classe" form="edit_manger_form" class="form-control">
+                                        @foreach($salles as $s)
+                                            <option value="{{  $s->id  }}" @if($s->id == old('id_classe')) selected @endif>{{ $s->nom  }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
-                                <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
+                                    <div class="row  col-md-12">
+                                        <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
+
+                                    </div>
 
                             </fieldset>
                         </form>
@@ -158,6 +211,38 @@
             </div>
         </div>
 
+            <div class="modal fade" id="show_heure_prevue">
+                <div class="modal-dialog"  >
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">x</button>
+                            <h4 class="modal-title">{{  trans('admin.remplir_champs')  }}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form  id="heure_prevue_form">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <input type="hidden" id="edit-personnel" name="personnel" value="">
+                                <input type="hidden" id="edit-classe" name="classe" value="">
+                                <input type="hidden" id="edit-nniveau" name="nniveau" value="">
+                                <input type="hidden" id="edit-matiere" name="matiere" value="">
+                                
+                                <div class="form-group">
+                                    <label for="heure_prevue">@lang('admin.heure_prevue')</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="heure" id="heure_prevue" disabled>
+                                        <div class="input-group-addon">
+                                            <strong>@lang('admin.heure')</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary" ><span class="glyphicon glyphicon-check"></span>  @lang('admin.confirmer')</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
 
     </div>
 <?php
@@ -179,4 +264,66 @@
         return 'none';
     }
 ?>
+
+    <script>
+        $('#heure_prevue_form').on('submit', function(e){
+            // validation code here
+                e.preventDefault();
+                updateHp();
+
+        });
+        function showHp() {
+            startLoading();
+            $('#heure_prevue').val('');
+            $('#heure_prevue').attr('disabled','disabled');
+            $.ajax({
+                url:'{{url('/personnel/heures-prevues/show/')}}',
+                type:'POST',
+                data: new FormData($('#heure_prevue_form')[0]),
+                cache: false,
+                contentType: false,
+                processData: false,
+                complete: function (res,stat) {
+                    var num=res.responseText;
+                    $('#heure_prevue').removeAttr('disabled');
+                    $('#heure_prevue').val(num);
+
+                    stopLoading();
+
+                }
+            })
+
+        }
+        function updateHp() {
+            startLoading();
+
+            $.ajax({
+                url:'{{url('/personnel/heures-prevues/update/')}}',
+                type:'POST',
+                data: new FormData($('#heure_prevue_form')[0]),
+                cache: false,
+                contentType: false,
+                processData: false,
+                complete: function (res,stat) {
+
+                    var num=res.responseText;
+                    //$('#show_heure_prevue').modal('hide');
+                    $("#show_heure_prevue .close").click();
+                    location.reload();
+                   // stopLoading();
+
+
+                }
+            })
+
+        }
+        
+        function edit_form(personnel,classe,nniveau,matiere) {
+            $('#edit-personnel').val(personnel);
+            $('#edit-classe').val(classe);
+            $('#edit-nniveau').val(nniveau);
+            $('#edit-matiere').val(matiere);
+            showHp();
+        }
+    </script>
 @endsection

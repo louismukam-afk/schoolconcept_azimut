@@ -1,7 +1,11 @@
 <?php namespace gesecole\Http\Controllers\eleves;
 
+use gesecole\classe;
+use gesecole\cycle;
 use gesecole\discipline;
 use gesecole\eleve;
+use gesecole\niveau;
+use gesecole\NNiveau;
 use gesecole\parametres;
 use Illuminate\Support\Facades\Session;
 use gesecole\Http\Requests;
@@ -39,6 +43,13 @@ class disciplineController extends Controller {
     public function index()
 	{
         $values= array('titre'=>trans('inscription.title_search'));
+        $cy=cycle::all();
+        $n=niveau::all();
+        $c=classe::all();
+
+        $values['cycles']=$cy;
+        $values['niveaux']=$n;
+        $values['classes']=$c;
         if(session('success')){
             $values['success']=session('success');
             Session::forget('success');
@@ -52,6 +63,13 @@ class disciplineController extends Controller {
         $pattern=$request->input('search');
         $e=DB::select('SELECT e.matricule,e.id, e.nom,e.prenom,e.date_naiss,e.lieu_naiss,e.sexe,c.nom as nom_classe,c.nom_anglais as nom_classe_anglais FROM eleve e,inscription i,classe c WHERE (lower(e.nom) LIKE ? OR lower(e.prenom) LIKE ? OR lower(e.matricule) LIKE ?) AND e.id=i.id_eleve AND i.id_classe= c.id AND annee_scolaire=?',['%'.strtolower($pattern).'%','%'.strtolower($pattern).'%','%'.strtolower($pattern).'%',session('year')]);
         $values= array('titre'=>trans('inscription.title_search'));
+        $cy=cycle::all();
+        $n=niveau::all();
+        $c=classe::all();
+
+        $values['cycles']=$cy;
+        $values['niveaux']=$n;
+        $values['classes']=$c;
         $values['eleves']=$e;
         session(['search_result'=>true]);
 
@@ -234,6 +252,75 @@ class disciplineController extends Controller {
         return redirect()->action('eleves\disciplineController@create',[$id]);
     }
 
+
+    public function state(Request $request)
+    {
+        $id=$request->input('id');
+
+        $nniveau=$request->input('nniveau');
+        $cycle=$request->input('cycle');
+
+        $values= array('titre'=>trans('admin.etat_disc'));
+
+        $c=null;
+        if($id==0){
+            $c=null;
+            $e=DB::select('SELECT * FROM eleve e WHERE e.id In(SELECT id_eleve FROM inscription i WHERE annee_scolaire=?   ) ORDER BY nom,prenom',[session('year')]);
+        }
+        else{
+            $c=classe::find($id);
+            $e=DB::select('SELECT * FROM eleve e WHERE e.id In(SELECT id_eleve FROM inscription i ,classe c WHERE annee_scolaire=? AND i.id_classe=c.id AND c.id=?  AND i.id_cycle=? AND i.id_nniveau=?  ) ORDER BY nom,prenom',[session('year'),$id,$cycle,$nniveau]);
+        }
+
+        $list_e=[];
+        $i=0;
+        foreach ($e as $eleve){
+            $list_e[$i]=$eleve->id;
+            $i++;
+        }
+
+        $d=discipline::whereAnneeScolaire(session('year'))
+            ->whereIn('id_eleve',$list_e)
+            ->get();
+        $ii=0;
+        $discList=array();
+
+        foreach ($list_e as $el1)
+        {
+            $abscence_inj=$d->where('type',0,false)
+                ->where('id_eleve',$el1,false)
+                ->where('just','0',false)
+                ->sum('nb_heures');
+            $abscence_just=$d->where('type',0,false)
+                ->where('id_eleve',$el1,false)
+                ->where('just','1',false)
+                ->sum('nb_heures');
+            $retard=$d->where('type',1,false)
+                ->where('id_eleve',$el1,false)
+                ->count();
+            $avertissement=$d->where('type',3,false)
+                ->where('id_eleve',$el1,false)
+                ->count();
+            $blame=$d->where('type',4,false)
+                ->where('id_eleve',$el1,false)
+                ->count();
+            $exclusion=$d->where('type',2,false)
+                ->where('id_eleve',$el1,false)
+                ->sum('nb_jours');
+
+
+            $discList[$ii]=new etat_disciplinaire($el1,$avertissement,$exclusion,$blame,$retard,$abscence_inj,$abscence_just);
+            $ii++;
+        }
+        $values['classe']=$c;
+        $values['nniveau']=NNiveau::find($nniveau);
+
+        $values['eleves']=$e;
+        $values['disciplines']=$discList;
+
+        return view('eleves/etat_discplinaire',$values);
+
+    }
 	/**
 	 * Remove the specified resource from storage.
 	 *
@@ -244,5 +331,39 @@ class disciplineController extends Controller {
 	{
 		//
 	}
+
+}
+
+class etat_disciplinaire
+{
+    public $id_eleve;
+    public $avertissement;
+    public $exclusion;
+    public $blame;
+    public $retard;
+    public $abscence_inj;
+    public $abscence_just;
+
+    /**
+     * disc constructor.
+     * @param $id_eleve
+     * @param $avertissement
+     * @param $exclusion
+     * @param $blame
+     * @param $retard
+     * @param $abscence_inj
+     * @param $abscence_just
+     */
+    public function __construct($id_eleve, $avertissement, $exclusion, $blame, $retard, $abscence_inj, $abscence_just)
+    {
+        $this->id_eleve = $id_eleve;
+        $this->avertissement = $avertissement;
+        $this->exclusion = $exclusion;
+        $this->blame = $blame;
+        $this->retard = $retard;
+        $this->abscence_inj = $abscence_inj;
+        $this->abscence_just = $abscence_just;
+    }
+
 
 }

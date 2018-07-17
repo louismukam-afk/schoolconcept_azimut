@@ -44,7 +44,7 @@ class inscriptionTableSeeder extends Seeder {
                     'annee_scolaire'=>'2017-2018',
                     'date_payement'=>$this->date[random_int(0,$n-1)],
                     'montant'=>50000,
-                    'Motif'=>'Inscription',
+                    'motif'=>'Inscription',
                     'numero'=>'00000'.$i
                 ]);
 
@@ -54,7 +54,7 @@ class inscriptionTableSeeder extends Seeder {
                     'annee_scolaire'=>'2017-2018',
                     'date_payement'=>$this->date[random_int(0,$n-1)],
                     'montant'=>$this->montant[random_int(0,$m-1)],
-                    'Motif'=>'Avance pension',
+                    'motif'=>'Avance pension',
                     'numero'=>'PA0000'.(400+$i)
                 ]);
         }
@@ -81,7 +81,7 @@ class inscriptionTableSeeder extends Seeder {
             '2018-05-11',
             '2018-07-13',
             '2018-06-22',
-            '2018-0-24',
+            '2018-03-24',
             '2018-01-11',
             '2018-01-17',
         ];

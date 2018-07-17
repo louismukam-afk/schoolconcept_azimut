@@ -3,10 +3,13 @@
 use gesecole\classe;
 use gesecole\classeMatiere;
 use gesecole\cycle;
+use gesecole\heure_realise;
+use gesecole\heuresPrevues;
 use gesecole\niveau;
 use gesecole\dispense;
 use gesecole\horaire;
 use gesecole\NNiveau;
+use gesecole\salle;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 use gesecole\Http\Requests;
@@ -47,16 +50,26 @@ class dispenseController extends Controller {
 	public function index($id)
 	{
 
-        $m=dispense::whereIdPersonnel($id)->get();
+        $m=dispense::whereIdPersonnel($id)->orderBy('id_classe')->orderBy('id_nniveau')->orderBy('id_matiere')->orderBy('jour')->get();
         $p=personnel::find($id);
         $titre=trans('admin.titre_table_dispense').' '.$p->nom;
         $n=classe::all();
-
+        $hp=heuresPrevues::whereAnneeScolaire(\session('year'))
+            ->where('id_personnel','=',$p->id)
+            ->get();
+        $hr=heure_realise::whereAnneeScolaire(\session('year'))
+            ->where('id_personnel','=',$p->id)
+            ->get();
         $e=matiere::orderBy('nom')->get();
         $nn=NNiveau::all();
+        $s=salle::all();
         $h=horaire::all();
         $values= array('titre'=>$titre,'dispense'=>$m,'classes'=>$n,'matieres'=>$e,'horaires'=>$h);
         $values['nniveaux']=$nn;
+        $values['heuresP']=$hp;
+        $values['salles']=$s;
+        $values['heuresR']=$hr;
+
         $values['personnel']=$p;
         if(session('success')){
             $values['success']=true;
@@ -89,6 +102,7 @@ class dispenseController extends Controller {
             ->paginate(30);
         $values= array('titre'=>trans('admin.search_personnel'));
         $c=classe::orderBy('nom')->get();
+
         $values['classes']=$c;
         $cy=cycle::all();
         $nn=NNiveau::all();
@@ -130,7 +144,7 @@ class dispenseController extends Controller {
             return redirect()->action('personnel\dispenseController@index',['id'=>$req->input('id_personnel')])->withErrors(['matiere'=>trans('admin.no_matiere_programme')]);
         }
 
-        $h=horaire::orderBy('ordre')->get();
+        $h=horaire::where('type','=',0)->orderBy('ordre')->get();
         $oh=dispense::whereAnneeScolaire(session('year'))
             ->where('id_classe','=',$req->input('id_classe'))
             ->where('id_nniveau','=',$nniveau)
@@ -186,6 +200,24 @@ class dispenseController extends Controller {
         $c->jour=$req->input('jour');
         $c->id_horaire=$req->input('id_horaire');
         $c->save();
+
+        $hp=heuresPrevues::whereAnneeScolaire(\session('year'))
+            ->where('id_personnel','=',$req->input('id_personnel'))
+            ->where('id_classe','=',$req->input('id_classe'))
+            ->where('id_nniveau','=',$req->input('id_nniveau'))
+            ->where('id_matiere','=',$req->input('id_matiere'))
+            ->first();
+        if($hp==null){
+            $hp=new heuresPrevues();
+            $hp->id_personnel=$req->input('id_personnel');
+            $hp->id_classe=$req->input('id_classe');
+            $hp->id_nniveau=$req->input('id_nniveau');
+            $hp->id_matiere=$req->input('id_matiere');
+            $hp->annee_scolaire=\session('year');
+            $hp->save();
+        }
+
+
         session(['success'=>true]);
         return redirect()->action('personnel\dispenseController@index',['id'=>$c->id_personnel]);
 	}
@@ -269,6 +301,21 @@ class dispenseController extends Controller {
         $c->jour=$req->input('jour');
         $c->id_horaire=$req->input('id_horaire');
         $c->save();
+        $hp=heuresPrevues::whereAnneeScolaire(\session('year'))
+            ->where('id_personnel','=',$req->input('id_personnel'))
+            ->where('id_classe','=',$req->input('id_classe'))
+            ->where('id_nniveau','=',$req->input('id_nniveau'))
+            ->where('id_matiere','=',$req->input('id_matiere'))
+            ->first();
+        if($hp==null){
+            $hp=new heuresPrevues();
+            $hp->id_personnel=$req->input('id_personnel');
+            $hp->id_classe=$req->input('id_classe');
+            $hp->id_nniveau=$req->input('id_nniveau');
+            $hp->id_matiere=$req->input('id_matiere');
+            $hp->annee_scolaire=\session('year');
+            $hp->save();
+        }
 
         session(['success'=>true]);
         return redirect()->to('/personnel/emploi-temps/show/'.'?id='.$id.'&nniveau='.$req->input('nniveau'));
@@ -309,6 +356,11 @@ class dispenseController extends Controller {
         session(['success' => true]);
         return redirect()->action('personnel\dispenseController@index');
 	}
+
+	public function edit_heure_prevue()
+    {
+
+    }
 
 	/**
 	 * Remove the specified resource from storage.

@@ -18,6 +18,36 @@
         </div>
 
     @endif
+    <div id="monaccordeon" class="panel-group col-md-12">
+        <h3>{{trans('inscription.choix_liste')}}</h3>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <a class="accordion-toggle" href="#item1" dataparent="#monaccordeon"
+                       data-toggle="collapse">
+                        {{trans('admin.etat_disc')}}
+                    </a>
+                </h3>
+            </div>
+
+            <div id="item1"
+                 class="panel-collapse collapsing">
+                <div
+                        class="panel-body">
+                    <ul>
+                        <li><strong><a href="{{route('etat_disciplinaire_personnel')}}">@lang('admin.tout_personnel')</a></strong></li>
+                    </ul>
+
+
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
 
 
     <div class="col-md-8">
