@@ -263,6 +263,8 @@ return [
     "date_enr"=>"Registering date",
     "no_matiere_programme" => "This subject is not in the program for this specialty",
     "heure_prise" => "This period is already occupied for this teacher",
+    "heure_prise2"=>"This period is already occupied for this class",
+
     "tout_personnel"=>"All staff",
     "heure_prevue"=>"Scheduled hours number",
     "salle"=>"Rooms",

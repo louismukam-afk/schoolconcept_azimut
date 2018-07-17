@@ -12,7 +12,7 @@
                     @endif
                 @endforeach
                 @if($i==0)
-                    <li><strong><a href="{{url('/personnel/dispense/store?id_matiere='.$id_matiere.'&id_personnel='.$id_personnel.'&id_classe='.$id_classe.'&id_nniveau='.$id_nniveau.'&jour='.$jour.'&id_horaire='.$h->id)}}">{{$h->intervalle}}</a></strong></li>
+                    <li><strong><a href="{{url('/personnel/dispense/store?id_matiere='.$id_matiere.'&id_personnel='.$id_personnel.'&id_classe='.$id_classe.'&id_nniveau='.$id_nniveau.'&jour='.$jour.'&id_horaire='.$h->id.'&id_salle='.$salle)}}">{{$h->intervalle}}</a></strong></li>
                     @endif
             </ul>
 

@@ -222,6 +222,8 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/personnel/find/', 'personnel\dispenseController@find');
         Route::get('/personnel/dispense/destroy/{id}', 'personnel\dispenseController@destroy');
         Route::get('/personnel/dispense/store', 'personnel\dispenseController@store');
+        Route::any('/personnel/dispense/edit', 'personnel\dispenseController@edit');
+
         Route::post('/personnel/dispense/update', 'personnel\dispenseController@update');
         Route::get('/personnel/dispenses/', 'personnel\dispenseController@index1');
         Route::get('/personnel/dispense/{id}', 'personnel\dispenseController@index');

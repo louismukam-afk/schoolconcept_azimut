@@ -277,6 +277,8 @@ return [
     "date_enr"=>"Date enregistrement",
     "no_matiere_programme"=>"Cette matière n'est pas au programme pour cette spécialité",
     "heure_prise"=>"Cette période est déja occupée pour cette enseignant",
+    "heure_prise2"=>"Cette période est déja occupée pour cette classe",
+
     "tout_personnel"=>"Tout le personnel",
     "heure_prevue"=>"Nombre d'heures prévues",
     "salle"=>"Salles",

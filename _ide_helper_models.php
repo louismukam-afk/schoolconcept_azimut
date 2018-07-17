@@ -195,6 +195,8 @@ namespace gesecole{
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\dispense whereJour($value)
  * @property int $id_nniveau
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\dispense whereIdNniveau($value)
+ * @property int $id_salle
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\dispense whereIdSalle($value)
  */
 	class dispense extends \Eloquent {}
 }

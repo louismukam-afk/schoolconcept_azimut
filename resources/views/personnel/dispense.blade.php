@@ -88,14 +88,17 @@
 
 
                     <td></td>
-                    <td>{{jour($c->jour)}}
+                    <td>
+                        <strong><a href="#edit_dispense" data-toggle="modal" data-backdrop="false" onclick="edit_dispense({{$c->id}},{{$c->jour}},{{$c->id_horaire}},{{$c->id_salle}})"><span class="glyphicon glyphicon-pencil"> </span> {{jour($c->jour)}}
                     @foreach($salles as $s)
                         @if($s->id == $c->id_salle)
-                              {{  '/'.$s->nom }}
+                              /{{  $s->nom }}
                             <?php break; ?>
                             @endif
 
                             @endforeach
+                            </a>
+                        </strong>
                     </td>
                     @foreach($horaires as $h)
                         @if($h->id == $c->id_horaire)
@@ -186,10 +189,11 @@
                                 </div>
 
                                 <div class="form-group col-md-6">
-                                    <label for="id_classe">@lang('admin.salle')</label>
-                                    <select  name="id_classe" id="id_classe" form="edit_manger_form" class="form-control">
+                                    <label for="id_salle">@lang('admin.salle')</label>
+                                    <select  name="id_salle" id="id_salle" form="edit_manger_form" class="form-control">
+                                        <option value="0">@lang('admin.aucun')</option>
                                         @foreach($salles as $s)
-                                            <option value="{{  $s->id  }}" @if($s->id == old('id_classe')) selected @endif>{{ $s->nom  }}</option>
+                                            <option value="{{  $s->id  }}" @if($s->id == old('id_salle')) selected @endif>{{ $s->nom  }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -210,6 +214,87 @@
 
             </div>
         </div>
+
+            <div class="modal fade" id="show_heure_prevue">
+                <div class="modal-dialog"  >
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">x</button>
+                            <h4 class="modal-title">{{  trans('admin.remplir_champs')  }}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form  id="heure_prevue_form">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <input type="hidden" id="edit-personnel" name="personnel" value="">
+                                <input type="hidden" id="edit-classe" name="classe" value="">
+                                <input type="hidden" id="edit-nniveau" name="nniveau" value="">
+                                <input type="hidden" id="edit-matiere" name="matiere" value="">
+                                
+                                <div class="form-group">
+                                    <label for="heure_prevue">@lang('admin.heure_prevue')</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" name="heure" id="heure_prevue" disabled>
+                                        <div class="input-group-addon">
+                                            <strong>@lang('admin.heure')</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary" ><span class="glyphicon glyphicon-check"></span>  @lang('admin.confirmer')</button>
+
+
+            <div class="modal fade" id="edit_dispense">
+                <div class="modal-dialog"  >
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">x</button>
+                            <h4 class="modal-title">{{  trans('admin.remplir_champs')  }}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form  id="edit_dispense_form" method="post" action="{{url('/personnel/dispense/edit')}}">
+                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <input type="hidden" id="edit-id-dispense" name="id" value="">
+
+                                <div class="form-group">
+                                    <label for="edit-jour">@lang('admin.jour')</label>
+
+                                    <select  name="jour" id="edit-jour" form="edit_dispense_form" class="form-control">
+                                        <option value="1" >{{ trans('admin.jour1') }}</option>
+                                        <option value="2">{{ trans('admin.jour2') }}</option>
+                                        <option value="3" >{{ trans('admin.jour3') }}</option>
+                                        <option value="4">{{ trans('admin.jour4') }}</option>
+                                        <option value="5">{{ trans('admin.jour5') }}</option>
+                                        <option value="6">{{ trans('admin.jour6') }}</option>
+                                        <option value="7" >{{ trans('admin.jour7') }}</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group ">
+                                    <label for="edit-horaire">@lang('admin.horaire')</label>
+                                    <select  id="edit-horaire" name="id_horaire" form="edit_dispense_form" class="form-control">
+                                        @foreach($horaires as $h)
+                                            <option value="{{  $h->id  }}">{{ $h->intervalle }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="form-group ">
+                                    <label for="edit-salle">@lang('admin.salle')</label>
+                                    <select  id="edit-salle" name="id_salle" form="edit_dispense_form" class="form-control">
+                                        <option value="0">@lang('admin.aucun')</option>
+                                    @foreach($salles as $s)
+                                            <option value="{{  $s->id  }}">{{ $s->nom }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary" ><span class="glyphicon glyphicon-check"></span>  @lang('admin.confirmer')</button>
+
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
 
             <div class="modal fade" id="show_heure_prevue">
                 <div class="modal-dialog"  >
@@ -274,6 +359,7 @@
         });
         function showHp() {
             startLoading();
+
             $('#heure_prevue').val('');
             $('#heure_prevue').attr('disabled','disabled');
             $.ajax({
@@ -324,6 +410,13 @@
             $('#edit-nniveau').val(nniveau);
             $('#edit-matiere').val(matiere);
             showHp();
+        }
+
+        function edit_dispense(id,jour,horaire,salle) {
+            $('#edit-id-dispense').val(id);
+            $('#edit-jour').val(jour);
+            $('#edit-horaire').val(horaire);
+            $('#edit-salle').val(salle);
         }
     </script>
 @endsection
