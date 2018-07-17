@@ -55,6 +55,15 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/admin/nniveaux/destroy/{id}', 'admin\nniveauController@destroy');
         Route::post('/admin/nniveaux/store', 'admin\nniveauController@store');
         Route::post('/admin/nniveaux/update', 'admin\nniveauController@update');
+
+
+        //Les salles
+        Route::get('/admin/salles/', 'admin\salleController@index');
+        Route::get('/admin/salles/destroy/{id}', 'admin\salleController@destroy');
+        Route::post('/admin/salles/store', 'admin\salleController@store');
+        Route::post('/admin/salles/update', 'admin\salleController@update');
+
+
 // Les niveaux
         Route::get('/admin/niveaux/', 'admin\niveauController@index');
         Route::get('/admin/niveaux/destroy/{id}', 'admin\niveauController@destroy');
@@ -160,6 +169,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/eleves/discipline/justify/', 'eleves\disciplineController@justify');
 
         Route::post('/eleves/discipline/update/', ['as'=>'update_discipline','uses'=>'eleves\disciplineController@update']);
+        Route::any('/eleves/discipline/state/', ['as'=>'etat_disciplinaire','uses'=>'eleves\disciplineController@state']);
 
 
 
@@ -212,6 +222,8 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/personnel/find/', 'personnel\dispenseController@find');
         Route::get('/personnel/dispense/destroy/{id}', 'personnel\dispenseController@destroy');
         Route::get('/personnel/dispense/store', 'personnel\dispenseController@store');
+        Route::any('/personnel/dispense/edit', 'personnel\dispenseController@edit');
+
         Route::post('/personnel/dispense/update', 'personnel\dispenseController@update');
         Route::get('/personnel/dispenses/', 'personnel\dispenseController@index1');
         Route::get('/personnel/dispense/{id}', 'personnel\dispenseController@index');
@@ -237,12 +249,18 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/personnel/discipline/justify/', 'personnel\disciplineController@justify');
 
         Route::post('/personnel/discipline/update/', ['as'=>'update_discipline_personnel','uses'=>'personnel\disciplineController@update']);
+        Route::any('/personnel/discipline/state/', ['as'=>'etat_disciplinaire_personnel','uses'=>'personnel\disciplineController@state']);
 
-    //pour les présences
+
+        //pour les présences
         Route::get('/personnel/heures-effectuees/', 'personnel\presenceController@index');
         Route::get('/personnel/heures-effectuees/{id}', 'personnel\presenceController@create');
         Route::get('/personnel/heures-effectuees/destroy/{id}', 'personnel\presenceController@destroy');
         Route::post('/personnel/heures-effectuees/update/{id}', 'personnel\presenceController@update');
+
+        Route::any('/personnel/heures-prevues/show/', 'personnel\presenceController@show_heure_prevue');
+
+        Route::any('/personnel/heures-prevues/update/', 'personnel\presenceController@update_heure_prevue');
 
     });
 

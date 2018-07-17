@@ -16,24 +16,29 @@
             color: white;
         }
 
+        .timetable-col
+        {
+            width: 40mm;
+        }
+
     </style>
-    <h1 style="font-size: 30px;margin-top: 30px;text-align: center">{{  trans('admin.emploi_temps_de').' '.((App::getLocale()=='en')?$classe->nom_anglais:$classe->nom)  }}</h1>
+    <h1 style="font-size: 30px;margin-top: 30px;text-align: center">{{  trans('admin.emploi_temps_de').' '.((App::getLocale()=='en')?$classe->nom_anglais:$classe->nom).' : '.$nniveau->nom  }}</h1>
     <table class="table table-bordered table-striped table-condensed table-inverse">
         <thead>
 
-        <th>@lang('admin.horaire')</th>
-        <th>@lang('admin.jour1')</th>
-        <th>@lang('admin.jour2')</th>
-        <th>@lang('admin.jour3')</th>
-        <th>@lang('admin.jour4')</th>
-        <th>@lang('admin.jour5')</th>
-        <th>@lang('admin.jour6')</th>
+        <th class="timetable-col">@lang('admin.horaire')</th>
+        <th class="timetable-col">@lang('admin.jour1')</th>
+        <th class="timetable-col">@lang('admin.jour2')</th>
+        <th class="timetable-col">@lang('admin.jour3')</th>
+        <th class="timetable-col">@lang('admin.jour4')</th>
+        <th class="timetable-col">@lang('admin.jour5')</th>
+        <th class="timetable-col">@lang('admin.jour6')</th>
         </thead>
         <tbody>
         @foreach($horaires as $h)
             <tr>
-                <td>{{$h->intervalle}}</td>
-                <td class="item-emploi" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},1)" @endif>
+                <td class="timetable-col">{{$h->intervalle}}</td>
+                <td class="item-emploi timetable-col" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},1)" @endif>
                     @foreach($dispenses as $d)
                         @if($d->jour==1 && $d->id_horaire==$h->id)
                             <strong>
@@ -46,10 +51,20 @@
 
                                 @endforeach
                             </strong>
+                                <div class="traduction">
+                                    @foreach($personnels as $p)
+                                        @if($p->id==$d->id_personnel)
+                                            {{$p->nom}}
+                                            <?php break; ?>
+
+                                        @endif
+
+                                    @endforeach
+                                </div>
                             <div class="traduction">
-                                @foreach($personnels as $p)
-                                    @if($p->id==$d->id_personnel)
-                                        {{$p->nom}}
+                                @foreach($salles as $s)
+                                    @if($s->id==$d->id_salle)
+                                       <strong style="color: grey !important;">{{$s->nom}}</strong>
                                         <?php break; ?>
 
                                     @endif
@@ -63,7 +78,7 @@
                         <strong class="pause"  style="font-size: 12px;color: gray;" >Pause</strong>
                     @endif
                 </td>
-                <td class="item-emploi" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},2)" @endif> @foreach($dispenses as $d)
+                <td class="item-emploi timetable-col" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},2)" @endif> @foreach($dispenses as $d)
                         @if($d->jour==2 && $d->id_horaire==$h->id)
                             <strong>
                                 @foreach($matieres as $m)
@@ -85,6 +100,16 @@
 
                                 @endforeach
                             </div>
+                            <div class="traduction">
+                                @foreach($salles as $s)
+                                    @if($s->id==$d->id_salle)
+                                        <strong style="color: grey !important;">{{$s->nom}}</strong>
+                                        <?php break; ?>
+
+                                    @endif
+
+                                @endforeach
+                            </div>
                             <?php break; ?>
                         @endif
                     @endforeach
@@ -92,7 +117,7 @@
                         <strong class="pause" style="font-size: 12px;color: gray;" >Pause</strong>
                     @endif
                 </td>
-                <td class="item-emploi" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},3)" @endif> @foreach($dispenses as $d)
+                <td class="item-emploi timetable-col" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},3)" @endif> @foreach($dispenses as $d)
                         @if($d->jour==3 && $d->id_horaire==$h->id)
                             <strong>
                                 @foreach($matieres as $m)
@@ -114,6 +139,16 @@
 
                                 @endforeach
                             </div>
+                            <div class="traduction">
+                                @foreach($salles as $s)
+                                    @if($s->id==$d->id_salle)
+                                        <strong style="color: grey !important;">{{$s->nom}}</strong>
+                                        <?php break; ?>
+
+                                    @endif
+
+                                @endforeach
+                            </div>
                             <?php break; ?>
                         @endif
                     @endforeach
@@ -121,7 +156,7 @@
                         <strong class="pause" style="font-size: 12px;color: gray;" >Pause</strong>
                     @endif
                 </td>
-                <td class="item-emploi" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},4)" @endif> @foreach($dispenses as $d)
+                <td class="item-emploi timetable-col" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},4)" @endif> @foreach($dispenses as $d)
                         @if($d->jour==4 && $d->id_horaire==$h->id)
                             <strong>
                                 @foreach($matieres as $m)
@@ -143,6 +178,16 @@
 
                                 @endforeach
                             </div>
+                            <div class="traduction">
+                                @foreach($salles as $s)
+                                    @if($s->id==$d->id_salle)
+                                        <strong style="color: grey !important;">{{$s->nom}}</strong>
+                                        <?php break; ?>
+
+                                    @endif
+
+                                @endforeach
+                            </div>
                             <?php break; ?>
                         @endif
                     @endforeach
@@ -150,7 +195,7 @@
                         <strong class="pause" style="font-size: 12px;color: gray;" >Pause</strong>
                     @endif
                 </td>
-                <td class="item-emploi" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},5)" @endif> @foreach($dispenses as $d)
+                <td class="item-emploi timetable-col" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},5)" @endif> @foreach($dispenses as $d)
                         @if($d->jour==5 && $d->id_horaire==$h->id)
                             <strong>
                                 @foreach($matieres as $m)
@@ -172,6 +217,16 @@
 
                                 @endforeach
                             </div>
+                            <div class="traduction">
+                                @foreach($salles as $s)
+                                    @if($s->id==$d->id_salle)
+                                        <strong style="color: grey !important;">{{$s->nom}}</strong>
+                                        <?php break; ?>
+
+                                    @endif
+
+                                @endforeach
+                            </div>
                             <?php break; ?>
                         @endif
                     @endforeach
@@ -179,7 +234,7 @@
                         <strong  class="pause" style="font-size: 12px;color: gray;" >Pause</strong>
                     @endif
                 </td>
-                <td class="item-emploi" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},6)" @endif> @foreach($dispenses as $d)
+                <td class="item-emploi timetable-col" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},6)" @endif> @foreach($dispenses as $d)
                         @if($d->jour==6 && $d->id_horaire==$h->id)
                             <strong>
                                 @foreach($matieres as $m)
@@ -195,6 +250,16 @@
                                 @foreach($personnels as $p)
                                     @if($p->id==$d->id_personnel)
                                         {{$p->nom}}
+                                        <?php break; ?>
+
+                                    @endif
+
+                                @endforeach
+                            </div>
+                            <div class="traduction">
+                                @foreach($salles as $s)
+                                    @if($s->id==$d->id_salle)
+                                        <strong style="color: grey !important;">{{$s->nom}}</strong>
                                         <?php break; ?>
 
                                     @endif
@@ -248,6 +313,16 @@
                                 <select id="matiere" name="matiere" form="edit_horaire_form" class="form-control">
                                     @foreach($matieres as $m)
                                         <option value="{{  $m->id  }}" @if($m->id == old('matiere')) selected @endif>{{(App::getLocale()=='en')?$m->nom_anglais:$m->nom}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="salle">{{trans('admin.salle')}} :</label>
+                                <select id="salle" name="salle" form="edit_horaire_form" class="form-control">
+                                    <option value="0">@lang('admin.aucun')</option>
+                                    @foreach($salles as $s)
+                                        <option value="{{  $s->id  }}" >{{$s->nom}}</option>
                                     @endforeach
                                 </select>
                             </div>

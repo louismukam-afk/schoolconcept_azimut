@@ -57,7 +57,7 @@ class tauxController extends Controller {
         $t=taux::where('id_personnel','=',$id)->orderBy('id_classe')->orderBy('id_matiere')->orderBy('id_nniveau')->get();
         $p=personnel::find($id);
 
-        $d=dispense::distinct()->get(['id_classe','id_matiere','id_nniveau']);
+        $d=dispense::whereAnneeScolaire(\session('year'))->where('id_personnel','=',$id)->distinct()->get(['id_classe','id_matiere','id_nniveau']);
 
         foreach ($t as $taux)
         {

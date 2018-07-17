@@ -61,8 +61,8 @@ class WelcomeController extends Controller {
 
 	public function editYear(Request $req){
         $this->validate($req,[
-            'first_year'=>'required|numeric|min:2017',
-            'second_year'=>'required|numeric|min:2018',
+            'first_year'=>'required|numeric',
+            'second_year'=>'required|numeric',
         ]);
         $fy=$req->input('first_year');
         $sy=$req->input('second_year');
