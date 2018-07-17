@@ -22,6 +22,7 @@ class Dispense extends Migration {
             $table->integer('id_horaire');
             $table->string('annee_scolaire',9);
             $table->integer('id_nniveau')->default(0);
+            $table->integer('id_salle')->default(0);
 
         });
 	}

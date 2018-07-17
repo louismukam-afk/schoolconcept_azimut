@@ -2,6 +2,7 @@
 
 use gesecole\dispense;
 use gesecole\heure_realise;
+use gesecole\heuresPrevues;
 use gesecole\horaire;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
@@ -148,6 +149,9 @@ class presenceController extends Controller {
            }
         }else{
             $d=dispense::find($dispense);
+            $h->id_classe=$d->id_classe;
+            $h->id_nniveau=$d->id_nniveau;
+            $h->id_matiere=$d->id_matiere;
             $ho=horaire::find($d->id_horaire);
             $t=taux::whereIdPersonnel($id)
                 ->where('id_matiere','=',$d->id_matiere)
@@ -196,6 +200,61 @@ class presenceController extends Controller {
         session(['success'=>true]);
         return redirect()->action('personnel\presenceController@create',['id'=>$id]);
 	}
+
+	public function update_heure_prevue(Request $request)
+    {
+        $personnel=$request->input('personnel');
+        $classe=$request->input('classe');
+        $nniveau=$request->input('nniveau');
+        $matiere=$request->input('matiere');
+        $heure=$request->input('heure');
+
+
+        $hp=heuresPrevues::whereAnneeScolaire(\session('year'))
+            ->where('id_personnel','=',$personnel)
+            ->where('id_classe','=',$classe)
+            ->where('id_nniveau','=',$nniveau)
+            ->where('id_matiere','=',$matiere)
+            ->first();
+        if($hp!=null){
+            $hp->total=$heure;
+            $hp->save();
+        }
+            else{
+            $hp=new heuresPrevues();
+            $hp->id_personnel=$personnel;
+            $hp->id_classe=$classe;
+            $hp->id_nniveau=$nniveau;
+            $hp->id_matiere=$matiere;
+            $hp->annee_scolaire=\session('year');
+                $hp->total=$heure;
+                $hp->save();
+            }
+
+
+        return response()->json('OK');
+
+
+    }
+    public function show_heure_prevue(Request $request)
+    {
+        $personnel=$request->input('personnel');
+        $classe=$request->input('classe');
+        $nniveau=$request->input('nniveau');
+        $matiere=$request->input('matiere');
+
+        $hp=heuresPrevues::whereAnneeScolaire(\session('year'))
+            ->where('id_personnel','=',$personnel)
+            ->where('id_classe','=',$classe)
+            ->where('id_nniveau','=',$nniveau)
+            ->where('id_matiere','=',$matiere)->first();
+        $hp?$t=$hp->total:$t=0;
+
+
+        return response()->json($t);
+
+
+    }
 
 	/**
 	 * Remove the specified resource from storage.

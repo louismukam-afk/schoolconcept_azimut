@@ -132,7 +132,7 @@ namespace gesecole{
  * @property int $retard
  * @property int $nb_jours
  * @property int $exclus_def
- * @property string $description
+ * @property string|null $description
  * @property string $ddate
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\discipline whereAnneeScolaire($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\discipline whereDdate($value)
@@ -195,6 +195,8 @@ namespace gesecole{
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\dispense whereJour($value)
  * @property int $id_nniveau
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\dispense whereIdNniveau($value)
+ * @property int $id_salle
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\dispense whereIdSalle($value)
  */
 	class dispense extends \Eloquent {}
 }
@@ -321,6 +323,32 @@ namespace gesecole{
 
 namespace gesecole{
 /**
+ * gesecole\heuresPrevues
+ *
+ * @property int $id
+ * @property int $id_personnel
+ * @property int $id_classe
+ * @property int $id_nniveau
+ * @property int $id_matiere
+ * @property int $total
+ * @property string $annee_scolaire
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\heuresPrevues whereAnneeScolaire($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\heuresPrevues whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\heuresPrevues whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\heuresPrevues whereIdClasse($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\heuresPrevues whereIdMatiere($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\heuresPrevues whereIdNniveau($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\heuresPrevues whereIdPersonnel($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\heuresPrevues whereTotal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\heuresPrevues whereUpdatedAt($value)
+ */
+	class heuresPrevues extends \Eloquent {}
+}
+
+namespace gesecole{
+/**
  * gesecole\heure_realise
  *
  * @property int $id
@@ -334,6 +362,20 @@ namespace gesecole{
  * @property string $annee_scolaire
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\heure_realise whereAnneeScolaire($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\heure_realise whereDateHeureRealisee($value)
+ * @property float $taux
+ * @property int $jour
+ * @property string|null $intervalle
+ * @property string $date_enregistrement
+ * @property int $id_classe
+ * @property int $id_nniveau
+ * @property int $id_matiere
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\heure_realise whereDateEnregistrement($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\heure_realise whereIdClasse($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\heure_realise whereIdMatiere($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\heure_realise whereIdNniveau($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\heure_realise whereIntervalle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\heure_realise whereJour($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\heure_realise whereTaux($value)
  */
 	class heure_realise extends \Eloquent {}
 }
@@ -351,6 +393,8 @@ namespace gesecole{
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\horaire whereType($value)
  * @property int $ordre
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\horaire whereOrdre($value)
+ * @property float $nb_heures
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\horaire whereNbHeures($value)
  */
 	class horaire extends \Eloquent {}
 }
@@ -745,6 +789,22 @@ namespace gesecole{
 
 namespace gesecole{
 /**
+ * gesecole\salle
+ *
+ * @property int $id
+ * @property string $nom
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\salle whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\salle whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\salle whereNom($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\salle whereUpdatedAt($value)
+ */
+	class salle extends \Eloquent {}
+}
+
+namespace gesecole{
+/**
  * gesecole\scolarite
  *
  * @mixin \Eloquent
@@ -785,6 +845,10 @@ namespace gesecole{
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\taux whereIdPersonnel($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\taux whereTaux($value)
  * @mixin \Eloquent
+ * @property int $id_classe
+ * @property int $id_nniveau
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\taux whereIdClasse($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\taux whereIdNniveau($value)
  */
 	class taux extends \Eloquent {}
 }

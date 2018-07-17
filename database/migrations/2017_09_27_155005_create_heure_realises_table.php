@@ -22,7 +22,11 @@ class CreateHeureRealisesTable extends Migration {
 			$table->integer('jour')->default(0);
 			$table->string('intervalle')->nullable();
 			$table->date('date_enregistrement');
-			$table->string('annee_scolaire');
+			$table->integer('id_classe')->default(0);
+            $table->integer('id_nniveau')->default(0);
+            $table->integer('id_matiere')->default(0);
+
+            $table->string('annee_scolaire');
 		});
 	}
 

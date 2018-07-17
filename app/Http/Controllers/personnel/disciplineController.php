@@ -231,6 +231,53 @@ class disciplineController extends Controller {
         return redirect()->action('personnel\disciplineController@create',[$id]);
     }
 
+    public function state()
+    {
+        $values= array('titre'=>trans('admin.etat_disc'));
+
+      $p=personnel::orderBy('nom')->get();
+
+
+        $d=discipline::whereAnneeScolaire(session('year'))
+            ->where('id_personnel','>',0)
+            ->get();
+        $ii=0;
+        $discList=array();
+
+        foreach ($p as $el1)
+        {
+            $abscence_inj=$d->where('type',0,false)
+                ->where('id_personnel',$el1->id,false)
+                ->where('just','0',false)
+                ->sum('nb_heures');
+            $abscence_just=$d->where('type',0,false)
+                ->where('id_personnel',$el1->id,false)
+                ->where('just','1',false)
+                ->sum('nb_heures');
+            $retard=$d->where('type',1,false)
+                ->where('id_personnel',$el1->id,false)
+                ->count();
+            $avertissement=$d->where('type',3,false)
+                ->where('id_personnel',$el1->id,false)
+                ->count();
+            $blame=$d->where('type',4,false)
+                ->where('id_personnel',$el1->id,false)
+                ->count();
+            $exclusion=$d->where('type',2,false)
+                ->where('id_personnel',$el1->id,false)
+                ->sum('nb_jours');
+
+
+            $discList[$ii]=new etat_disciplinaire_personnel($el1->id,$avertissement,$exclusion,$blame,$retard,$abscence_inj,$abscence_just);
+            $ii++;
+        }
+        $values['personnels']=$p;
+        $values['disciplines']=$discList;
+
+        return view('personnel/etat_discplinaire',$values);
+
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -241,5 +288,39 @@ class disciplineController extends Controller {
     {
         //
     }
+
+}
+
+class etat_disciplinaire_personnel
+{
+    public $id_personnel;
+    public $avertissement;
+    public $exclusion;
+    public $blame;
+    public $retard;
+    public $abscence_inj;
+    public $abscence_just;
+
+    /**
+     * disc constructor.
+     * @param $id_eleve
+     * @param $avertissement
+     * @param $exclusion
+     * @param $blame
+     * @param $retard
+     * @param $abscence_inj
+     * @param $abscence_just
+     */
+    public function __construct($id_personnel, $avertissement, $exclusion, $blame, $retard, $abscence_inj, $abscence_just)
+    {
+        $this->id_personnel = $id_personnel;
+        $this->avertissement = $avertissement;
+        $this->exclusion = $exclusion;
+        $this->blame = $blame;
+        $this->retard = $retard;
+        $this->abscence_inj = $abscence_inj;
+        $this->abscence_just = $abscence_just;
+    }
+
 
 }
