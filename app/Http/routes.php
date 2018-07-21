@@ -11,6 +11,9 @@
 |
 */
 
+
+
+
 Route::group(['middleware'=>'auth'],function (){
     Route::get('/', 'WelcomeController@index');
     Route::get('home', 'WelcomeController@index');
@@ -154,6 +157,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/inscriptions/remove/{id_eleve}','inscriptions\inscriptionController@destroy');
         Route::any('/inscriptions/photos/','inscriptions\photosController@create');
         Route::any('/inscriptions/photos/store',['as'=>'store_photo','uses'=>'inscriptions\photosController@store']);
+        Route::any('/inscriptions/cartes/',['as'=>'show_carte','uses'=>'inscriptions\photosController@show_carte']);
 
 
 

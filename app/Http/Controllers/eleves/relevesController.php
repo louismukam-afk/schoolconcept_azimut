@@ -255,7 +255,7 @@ class relevesController extends Controller {
                         $matieres[$l]=new pv1_matiere($matiere->id,$note,$credit,$nom,$matiere->type,$matiere->semestre);
                     }
                     if($cpst){
-                       $composantes[$cst]= new composante($matiere->id,$note,$matiere->id_classe_matiere,$nom);
+                       $composantes[$cst]= new composante($matiere->id,$note,$matiere->id_classe_matiere,$nom,$credit);
                        $cst++;
                     }
                     if($cps){
@@ -270,20 +270,27 @@ class relevesController extends Controller {
                 foreach($composes as $co){
                     $co_note=0;
                     $co_n=0;
+                    $s_co_coef=0;
                     $lnoms='';
                     foreach ($composantes as $compt){
                         if($this->isIn($compt->id_classe_matiere,$co->cpsList)){
-                            $co_note+=$compt->note;
+                            $co_note+=$compt->note*$compt->credit;
                             $lnoms.=$compt->nom.' ,';
+                            $s_co_coef+=$compt->credit;
                             $co_n++;
                         }
                     }
 
-                    if($co_n>0){
+                   /* if($co_n>0){
                         $co_note=$co_note/$co_n;
+                    }*/
+                    if($s_co_coef>0){
+                        $co_note=$co_note/$s_co_coef;
                     }
-                   if(is_numeric($co_note))
-                    $co_note=round(($co_note+$co->note)/2,2);
+                  // if(is_numeric($co->note))
+                   // $co_note=round(($co_note+$co->note)/2,2);
+
+
 
                     if(sizeof($lnoms)>=1)
                         $lnoms='('.substr($lnoms,0,sizeof($lnoms)-2).')';
@@ -481,13 +488,15 @@ class composante{
     public $note;
     public $id_classe_matiere;
     public $nom;
+    public $credit;
 
-    public function __construct($id,$n,$icm,$no)
+    public function __construct($id,$n,$icm,$no,$credit)
     {
         $this->id_matiere=$id;
         $this->note=$n;
         $this->id_classe_matiere=$icm;
         $this->nom=$no;
+        $this->credit=$credit;
     }
 }
 class compose{

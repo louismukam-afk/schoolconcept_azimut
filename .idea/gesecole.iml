@@ -50,6 +50,7 @@
       <sourceFolder url="file://$MODULE_DIR$/vendor/psr/log" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/vendor/jeremeamia/SuperClosure/src" isTestSource="false" packagePrefix="SuperClosure" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/aws/aws-sdk-php" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/barryvdh/laravel-debugbar" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/barryvdh/laravel-ide-helper" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/barryvdh/reflection-docblock" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/classpreloader/classpreloader" />
@@ -73,6 +74,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/jeremeamia/SuperClosure" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/framework" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/league/flysystem" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/maximebf/debugbar" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/monolog/monolog" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/mtdowling/cron-expression" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nesbot/carbon" />
@@ -127,6 +129,7 @@
     <orderEntry type="module-library">
       <library name="PHP" type="php">
         <CLASSES>
+          <root url="file://$MODULE_DIR$/vendor/barryvdh/laravel-debugbar" />
           <root url="file://$MODULE_DIR$/vendor/barryvdh/laravel-ide-helper" />
           <root url="file://$MODULE_DIR$/vendor/barryvdh/reflection-docblock" />
           <root url="file://$MODULE_DIR$/vendor/classpreloader/classpreloader" />
@@ -149,6 +152,7 @@
           <root url="file://$MODULE_DIR$/vendor/jeremeamia/SuperClosure" />
           <root url="file://$MODULE_DIR$/vendor/laravel/framework" />
           <root url="file://$MODULE_DIR$/vendor/league/flysystem" />
+          <root url="file://$MODULE_DIR$/vendor/maximebf/debugbar" />
           <root url="file://$MODULE_DIR$/vendor/monolog/monolog" />
           <root url="file://$MODULE_DIR$/vendor/mtdowling/cron-expression" />
           <root url="file://$MODULE_DIR$/vendor/nesbot/carbon" />
@@ -200,6 +204,7 @@
           <root url="jar://$APPLICATION_HOME_DIR$/plugins/phpspec/lib/phpspec.jar!/phpspec_stub" />
         </CLASSES>
         <SOURCES>
+          <root url="file://$MODULE_DIR$/vendor/barryvdh/laravel-debugbar" />
           <root url="file://$MODULE_DIR$/vendor/barryvdh/laravel-ide-helper" />
           <root url="file://$MODULE_DIR$/vendor/barryvdh/reflection-docblock" />
           <root url="file://$MODULE_DIR$/vendor/classpreloader/classpreloader" />
@@ -222,6 +227,7 @@
           <root url="file://$MODULE_DIR$/vendor/jeremeamia/SuperClosure" />
           <root url="file://$MODULE_DIR$/vendor/laravel/framework" />
           <root url="file://$MODULE_DIR$/vendor/league/flysystem" />
+          <root url="file://$MODULE_DIR$/vendor/maximebf/debugbar" />
           <root url="file://$MODULE_DIR$/vendor/monolog/monolog" />
           <root url="file://$MODULE_DIR$/vendor/mtdowling/cron-expression" />
           <root url="file://$MODULE_DIR$/vendor/nesbot/carbon" />

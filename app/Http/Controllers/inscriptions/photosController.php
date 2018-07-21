@@ -1,8 +1,13 @@
 <?php namespace gesecole\Http\Controllers\inscriptions;
 
+use gesecole\classe;
+use gesecole\eleve;
+use gesecole\Http\Controllers\admin\nniveauController;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
 
+use gesecole\inscription;
+use gesecole\NNiveau;
 use gesecole\parametres;
 use gesecole\Photo;
 use Illuminate\Http\Request;
@@ -92,11 +97,21 @@ class photosController extends Controller {
 	 */
 	public function store(Request $request)
 	{
-        $this->validate($request,[
+	    $messages=[];
+	    $rules=[
             'eleve'=>'required',
-            'photo'=>'required',
 
-        ]);
+        ];
+        $nbr = count($request->file('photo')) - 1;
+        foreach(range(0, $nbr) as $index) {
+            $rules['photo.' . $index] = 'image|max:4096';
+            $messages['photo.' . $index.'.max'] = trans('admin.p_size_limit',['num'=>$index+1,'lim'=>4]);
+
+        }
+
+
+
+        $this->validate($request,$rules,$messages);
 
 
         $eleveList=$request->input('eleve');
@@ -112,10 +127,9 @@ class photosController extends Controller {
             if($photoList[$i]!=null)
             {
                 $p=$photoList[$i];
-
                 $ph=Photo::firstOrNew(['annee_scolaire'=>session('year'),'eleve_id'=>$e]);
-                Image::make($p->getRealPath())->encode('png')->save('img/photos/'.$e.'-'.session('year').'.png');
-                $ph->url='img/photos/'.$e.'-'.session('year').'.png';
+                Image::make($p->getRealPath())->resize(300,300)->encode('jpg',80)->save('img/photos/'.$e.'-'.session('year').'.jpg');
+                $ph->url='img/photos/'.$e.'-'.session('year').'.jpg';
                 $ph->save();
 
             }
@@ -133,6 +147,68 @@ class photosController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
+    public function show_carte(Request $request)
+    {
+        $divisor=10;
+        $this->validate($request,[
+            'id'=>'required|numeric',
+            'cycle'=>'required|numeric',
+            'nniveau'=>'required|numeric',
+        ]);
+        $values= array('titre'=>trans_choice('admin.carte_e',2));
+
+        $id_nniveau=$request->input('nniveau');
+        $id_classe=$request->input('id');
+        $id_cycle=$request->input('cycle');
+        $nn=NNiveau::find($id_nniveau);
+        $classe=classe::find($id_classe);
+        $e=inscription::where('inscription.annee_scolaire','=',session('year'))
+            ->where('id_cycle','=',$id_cycle)
+            ->where('id_classe','=',$id_classe)
+            ->where('id_nniveau','=',$id_nniveau)
+            ->join('eleve','eleve.id','=','inscription.id_eleve')
+
+            ->select(['eleve.*'])
+            ->orderBy('nom')
+        ->get();
+        $id_e=$e->fetch('id')->toArray();
+        $po=Photo::whereAnneeScolaire(session('year'))
+            ->whereIn('eleve_id',$id_e)
+            ->get()
+            ;
+        $pa=parametres::all();
+        $nom_e=$pa->where('nom','nom_etablissement',false)->first()->valeur;
+        $n=0;
+       $div=($e->count()/$divisor);
+       if($div>intval($div))
+       {
+           $n=intval($div)+1;
+       }
+       else
+       {
+           $n=intval($div);
+       }
+
+
+        $values['eleves']=$e;
+        $values['nom_e']=$nom_e;
+        $values['n']=$n;
+        $values['photos']=$po;
+        $values['classe']=$classe;
+        $values['niveau']=$classe->niveau;
+        $values['nniveau']=NNiveau::find($id_nniveau);
+
+
+
+
+
+
+
+        return view('inscriptions/cartes',$values);
+
+
+    }
+
 	public function show($id)
 	{
 		//

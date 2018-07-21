@@ -240,7 +240,10 @@
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary" ><span class="glyphicon glyphicon-check"></span>  @lang('admin.confirmer')</button>
-
+                            </form>
+                        </div>
+                    </div>
+                </div>
 
             <div class="modal fade" id="edit_dispense">
                 <div class="modal-dialog"  >

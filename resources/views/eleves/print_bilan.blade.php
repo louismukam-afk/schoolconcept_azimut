@@ -37,12 +37,13 @@
                 @if($j>=$standartLimite)
                     <?php break; ?>
                 @endif
-                <th class="matiere-column"><p>{{(App::getLocale()=='en')?$m->nom_anglais:$m->nom}}</p></th>
+                <th class="matiere-column"><p>{{$m->nom}}</p></th>
                 <?php $j++;
                     $current_matiere=$j;
                 ?>
         @endforeach
         @if($current_matiere==$nb_matieres)
+            <th class="note-column">Moy/20</th>
             <th class="note-column">MGP</th>
             <th class="note-column">Decision</th>
         @endif
@@ -89,8 +90,8 @@
                     <td class="note-column">
                         @foreach($PV as $pv)
                             @if($pv->id_eleve==$e->id)
-                               {{round($pv->mgp,2)}}
-                                    <?php $mgp=round($pv->mgp,2);
+                               {{round(($pv->mgp)/5,2)}}
+                                    <?php $mgp=round(($pv->mgp)/25,2);
                                 if($mgp>=2)
                                     {$admis++;}
                                     else{$echec++;}
@@ -101,7 +102,7 @@
 
                     </td>
 
-
+                    <td class="note-column">{{$mgp}}</td>
                     <td class="note-column">
                         {{getDecision($mgp)}}
                     </td>
@@ -170,6 +171,7 @@
 
             @endforeach
             @if($current_matiere==$nb_matieres)
+                <th class="note-column">Moy/20</th>
                 <th class="note-column">MGP</th>
                 <th class="note-column">Decision</th>
             @endif
@@ -219,18 +221,19 @@
                                 <?php $mgp=0 ?>
                                 @foreach($PV as $pv)
                                     @if($pv->id_eleve==$e->id)
-                                        {{round($pv->mgp,2)}}
-
-                                        <?php $mgp=round($pv->mgp,2);
-                                            if($mgp>=2)
-                                            {$admis++;}
-                                            else{$echec++;}
+                                        {{round(($pv->mgp)/5,2)}}
+                                        <?php $mgp=round(($pv->mgp)/25,2);
+                                        if($mgp>=2)
+                                        {$admis++;}
+                                        else{$echec++;}
                                         break; ?>
                                     @endif
 
                                 @endforeach
 
                             </td>
+
+                            <td class="note-column">{{$mgp}}</td>
                             <td class="note-column">{{getDecision($mgp)}}</td>
                         @endif
                 </tr>

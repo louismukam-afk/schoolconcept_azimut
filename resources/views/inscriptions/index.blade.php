@@ -73,5 +73,16 @@
 
 
         </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+            <div class="div-square">
+                <a href="{{URL::to('/select/classe').'?url='.route('show_carte')}}" >
+                    <i class="fa fa-credit-card fa-5x"></i>
+                    <h4>{{trans_choice('admin.carte_e',2)}}</h4>
+                </a>
+            </div>
+
+
+        </div>
     </div>
 @endsection

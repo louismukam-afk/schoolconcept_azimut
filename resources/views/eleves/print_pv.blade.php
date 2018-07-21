@@ -41,6 +41,7 @@
                 ?>
         @endforeach
         @if($current_matiere==$nb_matieres)
+            <th class="note-column">Moy/20</th>
             <th class="note-column">MGP</th>
         @endif
 
@@ -82,16 +83,23 @@
                     ?>
                 @endforeach
                 @if($current_matiere==$nb_matieres)
+
+                    <?php $mgp=0;?>
                     <td class="note-column">
                         @foreach($PV as $pv)
                             @if($pv->id_eleve==$e->id)
-                               {{round($pv->mgp,2)}}
-                                    <?php break; ?>
+                                {{round(($pv->mgp)/5,2)}}
+                                <?php $mgp=round(($pv->mgp)/25,2);
+
+                                break; ?>
                             @endif
 
                         @endforeach
 
                     </td>
+
+                    <td class="note-column">{{$mgp}}</td>
+
 
 
                 @endif
@@ -122,6 +130,7 @@
 
             @endforeach
             @if($current_matiere==$nb_matieres)
+                <th class="note-column">Moy/20</th>
                 <th class="note-column">MGP</th>
             @endif
 
@@ -166,17 +175,22 @@
 
             <?php $j=$current_note; ?>
                         @if($current_matiere==$nb_matieres)
-                            <td class="note-column">
 
+                            <td class="note-column">
                                 @foreach($PV as $pv)
                                     @if($pv->id_eleve==$e->id)
-                                        {{round($pv->mgp,2)}}
-                                        <?php break; ?>
+                                        {{round(($pv->mgp)/5,2)}}
+                                        <?php $mgp=round(($pv->mgp)/25,2);
+
+                                        break; ?>
                                     @endif
 
                                 @endforeach
 
                             </td>
+
+                            <td class="note-column">{{$mgp}}</td>
+
                         @endif
                 </tr>
             @endforeach

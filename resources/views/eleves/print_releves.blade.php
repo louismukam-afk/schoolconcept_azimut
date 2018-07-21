@@ -144,7 +144,7 @@
     <th>T.M.P</th>
     <th>T.M.V</th>
     <th>Moyenne</th>
-    <th>Points</th>
+    <th>MGP</th>
     <th>Cote</th>
     <th colspan="2">Mention</th>
 </thead>
@@ -156,7 +156,7 @@
     <td rowspan="2">{{$TMP}}</td>
     <td rowspan="2">{{$TMV}}</td>
     <td>{{round($moy,2)}}</td>
-    <td rowspan="2">{{getGrade($moy)[1]}}</td>
+    <td rowspan="2">{{round($moy/25,2)}}</td>
     <td rowspan="2">{{getGrade($moy)[0]}}</td>
     <td colspan="2">{{getMention($moy,100)}}</td>
 

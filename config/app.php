@@ -125,6 +125,7 @@ return [
 		'Illuminate\Filesystem\FilesystemServiceProvider',
 		'Illuminate\Foundation\Providers\FoundationServiceProvider',
 		'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
+         Barryvdh\Debugbar\ServiceProvider::class,
 		'Illuminate\Hashing\HashServiceProvider',
 		'Illuminate\Mail\MailServiceProvider',
 		'Illuminate\Pagination\PaginationServiceProvider',
@@ -137,6 +138,7 @@ return [
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
         Intervention\Image\ImageServiceProvider::class,
+
 
 		/*
 		 * Application Service Providers...
@@ -172,7 +174,8 @@ return [
 		'Cookie'    => 'Illuminate\Support\Facades\Cookie',
 		'Crypt'     => 'Illuminate\Support\Facades\Crypt',
 		'DB'        => 'Illuminate\Support\Facades\DB',
-		'Eloquent'  => 'Illuminate\Database\Eloquent\Model',
+        'Debugbar' =>   Barryvdh\Debugbar\Facade::class,
+        'Eloquent'  => 'Illuminate\Database\Eloquent\Model',
 		'Event'     => 'Illuminate\Support\Facades\Event',
 		'File'      => 'Illuminate\Support\Facades\File',
 		'Hash'      => 'Illuminate\Support\Facades\Hash',

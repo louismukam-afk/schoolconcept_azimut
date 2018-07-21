@@ -269,6 +269,10 @@ return [
     "heure_prevue"=>"Scheduled hours number",
     "salle"=>"Rooms",
     "liste_salle"=>"Rooms list",
+    "carte_e"=>"Student's card|Student's cards",
+    "p_size_limit"=>"The photo :num must not exceed :lim MB",
+
+
 
 
 
