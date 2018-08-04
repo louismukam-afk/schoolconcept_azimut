@@ -30,7 +30,7 @@
             </table>
 
             <button class="btn btn-success" data-toggle="modal" data-backdrop="false" href="#add_salle"
-            ><span class="glyphicon glyphicon-plus"></span>{{  trans('admin.nouveau_nniveau')  }}</button>
+            ><span class="glyphicon glyphicon-plus"></span>{{  trans('admin.nouveau')  }}</button>
             <div class="modal fade" id="add_salle">
                 <div class="modal-dialog" style="width: 30%">
                     <div class="modal-content">

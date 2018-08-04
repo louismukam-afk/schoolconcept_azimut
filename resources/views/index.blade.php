@@ -42,7 +42,8 @@
 <body>
 <div class="loading-back">  </div>
 <div class="col-md-12" >
-    <img class="back-button" src="{{URL::asset('img/back_button.png')}}" onclick="history.back()" width="50px" height="50px">
+    <a href="#"><img class="back-button" src="{{URL::asset('img/back_button.png')}}" onclick="history.back()" width="50px" height="50px"></a>
+
 </div>
 <?php $u=\Illuminate\Support\Facades\Auth::user();
 if(session('nom_etab')==null){

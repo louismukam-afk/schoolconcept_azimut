@@ -22,7 +22,7 @@
         <th>{{  trans('inscription.date_naiss')  }}</th>
         <th>{{  trans('inscription.lieu_naiss') }}</th>
         <th  class="sexe">{{  trans('inscription.sexe')  }}</th>
-        @if(isset($show_classe))<th class="classe">Classe</th>@endif
+        @if(isset($show_classe))<th class="classe">@lang('admin.classe')</th>@endif
         @if(isset($show_classe))<th>@lang('admin.nniveau')</th>@endif
         @if(isset($tranche))<th>{{trans('inscription.reste')}}</th>@endif
         <th class="action"></th>
@@ -35,7 +35,7 @@
                 <td>{{$i++}}</td>
                 <td>{{$e->matricule}}</td>
                 <td><strong >{{$e->nom.' '.$e->prenom}}</strong></td>
-                <td>{{$e->date_naiss}}</td>
+                <td>{{(new DateTime($e->date_naiss))->format('d-m-Y')}}</td>
                 <td>{{$e->lieu_naiss}}</td>
                 <td style="width: 25px">{{$e->sexe}}</td>
                 @if(isset($show_classe))<td>{{$e->code_classe}}</td>@endif
@@ -63,6 +63,7 @@
     <script>
         $('#idTableListe').dataTable( {
             dom: 'Bfrtip',
+            pageLength:5000,
             buttons: [
                 //'copy', 'csv', 'excel', 'pdf', 'print'
                 {

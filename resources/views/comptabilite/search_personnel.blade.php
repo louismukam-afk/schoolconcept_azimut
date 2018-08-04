@@ -66,7 +66,7 @@
                                     <li><a style="color: white;" href="{{ URL::to('/comptabilite/payement-salaire/show/').'/'.$p->id }}"   class="btn btn-warning"> <span class="fa fa-money"></span> {{  trans('admin.liste_paiement_personnel')  }}</a></li>
                                 </ul>
                             </div>
-                            <
+
                         </td>
                     </tr>
                 @endforeach

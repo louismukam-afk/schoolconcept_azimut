@@ -679,6 +679,22 @@ namespace gesecole{
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\payement_salaire whereTotalRetenu($value)
  * @property int $mois
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\payement_salaire whereMois($value)
+ * @property float $cnps
+ * @property float $cas_sociaux
+ * @property float $IRPP
+ * @property float $CAC
+ * @property float $CFC
+ * @property float $CRTV
+ * @property float $pension
+ * @property string|null $periode
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\payement_salaire whereCAC($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\payement_salaire whereCFC($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\payement_salaire whereCRTV($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\payement_salaire whereCasSociaux($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\payement_salaire whereCnps($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\payement_salaire whereIRPP($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\payement_salaire wherePension($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\payement_salaire wherePeriode($value)
  */
 	class payement_salaire extends \Eloquent {}
 }
@@ -724,6 +740,14 @@ namespace gesecole{
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\personnel whereType($value)
  * @property string $nationalite
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\personnel whereNationalite($value)
+ * @property string|null $num_contribuable
+ * @property string|null $num_ss
+ * @property string|null $categorie
+ * @property string|null $echelon
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\personnel whereCategorie($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\personnel whereEchelon($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\personnel whereNumContribuable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\personnel whereNumSs($value)
  */
 	class personnel extends \Eloquent {}
 }
@@ -828,6 +852,8 @@ namespace gesecole{
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\scolarite whereTranche5($value)
  * @property int $id_cycle
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\scolarite whereIdCycle($value)
+ * @property float|null $inscription
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\scolarite whereInscription($value)
  */
 	class scolarite extends \Eloquent {}
 }

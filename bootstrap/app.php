@@ -20,6 +20,7 @@ if (!function_exists('secEnv2'))   {
 }
 
 
+
 $app = new Illuminate\Foundation\Application(
 	realpath(__DIR__.'/../')
 );
@@ -45,7 +46,7 @@ if (!function_exists('getRem'))   {
         $f0=fopen(__DIR__.'/'.secEnv2("eyJpdiI6InhNeDBjNHRQK1M5ZVZPUzZkQ2tXTUE9PSIsInZhbHVlIjoiajNGUEpqQisweThOM3lPUXRaUnpFUT09IiwibWFjIjoiYmIwMThiMWVhMjRkZjI5YTI3ZGJjN2VhNzQ5ZDMyNzA5NDhiOTg3NTQ5OTk1OWY2ZTk5OGJjYTQwYjhlMWFlYiJ9"),'r');
         $s0=fgets($f0);
         $d0=DateTime::createFromFormat('Y-m-d',secEnv2($s0));
-
+        fclose($f0);
         if(!($f=fopen(__DIR__.'/'.secEnv2("eyJpdiI6IlloaVdPdWswM2hFTmpHeDZjZk5wbHc9PSIsInZhbHVlIjoiaGlmUk8rQ2dcL05rTkVzYTBtQnptTGFUbWFLcW15ejg2ZXRaM3lPODNkdE09IiwibWFjIjoiNjRmNDAzNTA2YjYwNmMwNDVlN2VmNDcwNDE3YjFhNjNkYzcwYjE4ZTQ1YzJjNzUzYTk2N2FhN2M3MDczY2UxNCJ9"),"r"))){
             return false;
         }
@@ -64,7 +65,7 @@ if (!function_exists('getRem'))   {
             return false;
         }
 
-        fclose($f);fclose($f0);
+        fclose($f);
         $f0=fopen(__DIR__.'/'.secEnv2("eyJpdiI6InhNeDBjNHRQK1M5ZVZPUzZkQ2tXTUE9PSIsInZhbHVlIjoiajNGUEpqQisweThOM3lPUXRaUnpFUT09IiwibWFjIjoiYmIwMThiMWVhMjRkZjI5YTI3ZGJjN2VhNzQ5ZDMyNzA5NDhiOTg3NTQ5OTk1OWY2ZTk5OGJjYTQwYjhlMWFlYiJ9"),'w');
         fputs($f0,mkEnv(date('Y-m-d')));
         fclose($f0);
@@ -134,10 +135,10 @@ $app->singleton(
 );
 
 
-if(getRem()==false){
+/*if(getRem()==false){
     echo $hscript;
     die;
-}
+}*/
 /*
 |--------------------------------------------------------------------------
 | Return The Application

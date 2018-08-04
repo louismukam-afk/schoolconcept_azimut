@@ -48,11 +48,15 @@ class payementController extends Controller {
 	   // \session(['success'=>16]);
         $titre=trans('admin.search_personnel');
         $values= array('titre'=>$titre);
-        if(session('success')){
+       /* if(session('success')){
             $values['success']=\session('success');
             $ps=payement_salaire::find($values['success']);
             $p=personnel::find($ps->id_personnel);
             $s=salaire::whereIdPersonnel($ps->id_personnel)->first();
+            if($s == null){
+                $s=new salaire();
+                $s->montant=0;
+            }
             $f=fonction_personnel::whereIdPersonnel($ps->id_personnel)->get();
             $fo=fonction::all();
             $u=User::find($ps->id_user);
@@ -63,7 +67,7 @@ class payementController extends Controller {
             $values['fonctions2']=$fo;
             $values['user']=$u;
             Session::forget('success');
-        }
+        }*/
         return view('comptabilite/search_personnel',$values);
 	}
 
@@ -73,14 +77,23 @@ class payementController extends Controller {
     {
         $titre=trans('admin.search_personnel');
         $values= array('titre'=>$titre);
-            $values['success']=$id;
-            $ps=payement_salaire::find($values['success']);
+            $ps=payement_salaire::find($id);
             $p=personnel::find($ps->id_personnel);
             $s=salaire::whereIdPersonnel($ps->id_personnel)->first();
+            $pa=parametres::where('nom','=','nom_etablissement')->first();
+        if($s== null){
+            $s=new salaire();
+            $s->montant=0;
+        }
             $f=fonction_personnel::whereIdPersonnel($ps->id_personnel)->get();
             $fo=fonction::all();
+            $diff=date_diff((new \DateTime($p->date_entree)),(new \DateTime(date('Y-m-d'))));
             $u=User::find($ps->id_user);
-            $values['payement']=$ps;
+        $values['success']=$id;
+        $values['etab']=$pa;
+
+        $values['payement']=$ps;
+            $values['diff']=$diff;
             $values['personnel']=$p;
             $values['fonctions']=$f;
             $values['salaire']=$s;
@@ -121,6 +134,7 @@ class payementController extends Controller {
         $sumHr=0;
         $sumTaux=0;$nTaux=0;
 
+
         foreach ($hrs as $heure)
         {
             $sumHr+= $heure->nombre*$heure->taux;
@@ -135,6 +149,9 @@ class payementController extends Controller {
             $t=0;
 
 
+        $dd=date('Y-m-01');
+        $df=date('Y-m-t');
+
 
 
 
@@ -144,9 +161,14 @@ class payementController extends Controller {
         $values['taux']=$t;
 
         $s=salaire::whereIdPersonnel($id)->first();
-        if($s!= null){
-            $values['salaire']=$s;
+        if($s== null){
+            $s=new salaire();
+            $s->montant=0;
         }
+        $values['dd']=$dd;
+        $values['df']=$df;
+        $values['salaire']=$s;
+
         $values['personnel']=$p;
 
         return view('comptabilite/create-payment',$values);
@@ -169,10 +191,17 @@ class payementController extends Controller {
             'mois'=>'required|numeric',
             'primes'=>'numeric',
             'acomptes'=>'numeric',
-            'CNSS'=>'numeric',
-            'cas_socials'=>'numeric',
+            'CNPS'=>'numeric',
+            'cas_sociaux'=>'numeric',
             'assurances'=>'numeric',
+            'IRPP'=>'numeric',
+            'CAC'=>'numeric',
+            'CFC'=>'numeric',
+            'CRTV'=>'numeric',
+            'taxe_communale'=>'numeric',
             'autre_retenues'=>'numeric',
+            'du'=>'date|required',
+            'au'=>'date|required',
         ]);
 
 		$id=$request->input('id');
@@ -183,12 +212,20 @@ class payementController extends Controller {
         $mois=$request->input('mois');
         $primes=$request->input('primes');
         $acomptes=$request->input('acomptes');
-        $CNSS=$request->input('CNSS');
-        $cas_socials=$request->input('cas_socials');
+        $CNPS=$request->input('CNPS');
+        $cas_sociaux=$request->input('cas_sociaux');
         $assurances=$request->input('assurances');
+        $IRPP=$request->input('IRPP');
+        $CAC=$request->input('CAC');
+        $CFC=$request->input('CFC');
+        $CRTV=$request->input('CRTV');
+        $taxe_communale=$request->input('taxe_communale');
         $autres_retenues=$request->input('autre_retenues');
+        $du=$request->input('du');
+        $au=$request->input('au');
 
-        $total_retenu=$acomptes+$CNSS+$cas_socials+$assurances+$autres_retenues;
+
+        $total_retenu=$acomptes+$CNPS+$cas_sociaux+$assurances+$autres_retenues+$IRPP+$CAC+$CFC+$CRTV+$taxe_communale;
 
         $total=$total+$primes;
 
@@ -203,8 +240,14 @@ class payementController extends Controller {
         $ps->total=floatval($total);
         $ps->primes=floatval($primes);
         $ps->acomptes=floatval($acomptes);
-        $ps->cnss=floatval($CNSS);
-        $ps->cas_sociales=floatval($cas_socials);
+        $ps->cnps=floatval($CNPS);
+        $ps->IRPP=floatval($IRPP);
+        $ps->CAC=floatval($CAC);
+        $ps->CFC=floatval($CFC);
+        $ps->CRTV=floatval($CRTV);
+        $ps->pension=floatval($taxe_communale);
+        $ps->periode=(new \DateTime($du))->format('d-m-Y').' - '.(new \DateTime($au))->format('d-m-Y');
+        $ps->cas_sociaux=floatval($cas_sociaux);
         $ps->assurances=floatval($assurances);
         $ps->autre_retenues=floatval($autres_retenues);
         $ps->total_retenu=floatval($total_retenu);
@@ -217,8 +260,7 @@ class payementController extends Controller {
         $ps->save();
 
       
-        session(['success'=>$ps->id]);
-        return redirect()->action('comptabilite\payementController@index') ;
+        return redirect()->action('comptabilite\payementController@print_bulletin',[$ps->id]) ;
 
 
     }

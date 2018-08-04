@@ -19,7 +19,9 @@
                 </div>
             </div>
             <div class="panel-body">
-                <h4><strong>Nom :</strong> {{$personnel->nom}}</h4>
+                <h4>Nom :<strong>{{$personnel->nom}}</strong> </h4>
+
+                <legend style="margin-top: 15px">@lang('admin.mensuel')</legend>
                 @if(isset($dernier_payement))
                     <h4 class="alert alert-info"><strong> {{trans('admin.date_dernier_payement').': '.$dernier_payement->date_p}}</strong> </h4>
                 @endif
@@ -43,7 +45,7 @@
                     <p><strong>{{$salaire->montant+$somme_heure.' '.trans('inscription.devise')}}</strong></p>
 
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <form accept-charset="UTF-8" role="form" method="POST" id="pay_staff" action="{{ url('/comptabilite/payement-salaire/store/') }}">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="id" value="{{$personnel->id }}">
@@ -52,7 +54,7 @@
                         <input type="hidden" name="total" value="{{$salaire->montant+$somme_heure}}">
 
                         <fieldset>
-                            <div class="form-group">
+                            <div class="form-group" style="display: none">
                                 <label>{{  trans('admin.mois')  }} : </label>
                                 <select form="pay_staff" name="mois" class="form-control">
                                     <option value="1" @if(date('m')==1) selected @endif>@lang('admin.mois1')</option>
@@ -71,59 +73,136 @@
                             </div>
 
                             <div class="form-group">
+                                <h4>{{  trans('admin.periode')  }}  </h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label >@lang('admin.du') :</label>
+                                        <input class="form-control" name="du" type="date"   value="{{$dd}}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label >@lang('admin.au') :</label>
+
+                                        <input class="form-control" name="au" type="date"   value="{{$df }}">
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="form-group">
                                 <label>{{  trans('admin.primes')  }} : </label>
                                 <div class="input-group">
-                                    <input class="form-control" name="primes" type="text"  value="{{ old('primes') }}">
+                                    <input class="form-control" name="primes" type="number" step="0.01"  value="{{ old('primes') }}">
                                     <span class="input-group-addon"> {{trans('inscription.devise')}}</span>
                                 </div>
 
                             </div>
-                            <div class="form-group">
-                                <label>{{  trans('admin.acomptes')  }} : </label>
+                        </fieldset>
+
+                        <fieldset style="margin-top: 15px">
+                            <legend>@lang('admin.impots')</legend>
+
+                            <div class="col-md-6">
+                                <label>IRPP : </label>
                                 <div class="input-group">
-                                    <input class="form-control" name="acomptes" type="text"  value="{{ old('acomptes') }}">
+                                    <input class="form-control" name="IRPP" type="number" step="0.01"  value="{{ old('IRPP') }}">
                                     <span class="input-group-addon"> {{trans('inscription.devise')}}</span>
                                 </div>
-
                             </div>
-                            <div class="form-group">
-                                <label>CNSS : </label>
+                            <div class="col-md-6">
+                                <label>CAC IRPP : </label>
                                 <div class="input-group">
-                                    <input class="form-control" name="CNSS" type="text"  value="{{ old('CNSS') }}">
+                                    <input class="form-control" name="CAC" type="number" step="0.01"  value="{{ old('CAC') }}">
                                     <span class="input-group-addon"> {{trans('inscription.devise')}}</span>
                                 </div>
-
                             </div>
-                            <div class="form-group">
-                                <label>{{  trans('admin.cas_socials')  }} : </label>
+                            <div class="col-md-6">
+                                <label>@lang('admin.CFC') : </label>
                                 <div class="input-group">
-                                    <input class="form-control" name="cas_socials" type="text"  value="{{ old('cas_socials') }}">
+                                    <input class="form-control" name="CFC" type="number" step="0.01"  value="{{ old('CFC') }}">
                                     <span class="input-group-addon"> {{trans('inscription.devise')}}</span>
                                 </div>
-
                             </div>
-
-                            <div class="form-group">
-                                <label>{{  trans('admin.assurances')  }} : </label>
+                            <div class="col-md-6">
+                                <label>CRTV : </label>
                                 <div class="input-group">
-                                    <input class="form-control" name="assurances" type="text"  value="{{ old('assurances') }}">
+                                    <input class="form-control" name="CRTV" type="number" step="0.01"  value="{{ old('CRTV') }}">
                                     <span class="input-group-addon"> {{trans('inscription.devise')}}</span>
                                 </div>
-
                             </div>
-                            <div class="form-group">
-                                <label>{{  trans('admin.autre_retenues')  }} : </label>
+                            <div class="col-md-6">
+                                <label>@lang('admin.taxe_communale') : </label>
                                 <div class="input-group">
-                                    <input class="form-control" name="autre_retenues" type="text"  value="{{ old('autre_retenues') }}">
+                                    <input class="form-control" name="taxe_communale" type="number" step="0.01"  value="{{ old('taxe_communale') }}">
                                     <span class="input-group-addon"> {{trans('inscription.devise')}}</span>
                                 </div>
-
                             </div>
+                        </fieldset>
 
-                            <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
+                            <fieldset style="margin-top: 15px">
+                                <legend>@lang('admin.autre_retenues')</legend>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{  trans('admin.acomptes')  }} : </label>
+                                        <div class="input-group">
+                                            <input class="form-control" name="acomptes" type="number" step="0.01"  value="{{ old('acomptes') }}">
+                                            <span class="input-group-addon"> {{trans('inscription.devise')}}</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">  <div class="form-group">
+                                        <label>CNPS : </label>
+                                        <div class="input-group">
+                                            <input class="form-control" name="CNPS" type="number" step="0.01"  value="{{ old('CNPS') }}">
+                                            <span class="input-group-addon"> {{trans('inscription.devise')}}</span>
+                                        </div>
+
+                                    </div></div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{  trans('admin.cas_sociaux')  }} : </label>
+                                        <div class="input-group">
+                                            <input class="form-control" name="cas_sociaux" type="number" step="0.01"  value="{{ old('cas_sociaux') }}">
+                                            <span class="input-group-addon"> {{trans('inscription.devise')}}</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{  trans('admin.assurances')  }} : </label>
+                                        <div class="input-group">
+                                            <input class="form-control" name="assurances" type="number" step="0.01"  value="{{ old('assurances') }}">
+                                            <span class="input-group-addon"> {{trans('inscription.devise')}}</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>{{  trans('admin.autre_retenues')  }} : </label>
+                                        <div class="input-group">
+                                            <input class="form-control" name="autre_retenues" type="number" step="0.01"  value="{{ old('autre_retenues') }}">
+                                            <span class="input-group-addon"> {{trans('inscription.devise')}}</span>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
+
 
 
                         </fieldset>
+                        <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
+
                     </form>
                 </div>
 

@@ -91,7 +91,7 @@ class enregistrementController extends Controller {
             'sexe'=>'required',
             'nationalite'=>'required',
             'quartier'=>'required',
-            'photo'=>'image',
+            'photo'=>'image|max:2048',
 
         ]);
         $e=new eleve();
@@ -175,11 +175,11 @@ class enregistrementController extends Controller {
             if($photo!=null){
 
 
-                Image::make($photo->getRealPath())->encode('png')->save('img/photos/'.$e->id.'-'.session('year').'.png');
+                Image::make($photo->getRealPath())->encode('jpg',80)->resize(300,300)->save('img/photos/'.$e->id.'-'.session('year').'.jpg');
                 $ph=new Photo();
                 $ph->eleve_id=$e->id;
                 $ph->annee_scolaire=\session('year');
-                $ph->url='img/photos/'.$e->id.'-'.session('year').'.png';
+                $ph->url='img/photos/'.$e->id.'-'.session('year').'.jpg';
                 $ph->save();
 
 
@@ -248,7 +248,7 @@ class enregistrementController extends Controller {
         'sexe'=>'required',
         'nationalite'=>'required',
         'quartier'=>'required',
-        'photo'=>'image',
+        'photo'=>'image|max:2048',
 
     ]);
         $e=eleve::find($id);
@@ -281,9 +281,9 @@ class enregistrementController extends Controller {
         if($photo!=null){
 
 
-            Image::make($photo->getRealPath())->encode('png')->save('img/photos/'.$e->id.'-'.session('year').'.png');
+            Image::make($photo->getRealPath())->encode('jpg',80)->resize(300,300)->save('img/photos/'.$e->id.'-'.session('year').'.jpg');
             $ph=Photo::firstOrNew(['eleve_id'=>$id,'annee_scolaire'=>\session('year')]);
-            $ph->url='img/photos/'.$e->id.'-'.session('year').'.png';
+            $ph->url='img/photos/'.$e->id.'-'.session('year').'.jpg';
             $ph->save();
 
 

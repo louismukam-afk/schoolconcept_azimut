@@ -34,22 +34,74 @@
                         <input class="form-control" id="lieu_naiss" name="lieu_naiss" type="text"  value="{{ $personnel->lieu_naiss }}" required disabled>
                     </div>
                 </div>
-                <label for="nationalite">{{  trans('inscription.nationalite')  }} : <span class="required">*</span></label>
-                <input class="form-control" id="nationalite" name="nationalite" type="text"  value="{{ $personnel->nationalite }}" required disabled>
-                <div class="row">
+              <div class="row">
                     <div class="col-md-6">
                         <label for="sexe">{{  trans('inscription.sexe')  }} : <span class="required">*</span></label>
                         <select name="sexe" form="select_sexe" class="form-control" id="sexe" disabled>
-                            <option value="H">{{  trans('inscription.homme')  }}</option>
-                            <option value="F">{{  trans('inscription.femme')  }}</option>
+                            <option value="H" @if($personnel->sexe=='H') selected @endif>{{  trans('inscription.homme')  }}</option>
+                            <option value="F" @if($personnel->sexe=='F') selected @endif>{{  trans('inscription.femme')  }}</option>
                         </select>
                     </div>
 
                     <div class="col-md-6">
-                        <label for="diplome">{{  trans('admin.diplome')  }} : <span class="required">*</span></label>
-                        <input class="form-control" id="diplome" name="diplome" type="text"  value="{{ $personnel->diplome }}" required disabled>
+                        <label for="nationalite">{{  trans('inscription.nationalite')  }} : <span class="required">*</span></label>
+                        <input class="form-control" id="nationalite" name="nationalite" type="text"  value="{{ $personnel->nationalite }}" required disabled>
+
                     </div>
                 </div>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <label for="diplome">{{  trans('admin.diplome')  }} : <span class="required">*</span></label>
+                        <input class="form-control" id="diplome" name="diplome" type="text"  value="{{ $personnel->diplome }}" required disabled >
+                    </div>
+                    <div class="col-md-6">
+                        <label for="num_contribuable">{{  trans('admin.num_contribuable')  }} :</label>
+                        <input class="form-control" id="num_contribuable" name="num_contribuable" type="text"  value="{{ $personnel->num_contribuable }}" disabled >
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="num_ss">{{  trans('admin.num_ss')  }} :</label>
+                        <input class="form-control" id="num_ss" name="num_ss" type="text"  value="{{$personnel->num_ss }}" disabled>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="categorie">{{  trans('admin.categorie')  }} :</label>
+                        <input class="form-control" id="categorie" name="categorie" type="text"  value="{{ $personnel->categorie }}" disabled>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="echelon">{{  trans('admin.echelon')  }} :</label>
+                        <input class="form-control" id="echelon" name="echelon" type="text"  value="{{ $personnel->echelon }}" disabled>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="date_rec">{{  trans('admin.date_rec')  }} :</label>
+                        <input class="form-control" id="date_rec" name="date_rec" type="date"  value="{{ $personnel->date_entree }}" disabled>
+                    </div>
+                </div>
+                <label >Type :</label>
+                <select name="type" form="select_sexe" class="form-control" id="type" disabled>
+                    <option value="0" @if($personnel->type==0) selected @endif>@lang('admin.enseignant')</option>
+                    <option value="1" @if($personnel->type==1) selected @endif>@lang('admin.autre')</option>
+                </select>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="adresse">{{  trans('admin.adresse')  }} : <span class="required">*</span></label>
+                        <input class="form-control" id="adresse" name="adresse" type="text"  value="{{ $personnel->adresse }}" required disabled></div>
+                    <div class="col-md-6">
+                        <label for="email">{{  trans('admin.email')  }} :</label>
+                        <input class="form-control" id="email" name="email" type="text"  value="{{ $personnel->email }}" disabled>
+                    </div>
+                </div>
+
+
+
                 <div class="row">
                     <div class="col-md-6">
                         <label for="tel1">{{  trans('admin.tel1')  }} : <span class="required">*</span></label>
@@ -66,15 +118,9 @@
 
 
 
-                <label for="adresse">{{  trans('admin.adresse')  }} : <span class="required">*</span></label>
-                <input class="form-control" id="adresse" name="adresse" type="text"  value="{{ $personnel->adresse }}" required disabled>
-                <label for="email">{{  trans('admin.email')  }} :</label>
-                <input class="form-control" id="email" name="email" type="text"  value="{{ $personnel->email }}" disabled>
-                <label >Type :</label>
-                <select name="type" form="select_sexe" class="form-control" id="type" disabled>
-                    <option value="0" @if($personnel->type==0) selected @endif>@lang('admin.enseignant')</option>
-                    <option value="1" @if($personnel->type==1) selected @endif>@lang('admin.autre')</option>
-                </select>
+
+
+
 
                 <label for="matieres" >{{  trans('admin.titre_matiere')  }} :</label>
                 <textarea  class="form-control" id="matieres" name="matieres"  disabled>{{ $personnel->matieres }}</textarea>
@@ -138,6 +184,12 @@
                 $('#type').removeAttr('disabled');
                 $('#matieres').removeAttr('disabled');
                 $('#autre_information').removeAttr('disabled');
+                $('#num_contribuable').removeAttr('disabled');
+                $('#num_ss').removeAttr('disabled');
+                $('#categorie').removeAttr('disabled');
+                $('#echelon').removeAttr('disabled');
+                $('#date_rec').removeAttr('disabled');
+
                 $('#submit').css('display','block');
 
 

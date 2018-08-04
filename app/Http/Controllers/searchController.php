@@ -46,7 +46,7 @@ class searchController extends Controller {
         $titre=$req->input('titre');
         $p=DB::table('personnel')->whereRaw('lower(nom) LIKE ?',['%'.strtolower($pattern).'%'])
             ->orderBy('nom')
-            ->paginate(30);
+            ->paginate(60);
         $values= array('titre'=>$titre);
         $values['personnel']=$p;
         session(['search_result'=>true]);
@@ -87,7 +87,7 @@ class searchController extends Controller {
             ->orWhereRaw('lower(prenom) LIKE ?',['%'.strtolower($pattern).'%'])
             ->orWhereRaw('lower(matricule) LIKE ?',['%'.strtolower($pattern).'%'])
             ->orderBy('nom')->orderBy('prenom')
-            ->paginate(30);
+            ->paginate(60);
         //$e=DB::table('eleve')->whereRaw("nom LIKE '%?%' or prenom LIKE '%?%' or matricule LIKE '%?%'",[$pattern,$pattern,$pattern])->get();
         //$e=eleve::whereRaw("nom LIKE '%?%' or prenom LIKE '%?%' or matricule LIKE '%?%'",[$pattern,$pattern,$pattern]);
         $values= array('titre'=>trans('inscription.title_search'));

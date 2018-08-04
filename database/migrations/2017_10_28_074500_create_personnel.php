@@ -30,6 +30,14 @@ class CreatePersonnel extends Migration {
             $table->string('matieres',2000)->nullable();
             $table->string('autre_information',2000)->nullable();
             $table->string('matricule')->nullable();
+            $table->string('num_contribuable')->nullable();
+            $table->string('num_ss')->nullable();
+            $table->string('categorie')->nullable();
+            $table->string('echelon')->nullable();
+
+
+
+
         });
     }
 
