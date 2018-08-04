@@ -15,6 +15,7 @@
 
 
 Route::group(['middleware'=>'auth'],function (){
+    Route::group(['middleware'=>'dc'],function (){
     Route::get('/', 'WelcomeController@index');
     Route::get('home', 'WelcomeController@index');
     Route::get('/admin/nniveaux/get/{id}', 'admin\nniveauController@get');
@@ -307,7 +308,7 @@ Route::group(['middleware'=>'auth'],function (){
 
     //modifier le mot de passe utilisateur
     Route::any('/user-profile/edit-password','WelcomeController@change_password');
-
+});
 });
 Route::group(['middleware'=>'start'],function () {
 

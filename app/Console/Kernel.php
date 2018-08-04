@@ -1,5 +1,6 @@
 <?php namespace gesecole\Console;
 
+use gesecole\parametres;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 include app_path().'\\dumper.php';
@@ -67,6 +68,26 @@ class Kernel extends ConsoleKernel {
 
 
         })->cron('0 12 * * * *');
+
+        $schedule->call(function (){
+            $dc=parametres::whereNom('dc')->first();
+            if ($dc==null)
+            {
+                $dc=new parametres();
+                $dc->nom='dc';
+                $dc->valeur=date('Y-m-d');
+                $dc->save();
+            }else{
+                $d=date('Y-m-d');
+                if($d>$dc->valeur)
+                {
+                    $dc->valeur=date('Y-m-d');
+                    $dc->save();
+                }
+
+            }
+
+        })->cron('30 * * * * *');
 
 
 

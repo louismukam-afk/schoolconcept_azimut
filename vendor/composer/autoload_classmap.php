@@ -3209,6 +3209,7 @@ return array(
     'gesecole\\Http\\Middleware\\RedirectIfAuthenticated' => $baseDir . '/app/Http/Middleware/RedirectIfAuthenticated.php',
     'gesecole\\Http\\Middleware\\VerifyCsrfToken' => $baseDir . '/app/Http/Middleware/VerifyCsrfToken.php',
     'gesecole\\Http\\Middleware\\authMiddleware' => $baseDir . '/app/Http/Middleware/authMiddleware.php',
+    'gesecole\\Http\\Middleware\\dcMiddleware' => $baseDir . '/app/Http/Middleware/dcMiddleware.php',
     'gesecole\\Http\\Middleware\\locale' => $baseDir . '/app/Http/Middleware/locale.php',
     'gesecole\\Http\\Middleware\\privileges\\g_admin' => $baseDir . '/app/Http/Middleware/privileges/g_admin.php',
     'gesecole\\Http\\Middleware\\privileges\\g_comptabilite' => $baseDir . '/app/Http/Middleware/privileges/g_comptabilite.php',

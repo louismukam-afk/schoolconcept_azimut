@@ -3528,6 +3528,7 @@ class ComposerStaticInita8e744cd6ac8bb0715dcab13ed5037a3
         'gesecole\\Http\\Middleware\\RedirectIfAuthenticated' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfAuthenticated.php',
         'gesecole\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
         'gesecole\\Http\\Middleware\\authMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/authMiddleware.php',
+        'gesecole\\Http\\Middleware\\dcMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/dcMiddleware.php',
         'gesecole\\Http\\Middleware\\locale' => __DIR__ . '/../..' . '/app/Http/Middleware/locale.php',
         'gesecole\\Http\\Middleware\\privileges\\g_admin' => __DIR__ . '/../..' . '/app/Http/Middleware/privileges/g_admin.php',
         'gesecole\\Http\\Middleware\\privileges\\g_comptabilite' => __DIR__ . '/../..' . '/app/Http/Middleware/privileges/g_comptabilite.php',

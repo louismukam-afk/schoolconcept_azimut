@@ -40,7 +40,7 @@
                                         @endif
                                        @endforeach
                                        required>
-                                <span class="input-group-addon">/@if($sequence==1 || $sequence==2) 30 @elseif($sequence==3 || $sequence==4) 70 @elseif($sequence==5 || $sequence==6) 100 @endif</span>
+                                <span class="input-group-addon">/@if($sequence==1 || $sequence==2) 30 @elseif($sequence==3 || $sequence==4) 70 @elseif($sequence==5 || $sequence==6) 70 @endif</span>
                             </div>
 
                         </div>

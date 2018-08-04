@@ -308,7 +308,7 @@ return [
     "CFC"=>"CFC",
     "anciennete"=>"Ancienneté",
     "an"=>"An(s)",
-    ""=>"",
+    "w_date"=>"La date du serveur est incorrecte",
     ""=>"",
     ""=>"",
     ""=>"",

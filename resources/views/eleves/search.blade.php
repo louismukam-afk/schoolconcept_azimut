@@ -25,7 +25,7 @@
                  class="panel-collapse collapsing">
                 <div
                         class="panel-body">
-                    <li class="col-md-12"><a href={{route('etat_disciplinaire').'/?id=0'}}>{{trans('inscription.all_eleves')}}</a></li>
+                    <li class="col-md-12"><a href={{route('etat_disciplinaire').'?id=0'}}>{{trans('inscription.all_eleves')}}</a></li>
 
 
                     @foreach($cycles as $cy)

@@ -295,6 +295,8 @@ return [
     "CFC"=>"CFC",
     "anciennete"=>"Seniority",
     "an"=>"Year(s)",
+    "w_date"=>"Wrong server date",
+
 
 
 
