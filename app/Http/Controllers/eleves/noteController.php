@@ -151,7 +151,7 @@ class noteController extends Controller {
 
         if($v->count()>0){
             session(['erreur'=>trans('admin.mod_locked')]);
-            return redirect()->to('/eleves/notes/matieres/?id='.$id.'&cycle='.$id_cycle.'&nniveau='.$nniveau);
+            return redirect()->to('/eleves/notes/matieres?id='.$id.'&cycle='.$id_cycle.'&nniveau='.$nniveau);
         }
 
         $user=Auth::user();
@@ -165,7 +165,7 @@ class noteController extends Controller {
             if($d==null){
                 $mat=matiere::find($id_m);
                 session(['erreur'=>trans('admin.no_modification',['matiere'=>$mat->nom.'('.$mat->nom_anglais.')'])]);
-                return redirect()->to('/eleves/notes/matieres/?id='.$id.'&cycle='.$id_cycle.'&nniveau='.$nniveau);
+                return redirect()->to('/eleves/notes/matieres?id='.$id.'&cycle='.$id_cycle.'&nniveau='.$nniveau);
             }
         }
 
@@ -254,7 +254,7 @@ class noteController extends Controller {
             $tns=note::whereAnneeScolaire(\session('year'))->where('sequence','=',$cc)->where('id_matiere','=',$id_m)->whereIn('id_eleve',$id_eleves)->first();
             if($tns==null){
                 session(['erreur'=>trans('admin.no_cc',['matiere'=>$mat->nom.'('.$mat->nom_anglais.')'])]);
-                return redirect()->to('/eleves/notes/matieres/show/?id='.$id.'&cycle='.$id_cycle.'&nniveau='.$nniveau);
+                return redirect()->to('/eleves/notes/matieres/show?id='.$id.'&cycle='.$id_cycle.'&nniveau='.$nniveau);
             }
             $n_cc = note::whereAnneeScolaire(session('year'))
                 ->where('id_matiere', '=', $id_m)
@@ -298,6 +298,11 @@ class noteController extends Controller {
                 ->where('sequence', '=', $sequence)
                 ->whereIn('id_eleve',$id_eleves)
                 ->get();
+            $n_cc = note::whereAnneeScolaire(session('year'))
+                ->where('id_matiere', '=', $id_m)
+                ->where('sequence', '=', $cc)
+                ->whereIn('id_eleve',$id_eleves)
+                ->get();
             $id_eleves2=$n->fetch('id_eleve')->toArray();
             $e=eleve::whereIn('id',$id_eleves2)->orderBy('nom')->orderBy('prenom')->get();
 
@@ -307,11 +312,13 @@ class noteController extends Controller {
 
             if($tns==null || $tnr==null){
                 session(['erreur'=>trans('admin.no_note',['matiere'=>$mat->nom.'('.$mat->nom_anglais.')'])]);
-                return redirect()->to('/eleves/notes/matieres/show/?id='.$id.'&cycle='.$id_cycle.'&nniveau='.$nniveau);
+                return redirect()->to('/eleves/notes/matieres/show?id='.$id.'&cycle='.$id_cycle.'&nniveau='.$nniveau);
             }
 
             $values['eleves'] = $e;
             $values['notes'] = $n;
+            $values['notes_cc'] = $n_cc;
+
             //$values['max'] = $cm->max;
             $values['matiere'] = $mat;
             $values['id_cycle'] = $id_cycle;
@@ -402,7 +409,7 @@ class noteController extends Controller {
                             if($note1>=50){
                                 $note=$note1;
                             }else{
-                                $note=$note_rattrap->note;
+                                $note=($note_cc?$note_cc->note:0)+$note_rattrap->note;
                             }
                         }else{
                             $note=$note1;
@@ -518,9 +525,18 @@ class noteController extends Controller {
                     $cps=false;
                     $cpst=false;
 
+                    $credit=$cm->where('id_matiere',$matiere->id,false)
+                        ->first()
+                        ->coef;
+
                     if($this->isIn($matiere->id,$m_cps)){
                         $cps=true;
                         $cpstList=$gm->where('id_matiere_mere',$matiere->id,false)->fetch('id_classe_matiere')->toArray();
+
+                        //ajouts ISSBA
+                        if(!$minus_credit_cpst) {
+                            $sCoef -= $credit;
+                        }
 
                     }
 
@@ -530,17 +546,15 @@ class noteController extends Controller {
                     $nom=$matiere->nom;
 
 
-                    if($this->isIn($matiere->id,$m_cpst))
-                        $cpst=true;
+                    //if($this->isIn($matiere->id,$m_cpst))
+                      //  $cpst=true;
 
-                    $credit=$cm->where('id_matiere',$matiere->id,false)
-                        ->first()
-                        ->coef;
 
-                    if ($cpst)
+
+                    /*if ($cpst)
                         if(!$minus_credit_cpst) {
                             $sCoef -= $credit;
-                        }
+                        }*/
 
 
                     $note_cc1=$n_cc->where('id_matiere',$matiere->id,false)
@@ -573,7 +587,7 @@ class noteController extends Controller {
                             if($note1>=50){
                                 $noteS1=$note1;
                             }else{
-                                $noteS1=$note_rattrap1->note;
+                                $noteS1=($note_cc1?$note_cc1->note:0)+$note_rattrap1->note;
                             }
                         }else{
                             $noteS1=$note1;
@@ -594,7 +608,7 @@ class noteController extends Controller {
                             if($note1>=50){
                                 $noteS2=$note1;
                             }else{
-                                $noteS2=$note_rattrap2->note;
+                                $noteS2=($note_cc2?$note_cc2->note:0)+$note_rattrap2->note;
                             }
                         }else{
                             $noteS2=$note1;
@@ -621,25 +635,31 @@ class noteController extends Controller {
 
 
                     if(is_numeric($note)){
-                        if((!$cpst) && (!$cps))
+                        //ajouts ISSBA
+                        if( !$cps)
+                        //if((!$cpst) && (!$cps))
                             $sNote+=$note*$credit;
                     }
 
 
-                    if((!$cpst) && (!$cps)){
+
+                    //ajouts ISSBA
+                    if( !$cps){
+                        //if((!$cpst) && (!$cps)){
+
                         $matieres[$l]=new pv_matiere($matiere->id,$note,$credit);
                         if(!$minus_credit_cpst) {
                             $liste_mat[$l]=new matiere_groupe($matiere->id,$nom);
                         }
                     }
-                    if($cpst){
+                    /*if($cpst){
                         $composantes[$cst]= new composante($matiere->id,$note,$matiere->id_classe_matiere,$nom,$credit);
                         $cst++;
-                    }
-                    if($cps){
+                    }*/
+                    /*if($cps){
                         $composes[$c]= new compose($matiere->id,$note,$credit,$cpstList,$nom,$credit,$matiere->type,$matiere->semestre);
                         $c++;
-                    }
+                    }*/
 
 
 
@@ -649,7 +669,6 @@ class noteController extends Controller {
 
 
                 foreach($composes as $co){
-
                     $co_note=0;
                     $co_n=0;
                     $s_co_coef=0;
@@ -676,18 +695,17 @@ class noteController extends Controller {
 
 
                     if(sizeof($lnoms)>=1)
-                        $lnoms='('.substr($lnoms,0,sizeof($lnoms)-2).')';
+                        $lnoms='';//'('.substr($lnoms,0,sizeof($lnoms)-2).')';
 
                     $sNote+=$co_note*($co->credit);
-                    $matieres[$l]=new pv_matiere($co->id_matiere,$co_note,$co->credit);
+                    //$matieres[$l]=new pv_matiere($co->id_matiere,$co_note,$s_co_coef);
                     if(!$minus_credit_cpst) {
-                        $liste_mat[$l]=new matiere_groupe($co->id_matiere,$co->nom);
+                        //$liste_mat[$l]=new matiere_groupe($co->id_matiere,$co->nom);
                     }
                     $l++;
 
                 }
                 $minus_credit_cpst=true;
-
 
 
                 $proces_v[$k]=new PV($eleve->id,$matieres,$sNote/$sCoef);
@@ -737,7 +755,7 @@ class noteController extends Controller {
         if($eleveList==null){
             session(['success'=>true]);
 
-            return redirect()->to('/eleves/notes/matieres/?id='.$id_classe.'&cycle='.$id_cycle.'&nniveau='.$id_nniveau);
+            return redirect()->to('/eleves/notes/matieres?id='.$id_classe.'&cycle='.$id_cycle.'&nniveau='.$id_nniveau);
         }
         foreach ($eleveList as $e){
             $n=note::firstOrNew(['annee_scolaire'=>session('year'),'id_matiere'=>$id_matiere,'sequence'=>$sequence,'id_eleve'=>$e]);
@@ -754,7 +772,7 @@ class noteController extends Controller {
 
         session(['success'=>true]);
 
-        return redirect()->to('/eleves/notes/matieres/?id='.$id_classe.'&cycle='.$id_cycle.'&nniveau='.$id_nniveau);
+        return redirect()->to('/eleves/notes/matieres?id='.$id_classe.'&cycle='.$id_cycle.'&nniveau='.$id_nniveau);
 	}
 
 	/**

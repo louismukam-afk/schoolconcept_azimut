@@ -113,7 +113,7 @@ class relevesController extends Controller {
 
             $matieres_pv=$notes_sequences_pv->fetch('id_matiere')->toArray();
             $sCoef=0;
-            $cm = classeMatiere::whereIdClasse($id)->where('id_nniveau','=',$nniveau)->get();
+            $cm = classeMatiere::whereIdClasse($id)->where('id_nniveau','=',$nniveau)->where('id_cycle','=',$id_cycle)->get();
             foreach ($cm as $entry){
                 $sCoef+=$entry->coef;
             }
@@ -197,7 +197,7 @@ class relevesController extends Controller {
                             if($note1>=50){
                                 $noteS1=$note1;
                             }else{
-                                $noteS1=$note_rattrap1->note;
+                                $noteS1=($note_cc1?$note_cc1->note:0)+$note_rattrap1->note;
                             }
                         }else{
                             $noteS1=$note1;
@@ -218,7 +218,7 @@ class relevesController extends Controller {
                             if($note1>=50){
                                 $noteS2=$note1;
                             }else{
-                                $noteS2=$note_rattrap2->note;
+                                $noteS2=($note_cc2?$note_cc2->note:0)+$note_rattrap2->note;
                             }
                         }else{
                             $noteS2=$note1;
@@ -247,7 +247,7 @@ class relevesController extends Controller {
 
                     if(is_numeric($note)){
                         if((!$cpst) && (!$cps))
-                        $sNote+=($this->getGrade($note)[1])*$credit;
+                        $sNote+=($note*$credit);
                     }
 
 
@@ -285,7 +285,7 @@ class relevesController extends Controller {
                         $co_note=$co_note/$co_n;
                     }*/
                     if($s_co_coef>0){
-                        $co_note=$co_note/$s_co_coef;
+                        $co_note=round($co_note/$s_co_coef,2);
                     }
                   // if(is_numeric($co->note))
                    // $co_note=round(($co_note+$co->note)/2,2);
@@ -293,10 +293,10 @@ class relevesController extends Controller {
 
 
                     if(sizeof($lnoms)>=1)
-                        $lnoms='('.substr($lnoms,0,sizeof($lnoms)-2).')';
+                        $lnoms='';//'('.substr($lnoms,0,sizeof($lnoms)-2).')';
 
-                    $sNote+=($this->getGrade($co_note)[1])*$co->credit;
-                    $matieres[$l]=new pv1_matiere($co->id_matiere,$co_note,$co->credit,$co->nom.' '.$lnoms,$co->type,$co->semestre);
+                    $sNote+=($co_note*$co->credit);
+                    $matieres[$l]=new pv1_matiere($co->id_matiere,$co_note,$s_co_coef,$co->nom.' '.$lnoms,$co->type,$co->semestre);
                     $l++;
 
                 }
@@ -304,6 +304,7 @@ class relevesController extends Controller {
 
                 if($sCoef==0) $sCoef=1;
                 $proces_v[$k]=new PV1($eleve->id,$matieres,$sNote/$sCoef);
+
                 $k++;
             }
             $classe=classe::find($id);

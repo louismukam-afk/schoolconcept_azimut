@@ -78,13 +78,13 @@ table{
 }
 
 .nom-column{
-    min-width:150px ;
+    min-width:180px !important;
 }
 .mat-column{
     width: 100px;
 }
 .spec-column{
-    width: 180px;
+    width: 150px !important;
 }
 .note-column
 {
