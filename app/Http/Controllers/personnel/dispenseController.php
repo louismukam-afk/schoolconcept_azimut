@@ -53,17 +53,19 @@ class dispenseController extends Controller {
         $m=dispense::whereIdPersonnel($id)->orderBy('id_classe')->orderBy('id_nniveau')->orderBy('id_matiere')->orderBy('jour')->get();
         $p=personnel::find($id);
         $titre=trans('admin.titre_table_dispense').' '.$p->nom;
-        $n=classe::all();
+        $n=classe::with('niveau')->orderBy('id_niveau')
+            ->orderBy('nom')
+            ->get();
         $hp=heuresPrevues::whereAnneeScolaire(\session('year'))
             ->where('id_personnel','=',$p->id)
             ->get();
         $hr=heure_realise::whereAnneeScolaire(\session('year'))
             ->where('id_personnel','=',$p->id)
             ->get();
-        $e=matiere::orderBy('nom')->get();
+        $e=matiere::orderBy((App::getLocale()=='en')?'nom_anglais':'nom')->get();
         $nn=NNiveau::all();
         $s=salle::all();
-        $h=horaire::orderBy('ordre')->get();
+        $h=horaire::where('type','=',0)->orderBy('ordre')->get();
         $values= array('titre'=>$titre,'dispense'=>$m,'classes'=>$n,'matieres'=>$e,'horaires'=>$h);
         $values['nniveaux']=$nn;
         $values['heuresP']=$hp;
@@ -262,9 +264,14 @@ class dispenseController extends Controller {
             ->where('id_nniveau','=',$nniveau)
             ->where('id_cycle','=',$nn->id_cycle)
             ->select(['matiere.*'])
-            ->orderBy((App::getLocale()=='en')?'nom':'nom_anglais')
+            ->orderBy((App::getLocale()=='en')?'nom_anglais':'nom')
             ->get()
         ;
+        if(session('success')){
+            $values['success']=true;
+            Session::forget('success');
+        }
+
         $values['titre']=$titre;
         $values['dispenses']=$d;
         $values['horaires']=$h;

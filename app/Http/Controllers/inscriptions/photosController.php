@@ -12,6 +12,7 @@ use gesecole\parametres;
 use gesecole\Photo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Intervention\Image\Facades\Image;
 
@@ -141,6 +142,17 @@ class photosController extends Controller {
         return redirect()->to('/select/classe?url='.URL::to('/inscriptions/photos'));
 	}
 
+
+	public function search_carte_eleve(){
+        $values= array('titre'=>trans('inscription.title_search'));
+        if(session('success')){
+            $values['success']=session('success');
+            Session::forget('success');
+
+        }
+	    return view('inscriptions.search_carte_eleve',$values);
+    }
+
 	/**
 	 * Display the specified resource.
 	 *
@@ -149,62 +161,129 @@ class photosController extends Controller {
 	 */
     public function show_carte(Request $request)
     {
+        $eleve=$request->input('eleve');
         $divisor=10;
-        $this->validate($request,[
-            'id'=>'required|numeric',
-            'cycle'=>'required|numeric',
-            'nniveau'=>'required|numeric',
-        ]);
         $values= array('titre'=>trans_choice('admin.carte_e',2));
 
-        $id_nniveau=$request->input('nniveau');
-        $id_classe=$request->input('id');
-        $id_cycle=$request->input('cycle');
-        $nn=NNiveau::find($id_nniveau);
-        $classe=classe::find($id_classe);
-        $e=inscription::where('inscription.annee_scolaire','=',session('year'))
-            ->where('id_cycle','=',$id_cycle)
-            ->where('id_classe','=',$id_classe)
-            ->where('id_nniveau','=',$id_nniveau)
-            ->join('eleve','eleve.id','=','inscription.id_eleve')
+        if($eleve!=null)
+        {
+            $i=inscription::whereAnneeScolaire(session('year'))->where('id_eleve','=',$eleve)->first();
+            if($i==null)
+            {
+                $values['inscription']=0;
+                $values['eleves']=null;
+                $values['nom_e']=null;
+                $values['n']=null;
+                $values['photos']=null;
+                $values['classe']=null;
+                $values['niveau']=null;
+                $values['nniveau']=null;
+                return view('inscriptions/cartes',$values);
 
-            ->select(['eleve.*'])
-            ->orderBy('nom')
-        ->get();
-        $id_e=$e->fetch('id')->toArray();
-        $po=Photo::whereAnneeScolaire(session('year'))
-            ->whereIn('eleve_id',$id_e)
-            ->get()
+            }
+
+
+
+            $id_nniveau=$i->id_nniveau;
+            $id_classe=$i->id_classe;
+            $id_cycle=$i->id_cycle;
+            $nn=NNiveau::find($id_nniveau);
+            $classe=classe::find($id_classe);
+           $e=eleve::where('id','=',$eleve)->get();
+
+            $id_e=$e->fetch('id')->toArray();
+            $po=Photo::whereAnneeScolaire(session('year'))
+                ->whereIn('eleve_id',$id_e)
+                ->get()
             ;
-        $pa=parametres::all();
-        $nom_e=$pa->where('nom','nom_etablissement',false)->first()->valeur;
-        $n=0;
-       $div=($e->count()/$divisor);
-       if($div>intval($div))
-       {
-           $n=intval($div)+1;
-       }
-       else
-       {
-           $n=intval($div);
-       }
+            $pa=parametres::all();
+            $nom_e=$pa->where('nom','nom_etablissement',false)->first()->valeur;
+            $n=0;
+            $div=($e->count()/$divisor);
+            if($div>intval($div))
+            {
+                $n=intval($div)+1;
+            }
+            else
+            {
+                $n=intval($div);
+            }
 
 
-        $values['eleves']=$e;
-        $values['nom_e']=$nom_e;
-        $values['n']=$n;
-        $values['photos']=$po;
-        $values['classe']=$classe;
-        $values['niveau']=$classe->niveau;
-        $values['nniveau']=NNiveau::find($id_nniveau);
-
-
-
+            $values['eleves']=$e;
+            $values['nom_e']=$nom_e;
+            $values['n']=$n;
+            $values['photos']=$po;
+            $values['classe']=$classe;
+            $values['niveau']=$classe->niveau;
+            $values['nniveau']=$nn;
 
 
 
 
-        return view('inscriptions/cartes',$values);
+
+
+
+            return view('inscriptions/cartes',$values);
+
+        }
+        else{
+            $this->validate($request,[
+                'id'=>'required|numeric',
+                'cycle'=>'required|numeric',
+                'nniveau'=>'required|numeric',
+            ]);
+
+            $id_nniveau=$request->input('nniveau');
+            $id_classe=$request->input('id');
+            $id_cycle=$request->input('cycle');
+            $nn=NNiveau::find($id_nniveau);
+            $classe=classe::find($id_classe);
+            $e=inscription::where('inscription.annee_scolaire','=',session('year'))
+                ->where('id_cycle','=',$id_cycle)
+                ->where('id_classe','=',$id_classe)
+                ->where('id_nniveau','=',$id_nniveau)
+                ->join('eleve','eleve.id','=','inscription.id_eleve')
+
+                ->select(['eleve.*'])
+                ->orderBy('nom')
+                ->get();
+            $id_e=$e->fetch('id')->toArray();
+            $po=Photo::whereAnneeScolaire(session('year'))
+                ->whereIn('eleve_id',$id_e)
+                ->get()
+            ;
+            $pa=parametres::all();
+            $nom_e=$pa->where('nom','nom_etablissement',false)->first()->valeur;
+            $n=0;
+            $div=($e->count()/$divisor);
+            if($div>intval($div))
+            {
+                $n=intval($div)+1;
+            }
+            else
+            {
+                $n=intval($div);
+            }
+
+
+            $values['eleves']=$e;
+            $values['nom_e']=$nom_e;
+            $values['n']=$n;
+            $values['photos']=$po;
+            $values['classe']=$classe;
+            $values['niveau']=$classe->niveau;
+            $values['nniveau']=$nn;
+
+
+
+
+
+
+
+            return view('inscriptions/cartes',$values);
+
+        }
 
 
     }

@@ -94,7 +94,7 @@ class inscriptionController extends Controller {
 
 	public function create($id_eleve)
 	{
-        $c=classe::orderBy('id_niveau')
+        $c=classe::with('niveau')->orderBy('id_niveau')
             ->orderBy('nom')
             ->get();
         $cy=cycle::all();
@@ -223,7 +223,7 @@ class inscriptionController extends Controller {
 	 */
 	public function edit($id_eleve)
 	{
-        $c=classe::orderBy('id_niveau')
+        $c=classe::with('niveau')->orderBy('id_niveau')
             ->orderBy('nom')
             ->get();
         $cy=cycle::all();
@@ -276,7 +276,7 @@ class inscriptionController extends Controller {
 
     public function certificate($id){
 	    $e=eleve::find($id);
-        $i=inscription::whereAnneeScolaire(session('year'))->where('id_eleve',$id,false)->first();
+        $i=inscription::whereAnneeScolaire(session('year'))->where('id_eleve','=',$id)->first();
         $values['inscription']=$i;
         if($i!=null){
             $cy=cycle::find($i->id_cycle);

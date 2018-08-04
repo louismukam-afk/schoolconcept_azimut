@@ -8,6 +8,8 @@
             </div>
 
         @endif
+            <button class="btn btn-success" data-toggle="modal" data-backdrop="false" href="#add_cycle"
+            ><span class="glyphicon glyphicon-plus"></span>{{  trans('admin.ajouter_matiere')  }}</button>
 
         <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 15px;">
             <thead>
@@ -15,7 +17,6 @@
             <th>#</th>
             <th>{{trans('inscription.nom')}}</th>
             <th>{{trans('admin.nom_anglais')}}</th>
-            <th>{{trans('admin.groupe')}}</th>
             </thead>
             <tbody>
             <?php $i=1; ?>
@@ -24,14 +25,12 @@
                     <td>{{$i++}}</td>
                     <td><strong >{{$c->nom}}</strong></td>
                     <td>{{$c->nom_anglais}}</td>
-                    <td>{{$c->groupe}}</td>
-                    <td><a class="btn btn-primary btn-xs pull-right" data-toggle="modal" data-backdrop="false" href="#edit_matiere" onclick="editer_matiere({{$c->id}},'{{$c->nom}}','{{$c->nom_anglais}}',{{$c->groupe}})"><span class="glyphicon glyphicon-pencil"  ></span> {{trans('admin.modifier')}}</a></td>
+                    <td><a class="btn btn-primary btn-xs pull-right" data-toggle="modal" data-backdrop="false" href="#edit_matiere" onclick="editer_matiere({{$c->id}},'{{$c->nom}}','{{$c->nom_anglais}}')"><span class="glyphicon glyphicon-pencil"  ></span> {{trans('admin.modifier')}}</a></td>
                 </tr>
             @endforeach
             </tbody>
         </table>
-        <button class="btn btn-success" data-toggle="modal" data-backdrop="false" href="#add_cycle"
-        ><span class="glyphicon glyphicon-plus"></span>{{  trans('admin.ajouter_matiere')  }}</button>
+
         <div class="modal fade" id="add_cycle">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -57,11 +56,7 @@
                                     <input class="form-control" id="nom_anglais" name="nom_anglais" type="text"  value="{{ old('nom_anglais') }}" >
 
                                 </div>
-                                <div class="form-group">
-                                    <label for="groupe">{{  trans('admin.groupe')  }} :({{trans('admin.optional')}})</label>
-                                    <input class="form-control" id="groupe" name="groupe" type="text"  value="{{ old('groupe') }}" >
 
-                                </div>
                                 <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
 
 
@@ -108,11 +103,7 @@
                                         <input class="form-control" id="edit_nom_anglais" name="nom_anglais" type="text"  value="{{ old('nom_anglais') }}"  autofocus>
 
                                     </div>
-                                    <div class="form-group">
-                                        <label for="groupe">{{  trans('admin.groupe')  }} :({{trans('admin.optional')}})</label>
-                                        <input class="form-control" id="edit_groupe" name="groupe" type="text"  value="{{ old('groupe') }}" >
 
-                                    </div>
                                     <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
 
 
@@ -137,12 +128,11 @@
         <div class="paginate" style="text-align: center;"> <?php echo(str_replace('/?', '?', $matieres->render()) ); ?></div>
     </div>
     <script>
-        function editer_matiere(id,nom,nom_anglais,groupe)
+        function editer_matiere(id,nom,nom_anglais)
         {
             document.getElementById("id").value = id;
             document.getElementById("edit_nom").value = nom;
             document.getElementById("edit_nom_anglais").value = nom_anglais;
-            document.getElementById("edit_groupe").value = groupe;
 
         }
     </script>

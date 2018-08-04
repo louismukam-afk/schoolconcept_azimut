@@ -16,7 +16,7 @@
                     class="panel-collapse collapsing">
                 <div
                         class="panel-body">
-                        <li class="col-md-4"><a  href={{URL::to('/inscriptions/listes/show/?id=0')}}>{{trans('inscription.all_eleves')}}</a></li>
+                        <li class="col-md-4"><a  href={{URL::to('/inscriptions/listes/show?id=0')}}>{{trans('inscription.all_eleves')}}</a></li>
                         @foreach($cycles as $cy)
                             <h3 class="page-header col-md-12">{{$cy->nom}}</h3>
 
@@ -55,7 +55,7 @@
                 <div
                         class="panel-body">
                     <ul >
-                        <li class="col-md-4"><a href={{URL::to('/inscriptions/listes/show/?id=0&option=1')}}>{{trans('inscription.all_eleves')}}</a></li>
+                        <li class="col-md-4"><a href={{URL::to('/inscriptions/listes/show?id=0&option=1')}}>{{trans('inscription.all_eleves')}}</a></li>
                         @foreach($cycles as $cy)
                             <h3 class="page-header col-md-12">{{$cy->nom}}</h3>
 
@@ -95,7 +95,7 @@
                 <div
                         class="panel-body">
                     <ul >
-                        <li class="col-md-4"><a href={{URL::to('/inscriptions/listes/show/?id=0&option=2')}}>{{trans('inscription.all_eleves')}}</a></li>
+                        <li class="col-md-4"><a href={{URL::to('/inscriptions/listes/show?id=0&option=2')}}>{{trans('inscription.all_eleves')}}</a></li>
 
                         @foreach($cycles as $cy)
                             <h3 class="page-header col-md-12">{{$cy->nom}}</h3>
@@ -135,7 +135,7 @@
                 <div
                         class="panel-body">
                     <ul >
-                        <li class="col-md-4"><a href={{URL::to('/inscriptions/listes/show/?id=0&option=3')}}>{{trans('inscription.all_eleves')}}</a></li>
+                        <li class="col-md-4"><a href={{URL::to('/inscriptions/listes/show?id=0&option=3')}}>{{trans('inscription.all_eleves')}}</a></li>
                         @foreach($cycles as $cy)
                             <h3 class="page-header col-md-12">{{$cy->nom}}</h3>
 
@@ -176,7 +176,7 @@
                 <div
                         class="panel-body">
                     <ul >
-                        <li class="col-md-4"><a href={{URL::to('/inscriptions/listes/show/?id=0&option=4')}}>{{trans('inscription.all_eleves')}}</a></li>
+                        <li class="col-md-4"><a href={{URL::to('/inscriptions/listes/show?id=0&option=4')}}>{{trans('inscription.all_eleves')}}</a></li>
 
                         @foreach($cycles as $cy)
                             <h3 class="page-header col-md-12">{{$cy->nom}}</h3>
@@ -218,7 +218,7 @@
                 <div
                         class="panel-body">
                     <ul >
-                        <li class="col-md-4"><a href={{URL::to('/inscriptions/listes/show/?id=0&option=5')}}>{{trans('inscription.all_eleves')}}</a></li>
+                        <li class="col-md-4"><a href={{URL::to('/inscriptions/listes/show?id=0&option=5')}}>{{trans('inscription.all_eleves')}}</a></li>
 
 
                         @foreach($cycles as $cy)
@@ -263,7 +263,7 @@
                 <div
                         class="panel-body">
                     <ul >
-                        <li class="col-md-4"><a href={{URL::to('/inscriptions/listes/show/?id=0&option=5')}}>{{trans('inscription.all_eleves')}}</a></li>
+                        <li class="col-md-4"><a href={{URL::to('/inscriptions/listes/show?id=0&option=5')}}>{{trans('inscription.all_eleves')}}</a></li>
 
 
                         @foreach($cycles as $cy)

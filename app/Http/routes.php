@@ -82,6 +82,8 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/admin/scolarite/destroy/{id}', 'admin\scolariteController@destroy');
         Route::post('/admin/scolarite/update', 'admin\scolariteController@update');
         Route::post('/admin/scolarite/store', 'admin\scolariteController@store');
+        Route::post('/admin/scolarite/get', ['as'=>'get_scolarite','uses'=>'admin\scolariteController@getScolarite']);
+
 //Matières
         Route::get('/admin/matieres/', 'admin\matiereController@index');
         Route::post('/admin/matieres/update/', 'admin\matiereController@update');
@@ -158,6 +160,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::any('/inscriptions/photos/','inscriptions\photosController@create');
         Route::any('/inscriptions/photos/store',['as'=>'store_photo','uses'=>'inscriptions\photosController@store']);
         Route::any('/inscriptions/cartes/',['as'=>'show_carte','uses'=>'inscriptions\photosController@show_carte']);
+        Route::any('/inscriptions/cartes/eleve/',['as'=>'show_carte_eleve','uses'=>'inscriptions\photosController@search_carte_eleve']);
 
 
 

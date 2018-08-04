@@ -27,7 +27,7 @@
                 <tr>
                     <td>{{$i++}}</td>
                     <td><strong >{{(App::getLocale()=='en')?$p->nom_anglais:$p->nom_matiere}}</strong></td>
-                    <td>@if($p->type==0)@lang('admin.fondamental')@else @lang('admin.transversal') @endif</td>
+                    <td>@if($p->type==0)@lang('admin.fondamental')@elseif($p->type==1) @lang('admin.transversal') @elseif($p->type==2) @lang('admin.professionnel') @endif</td>
                     <td>{{$p->coef}} </td>
                     <td>{{$p->max}}</td>
                     <td>{{getSemestre($p->semestre)}}</td>
@@ -77,6 +77,8 @@
                                         <select name="type" id="edit_type" class="form-control">
                                             <option value="0">@lang('admin.fondamental')</option>
                                             <option value="1">@lang('admin.transversal')</option>
+                                            <option value="2">@lang('admin.professionnel')</option>
+
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -147,39 +149,51 @@
 
             <fieldset>
                 <?php $i=0; ?>
-                @foreach($matieres as $m)
-                    <div class="row" col-md-12>
+                    <table id="table-matiere" class="table-condensed">
+                        <thead><td></td></thead>
+                        <tbody>
+                        @foreach($matieres as $m)
+                            <tr>
+                                <td>
+                                <div class="row" col-md-12>
 
-                        <div class="form-group col-md-3">
-                            <input type="checkbox" name="matiere[]" value="{{$m->id}}" onchange="onCheckedChange(this,'coef{{$i}}','max{{$i}}','semestre{{$i}}','type{{$i}}')">
-                            <label >{{(App::getLocale()=='en')?$m->nom_anglais:$m->nom}} : </label>
-                        </div>
-                        <div class="form-group col-md-3">
-                            <label >Type : </label>
-                            <select name="type[]" id="type{{$i}}" class="form-control" disabled>
-                                <option value="0">@lang('admin.fondamental')</option>
-                                <option value="1">@lang('admin.transversal')</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-md-2">
-                            <label for="coef{{$i}}">Coef : </label>
-                            <input type="number" id="coef{{$i}}" name="coef[]" placeholder="1" class="form-control" disabled>
-                        </div>
-                        <div class="form-group col-md-2">
-                            <label for="max{{$i}}">Max : </label>
-                            <input type="number" id="max{{$i}}" name="max[]" placeholder="100" class="form-control" disabled>
-                        </div>
-                        <div class="form-group col-md-2">
-                            <label >Semestre : </label>
-                            <select name="semestre[]" id="semestre{{$i}}" class="form-control" disabled>
-                                <option value="1">{{getSemestre(1)}}</option>
-                                <option value="2">{{getSemestre(2)}}</option>
-                                <option value="0">{{getSemestre(0)}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <?php $i++; ?>
-                @endforeach
+                                    <div class="form-group col-md-3">
+                                        <input type="checkbox" name="matiere[]" value="{{$m->id}}" onchange="onCheckedChange(this,'coef{{$i}}','max{{$i}}','semestre{{$i}}','type{{$i}}')">
+                                        <label >{{(App::getLocale()=='en')?$m->nom_anglais:$m->nom}} : </label>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label >Type : </label>
+                                        <select name="type[]" id="type{{$i}}" class="form-control" disabled>
+                                            <option value="0">@lang('admin.fondamental')</option>
+                                            <option value="1">@lang('admin.transversal')</option>
+                                            <option value="2">@lang('admin.professionnel')</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="coef{{$i}}">Coef : </label>
+                                        <input type="number" id="coef{{$i}}" name="coef[]" placeholder="1" class="form-control" disabled>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="max{{$i}}">Max : </label>
+                                        <input type="number" id="max{{$i}}" name="max[]" placeholder="100" class="form-control" disabled>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label >Semestre : </label>
+                                        <select name="semestre[]" id="semestre{{$i}}" class="form-control" disabled>
+                                            <option value="1">{{getSemestre(1)}}</option>
+                                            <option value="2">{{getSemestre(2)}}</option>
+                                            <option value="0">{{getSemestre(0)}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                </td>
+                            </tr>
+                            <?php $i++; ?>
+                            @endforeach
+                        </tbody>
+                    </table>
+
 
             </fieldset>
             @if($i==0)
@@ -221,5 +235,11 @@
             document.getElementById("edit_type").value = type;
 
         }
+
+        $('#table-matiere').dataTable( {
+            dom: 'Bfrtip',
+           pageLength:200,
+            buttons:[]
+        } );
     </script>
 @endsection

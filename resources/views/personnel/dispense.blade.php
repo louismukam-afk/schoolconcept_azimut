@@ -143,17 +143,17 @@
 
                                         @foreach($classes as $c)
                                             @if($i=0)
-                                                <optgroup label="{{(App::getLocale()=='en')?\gesecole\niveau::find($c->id_niveau)->nom_anglais:\gesecole\niveau::find($c->id_niveau)->nom}}">
-                                                    <?php  $i++; ?>
-                                                    @endif
-                                                    @if($c->id_niveau!=$n)
-                                                        <?php $n=$c->id_niveau ?>
-                                                </optgroup>
-                                                <optgroup label="{{(App::getLocale()=='en')?\gesecole\niveau::find($c->id_niveau)->nom_anglais:\gesecole\niveau::find($c->id_niveau)->nom}}">
-                                                    @endif
-                                                    <option value="{{$c->id}}" @if($c->id == old('id_classe')) selected @endif>{{(App::getLocale()=='en')?$c->nom_anglais:$c->nom}}</option>
-                                                    @endforeach
-                                                </optgroup>
+                                                    <optgroup label="{{(App::getLocale()=='en')?$c->niveau->nom_anglais:$c->niveau->nom}}">
+                                                        <?php  $i++; ?>
+                                                        @endif
+                                                        @if($c->id_niveau!=$n)
+                                                            <?php $n=$c->id_niveau ?>
+                                                    </optgroup>
+                                                    <optgroup label="{{(App::getLocale()=='en')?$c->niveau->nom_anglais:$c->niveau->nom}}">
+                                                        @endif
+                                                        <option value="{{$c->id}}" >{{(App::getLocale()=='en')?$c->nom_anglais:$c->nom}}</option>
+                                                        @endforeach
+                                                    </optgroup>
 
                                     </select>
                                 </div>
@@ -215,35 +215,7 @@
             </div>
         </div>
 
-            <div class="modal fade" id="show_heure_prevue">
-                <div class="modal-dialog"  >
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">x</button>
-                            <h4 class="modal-title">{{  trans('admin.remplir_champs')  }}</h4>
-                        </div>
-                        <div class="modal-body">
-                            <form  id="heure_prevue_form">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                <input type="hidden" id="edit-personnel" name="personnel" value="">
-                                <input type="hidden" id="edit-classe" name="classe" value="">
-                                <input type="hidden" id="edit-nniveau" name="nniveau" value="">
-                                <input type="hidden" id="edit-matiere" name="matiere" value="">
-                                
-                                <div class="form-group">
-                                    <label for="heure_prevue">@lang('admin.heure_prevue')</label>
-                                    <div class="input-group">
-                                        <input type="number" class="form-control" name="heure" id="heure_prevue" disabled>
-                                        <div class="input-group-addon">
-                                            <strong>@lang('admin.heure')</strong>
-                                        </div>
-                                    </div>
-                                </div>
-                                <button type="submit" class="btn btn-primary" ><span class="glyphicon glyphicon-check"></span>  @lang('admin.confirmer')</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+
 
             <div class="modal fade" id="edit_dispense">
                 <div class="modal-dialog"  >
@@ -332,7 +304,6 @@
                 </div>
             </div>
 
-    </div>
 <?php
     function jour($n){
         if ($n==1)

@@ -58,20 +58,20 @@ return [
     ///personnel
     'personnel'=>'Staff',
     'search_personnel'=>'Search staff',
-    'fonctions'=>'Functions',
+    'fonctions'=>'Job',
     'salaire'=>'Salary',
     'search_edit_personnel'=>'Sesrch/edit staff informations',
     'personnels'=>'Staff list',
     'ajouter_personnel'=>'Add staff',
-    'ajouter_fonction_personnel'=>'Add functions to staff',
+    'ajouter_fonction_personnel'=>'Add job to staff',
     'ajouter_salaire'=>'Add a salary',
-    'fonction_ajouter'=>'Add a function',
-    'titre_table_fonction'=>'Available function list',
+    'fonction_ajouter'=>'Add a Job',
+    'titre_table_fonction'=>'Available Job list',
     'choix_personnel'=>'Choose staff',
-    'choix_fonction'=>'Choose a function',
+    'choix_fonction'=>'Choose a Job',
     'choix_horaire'=>'Choose schedule',
-    'fonction_personnel_liste'=>'Functions list of',
-    'fonction_ajouter'=>'Add a function',
+    'fonction_personnel_liste'=>'Job list of',
+    'fonction_ajouter'=>'Add a job',
     'dispense'=>'Lists of subjects taught by the teachers',
     'titre_table_dispense'=>'Subjects taught by',
     'ajouter_dispense'=>'Add a lesson',
@@ -166,7 +166,7 @@ return [
     'depuis_dernier_payement'=>'From the last payment',
     'salaire_non_defini'=>'The amount of his salary is not yet defined',
     'montant_variations'=>'Amount of variations',
-    'matricule'=>'Registration number',
+    'matricule'=>'Registration N°',
     'no_matricule'=>'If the student is old and has a student number, otherwise leave blank',
     ///////////////////////
     'certificat_scolarite'=>'School certificate',
@@ -190,11 +190,11 @@ return [
     'mois10'=>'October',
     'mois11'=>'November',
     'mois12'=>'Décember',
-    'primes'=>'Premium',
+    'primes'=>'Bonus',
     'cas_socials'=>'Sociales cases',
     'acomptes'=>'Advance payment',
     'assurances'=>'Insurances',
-    'autre_retenues'=>'Other deduction',
+    'autre_retenues'=>'Others deduction',
     'nom_directeur'=>'Full name of the director',
 /////////////////
 
@@ -263,7 +263,7 @@ return [
     "date_enr"=>"Registering date",
     "no_matiere_programme" => "This subject is not in the program for this specialty",
     "heure_prise" => "This period is already occupied for this teacher",
-    "heure_prise2"=>"This period is already occupied for this class",
+    "heure_prise2"=>"This period is already occupied for this speciality",
 
     "tout_personnel"=>"All staff",
     "heure_prevue"=>"Scheduled hours number",
@@ -271,6 +271,35 @@ return [
     "liste_salle"=>"Rooms list",
     "carte_e"=>"Student's card|Student's cards",
     "p_size_limit"=>"The photo :num must not exceed :lim MB",
+    "total_ins"=>"Total does not include registration amount",
+
+    /////
+    "date_rec"=>"Recruitment date",
+    "num_contribuable"=>"Taxpayer N°",
+    "num_ss"=>"Social security N°",
+    "categorie"=>"Category",
+    "echelon"=>"Echelon",
+    "pension"=>"Old age pension",
+    "taux_horaire"=>"Hourly rate",
+    "heure_realise"=>"Realized hours",
+    "solde_mensuel"=>"Monthly balance",
+    "cas_sociaux"=>"Social cases",
+    "net_a_payer"=>"Net to pay",
+    "retenues"=>"Deduction",
+    "impots"=>"Taxes",
+    "taxe_communale"=>"Municipal tax",
+    "periode"=>"Period",
+    "du"=>"From",
+    "au"=>'To',
+    "mensuel"=>"Monthly",
+    "CFC"=>"CFC",
+    "anciennete"=>"Seniority",
+    "an"=>"Year(s)",
+
+
+
+
+
 
 
 

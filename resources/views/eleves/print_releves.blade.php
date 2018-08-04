@@ -91,7 +91,7 @@
                     </thead>
                     <tbody>
                     <tr>
-                        <td><strong style="font-size: 12px;margin-left: 80px;text-align: center;">Unités d'enseignements Transversales\<span class="traduction">Transversal</span></strong></td>
+                        <td colspan="2"><strong style="font-size: 12px;margin-left: 80px;text-align: center;">Unités d'enseignements Fondamentales\<span class="traduction">Fundamental</span></strong></td>
                     </tr>
                     @foreach($releve->matieres as $matiere)
                             @if(($matiere->type==0))
@@ -113,7 +113,7 @@
                     @endforeach
 
                     <tr>
-                        <td><strong style="font-size: 12px;margin-left: 80px;text-align: center;">Unités d'enseignement Professionnelles\<span class="traduction">Professional</span></strong></td>
+                        <td colspan="2"><strong style="font-size: 12px;margin-left: 80px;text-align: center;">Unités d'enseignement Transversales\<span class="traduction">Transversal</span></strong></td>
                     </tr>
                     @foreach($releve->matieres as $matiere)
                             @if( ($matiere->type==1))
@@ -132,6 +132,29 @@
                                 </tr>
                             @endif
                     @endforeach
+
+                    <tr>
+                        <td colspan="2"><strong style="font-size: 12px;margin-left: 80px;text-align: center;">Unités d'enseignements Professionnelles\<span class="traduction">Professional</span></strong></td>
+                    </tr>
+                    @foreach($releve->matieres as $matiere)
+                        @if(($matiere->type==2))
+                            <?php $sNote+= ($matiere->note*$matiere->credit) ;$sCoef+=$matiere->credit;$TMP++; ?>
+                            @if($matiere->note>=50)
+                                <?php $TMV++; ?>
+                            @endif
+                            <td>
+                                {{$matiere->altName}}
+
+                            </td>
+                            <td>{{getSemestre($matiere->semestre)}}</td>
+                            <td>{{$matiere->credit}}</td>
+                            <td>{{$matiere->note}}</td>
+                            <td>{{getGrade($matiere->note)[1]}}</td>
+                            <td>{{getGrade($matiere->note)[0]}}</td>
+                            </tr>
+                        @endif
+                    @endforeach
+
 
                     </tbody>
                 </table>

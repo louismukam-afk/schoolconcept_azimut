@@ -30,7 +30,11 @@ p
     margin: 0;
 }
 
-
+.table-title
+{
+    -webkit-print-color-adjust: exact;
+    background: grey !important;
+}
 
 .traduction
 {
@@ -38,6 +42,14 @@ p
     font-size: 10px !important;
     color: grey !important;
 }
+  .cel-etab
+  {
+      width: 60mm;
+              font-size: 16px;
+
+  }
+
+
 
 .titre
 {
@@ -49,6 +61,10 @@ p
     margin-top: 20px;
     height: 100px;
 }
+
+
+
+
 .mois{
     padding-top: 32px;
     height: inherit;
@@ -72,47 +88,45 @@ table{
 
 
 
+
+
+
+
 @media print {
-    @page  {
+    @page {
         margin-top: 2%;
         margin-bottom: 2%;
         margin-left: 2%;
         margin-right: 2%;
     }
 
-    .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button
-    {
+    .wrapper, .navbar-default, .alert, .btn, .big-title, hr, .action, .back-button {
         display: none;
     }
 
-
-    .traduction
-    {
-        -webkit-print-color-adjust:exact;
+    .traduction {
+        -webkit-print-color-adjust: exact;
         font-size: 10px !important;
         color: grey !important;
     }
 
-    p
-    {
+    p {
         padding: 0;
         margin: 0;
     }
 
-
-    .titre
-    {
+    .titre {
         margin-top: 10mm;
         text-align: center;
     }
 
-
-    .content-mois{
+    .content-mois {
         position: relative;
         margin-top: 20px;
         height: 100px;
     }
-    .mois{
+
+    .mois {
         padding-top: 32px;
         text-align: center;
         height: inherit;
@@ -124,15 +138,38 @@ table{
 
     }
 
-    .identite{
+    .identite {
         margin-left: 30px;
         margin-top: 15px;
     }
 
-    table{
-        font-size: 12px;
+    table {
+        font-size: 10px;
     }
 
+    .table tbody tr, .table tbody tr td {
+       
+       
+        height: 12px;
+
+    }
+    .copy
+    {
+        position: absolute;
+        bottom: 0;
+        font-size: 8px;
+    }
+    .table-title
+    {
+        -webkit-print-color-adjust: exact;
+    }
+    .table-title td{
+                 background-color: grey !important;
+    }
+    .cel-etab
+    {
+        width: 50mm !important;
+        font-size: 14px;
+    }
 
 }
-

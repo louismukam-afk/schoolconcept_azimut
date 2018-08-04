@@ -65,7 +65,7 @@ class presenceController extends Controller {
             ->paginate(30);
 
 
-        $d=dispense::where('id_personnel','=',$id)->get();
+        $d=dispense::whereAnneeScolaire(\session('year'))->where('id_personnel','=',$id)->get();
         $ho=horaire::orderBy('ordre')->get();
 
         $values=array('titre'=>trans('admin.compte_heure_de').' '.$p->nom);

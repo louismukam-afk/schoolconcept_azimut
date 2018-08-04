@@ -76,10 +76,36 @@
 
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
             <div class="div-square">
-                <a href="{{URL::to('/select/classe').'?url='.route('show_carte')}}" >
+                <a href="#choix_carte" data-toggle="modal"  >
                     <i class="fa fa-credit-card fa-5x"></i>
                     <h4>{{trans_choice('admin.carte_e',2)}}</h4>
                 </a>
+            </div>
+
+
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="choix_carte">
+        <div class="modal-dialog" style="width: 300px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">x</button>
+                    <h4 class="modal-title"></h4>
+                </div>
+                <div class="modal-body">
+                    <ul>
+                        <li><strong><a href="{{URL::to('/select/classe').'?url='.route('show_carte')}}">@lang('admin.selectionner_classe')</a></strong></li>
+                        <li><strong><a href="{{route('show_carte_eleve')}}">@lang('admin.selectionner_eleve')</a></strong></li>
+                    </ul>
+
+                </div>
+
+
+
+
+
             </div>
 
 

@@ -1,6 +1,6 @@
 @extends('skeleton')
 @section('sub-content')
-    <div class="col-md-10">
+    <div class="col-md-12">
         @if(isset($success))
 
             <div class="alert alert-success">
@@ -9,13 +9,17 @@
 
         @endif
 
+            <button class="btn btn-primary" data-toggle="modal" data-backdrop="false" href="#add_cycle"
+            ><span class="glyphicon glyphicon-plus"></span>{{  trans('admin.nouvelle_scolarite')  }}</button>
+
+
         <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 15px;">
             <caption style="font-size: 22px">{{  trans('admin.titre_table_scolarite')  }}</caption>
 
             <thead>
             <th>#</th>
-            <th>Cycle</th>
             <th>{{trans('admin.level')}}</th>
+            <th>@lang('admin.inscriptions')</th>
             <th>{{  trans('admin.tranche1')  }}</th>
             <th>{{  trans('admin.tranche2')  }}</th>
             <th>{{  trans('admin.tranche3')  }}</th>
@@ -28,25 +32,23 @@
             @foreach($scolarite as $s)
                 <tr>
                     <td>{{$i++}}</td>
-                    <td><strong >
+                            <?php $cy=null; ?>
                             @foreach($cycles as $c)
 
                                 @if($c->id==$s->id_cycle)
-                                    {{$c->nom}}
-                                    <?php break; ?>
+                                    <?php $cy=$c; break; ?>
                                 @endif
                             @endforeach
-                        </strong>
-                    </td>
                     <td><strong >
                             @foreach($niveaux as $c)
 
                                     @if($c->id==$s->id_niveau)
-                                        {{(App::getLocale()=='en')?$c->nom_anglais:$c->nom}}
+                                    <a  data-toggle="modal" data-backdrop="false" href="#edit-classe" onclick="editer_scolarite({{$s->id}},{{$s->id_niveau}},{{$s->id_cycle}},{{$s->inscription}},{{$s->tranche1}},{{$s->tranche2}},{{$s->tranche3}},{{$s->tranche4}},{{$s->tranche5}})"><span class="glyphicon glyphicon-edit"  ></span> {{$cy?$cy->nom.' - ':''}} {{(App::getLocale()=='en')?$c->nom_anglais:$c->nom}}</a></li>
                                         <?php break; ?>
                                     @endif
                             @endforeach
                         </strong></td>
+                    <td>{{$s->inscription}}</td>
                     <td>{{$s->tranche1}}</td>
                     <td>{{$s->tranche2}}</td>
                     <td>{{$s->tranche3}}</td>
@@ -54,20 +56,22 @@
                     <td>{{$s->tranche5}}</td>
                     <td>{{$s->total}}</td>
                     <td>
-                        <div class="btn-group">
-                            <a href="#" class=" btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a style="color: white" title="Modifier les informations" class="btn-primary"  data-toggle="modal" data-backdrop="false" href="#edit-classe" onclick="editer_scolarite({{$s->id}},{{$s->id_niveau}},{{$s->id_cycle}},{{$s->tranche1}},{{$s->tranche2}},{{$s->tranche3}},{{$s->tranche4}},{{$s->tranche5}})"><span class="glyphicon glyphicon-pencil"  ></span> {{  trans('admin.edit')  }}</a></li>
-                                <li><a style="color: white" href="{{ URL::to('/admin/scolarite/destroy/').'/'.$s->id }}"   class="btn-danger"><span class="glyphicon glyphicon-trash"></span> {{  trans('admin.del')  }}</a></li>
-                            </ul>
-                        </div>
+
+                                <a  href="{{ URL::to('/admin/scolarite/destroy/').'/'.$s->id }}"   class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-trash"></span> @lang('admin.del')</a>
                     </td>
                 </tr>
             @endforeach
             </tbody>
         </table>
-        <button class="btn btn-primary" data-toggle="modal" data-backdrop="false" href="#add_cycle"
-        ><span class="glyphicon glyphicon-plus"></span>{{  trans('admin.nouvelle_scolarite')  }}</button>
+
+            <div class="col-md-12">
+                <div class="alert alert-info">
+                    <strong>
+                        Total does not include registration amount
+                    </strong>
+                </div>
+            </div>
+
         <div class="modal fade" id="add_cycle">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -100,6 +104,11 @@
                                     </select>
                                 </div>
                                 <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <label for="inscription">{{  trans('admin.inscriptions')  }} : </label>
+                                        <input class="form-control" id="inscription" name="inscription" type="text"  value="{{ old('inscription') }}">
+
+                                    </div>
                                     <div class="form-group col-md-6">
                                         <label for="tranche1">{{  trans('admin.tranche1')  }} : <span class="required">*</span></label>
                                         <input class="form-control" id="tranche1" name="tranche1" type="text"  value="{{ old('tranche1') }}"  autofocus>
@@ -130,6 +139,7 @@
                                         <input class="form-control" id="tranche5" name="tranche5" type="text"  value="{{ old('tranche5') }}">
 
                                     </div>
+
                                 </div>
 
                                 <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
@@ -184,6 +194,11 @@
                                     </select>
                                 </div>
                                 <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <label for="edit-inscription">{{  trans('admin.inscriptions')  }} : </label>
+                                        <input class="form-control" id="edit-inscription" name="inscription" type="text">
+
+                                    </div>
                                     <div class="form-group col-md-6">
                                         <label for="edit_tranche1">{{  trans('admin.tranche1')  }} : <span class="required">*</span></label>
                                         <input class="form-control" id="edit_tranche1" name="tranche1" type="text"  value="{{ old('tranche1') }}"  autofocus>
@@ -213,6 +228,7 @@
                                         <input class="form-control" id="edit_tranche5" name="tranche5" type="text"  value="{{ old('tranche5') }}">
 
                                     </div>
+
                                 </div>
 
                                 <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
@@ -238,11 +254,12 @@
     </div>
 
     <script>
-        function editer_scolarite(id,id_classe,id_cycle,tranche1,tranche2,tranche3,tranche4,tranche5)
+        function editer_scolarite(id,id_classe,id_cycle,inscription,tranche1,tranche2,tranche3,tranche4,tranche5)
         {
             document.getElementById("id_scolarite").value = id;
             document.getElementById("edit_classes").value = id_classe;
             document.getElementById("edit_cycle").value = id_cycle;
+            document.getElementById("edit-inscription").value = inscription;
             document.getElementById("edit_tranche1").value = tranche1;
             document.getElementById("edit_tranche2").value = tranche2;
             document.getElementById("edit_tranche3").value = tranche3;

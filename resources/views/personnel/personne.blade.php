@@ -9,7 +9,7 @@
 
         @endif
 
-            <button class="btn btn-primary" data-toggle="modal" data-backdrop="false" href="#add_cycle"
+            <button class="btn btn-primary" data-toggle="modal" data-backdrop="true" href="#add_cycle"
             ><span class="glyphicon glyphicon-plus"></span> {{  trans('admin.ajouter_personnel')  }}</button>
             <span class="col-md-12"><strong>Total : {{count($personnel)}}</strong></span>
             <h3 style="font-size: 22px">{{  trans('admin.personnels')  }}</h3>
@@ -41,7 +41,7 @@
             <div class="paginate" style="text-align: center;"> <?php echo(str_replace('/?', '?view=personnel\search_personnel&', $personnel->render()) ); ?></div>
 
             <div class="modal fade" id="add_cycle">
-                <div class="modal-dialog">
+                <div class="modal-dialog" >
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">x</button>
@@ -68,9 +68,11 @@
                                 <input class="form-control" id="nom" name="lieu_naiss" type="text"  value="{{ old('lieu_naiss') }}" required>
                             </div>
                         </div>
-                        <label for="nationalite">{{  trans('inscription.nationalite')  }} : <span class="required">*</span></label>
-                        <input class="form-control" id="nationalite" name="nationalite" type="text"  value="{{ old('nationalite') }}" required>
                         <div class="row">
+                            <div class="col-md-6">
+                                <label for="nationalite">{{  trans('inscription.nationalite')  }} : <span class="required">*</span></label>
+                                <input class="form-control" id="nationalite" name="nationalite" type="text"  value="{{ old('nationalite') }}" required>
+                            </div>
                             <div class="col-md-6">
                                 <label for="sexe">{{  trans('inscription.sexe')  }} : <span class="required">*</span></label>
                                 <select name="sexe" form="select_sexe" class="form-control">
@@ -78,12 +80,66 @@
                                     <option value="F">{{  trans('inscription.femme')  }}</option>
                                 </select>
                             </div>
+                        </div>
+
+
+                        <div class="row">
 
                             <div class="col-md-6">
                                 <label for="diplome">{{  trans('admin.diplome')  }} : <span class="required">*</span></label>
                                 <input class="form-control" id="diplome" name="diplome" type="text"  value="{{ old('diplome') }}" required >
                             </div>
+                            <div class="col-md-6">
+                                <label for="num_contribuable">{{  trans('admin.num_contribuable')  }} :</label>
+                                <input class="form-control" id="num_contribuable" name="num_contribuable" type="text"  value="{{ old('num_contribuable') }}"  >
+
+                            </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="num_ss">{{  trans('admin.num_ss')  }} :</label>
+                                <input class="form-control" id="num_ss" name="num_ss" type="text"  value="{{ old('num_ss') }}" >
+                            </div>
+                            <div class="col-md-6">
+                                <label for="categorie">{{  trans('admin.categorie')  }} :</label>
+                                <input class="form-control" id="categorie" name="categorie" type="text"  value="{{ old('categorie') }}" >
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="echelon">{{  trans('admin.echelon')  }} :</label>
+                                <input class="form-control" id="echelon" name="echelon" type="text"  value="{{ old('echelon') }}" >
+                            </div>
+                            <div class="col-md-6">
+                                <label for="date_rec">{{  trans('admin.date_rec')  }} :</label>
+                                <input class="form-control" id="date_rec" name="date_rec" type="date"  value="{{ old('date_rec') }}" >
+                            </div>
+                        </div>
+                        <label >Type :</label>
+                        <select name="type" form="select_sexe" class="form-control">
+                            <option value="0">@lang('admin.enseignant')</option>
+                            <option value="1">@lang('admin.autre')</option>
+                        </select>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="adresse">{{  trans('admin.adresse')  }} : <span class="required">*</span></label>
+                                <input class="form-control" id="adresse" name="adresse" type="text"  value="{{ old('adresse') }}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="email">{{  trans('admin.email')  }} :</label>
+                                <input class="form-control" id="email" name="email" type="text"  value="{{ old('email') }}" >
+                            </div>
+                        </div>
+
+
+
+
+
+
+
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="tel1">{{  trans('admin.tel1')  }} : <span class="required">*</span></label>
@@ -100,16 +156,6 @@
 
 
 
-                        <label for="adresse">{{  trans('admin.adresse')  }} : <span class="required">*</span></label>
-                        <input class="form-control" id="adresse" name="adresse" type="text"  value="{{ old('adresse') }}" required>
-                        <label for="email">{{  trans('admin.email')  }} :</label>
-                        <input class="form-control" id="email" name="email" type="text"  value="{{ old('email') }}" >
-
-                        <label >Type :</label>
-                        <select name="type" form="select_sexe" class="form-control">
-                            <option value="0">@lang('admin.enseignant')</option>
-                            <option value="1">@lang('admin.autre')</option>
-                        </select>
 
                         <label for="matieres">{{  trans('admin.titre_matiere')  }} :</label>
                         <textarea  class="form-control" id="matieres" name="matieres">{{ old('matieres') }}</textarea>
@@ -134,6 +180,7 @@
 
         $('#table-personnel').dataTable( {
             dom: 'Bfrtip',
+            pageLength:500,
             buttons: [
                 //'copy', 'csv', 'excel', 'pdf', 'print'
                 {

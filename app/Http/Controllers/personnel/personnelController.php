@@ -44,7 +44,7 @@ class personnelController extends Controller {
 	 public function index_personnel(){
          $titre=trans('admin.personnel');
          $m=personnel::orderBy('nom')
-         ->paginate(30)
+         ->paginate(1000)
 
          ;
          $values= array('titre'=>$titre,'personnel'=>$m);
@@ -83,9 +83,11 @@ class personnelController extends Controller {
             'tel1'=>'required',
             'adresse'=>'required',
             'type'=>'required|numeric',
+            'date_rec'=>'date',
 
 
         ]);
+        $date_rec=$req->input('date_rec');
 
         $c=new personnel();
         $c->nom=$req->input('nom');
@@ -97,11 +99,19 @@ class personnelController extends Controller {
         $c->tel2=$req->input('tel2');
         $c->date_naiss=$req->input('date_naiss');
         $c->lieu_naiss=$req->input('lieu_naiss');
-        $c->date_entree=date('Y-m-d');
+        if($date_rec==null)
+            $c->date_entree=date('Y-m-d');
+        else
+            $c->date_entree=$date_rec;
         $c->email=$req->input('email');
         $c->type=$req->input('type');
         $c->matieres=$req->input('matieres');
         $c->autre_information=$req->input('autre_information');
+        $c->num_contribuable=$req->input('num_contribuable');
+        $c->num_ss=$req->input('num_ss');
+        $c->categorie=$req->input('categorie');
+        $c->echelon=$req->input('echelon');
+
         $c->save();
 
         $param = parametres::all();
@@ -110,7 +120,7 @@ class personnelController extends Controller {
         $front = session('year');
         $front = substr($front, 2, 2);
         $number = sprintf('%03d', $c->id);
-        $c->matricule = $front . $pa->valeur . $number;
+        $c->matricule = $front . $pa->valeur .'P'.$number;
         $c->save();
 
         session(['success'=>true]);
@@ -144,6 +154,12 @@ class personnelController extends Controller {
         $fp=fonction_personnel::whereIdPersonnel($id)->get();
         $t=titulaire::whereAnneeScolaire(\session('year'))->where('id_personnel','=',$id)->get()->first();
         $values= array('titre'=>$titre,'personnel'=>$p,'fonctions'=>$fp,'titulaire'=>$t,'fonction'=>$f2);
+
+        if(session('success')){
+            $values['success']=true;
+            Session::forget('success');
+        }
+
         return view('personnel/edit_personnel',$values);
 
     }
@@ -165,9 +181,12 @@ class personnelController extends Controller {
             'tel1'=>'required',
             'adresse'=>'required',
             'type'=>'required|numeric',
+            'date_rec'=>'date',
 
 
         ]);
+        $date_rec=$req->input('date_rec');
+
 
         $c=personnel::find($id);
         $c->nom=$req->input('nom');
@@ -175,6 +194,10 @@ class personnelController extends Controller {
         $c->adresse=$req->input('adresse');
         $c->sexe=$req->input('sexe');
         $c->diplome=$req->input('diplome');
+        if($date_rec==null)
+        {}
+        else
+            $c->date_entree=$date_rec;
         $c->tel1=$req->input('tel1');
         $c->tel2=$req->input('tel2');
         $c->date_naiss=$req->input('date_naiss');
@@ -183,9 +206,14 @@ class personnelController extends Controller {
         $c->type=$req->input('type');
         $c->matieres=$req->input('matieres');
         $c->autre_information=$req->input('autre_information');
+        $c->num_contribuable=$req->input('num_contribuable');
+        $c->num_ss=$req->input('num_ss');
+        $c->categorie=$req->input('categorie');
+        $c->echelon=$req->input('echelon');
+
         $c->save();
         session(['success'=>true]);
-        return redirect()->action('personnel\personnelController@index_personnel');
+        return redirect()->action('personnel\personnelController@edit',[$id]);
 	}
 
 	/**
