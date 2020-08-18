@@ -293,7 +293,7 @@ class relevesController extends Controller {
 
 
                     if(sizeof($lnoms)>=1)
-                        $lnoms='';//'('.substr($lnoms,0,sizeof($lnoms)-2).')';
+                        $lnoms='('.substr($lnoms,0,sizeof($lnoms)-2).')';
 
                     $sNote+=($co_note*$co->credit);
                     $matieres[$l]=new pv1_matiere($co->id_matiere,$co_note,$s_co_coef,$co->nom.' '.$lnoms,$co->type,$co->semestre);
@@ -509,6 +509,7 @@ class compose{
     public $credit;
     public $type;
     public $semestre;
+
 
     public function __construct($id,$n,$c,$cl,$no,$cr,$ty,$se)
     {

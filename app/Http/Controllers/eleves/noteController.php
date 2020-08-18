@@ -376,20 +376,31 @@ class noteController extends Controller {
             $cm = classeMatiere::whereIdClasse($id)->where('id_nniveau','=',$nniveau)->where('id_cycle','=',$id_cycle)->get();
             $gm=groupeMatieres::whereIdClasse($id)->where('id_nniveau','=',$nniveau)->get();
             $m_cps=$gm->fetch('id_matiere_mere')->toArray();
+
+
             foreach ($cm as $entry){
                 if(!($this->isIn($entry->id_matiere,$m_cps)))
                         $sCoef+=$entry->coef;
             }
             $matiere_list=$cm->fetch('id_matiere')->toArray();
-            $m=matiere::whereIn('id',$matiere_list)->whereIn('id',$matieres_pv)->get();
+            $m=matiere::whereIn('id',$matiere_list)->whereIn('id',$matieres_pv)->whereNotIn('id',$m_cps)->get();
+
 
             $k=0;
             foreach($e as $eleve){
 
                 $l=0;
                 $sNote=0;
-                foreach ($m as $matiere){
+                $sCoef=0;
 
+                foreach ($m as $matiere){
+                    $cps=false;
+                    $cpst=false;
+
+                    if($this->isIn($matiere->id,$m_cps)){
+                        $cps=true;
+
+                    }
 
                     $credit=$cm->where('id_matiere',$matiere->id)
                         ->first()
@@ -424,12 +435,13 @@ class noteController extends Controller {
                         }
 
                     }
-
+                    if(!$cps)
                     if(is_numeric($note)){
                         $sNote+=$note*$credit;
+                        $sCoef+=$credit;
                     }
 
-
+                    if(!$cps)
                     $matieres[$l]=new pv_matiere($matiere->id,$note,$credit);
 
 
@@ -520,6 +532,7 @@ class noteController extends Controller {
                 $c=0;
                 $cst=0;
                 $sNote=0;
+                $sCoef=0;
                 foreach ($m as $matiere){
 
                     $cps=false;
@@ -533,11 +546,7 @@ class noteController extends Controller {
                         $cps=true;
                         $cpstList=$gm->where('id_matiere_mere',$matiere->id,false)->fetch('id_classe_matiere')->toArray();
 
-                        //ajouts ISSBA
-                        if(!$minus_credit_cpst) {
-                            $sCoef -= $credit;
-                        }
-
+                       
                     }
 
                 if($lang=='en')
@@ -636,9 +645,12 @@ class noteController extends Controller {
 
                     if(is_numeric($note)){
                         //ajouts ISSBA
-                        if( !$cps)
-                        //if((!$cpst) && (!$cps))
+                        if( !$cps){
                             $sNote+=$note*$credit;
+                            $sCoef+=$credit;
+                        }
+                        //if((!$cpst) && (!$cps))
+
                     }
 
 

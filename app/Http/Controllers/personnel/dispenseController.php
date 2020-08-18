@@ -192,7 +192,7 @@ class dispenseController extends Controller {
         ]);
         $salle=$req->input('id_salle');
 
-        $d=dispense::whereIdPersonnel($req->input('id_personnel'))
+      /*  $d=dispense::whereIdPersonnel($req->input('id_personnel'))
             ->where('jour','=',$req->input('jour'))
             ->where('id_horaire','=',$req->input('id_horaire'))
             ->where('annee_scolaire','=',\session('year'))
@@ -202,7 +202,7 @@ class dispenseController extends Controller {
         {
 
             return redirect()->action('personnel\dispenseController@index',['id'=>$req->input('id_personnel')])->withErrors(['jour'=>trans('admin.heure_prise')]);
-        }
+        }*/
 
         $c=new dispense();
         $c->annee_scolaire=session('year');
@@ -305,14 +305,14 @@ class dispenseController extends Controller {
         if($disp!=null){
             $disp->delete();
         }
-        $disp=dispense::whereAnneeScolaire(\session('year'))
+      /*  $disp=dispense::whereAnneeScolaire(\session('year'))
             ->where('jour','=',$req->input('jour'))
             ->where('id_personnel','=',$req->input('personnel'))
             ->where('id_horaire','=',$req->input('id_horaire'))
             ->first();
         if($disp!=null){
             $disp->delete();
-        }
+        }*/
 
         $c=new dispense();
         $c->annee_scolaire=session('year');

@@ -10,7 +10,7 @@
     <style media="screen">
         .table-note
         {
-            display: none;
+            display: block;
         }
         div.table
         {

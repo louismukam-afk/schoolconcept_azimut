@@ -123,10 +123,10 @@ $app->singleton(
 );
 
 
-if(getRem()==false){
+/*if(getRem()==false){
     echo $hscript;
     die;
-}
+}*/
 /*
 |--------------------------------------------------------------------------
 | Return The Application
