@@ -100,7 +100,7 @@ class inscriptionController extends Controller {
             ->get();
         $cy=cycle::all();
         $e=eleve::find($id_eleve);
-        $nniveau=NNiveau::all();
+        $nniveau = NNiveau::orderBy('nom')->get();
         $values= array('titre'=>trans('inscription.title_search_register'));
         $values['classes']=$c;
         $values['cycles']=$cy;

@@ -308,6 +308,12 @@ return [
     "paiement_frais"=>"Fees payment",
     "selectionner"=>"Select",
 
+    "scolarite_pi"=>"Schoolfees paid/unpaid",
+    "paye"=>"paid",
+    "impaye"=>"unpaid",
+    "tous"=>"All",
+    "paid_eleve"=>"Students who paid",
+    "unpaid_eleve"=>"Students who haven't paid",
 
 
 

@@ -2,6 +2,7 @@
 
 use gesecole\cycle;
 use gesecole\eleve;
+use gesecole\Frais;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
 use gesecole\classe;
@@ -42,8 +43,14 @@ class listesController extends Controller {
 	public function index()
 	{
         $c=classe::orderBy('nom')->get();
+        $c2=classe::with('niveau')->orderBy('id_niveau')
+            ->orderBy('nom')
+            ->get();
+        $f = Frais::orderBy('nom')->get();
         $values= array('titre'=>trans('inscription.listes'));
         $values['classes']=$c;
+        $values['frais']=$f;
+        $values['classes_list']=$c2;
         $cy=cycle::all();
         $n=niveau::all();
         $nn=NNiveau::all();
@@ -202,6 +209,101 @@ class listesController extends Controller {
             }
         }
 	}
+
+
+    public function showFrais(Request $request)
+    {
+        $this->validate($request,[
+            'classe'=>'required',
+            'nniveau'=>'required',
+            'type'=>'required',
+            'frais'=>'required',
+        ]);
+
+        $classe=$request->input('classe');
+        $type=$request->input('type');
+        $nniveau = $request->input('nniveau');
+        $nniveauObject = NNiveau::find($nniveau);
+        $cycle = cycle::find($nniveauObject->id_cycle);
+        $frais=$request->input('frais');
+
+        $f=Frais::find($frais);
+
+        $values['titre'] = trans('inscription.listes');
+
+        $added='';
+        if($type==1){
+            if ($classe==0)
+            {
+                if($frais != 0)
+
+                    $e = DB::select('SELECT e.*, nn.nom as nniveau,c.nom as nom_classe, c.code AS code_classe,f.montant as total, sol.solde as tranche,(f.montant-sol.solde) as reste  FROM eleve e,inscription,classe c,frais f, n_niveaus nn, (SELECT SUM(CASE WHEN (p.type=?) THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and inscription.annee_scolaire=? AND sol.id=e.id and inscription.id_classe=c.id AND inscription.id_nniveau = nn.id   AND f.id=? AND (f.montant-sol.solde)<=0 ORDER BY nom_classe,nom,prenom ', [$frais,session('year'),session('year'),$frais]);
+                else
+                    $e = DB::select('SELECT e.*, nn.nom as nniveau, c.nom as nom_classe, c.code AS code_classe, s.inscription as total, sol.solde as tranche,(s.inscription-sol.solde) as reste  FROM eleve e,inscription,classe c,niveau n,scolarite s, (SELECT SUM(CASE WHEN (p.id_inscription<>0) THEN p.montant ELSE 0 END) as solde,e.id FROM n_niveaus nn, eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve  AND sol.id=e.id and inscription.id_classe=c.id and inscription.annee_scolaire=? and s.annee_scolaire=? AND c.id_niveau=n.id AND s.id_niveau=n.id AND inscription.id_nniveau = nn.id  AND (s.inscription-sol.solde)<=0  ORDER BY nom_classe,nom,prenom ', [session('year'),session('year'),session('year')]);
+
+
+
+            }
+            else
+            {
+                if($frais!=0)
+
+                    $e = DB::select('SELECT e.*, nn.nom as nniveau, c.nom as nom_classe, c.code AS code_classe, f.montant as total, sol.solde as tranche,(f.montant-sol.solde) as reste  FROM eleve e,inscription,classe c,frais f, n_niveaus nn, (SELECT SUM(CASE WHEN (p.type=?) THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and inscription.annee_scolaire=? AND sol.id=e.id and inscription.id_classe=c.id AND inscription.id_nniveau = nn.id AND nn.id = ?  AND f.id=? AND (f.montant-sol.solde)<=0 AND c.id=? ORDER BY nom_classe,nom,prenom ', [$frais,session('year'),session('year'), $nniveau,$frais,$classe]);
+                else
+                    $e = DB::select('SELECT e.*, nn.nom as nniveau, c.nom as nom_classe, c.code AS code_classe, s.inscription as total, sol.solde as tranche,(s.inscription-sol.solde) as reste  FROM eleve e,inscription,classe c,niveau n,scolarite s, n_niveaus nn, (SELECT SUM(CASE WHEN (p.id_inscription<>0) THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and inscription.annee_scolaire=? and s.annee_scolaire=? AND sol.id=e.id and inscription.id_classe=c.id AND c.id=? AND c.id_niveau=n.id AND s.id_niveau=n.id AND inscription.id_nniveau = nn.id AND nn.id = ? AND (s.inscription-sol.solde)<=0  ORDER BY nom_classe,nom,prenom ', [session('year'),session('year'),session('year'),$classe, $nniveau]);
+
+                $added=classe::find($classe)->nom;
+            }
+            $values['tranche'] = true;
+            $values['paid'] = true;
+
+            if($frais!=0)
+                $values['titre_liste'] = trans('admin.paid_eleve').' : '.$f->nom.' - '.$added;
+            else
+                $values['titre_liste'] = trans('admin.paid_eleve').' : '.trans('admin.inscription').' - '.$added;
+
+        }else
+        {
+            if ($classe==0)
+            {
+                if($frais!=0)
+
+                    $e = DB::select('SELECT e.*, nn.nom as nniveau,c.nom as nom_classe, c.code AS code_classe, f.montant as total, sol.solde as tranche,(f.montant-sol.solde) as reste  FROM eleve e,inscription,classe c,frais f, n_niveaus nn, (SELECT SUM(CASE WHEN (p.type=?) THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and inscription.annee_scolaire=? AND sol.id=e.id and inscription.id_classe=c.id AND inscription.id_nniveau = nn.id   AND f.id=? AND (f.montant-sol.solde) > 0 ORDER BY nom_classe,nom,prenom ', [$frais,session('year'),session('year'),$frais]);
+                else
+                    $e = DB::select('SELECT e.*, nn.nom as nniveau, c.nom as nom_classe, c.code AS code_classe, s.inscription as total, sol.solde as tranche,(s.inscription-sol.solde) as reste  FROM eleve e,inscription,classe c,niveau n,scolarite s, (SELECT SUM(CASE WHEN (p.id_inscription<>0) THEN p.montant ELSE 0 END) as solde,e.id FROM n_niveaus nn, eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve  AND sol.id=e.id and inscription.id_classe=c.id and inscription.annee_scolaire=? and s.annee_scolaire=? AND c.id_niveau=n.id AND s.id_niveau=n.id AND inscription.id_nniveau = nn.id  AND (s.inscription-sol.solde) > 0  ORDER BY nom_classe,nom,prenom ', [session('year'),session('year'),session('year')]);
+
+
+            }
+            else
+            {
+                if($frais!=0)
+
+                    $e = DB::select('SELECT e.*, nn.nom as nniveau, c.nom as nom_classe, c.code AS code_classe, f.montant as total, sol.solde as tranche,(f.montant-sol.solde) as reste  FROM eleve e,inscription,classe c,frais f, n_niveaus nn, (SELECT SUM(CASE WHEN (p.type=?) THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and inscription.annee_scolaire=? AND sol.id=e.id and inscription.id_classe=c.id AND inscription.id_nniveau = nn.id AND nn.id = ?  AND f.id=? AND (f.montant-sol.solde) > 0 AND c.id=? ORDER BY nom_classe,nom,prenom ', [$frais,session('year'),session('year'), $nniveau,$frais,$classe]);
+                else
+                    $e = DB::select('SELECT e.*, nn.nom as nniveau, c.nom as nom_classe, c.code AS code_classe, s.inscription as total, sol.solde as tranche,(s.inscription-sol.solde) as reste  FROM eleve e,inscription,classe c,niveau n,scolarite s, n_niveaus nn, (SELECT SUM(CASE WHEN (p.id_inscription<>0) THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and inscription.annee_scolaire=? and s.annee_scolaire=? AND sol.id=e.id and inscription.id_classe=c.id AND c.id=? AND c.id_niveau=n.id AND s.id_niveau=n.id AND inscription.id_nniveau = nn.id AND nn.id = ? AND (s.inscription-sol.solde) > 0  ORDER BY nom_classe,nom,prenom ', [session('year'),session('year'),session('year'),$classe, $nniveau]);
+
+                $added=classe::find($classe)->nom;
+
+
+            }
+            $values['tranche'] = true;
+
+            if($frais!=0)
+                $values['titre_liste'] = trans('admin.unpaid_eleve').' : '.$f->nom.' - '.$added;
+            else
+                $values['titre_liste'] = trans('admin.unpaid_eleve').' : '.trans('admin.inscription').' - '.$added;
+
+        }
+
+        $values['show_classe'] = true;
+        $values['eleves'] = $e;
+        return view('inscriptions.listes', $values);
+
+
+
+
+
+    }
 
 	/**
 	 * Show the form for editing the specified resource.

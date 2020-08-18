@@ -320,7 +320,13 @@ return [
     "paiement_frais"=>"Paiement de frais",
     "fee_type"=>"Types de frais",
     "selectionner"=>"Sélectionner",
-
+    "scolarite_pi"=>"Scolarité payées/impayées",
+    "paye"=>"payé",
+    "impaye"=>"impayé",
+    "type_p"=>"Type de paiement",
+    "tous"=>"Tous",
+    "paid_eleve"=>"Etudiants ayant payé",
+    "unpaid_eleve"=>"Etudiants n'ayant pas payé",
     ""=>"",
     ""=>"",
 

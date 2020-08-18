@@ -179,6 +179,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/inscriptions/payement/list/{id}','inscriptions\payementController@index_liste');
         Route::get('/inscriptions/selection-listes','inscriptions\listesController@index');
         Route::get('/inscriptions/listes/show/','inscriptions\listesController@show');
+        Route::get('/inscriptions/listes/frais/show', ['as'=>'show_frais_liste','uses'=>'inscriptions\listesController@showFrais']);
         Route::get('/inscriptions/print-certificate/{id}','inscriptions\inscriptionController@certificate');
         Route::get('/inscriptions/remove/{id_eleve}','inscriptions\inscriptionController@destroy');
         Route::any('/inscriptions/photos/','inscriptions\photosController@create');
