@@ -36,10 +36,12 @@ html,body {
     width: 300px;
     font-size: 19px;
     min-height: 50px;
+
 }
-    .recu > .panel > .panel-body >.row .numero
+    .recu  .panel  .panel-body .page-header .numero
     {
-        color:firebrick;
+
+        color:firebrick !important;
         font-size: 17px;
         margin: 5px;
     }
@@ -69,6 +71,8 @@ html,body {
     {
         padding: 5px;
         position: relative;
+        -webkit-print-color-adjust: exact;
+
     }
     .print-head
     {

@@ -45,6 +45,7 @@ class inscriptionTableSeeder extends Seeder {
                     'date_payement'=>$this->date[random_int(0,$n-1)],
                     'montant'=>50000,
                     'motif'=>'Inscription',
+
                     'numero'=>'00000'.$i
                 ]);
 

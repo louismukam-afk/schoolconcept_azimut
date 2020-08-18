@@ -11,8 +11,13 @@
         @include('perso.header')
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h3 class="panel-title">RECU DE VERSEMENT DES FRAIS DE SCOLARITE</h3>
-                <div class="traduction">SCHOOL FEES PAYMENT RECEIPT</div>
+                @if($payement->type == 0)
+                    <h3 class="panel-title">RECU DE VERSEMENT DES FRAIS DE SCOLARITE</h3>
+                    <div class="traduction">SCHOOL FEES PAYMENT RECEIPT</div>
+                @else
+                    <h3 class="panel-title">RECU DE PAIEMENT</h3>
+                    <div class="traduction">PAYMENT RECEIPT</div>
+                @endif
             </div>
             <div class="panel-body">
                 <div class="row page-header print-head">
@@ -52,9 +57,9 @@
                     <p class="col-md-6 date"><strong>Date : </strong>{{$payement->date_payement}}</p>
                 </div>
                 <div class="row" style="margin-top: 50px">
-                    <div class="col-md-6"><strong>Motif :</strong>{{$payement->motif}}</div>
+                    <div class="col-md-6"><strong>Motif :</strong>@if(isset($frais)) {{$frais->nom}} @else {{$payement->motif}} @endif</div>
                     <div class="traduction">Reason for payment</div>
-                    <div class="col-md-6"><strong>Total pension :</strong><span class="{{$total==0?'text-danger':'' }}">{{$total==0?'Le montant n\'est pas défini':$total}}</span></div>
+                    <div class="col-md-6"><strong>Total pension :</strong><span class="{{$total==0?'text-danger':'' }}">{{$total==0?'Le montant n\'est pas défini':$total.' '.trans('inscription.devise')}}</span></div>
                     <div class="traduction">Total school fees</div>
                     <div class="col-md-6"><strong>Solde en Caisse : </strong>{{$solde.' '.trans('inscription.devise')}}</div>
                     <div class="traduction">Cash balance : </div>
@@ -64,7 +69,7 @@
                 </div>
 
                 <div class="sign pull-right">
-                    <strong>Signatures</strong>
+                    <strong>VISA</strong>
                 </div>
 
             </div>

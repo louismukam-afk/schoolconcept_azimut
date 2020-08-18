@@ -82,6 +82,13 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/admin/niveaux/destroy/{id}', 'admin\niveauController@destroy');
         Route::post('/admin/niveaux/store', 'admin\niveauController@store');
         Route::post('/admin/niveaux/update', 'admin\niveauController@update');
+
+        // Les frais
+        Route::get('/admin/frais/', 'admin\FraisController@index');
+        Route::get('/admin/frais/destroy/{id}', 'admin\FraisController@destroy');
+        Route::post('/admin/frais/store', 'admin\FraisController@store');
+        Route::post('/admin/frais/update', 'admin\FraisController@update');
+
 //Les classes
         Route::get('/admin/classes/', 'admin\classeController@index');
         Route::get('/admin/classes/destroy/{id}', 'admin\classeController@destroy');
@@ -160,8 +167,11 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/inscriptions/payement/', 'inscriptions\payementController@index');
         Route::get('/inscriptions/payement/search', 'inscriptions\payementController@search');
         Route::get('/inscriptions/payement/create/{id}', 'inscriptions\payementController@create');
+        Route::get('/inscriptions/payement/create-frais/{id}', 'inscriptions\payementController@create_frais');
         Route::post('/inscriptions/payement/store/{id}', 'inscriptions\payementController@store');
-        
+        Route::get('/inscriptions/payement/get/inscription', ['uses'=>'inscriptions\payementController@getLeftInscription','as'=>'get_left_inscription']);
+
+
 
         Route::get('/inscriptions/recu','inscriptions\inscriptionController@show');
         Route::get('/inscriptions/print/{id}','inscriptions\inscriptionController@print_receipe');

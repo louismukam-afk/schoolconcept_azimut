@@ -184,6 +184,19 @@ function jour($n){
     return trans('admin.aucun');
 }
 
+function sanitize($str){
+    $str=str_replace("'","\'",$str);
+    $str=str_replace("\n","\\n",$str);
+    $str=str_replace("\r","\\r",$str);
+    return $str;
+}
+
+function purify($str){
+    $str=str_replace("\n","",$str);
+    $str=str_replace("\r","",$str);
+    return $str;
+}
+
 ?>
 
 

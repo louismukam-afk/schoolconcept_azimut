@@ -310,7 +310,17 @@ return [
     "an"=>"An(s)",
     "w_date"=>"La date du serveur est incorrecte",
     "ledirect"=>"Le directeur",
-    ""=>"",
+
+    "frais"=>"Frais",
+    "frais_l"=>"Liste des frais",
+    "frais_n"=>"Nouveau type de frais",
+    "frais_pi"=>"Frais payés/impayés",
+    "cannot_del_frais"=>"Ces frais ne peuvent etre supprimés car il sont utilisés pour les payements",
+    "montant"=>"Montant",
+    "paiement_frais"=>"Paiement de frais",
+    "fee_type"=>"Types de frais",
+    "selectionner"=>"Sélectionner",
+
     ""=>"",
     ""=>"",
 

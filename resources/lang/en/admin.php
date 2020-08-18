@@ -298,6 +298,18 @@ return [
     "w_date"=>"Wrong server date",
         "ledirect"=>"The director",
 
+    "frais"=>"Fees",
+    "fee_type"=>"Fee types",
+    "frais_l"=>"Fees list",
+    "frais_n"=>"New type of fees",
+    "frais_pi"=>"paid/unpaid fees",
+    "cannot_del_frais"=>"Theses fees cannot be deleted, they are used for many payments",
+    "montant"=>"Amount",
+    "paiement_frais"=>"Fees payment",
+    "selectionner"=>"Select",
+
+
+
 
 
 
