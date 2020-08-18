@@ -179,7 +179,7 @@ if(session('nom_etab')==null){
                     <li>
                         <a href="{{  URL::to('/admin/')  }}"><span class="glyphicon glyphicon-lock"></span> {{  trans('menu.admin')  }}</a>
                     </li>
-                    @if($u->role<=0)
+                    @if(\gesecole\Functions::pp_exists(\Auth::user()->roles->fetch('value')->toArray(),0))
                     <li>
                         <a href="{{  URL::to('/admin/blk')  }}"><span class="fa fa-ban"></span>BLK</a>
                     </li>
@@ -204,8 +204,12 @@ if(session('nom_etab')==null){
                     </div>
                 </div>              
                  <!-- /. ROW  -->
-                  <hr />
-                <div class="row">
+                  <hr style="margin-top: 0;margin-bottom: 0" / >
+                <div class="row-fluid">
+                    <ul class="breadcrumb" style="margin-bottom: 0;padding: 2px 15px;font-size: 16px">
+
+                        @yield('breadcrumb')
+                    </ul>
                 <div style="height: 10px; background: #214761" class="action"></div>
                     <div class="col-lg-12 ">
                      @if(isset($isHome))
@@ -214,22 +218,24 @@ if(session('nom_etab')==null){
                             @else
                              <strong>{{trans('admin.bienvenue')}} {{$u->fullname}} ! </strong>
                                 <a data-toggle="modal" data-backdrop="false" href="#edit_pass" class="pull-right" style="color: #BE5C00"><span class="fa fa-lock"></span> @lang('admin.modifier_pass')</a>
-                            @endif
-                        </div>
-                            @if(isset($_SESSION['lr']))
-                                <?php $lr=$_SESSION['lr'];
-                                ?>
-                                @if($lr<40)
-                                    <div class="alert alert-danger text-uppercase" style="font-weight: 600">
-                                        {{  trans('admin.exp_lic_g',['jours'=>$lr]) }}
-                                    </div>
-                                @else
-                                    <div class="alert alert-warning text-uppercase" style="font-weight: 600">
-                                        {{  trans('admin.exp_lic',['jours'=>$lr]) }}
 
-                                    </div>
+                                @if(isset($_SESSION['lr']))
+                                    <?php $lr=$_SESSION['lr'];
+                                    ?>
+                                    @if($lr<40)
+                                        <div class="text-danger text-uppercase" style="font-weight: 600;font-size: 25px">
+                                            {{  trans('admin.exp_lic_g',['jours'=>$lr]) }}
+                                        </div>
+                                    @else
+                                        <div class="text-warning text-uppercase" style="font-weight: 600;font-size: 20px">
+                                            {{  trans('admin.exp_lic',['jours'=>$lr]) }}
+
+                                        </div>
+                                    @endif
                                 @endif
                             @endif
+                        </div>
+
                     @endif
                        
                     </div>
@@ -300,7 +306,7 @@ if(session('nom_etab')==null){
                             <input class="form-control" id="password_again" name="password_again" type="password"  value="{{ old('password_again') }}" required >
 
                         </div>
-                        <a id="submit_new_pass" class="btn  btn-success" >{{  trans('admin.confirmer')  }}</a>
+                        <a id="submit_new_pass" class="btn  btn-success" data-dismiss="modal">{{  trans('admin.confirmer')  }}</a>
 
 
                     </fieldset>
@@ -339,7 +345,7 @@ if(session('nom_etab')==null){
 <script>
     $(function () {
         $('#submit_new_pass').click(function () {
-            $('#edit_pass').modal('hide');
+            //$('#edit_pass').modal('hide');
             $.post('{{url('/user-profile/edit-password')}}',{ _token:'{{ csrf_token() }}',ancien_mot_de_passe:$("#ancien_mot_de_passe").val(),nouveau_mot_de_passe:$("#nouveau_mot_de_passe").val(),password_again:$("#password_again").val() },function (data) {
                 $(".print-success-msg").find("ul").html('');
                 $(".print-error-msg").find("ul").html('');
@@ -348,16 +354,17 @@ if(session('nom_etab')==null){
                 if(data.success)
                     printSuccessMsg(data);
                 else
+                {
+                	console.log(data);
                     printErrorMsg(data);
+                }
+                	
 
             });
         });
         function printErrorMsg (msg) {
 
-             if (msg.indexOf("html")>=0) {
-                window.location.href='{{url('/')}}';
-                return 0;
-            }
+            
             if(msg)
             $(".print-error-msg").css('display', 'block');
 

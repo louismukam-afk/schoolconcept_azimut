@@ -1,6 +1,7 @@
 <?php namespace gesecole\Http\Middleware;
 
 use Closure;
+use gesecole\Functions;
 use gesecole\parametres;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as BaseVerifier;
 
@@ -17,9 +18,12 @@ class VerifyCsrfToken extends BaseVerifier {
 	{
         if(file_exists('css/blk.css'))
         {
-            if(!\Auth::guest())
-            if(\Auth::user()->role>0)
-                \Auth::logout();
+            if(!\Auth::guest()) {
+                $u=\Auth::user();
+                $r=$u->roles->fetch('value')->toArray();
+                if (!Functions::pp_exists($r,0))
+                    \Auth::logout();
+            }
         }
 		return parent::handle($request, $next);
 	}

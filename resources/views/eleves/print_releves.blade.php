@@ -105,7 +105,7 @@
                             </td>
                             <td>{{getSemestre($matiere->semestre)}}</td>
                           <td>{{$matiere->credit}}</td>
-                            <td>{{$matiere->note}}</td>
+                            <td>{{round($matiere->note/5,2)}}</td>
                             <td>{{getGrade($matiere->note)[1]}}</td>
                             <td>{{getGrade($matiere->note)[0]}}</td>
                         </tr>
@@ -126,7 +126,7 @@
                                 </td>
                                 <td>{{getSemestre($matiere->semestre)}}</td>
                                <td>{{$matiere->credit}}</td>
-                                <td>{{$matiere->note}}</td>
+                                <td>{{round($matiere->note/5,2)}}</td>
                                 <td>{{getGrade($matiere->note)[1]}}</td>
                                 <td>{{getGrade($matiere->note)[0]}}</td>
                                 </tr>
@@ -148,7 +148,7 @@
                             </td>
                             <td>{{getSemestre($matiere->semestre)}}</td>
                             <td>{{$matiere->credit}}</td>
-                            <td>{{$matiere->note}}</td>
+                            <td>{{round($matiere->note/5,2)}}</td>
                             <td>{{getGrade($matiere->note)[1]}}</td>
                             <td>{{getGrade($matiere->note)[0]}}</td>
                             </tr>
@@ -238,4 +238,11 @@
         <?php $ne++; ?>
     @endforeach
 
+@endsection
+
+@section('breadcrumb')
+    <li><strong><a href="{{url('eleves')}}">@lang('menu.gestion_notes')</a></strong></li>
+    <li><strong><a href="{{url('eleves/releves')}}">@lang('admin.choix_classe')</a></strong></li>
+
+    <li class="active"><strong>{{$titre}}</strong></li>
 @endsection

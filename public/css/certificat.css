@@ -28,6 +28,13 @@
     color: grey !important;
 }
 
+
+.traduction2
+{
+    font-size: 15px !important;
+    color: grey !important;
+}
+
 .body{
     position: relative;
     margin-top: 30px;
@@ -62,6 +69,22 @@
     position: absolute;
     right: 0;
 }
+.ligne
+{
+    font-size: 17px;
+    position: relative;
+    height: 75px;
+    font-weight: 600;
+}
+.ligne .matricule
+{
+    float: left;
+}
+.ligne .type
+{
+   position: absolute;
+    right: 0;
+}
 
 @media print {
     @page  {
@@ -71,7 +94,7 @@
         margin-right: 2%;
     }
 
-    .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.copy
+    .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.copy,.breadcrumb
     {
         display: none;
     }
@@ -103,6 +126,12 @@
         font-size: 10px !important;
         color: grey !important;
     }
+    .traduction2
+    {
+        -webkit-print-color-adjust:exact;
+        font-size: 15px !important;
+        color: grey !important;
+    }
     .born-status{
         min-height: 5mm;
         position: relative;
@@ -131,7 +160,7 @@
     }
     .sign{
         position: absolute;
-        right: 0;
+        right: 20mm;
     }
 
 }

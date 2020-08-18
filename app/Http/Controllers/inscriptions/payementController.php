@@ -8,6 +8,7 @@ use gesecole\parametres;
 use gesecole\cycle;
 use gesecole\niveau;
 use gesecole\classe;
+use gesecole\scolarite;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use gesecole\eleve;
@@ -182,11 +183,13 @@ class payementController extends Controller {
     public function print_receipe($id){
         $p=payement::find($id);
         $i=inscription::whereAnneeScolaire(session('year'))->where('id_eleve',$p->id_eleve,false)->first();
-        $cy=cycle::find($i->id_cycle)->nom;
+        $cycle=cycle::find($i->id_cycle);
+                $cy=$cycle->nom;
         $c=classe::find($i->id_classe);
         $n=niveau::find($c->id_niveau);
         $nn=NNiveau::find($i->id_nniveau);
-        $sc=$i->classe->niveau->scolarite;
+        //$sc=$i->classe->niveau->scolarite->where('id_cycle','=',$cycle->id)->first();
+        $sc=scolarite::where('id_niveau','=',$n->id)->where('id_cycle','=',$cycle->id)->first();
         if($sc==null)
             $total=0;
         else
@@ -224,9 +227,19 @@ class payementController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update(Request $request)
 	{
-		//
+         $this->validate($request,[
+            'id'=>'required|numeric',
+            'montant'=>'required|numeric',
+        ]) ;
+		$id=$request->input('id');
+        $montant=$request->input('montant');
+        $p=payement::find($id);
+        $p->montant=$montant;
+        $p->save();
+        return redirect()->to(\URL::previous());
+
 	}
 
 	/**

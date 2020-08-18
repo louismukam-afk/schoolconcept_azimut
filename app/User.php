@@ -58,4 +58,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	protected $hidden = ['password', 'remember_token'];
 
+    public function roles()
+    {
+        return  $this->hasMany(Role::class,'id_user');
+    }
+
 }

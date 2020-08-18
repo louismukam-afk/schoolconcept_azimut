@@ -2,9 +2,9 @@
 
 @section('content')
 <div class="alert alert-warning">
-    <h4>@lang('admin.total_entrees') : <strong>{{$entrees.' '.trans('inscription.devise')}}</strong></h4>
-    <h4>@lang('admin.total_sorties') : <strong>{{$sorties.' '.trans('inscription.devise')}}</strong></h4>
-    <h4>@lang('admin.solde_caisse') : <strong>{{($entrees-$sorties).' '.trans('inscription.devise')}}</strong></h4>
+    <h4>@lang('admin.total_entrees') : <strong>{{number_format($entrees).' '.trans('inscription.devise')}}</strong></h4>
+    <h4>@lang('admin.total_sorties') : <strong>{{number_format($sorties).' '.trans('inscription.devise')}}</strong></h4>
+    <h4>@lang('admin.solde_caisse') : <strong>{{number_format($entrees-$sorties).' '.trans('inscription.devise')}}</strong></h4>
 </div>
     <div class="row text-center pad-top">
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
@@ -48,3 +48,8 @@
 
     </div>
     @endsection
+
+@section('breadcrumb')
+
+    <li class="active"><strong>@lang('admin.comptabilite')</strong></li>
+@endsection

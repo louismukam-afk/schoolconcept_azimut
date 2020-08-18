@@ -1,4 +1,23 @@
 <?php
+
+function getRole($n){
+    if($n==2)
+        return trans('admin.editeur');
+    if($n==16)
+        return trans('admin.g_comptabilite');
+    if($n==17)
+        return trans('admin.g_personnel');
+    if($n==18)
+        return trans('admin.g_notes');
+    if($n==18.5)
+        return trans('admin.enseignant');
+    if($n==19)
+        return trans('admin.g_inscriptions');
+
+    return trans('admin.aucun');
+}
+
+
     function getGrade($note){
         if($note>=80){
             $grade[0]='A';

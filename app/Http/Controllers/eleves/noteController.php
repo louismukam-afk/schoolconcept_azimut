@@ -5,6 +5,7 @@ use gesecole\classeMatiere;
 use gesecole\cycle;
 use gesecole\dispense;
 use gesecole\eleve;
+use gesecole\Functions;
 use gesecole\groupeMatieres;
 use gesecole\niveau;
 use gesecole\Http\Requests;
@@ -151,11 +152,12 @@ class noteController extends Controller {
 
         if($v->count()>0){
             session(['erreur'=>trans('admin.mod_locked')]);
-            return redirect()->to('/eleves/notes/matieres/?id='.$id.'&cycle='.$id_cycle.'&nniveau='.$nniveau);
+            return redirect()->to(url('/eleves/notes/matieres?id='.$id.'&cycle='.$id_cycle.'&nniveau='.$nniveau));
         }
 
         $user=Auth::user();
-        if($user->role==18.5){
+        $r=$user->roles->fetch('value')->toArray();
+        if(Functions::contain($r,18.5)){
             $d=dispense::whereAnneeScolaire(\session('year'))
                 ->where('id_personnel','=',$user->id_personnel)
                 ->where('id_matiere','=',$id_m)
@@ -165,7 +167,7 @@ class noteController extends Controller {
             if($d==null){
                 $mat=matiere::find($id_m);
                 session(['erreur'=>trans('admin.no_modification',['matiere'=>$mat->nom.'('.$mat->nom_anglais.')'])]);
-                return redirect()->to('/eleves/notes/matieres/?id='.$id.'&cycle='.$id_cycle.'&nniveau='.$nniveau);
+                return redirect()->to(url('/eleves/notes/matieres?id='.$id.'&cycle='.$id_cycle.'&nniveau='.$nniveau));
             }
         }
 
@@ -254,7 +256,7 @@ class noteController extends Controller {
             $tns=note::whereAnneeScolaire(\session('year'))->where('sequence','=',$cc)->where('id_matiere','=',$id_m)->whereIn('id_eleve',$id_eleves)->first();
             if($tns==null){
                 session(['erreur'=>trans('admin.no_cc',['matiere'=>$mat->nom.'('.$mat->nom_anglais.')'])]);
-                return redirect()->to('/eleves/notes/matieres/show/?id='.$id.'&cycle='.$id_cycle.'&nniveau='.$nniveau);
+                return redirect()->to(url('/eleves/notes/matieres/show?id='.$id.'&cycle='.$id_cycle.'&nniveau='.$nniveau));
             }
             $n_cc = note::whereAnneeScolaire(session('year'))
                 ->where('id_matiere', '=', $id_m)
@@ -298,6 +300,11 @@ class noteController extends Controller {
                 ->where('sequence', '=', $sequence)
                 ->whereIn('id_eleve',$id_eleves)
                 ->get();
+            $n_cc = note::whereAnneeScolaire(session('year'))
+                ->where('id_matiere', '=', $id_m)
+                ->where('sequence', '=', $cc)
+                ->whereIn('id_eleve',$id_eleves)
+                ->get();
             $id_eleves2=$n->fetch('id_eleve')->toArray();
             $e=eleve::whereIn('id',$id_eleves2)->orderBy('nom')->orderBy('prenom')->get();
 
@@ -307,11 +314,13 @@ class noteController extends Controller {
 
             if($tns==null || $tnr==null){
                 session(['erreur'=>trans('admin.no_note',['matiere'=>$mat->nom.'('.$mat->nom_anglais.')'])]);
-                return redirect()->to('/eleves/notes/matieres/show/?id='.$id.'&cycle='.$id_cycle.'&nniveau='.$nniveau);
+                return redirect()->to(url('/eleves/notes/matieres/show?id='.$id.'&cycle='.$id_cycle.'&nniveau='.$nniveau));
             }
 
             $values['eleves'] = $e;
             $values['notes'] = $n;
+            $values['notes_cc'] = $n_cc;
+
             //$values['max'] = $cm->max;
             $values['matiere'] = $mat;
             $values['id_cycle'] = $id_cycle;
@@ -347,7 +356,7 @@ class noteController extends Controller {
                 $id_eleves[$j]=$el->id;
                 $j++;
             }
-            $n_rattrap = note::whereAnneeScolaire(session('year'))
+            /*$n_rattrap = note::whereAnneeScolaire(session('year'))
                 ->where('sequence', '=', $rattrap)
                 ->whereIn('id_eleve',$id_eleves)
                 ->get();
@@ -367,68 +376,135 @@ class noteController extends Controller {
             $matieres_pv=$notes_sequences_pv->fetch('id_matiere')->toArray();
             $sCoef=0;
             $cm = classeMatiere::whereIdClasse($id)->where('id_nniveau','=',$nniveau)->where('id_cycle','=',$id_cycle)->get();
-            $gm=groupeMatieres::whereIdClasse($id)->where('id_nniveau','=',$nniveau)->get();
-            $m_cps=$gm->fetch('id_matiere_mere')->toArray();
-            foreach ($cm as $entry){
-                if(!($this->isIn($entry->id_matiere,$m_cps)))
-                        $sCoef+=$entry->coef;
-            }
-            $matiere_list=$cm->fetch('id_matiere')->toArray();
-            $m=matiere::whereIn('id',$matiere_list)->whereIn('id',$matieres_pv)->get();
+            */
+                $notes_sequences_pv=note::whereAnneeScolaire(\session('year'))
+                ->whereIn('id_eleve',$id_eleves)
+                ->whereIn('sequence',$sequences_pv)
+                ->get();
+                $matieres_pv=$notes_sequences_pv->fetch('id_matiere')->toArray();
 
+
+            $m=matiere::/*whereIn('matiere.id',$matiere_list)
+            ->*/Join('classe_matiere','matiere.id','=','classe_matiere.id_matiere')
+            ->whereIn('matiere.id',$matieres_pv)
+            ->where('id_classe','=',$id)
+            ->where('id_cycle','=',$id_cycle)
+            ->where('classe_matiere.id_nniveau','=',$nniveau)
+            ->select(['matiere.*','semestre','type','coef','classe_matiere.id AS id_classe_matiere'])
+            ->get();
+
+
+           
             $k=0;
+
             foreach($e as $eleve){
+                    $sCoef=0;
 
                 $l=0;
                 $sNote=0;
                 foreach ($m as $matiere){
 
 
-                    $credit=$cm->where('id_matiere',$matiere->id)
-                        ->first()
-                        ->coef;
-                    $note_cc=$n_cc->where('id_matiere',$matiere->id,false)
+                    $credit=$matiere->coef;
+
+                        $matiere->credit=$credit;
+
+                        $notes_sequences_pv=note::whereAnneeScolaire(\session('year'))
+                ->where('id_eleve','=',$eleve->id)
+                ->where('id_matiere','=',$matiere->id)
+                ->whereIn('sequence',$sequences_pv)
+                ->get();
+
+                    $note_cc=$notes_sequences_pv->where('id_matiere',$matiere->id,false)
                         ->where('id_eleve',$eleve->id,false)
+                        ->where('sequence',$cc,false)
                         ->first();
-                    $note_sn=$n_sn->where('id_matiere',$matiere->id,false)
+                    $note_sn=$notes_sequences_pv->where('id_matiere',$matiere->id,false)
                         ->where('id_eleve',$eleve->id,false)
+                        ->where('sequence',$sn,false)
                         ->first();
-                    $note_rattrap=$n_rattrap->where('id_matiere',$matiere->id,false)
+                    $note_rattrap=$notes_sequences_pv->where('id_matiere',$matiere->id,false)
                             ->where('id_eleve',$eleve->id,false)
+                            ->where('sequence',$rattrap,false)
                             ->first();
+
+
                     if($note_cc!=null || $note_sn!=null ){
                         @$note1=$note_cc->note+$note_sn->note;
                         if($note_rattrap!=null){
                             if($note1>=50){
                                 $note=$note1;
+                                if($note_cc)
+                                    $controle=$note_cc->note;
+                                else
+                                    $controle='-';
+                                if($note_sn)
+                                    $normal=$note_sn->note;
+                                else
+                                    $normal='-';
+
                             }else{
-                                $note=$note_rattrap->note;
+                                $note=($note_cc?$note_cc->note:0)+$note_rattrap->note;
+                                 if($note_cc)
+                                    $controle=$note_cc->note;
+                                else
+                                    $controle='-';
+                                    
+                                    $normal=$note_rattrap->note;
+                               
                             }
                         }else{
                             $note=$note1;
+                                if($note_cc)
+                                    $controle=$note_cc->note;
+                                else
+                                    $controle='-';
+                                if($note_sn)
+                                    $normal=$note_sn->note;
+                                else
+                                    $normal='-';
                         }
                     }else{
                         if($note_rattrap!=null){
 
                                 $note=$note_rattrap->note;
+                                 $controle='-';
+                                    $normal=$note_rattrap->note;
+                               
 
                         }else{
                             $note='-';
+                            $controle='-';
+                                $normal='-';
                         }
 
                     }
 
                     if(is_numeric($note)){
                         $sNote+=$note*$credit;
+                        $sCoef+=$credit;
+                        $note=round($note/5,2);
+                    }
+                      if(is_numeric($controle)){
+                         $controle=round($controle/1.5,2);
+
+                    }
+                      if(is_numeric($normal)){
+                        $normal=round($normal/3.5,2);
+
                     }
 
 
-                    $matieres[$l]=new pv_matiere($matiere->id,$note,$credit);
+                    $matieres[$l]=new pv_matiere($matiere->id,$note,$credit,$controle,$normal);
 
 
                     $l++;
                 }
                 //dump($matieres);
+                if ($sCoef<=0) {
+                    $sCoef=1;
+                }
+
                 $proces_v[$k]=new PV($eleve->id,$matieres,$sNote/$sCoef);
             $k++;
             }
@@ -438,6 +514,7 @@ class noteController extends Controller {
             $values['nb_matieres'] = $m->count();
             $values['nniveau']=NNiveau::find($nniveau);
             $values['classe'] = classe::find($id);
+            $values['id_cycle']= $id_cycle;
             $values['semestre'] = $semestre;
 
             return view('eleves/print_pv', $values);
@@ -459,70 +536,38 @@ class noteController extends Controller {
                 $j++;
             }
 
-            $n_rattrap = note::whereAnneeScolaire(session('year'))
-                ->whereIn('sequence',$rattrap)
-                ->whereIn('id_eleve',$id_eleves)
-                ->get();
-            $n_sn = note::whereAnneeScolaire(session('year'))
-                ->whereIn('sequence',$sn)
-                ->whereIn('id_eleve',$id_eleves)
-                ->get();
-            $n_cc = note::whereAnneeScolaire(session('year'))
-                ->whereIn('sequence',$cc)
-                ->whereIn('id_eleve',$id_eleves)
-                ->get();
-            $notes_sequences_pv=note::whereAnneeScolaire(\session('year'))
-                ->whereIn('id_eleve',$id_eleves)
-                ->whereIn('sequence',$sequences_pv)
-                ->get();
+          
 
 
-            $matieres_pv=$notes_sequences_pv->fetch('id_matiere')->toArray();
-            $sCoef=0;
-            $cm = classeMatiere::whereIdClasse($id)->where('id_nniveau','=',$nniveau)->where('id_cycle','=',$id_cycle)->get();
-            foreach ($cm as $entry){
-                $sCoef+=$entry->coef;
-            }
-            $matiere_list=$cm->fetch('id_matiere')->toArray();
-            //$m=matiere::whereIn('id',$matiere_list)->whereIn('id',$matieres_pv)->get();
-            $m=matiere::whereIn('matiere.id',$matiere_list)
-                ->Join('classe_matiere','matiere.id','=','classe_matiere.id_matiere')
+            $m=matiere::Join('classe_matiere','matiere.id','=','classe_matiere.id_matiere')
                 ->where('id_classe','=',$id)
                 ->where('id_cycle','=',$id_cycle)
                 ->where('classe_matiere.id_nniveau','=',$nniveau)
-                ->select(['matiere.*','semestre','type','classe_matiere.id AS id_classe_matiere'])
+                ->select(['matiere.*','semestre','type','coef','classe_matiere.id AS id_classe_matiere'])
                 ->get();
+
+         
+
             $lang=App::getLocale();
+
             $k=0;
 
-            $gm=groupeMatieres::whereIdClasse($id)->where('id_nniveau','=',$nniveau)->get();
-            $m_cps=$gm->fetch('id_matiere_mere')->toArray();
-
-            $calc=$gm->fetch('id_classe_matiere')->toArray();
-            $m_cpst= classeMatiere::whereIn('id',$calc)->get()->fetch('id_matiere')->toArray();
-
-            $composes= array();
-            $composantes= array();
-            $liste_mat= array();
-
-            $cpstList= array();
-            $minus_credit_cpst=false;
+           
             foreach($e as $eleve){
 
                 $l=0;
-                $c=0;
-                $cst=0;
+               
                 $sNote=0;
+                $sCoef=0;
+
                 foreach ($m as $matiere){
 
-                    $cps=false;
-                    $cpst=false;
+                   
 
-                    if($this->isIn($matiere->id,$m_cps)){
-                        $cps=true;
-                        $cpstList=$gm->where('id_matiere_mere',$matiere->id,false)->fetch('id_classe_matiere')->toArray();
+                    $credit=$matiere->coef;
+                        $matiere->credit=$credit;
 
-                    }
+                  
 
                 if($lang=='en')
                     $nom=$matiere->nom_anglais;
@@ -530,86 +575,145 @@ class noteController extends Controller {
                     $nom=$matiere->nom;
 
 
-                    if($this->isIn($matiere->id,$m_cpst))
-                        $cpst=true;
+                   $notes_sequences_pv=note::whereAnneeScolaire(\session('year'))
+                ->where('id_eleve','=',$eleve->id)
+                ->where('id_matiere','=',$matiere->id)
+                ->whereIn('sequence',$sequences_pv)
+                ->get();
 
-                    $credit=$cm->where('id_matiere',$matiere->id,false)
-                        ->first()
-                        ->coef;
-
-                    if ($cpst)
-                        if(!$minus_credit_cpst) {
-                            $sCoef -= $credit;
-                        }
-
-
-                    $note_cc1=$n_cc->where('id_matiere',$matiere->id,false)
+                    $note_cc1=$notes_sequences_pv->where('id_matiere',$matiere->id,false)
                         ->where('id_eleve',$eleve->id,false)
                         ->where('sequence',1,false)
                         ->first();
-                    $note_cc2=$n_cc->where('id_matiere',$matiere->id,false)
+                    $note_cc2=$notes_sequences_pv->where('id_matiere',$matiere->id,false)
                         ->where('id_eleve',$eleve->id,false)
                         ->where('sequence',2,false)
                         ->first();
-                    $note_sn1=$n_sn->where('id_matiere',$matiere->id,false)
+                    $note_sn1=$notes_sequences_pv->where('id_matiere',$matiere->id,false)
                         ->where('id_eleve',$eleve->id,false)
                         ->where('sequence',3,false)
                         ->first();
-                    $note_sn2=$n_sn->where('id_matiere',$matiere->id,false)
+                    $note_sn2=$notes_sequences_pv->where('id_matiere',$matiere->id,false)
                         ->where('id_eleve',$eleve->id,false)
                         ->where('sequence',4,false)
                         ->first();
-                    $note_rattrap1=$n_rattrap->where('id_matiere',$matiere->id,false)
+                    $note_rattrap1=$notes_sequences_pv->where('id_matiere',$matiere->id,false)
                         ->where('id_eleve',$eleve->id,false)
                         ->where('sequence',5,false)
                         ->first();
-                    $note_rattrap2=$n_rattrap->where('id_matiere',$matiere->id,false)
+                    $note_rattrap2=$notes_sequences_pv->where('id_matiere',$matiere->id,false)
                         ->where('id_eleve',$eleve->id,false)
                         ->where('sequence',6,false)
                         ->first();
+
                     if($note_cc1!=null || $note_sn1!=null ){
                         @$note1=$note_cc1->note+$note_sn1->note;
                         if($note_rattrap1!=null){
                             if($note1>=50){
                                 $noteS1=$note1;
+                                if($note_cc1)
+                                    $controle1=$note_cc1->note;
+                                else
+                                    $controle1='-';
+                                if($note_sn1)
+                                    $normal1=$note_sn1->note;
+                                else
+                                    $normal1='-';
                             }else{
-                                $noteS1=$note_rattrap1->note;
+                                $noteS1=($note_cc1?$note_cc1->note:0)+$note_rattrap1->note;
+
+                                if($note_cc1)
+                                    $controle1=$note_cc1->note;
+                                else
+                                    $controle1='-';
+                                    
+                                    $normal1=$note_rattrap1->note;
                             }
                         }else{
                             $noteS1=$note1;
+
+                             if($note_cc1)
+                                    $controle1=$note_cc1->note;
+                                else
+                                    $controle1='-';
+                                if($note_sn1)
+                                    $normal1=$note_sn1->note;
+                                else
+                                    $normal1='-';
                         }
                     }else{
                         if($note_rattrap1!=null){
 
                             $noteS1=$note_rattrap1->note;
 
+                                 $controle1='-';
+                                    $normal1=$note_rattrap1->note;
+                               
+
                         }else{
                             $noteS1='-';
+                            $controle1='-';
+                                $normal1='-';
                         }
 
+                        
                     }
                     if($note_cc2!=null || $note_sn2!=null ){
                         @$note1=$note_cc2->note+$note_sn2->note;
                         if($note_rattrap2!=null){
                             if($note1>=50){
                                 $noteS2=$note1;
+
+                                 if($note_cc2)
+                                    $controle2=$note_cc2->note;
+                                else
+                                    $controle2='-';
+                                if($note_sn2)
+                                    $normal2=$note_sn2->note;
+                                else
+                                    $normal2='-';
                             }else{
-                                $noteS2=$note_rattrap2->note;
+                                $noteS2=($note_cc2?$note_cc2->note:0)+$note_rattrap2->note;
+
+                                 if($note_cc2)
+                                    $controle2=$note_cc2->note;
+                                else
+                                    $controle2='-';
+                                    
+                                    $normal2=$note_rattrap2->note;
                             }
                         }else{
                             $noteS2=$note1;
+
+                             if($note_cc2)
+                                    $controle2=$note_cc2->note;
+                                else
+                                    $controle2='-';
+                                if($note_sn2)
+                                    $normal2=$note_sn2->note;
+                                else
+                                    $normal2='-';
                         }
                     }else{
                         if($note_rattrap2!=null){
 
                             $noteS2=$note_rattrap2->note;
 
+                            $controle2='-';
+                                    $normal2=$note_rattrap2->note;
+
                         }else{
                             $noteS2='-';
+
+                             $controle2='-';
+                                $normal2='-';
                         }
 
                     }
                     $note=0;
+                    $controle=0;
+                    $normal=0;
+
                     if(is_numeric($noteS1) && is_numeric($noteS2)){
                         $note=($noteS1+$noteS2)/2;
                     }elseif (!is_numeric($noteS2)){
@@ -618,28 +722,45 @@ class noteController extends Controller {
                         $note=$noteS2;
                     }
 
+                     if(is_numeric($controle1) && is_numeric($controle2)){
+                        $controle=($controle1+$controle2)/2;
+                    }elseif (!is_numeric($controle2)){
+                        $controle=$controle1;
+                    }elseif (!is_numeric($controle1)){
+                        $controle=$controle2;
+                    }
+
+                     if(is_numeric($normal1) && is_numeric($normal2)){
+                        $normal=($normal1+$normal2)/2;
+                    }elseif (!is_numeric($normal2)){
+                        $normal=$normal1;
+                    }elseif (!is_numeric($normal1)){
+                        $normal=$normal2;
+                    }
+
 
 
                     if(is_numeric($note)){
-                        if((!$cpst) && (!$cps))
+                        
                             $sNote+=$note*$credit;
+                              $sCoef+=$credit;
+                        $note=round($note/5,2);
+                    }
+                      if(is_numeric($controle)){
+                         $controle=round($controle/1.5,2);
+
+                    }
+                      if(is_numeric($normal)){
+                        $normal=round($normal/3.5,2);
+
+                    
                     }
 
 
-                    if((!$cpst) && (!$cps)){
-                        $matieres[$l]=new pv_matiere($matiere->id,$note,$credit);
-                        if(!$minus_credit_cpst) {
-                            $liste_mat[$l]=new matiere_groupe($matiere->id,$nom);
-                        }
-                    }
-                    if($cpst){
-                        $composantes[$cst]= new composante($matiere->id,$note,$matiere->id_classe_matiere,$nom,$credit);
-                        $cst++;
-                    }
-                    if($cps){
-                        $composes[$c]= new compose($matiere->id,$note,$credit,$cpstList,$nom,$credit,$matiere->type,$matiere->semestre);
-                        $c++;
-                    }
+
+                 
+                        $matieres[$l]=new pv_matiere($matiere->id,$note,$credit,$controle,$normal);
+                      
 
 
 
@@ -648,47 +769,7 @@ class noteController extends Controller {
                 }
 
 
-                foreach($composes as $co){
-
-                    $co_note=0;
-                    $co_n=0;
-                    $s_co_coef=0;
-                    $lnoms='';
-                    foreach ($composantes as $compt){
-
-                        if($this->isIn($compt->id_classe_matiere,$co->cpsList)){
-                            $co_note+=$compt->note*$compt->credit;
-                            //$lnoms.=$compt->nom.' ,';
-                            $s_co_coef+=$compt->credit;
-                            $co_n++;
-                        }
-                    }
-
-                    /* if($co_n>0){
-                         $co_note=$co_note/$co_n;
-                     }*/
-                    if($s_co_coef>0){
-                        $co_note=$co_note/$s_co_coef;
-                    }
-                    // if(is_numeric($co->note))
-                    // $co_note=round(($co_note+$co->note)/2,2);
-
-
-
-                    if(sizeof($lnoms)>=1)
-                        $lnoms='('.substr($lnoms,0,sizeof($lnoms)-2).')';
-
-                    $sNote+=$co_note*($co->credit);
-                    $matieres[$l]=new pv_matiere($co->id_matiere,$co_note,$co->credit);
-                    if(!$minus_credit_cpst) {
-                        $liste_mat[$l]=new matiere_groupe($co->id_matiere,$co->nom);
-                    }
-                    $l++;
-
-                }
-                $minus_credit_cpst=true;
-
-
+            
 
                 $proces_v[$k]=new PV($eleve->id,$matieres,$sNote/$sCoef);
 
@@ -701,12 +782,14 @@ class noteController extends Controller {
 
             $values['eleves'] = $e;
             $values['PV'] = $proces_v;
-            //$values['matieres'] = $m;
-            $values['matieres'] = $liste_mat;
-            $values['nb_matieres'] =sizeof($liste_mat);
+            $values['matieres'] = $m;
+            $values['nb_matieres'] =sizeof($m);
             $values['classe'] = classe::find($id);
+            $values['id_cycle']=$id_cycle;
             $values['semestre'] = $semestre;
             $values['nniveau']=NNiveau::find($nniveau);
+
+         
 
             return view('eleves/print_bilan', $values);
         }
@@ -733,11 +816,22 @@ class noteController extends Controller {
 
         $eleveList=$request->input('eleve');
         $noteList=$request->input('note');
-        $i=0;
+
+        if($sequence==1 || $sequence==2)
+            $mul=1.5;
+        elseif($sequence==3 || $sequence==4)
+            $mul=3.5;
+        elseif ($sequence==5 || $sequence==6)
+            $mul=3.5;
+        else
+            $mul=1;
+
+
+            $i=0;
         if($eleveList==null){
             session(['success'=>true]);
 
-            return redirect()->to('/eleves/notes/matieres/?id='.$id_classe.'&cycle='.$id_cycle.'&nniveau='.$id_nniveau);
+            return redirect()->to(url('/eleves/notes/matieres?id='.$id_classe.'&cycle='.$id_cycle.'&nniveau='.$id_nniveau));
         }
         foreach ($eleveList as $e){
             $n=note::firstOrNew(['annee_scolaire'=>session('year'),'id_matiere'=>$id_matiere,'sequence'=>$sequence,'id_eleve'=>$e]);
@@ -746,7 +840,7 @@ class noteController extends Controller {
                 $n->sequence=$sequence;
                 $n->id_eleve=$e;
                 $n->annee_scolaire=session('year');
-                $n->note=$noteList[$i];
+                $n->note=$noteList[$i]*$mul;
                 $n->save();
 
             $i++;
@@ -754,7 +848,7 @@ class noteController extends Controller {
 
         session(['success'=>true]);
 
-        return redirect()->to('/eleves/notes/matieres/?id='.$id_classe.'&cycle='.$id_cycle.'&nniveau='.$id_nniveau);
+        return redirect()->to(url('/eleves/notes/matieres?id='.$id_classe.'&cycle='.$id_cycle.'&nniveau='.$id_nniveau));
 	}
 
 	/**
@@ -906,13 +1000,19 @@ class PV{
 class pv_matiere{
     public $id_matiere;
     public $note;
+    public $controle;
+    public $normal;
+
     public $credit;
 
-    public  function __construct($id_m,$not,$cr)
+    public  function __construct($id_m,$not,$cr,$cc,$sn)
     {
         $this->id_matiere=$id_m;
         $this->note=$not;
         $this->credit=$cr;
+        $this->controle=$cc;
+        $this->normal=$sn;
+
     }
 
 

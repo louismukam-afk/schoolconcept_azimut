@@ -26,7 +26,10 @@
         <th class="number-column">#</th>
         <th class="mat-column">Matricule/Matricle</th>
         <th>Nom/Name</th>
-        <th class="note-column">Note /100</th>
+        <th class="note-column">CC /20</th>
+        <th class="note-column">Note R /20</th>
+        <th class="note-column">Note /20</th>
+
         <th class="note-column">GP</th>
         <th class="note-column">Grade</th>
         </thead>
@@ -47,21 +50,35 @@
                 <td>{{$e->nom.' '.$e->prenom}}</td>
 
                 <td class="note-column">
-                    @foreach($notes as $n)
-                        @if($n->id_eleve==$e->id)
-                            {{$n->note}}
 
-                            @if($n->note>=50)
-                                <?php $notesCap++; ?>
-                            @elseif($n->note>=35)
-                                <?php $notesQuant++; ?>
-                            @else
-                                <?php $echecs++; ?>
-                            @endif
-                            <?php $total=$n->note; ?>
+                    @foreach($notes_cc as $n)
+                        @if($n->id_eleve==$e->id)
+                            {{round($n->note/1.5,2)}}
+
+                            <?php $total+=$n->note;break; ?>
                         @endif
                     @endforeach
                 </td>
+
+                <td class="note-column">
+                    @foreach($notes as $n)
+                        @if($n->id_eleve==$e->id)
+                            {{round($n->note/3.5,2)}}
+
+
+                            <?php $total+=$n->note; break;?>
+                        @endif
+                    @endforeach
+                </td>
+                <td>
+                    {{round($total/5,2)}}
+                    @if($total>=50)
+                        <?php $notesCap++; ?>
+                    @elseif($total>=35)
+                        <?php $notesQuant++; ?>
+                    @else
+                        <?php $echecs++; ?>
+                    @endif</td>
 
                 <td class="note-column">{{getGrade($total)[1]}}</td>
                 <td class="note-column">{{getGrade($total)[0]}}</td>
@@ -80,4 +97,13 @@
 </div>
 
 
+@endsection
+@section('breadcrumb')
+    <li><strong><a href="{{url('eleves')}}">@lang('menu.gestion_notes')</a></strong></li>
+    <li><strong><a href="{{url('eleves/notes')}}">Notes</a></strong></li>
+
+    <li><a href="{{url('eleves/notes/show')}}"><strong>@lang('admin.choix_classe')</strong></a></li>
+    <li><a href="{{url('eleves/notes/matieres/show').'?id='.$classe->id.'&cycle='.$id_cycle.'&nniveau='.$nniveau->id}}"><strong>@lang('admin.titre_matiere')</strong></a></li>
+
+    <li class="active"><strong>{{$titre}}</strong></li>
 @endsection

@@ -341,7 +341,7 @@ class dispenseController extends Controller {
         }
 
         session(['success'=>true]);
-        return redirect()->to('/personnel/emploi-temps/show/'.'?id='.$id.'&nniveau='.$req->input('nniveau'));
+        return redirect()->to(url('/personnel/emploi-temps/show').'?id='.$id.'&nniveau='.$req->input('nniveau'));
     }
 
 	/**

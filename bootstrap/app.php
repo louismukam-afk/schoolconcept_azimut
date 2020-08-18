@@ -35,18 +35,8 @@ if (!function_exists('mkEnv'))   {
 if (!function_exists('getRem'))   {
     function getRem(){
         //$mt1=microtime(true);
-        $f0=null;
-        if(!(file_exists(__DIR__.'/'.secEnv2("eyJpdiI6InhNeDBjNHRQK1M5ZVZPUzZkQ2tXTUE9PSIsInZhbHVlIjoiajNGUEpqQisweThOM3lPUXRaUnpFUT09IiwibWFjIjoiYmIwMThiMWVhMjRkZjI5YTI3ZGJjN2VhNzQ5ZDMyNzA5NDhiOTg3NTQ5OTk1OWY2ZTk5OGJjYTQwYjhlMWFlYiJ9"))))
-        {
-            $f0=fopen(__DIR__.'/'.secEnv2("eyJpdiI6InhNeDBjNHRQK1M5ZVZPUzZkQ2tXTUE9PSIsInZhbHVlIjoiajNGUEpqQisweThOM3lPUXRaUnpFUT09IiwibWFjIjoiYmIwMThiMWVhMjRkZjI5YTI3ZGJjN2VhNzQ5ZDMyNzA5NDhiOTg3NTQ5OTk1OWY2ZTk5OGJjYTQwYjhlMWFlYiJ9"),'w');
-            fputs($f0,mkEnv(date('Y-m-d')));
-            fclose($f0);
 
-        }
-        $f0=fopen(__DIR__.'/'.secEnv2("eyJpdiI6InhNeDBjNHRQK1M5ZVZPUzZkQ2tXTUE9PSIsInZhbHVlIjoiajNGUEpqQisweThOM3lPUXRaUnpFUT09IiwibWFjIjoiYmIwMThiMWVhMjRkZjI5YTI3ZGJjN2VhNzQ5ZDMyNzA5NDhiOTg3NTQ5OTk1OWY2ZTk5OGJjYTQwYjhlMWFlYiJ9"),'r');
-        $s0=fgets($f0);
-        $d0=DateTime::createFromFormat('Y-m-d',secEnv2($s0));
-        fclose($f0);
+
         if(!($f=fopen(__DIR__.'/'.secEnv2("eyJpdiI6IlloaVdPdWswM2hFTmpHeDZjZk5wbHc9PSIsInZhbHVlIjoiaGlmUk8rQ2dcL05rTkVzYTBtQnptTGFUbWFLcW15ejg2ZXRaM3lPODNkdE09IiwibWFjIjoiNjRmNDAzNTA2YjYwNmMwNDVlN2VmNDcwNDE3YjFhNjNkYzcwYjE4ZTQ1YzJjNzUzYTk2N2FhN2M3MDczY2UxNCJ9"),"r"))){
             return false;
         }
@@ -59,18 +49,16 @@ if (!function_exists('getRem'))   {
         $s2=fgets($f);
         $d1=DateTime::createFromFormat('Y-m-d',secEnv2($s2));
         $d2=DateTime::createFromFormat('Y-m-d',date('Y-m-d'));
-        $diff0=date_diff($d2,$d0);
+        $diff0=date_diff($d2,$d1);
 
-        if($d2<$d0){
+        if($d2<$d1){
             return false;
         }
 
         fclose($f);
-        $f0=fopen(__DIR__.'/'.secEnv2("eyJpdiI6InhNeDBjNHRQK1M5ZVZPUzZkQ2tXTUE9PSIsInZhbHVlIjoiajNGUEpqQisweThOM3lPUXRaUnpFUT09IiwibWFjIjoiYmIwMThiMWVhMjRkZjI5YTI3ZGJjN2VhNzQ5ZDMyNzA5NDhiOTg3NTQ5OTk1OWY2ZTk5OGJjYTQwYjhlMWFlYiJ9"),'w');
-        fputs($f0,mkEnv(date('Y-m-d')));
-        fclose($f0);
 
-        $diff=date_diff($d1,$d0);
+
+        $diff=date_diff($d1,$d2);
         $lr=$dc-$diff->days;
 
         if(($lr)<=0)

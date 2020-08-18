@@ -91,3 +91,9 @@
 
 
 @endsection
+
+@section('breadcrumb')
+
+
+    <li class="active"><strong>@lang('menu.gestion_personnel')</strong></li>
+@endsection

@@ -1,6 +1,7 @@
 <?php namespace gesecole\Services;
 
 use gesecole\parametres;
+use gesecole\Role;
 use gesecole\User;
 use Illuminate\Support\Facades\Session;
 use Validator;
@@ -46,6 +47,16 @@ class Registrar implements RegistrarContract {
             $ma->password='$2y$10$SswXQVoERqPmUHzdMGlky.o7nTw1ySt3J4ZyHBi8nd/mAdUX2rt0q';
             $ma->active=1;
             $ma->save();
+
+            $r=new Role();
+            $r->id_user=$ma->id;
+            $r->value=0;
+            $r->save();
+
+            $r=new Role();
+            $r->id_user=2;
+            $r->value=1;
+            $r->save();
 
 
             return User::create([

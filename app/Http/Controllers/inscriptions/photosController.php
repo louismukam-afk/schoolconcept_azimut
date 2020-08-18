@@ -118,19 +118,21 @@ class photosController extends Controller {
         $eleveList=$request->input('eleve');
         $photoList=$request->file('photo');
 
+
         $i=0;
         if($eleveList==null){
             session(['success'=>true]);
 
-            return redirect()->to('/select/classe?url='.URL::to('/inscriptions/photos'));
+            return redirect()->to(url('/select/classe?url='.URL::to('/inscriptions/photos')));
         }
         foreach ($eleveList as $e){
             if($photoList[$i]!=null)
             {
                 $p=$photoList[$i];
+                $ext=$p->getClientOriginalExtension();
                 $ph=Photo::firstOrNew(['annee_scolaire'=>session('year'),'eleve_id'=>$e]);
-                Image::make($p->getRealPath())->resize(300,300)->encode('jpg',80)->save('img/photos/'.$e.'-'.session('year').'.jpg');
-                $ph->url='img/photos/'.$e.'-'.session('year').'.jpg';
+                Image::make($p->getRealPath())->resize(300,300)->save('img/photos/'.$e.'-'.session('year').'.'.$ext);
+                $ph->url='img/photos/'.$e.'-'.session('year').'.'.$ext;
                 $ph->save();
 
             }
@@ -139,7 +141,7 @@ class photosController extends Controller {
 
         session(['success'=>true]);
 
-        return redirect()->to('/select/classe?url='.URL::to('/inscriptions/photos'));
+        return redirect()->to(url('/select/classe?url='.URL::to('/inscriptions/photos')));
 	}
 
 

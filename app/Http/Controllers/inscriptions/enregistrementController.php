@@ -300,7 +300,8 @@ class enregistrementController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		//
+	       eleve::destroy([$id]);
+            return redirect()->to(\URL::previous()); 
 	}
 
 }

@@ -26,7 +26,7 @@
     margin-right: 2%;
 }
 
-.wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.copy
+.wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.copy,.breadcrumb
 {
     display: none;
 }

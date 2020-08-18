@@ -1,6 +1,7 @@
 <?php namespace gesecole\Http\Middleware\privileges;
 
 use Closure;
+use gesecole\Functions;
 use Illuminate\Support\Facades\Auth;
 class g_king {
 
@@ -13,7 +14,7 @@ class g_king {
 	 */
 	public function handle($request, Closure $next)
 	{
-        if(Auth::user()->role>0){
+        if(!Functions::pp_exists(Auth::user()->roles->fetch('value')->toArray(),0)){
             return view('not_auth',['titre'=>'']);
         }
 		return $next($request);

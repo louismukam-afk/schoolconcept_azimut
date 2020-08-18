@@ -28,3 +28,9 @@
 
 
 @endsection
+
+@section('breadcrumb')
+    <li><strong><a href="{{url('eleves')}}">@lang('menu.gestion_notes')</a></strong></li>
+
+    <li class="active"><strong>{{$titre}}</strong></li>
+@endsection

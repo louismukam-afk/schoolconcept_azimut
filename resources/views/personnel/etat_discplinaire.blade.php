@@ -93,3 +93,10 @@
 
 </script>
 @endsection
+
+@section('breadcrumb')
+    <li><strong><a href="{{url('personnel')}}">@lang('menu.gestion_personnel')</a></strong></li>
+    <li><strong><a href="{{url('personnel/discipline')}}">@lang('admin.search_personnel')</a></strong></li>
+
+    <li class="active"><strong>{{$titre}}</strong></li>
+@endsection

@@ -35,7 +35,6 @@
 
 
                     <form accept-charset="UTF-8" role="form" method="GET" id="choix_level_form" action="{{URL::to('/admin/programmes/selection-matieres/')}}">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                         <input type="hidden" name="id" id="id" value=""/>
                         <input type="hidden" name="cycle" id="id_cycle" value=""/>
 
@@ -78,4 +77,9 @@
             document.getElementById("id_cycle").value = id_cycle;
         }
     </script>
+@endsection
+
+@section('breadcrumb')
+    <li><strong><a href="{{url('admin')}}">@lang('admin.dashboard')</a></strong></li>
+    <li class="active"><strong>{{$titre}}</strong></li>
 @endsection

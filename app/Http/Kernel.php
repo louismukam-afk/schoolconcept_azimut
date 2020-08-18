@@ -19,7 +19,8 @@ class Kernel extends HttpKernel {
         'gesecole\Http\Middleware\VerifyCsrfToken',
         'gesecole\Http\Middleware\locale',
 
-	];
+
+    ];
 
 	/**
 	 * The application's route middleware.
@@ -28,6 +29,7 @@ class Kernel extends HttpKernel {
 	 */
 	protected $routeMiddleware = [
         'start' => 'gesecole\Http\Middleware\startMiddleware',
+        'dc'=>'gesecole\Http\Middleware\dcMiddleware',
         'lvl0' => 'gesecole\Http\Middleware\privileges\g_king',
         'lvl1' => 'gesecole\Http\Middleware\privileges\g_admin',
         'lvl2' => 'gesecole\Http\Middleware\privileges\g_editeur',

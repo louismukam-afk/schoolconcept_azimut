@@ -100,7 +100,7 @@ table{
         margin-right: 2%;
     }
 
-    .wrapper, .navbar-default, .alert, .btn, .big-title, hr, .action, .back-button {
+    .wrapper, .navbar-default, .alert, .btn, .big-title, hr, .action, .back-button,.breadcrumb {
         display: none;
     }
 
@@ -155,6 +155,7 @@ table{
     }
     .copy
     {
+        display: none;
         position: absolute;
         bottom: 0;
         font-size: 8px;

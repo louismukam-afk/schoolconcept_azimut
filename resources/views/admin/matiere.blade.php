@@ -23,9 +23,9 @@
             @foreach($matieres as $c)
                 <tr>
                     <td>{{$i++}}</td>
-                    <td><strong >{{$c->nom}}</strong></td>
+                    <td><strong><a  data-toggle="modal" data-backdrop="false" href="#edit_matiere" onclick="editer_matiere({{$c->id}},'{{$c->nom}}','{{$c->nom_anglais}}')"><span class="glyphicon glyphicon-edit"  ></span> {{$c->nom}}</a></strong></td>
                     <td>{{$c->nom_anglais}}</td>
-                    <td><a class="btn btn-primary btn-xs pull-right" data-toggle="modal" data-backdrop="false" href="#edit_matiere" onclick="editer_matiere({{$c->id}},'{{$c->nom}}','{{$c->nom_anglais}}')"><span class="glyphicon glyphicon-pencil"  ></span> {{trans('admin.modifier')}}</a></td>
+                    <td><a class="btn btn-danger btn-xs pull-right" href="{{url('/admin/matieres/destroy/').'/'.$c->id}}"><span class="glyphicon glyphicon-trash"  ></span> @lang('admin.del')</a></td>
                 </tr>
             @endforeach
             </tbody>
@@ -137,4 +137,9 @@
         }
     </script>
 
+@endsection
+
+@section('breadcrumb')
+    <li><strong><a href="{{url('admin')}}">@lang('admin.dashboard')</a></strong></li>
+    <li class="active"><strong>{{$titre}}</strong></li>
 @endsection

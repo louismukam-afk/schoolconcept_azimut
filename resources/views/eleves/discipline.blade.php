@@ -394,3 +394,10 @@
     </script>
 
 @endsection
+
+@section('breadcrumb')
+    <li><strong><a href="{{url('eleves')}}">@lang('menu.gestion_notes')</a></strong></li>
+    <li><strong><a href="{{url('eleves/discipline')}}">@lang('inscription.title_search')</a></strong></li>
+
+    <li class="active"><strong>{{$titre}}</strong></li>
+@endsection

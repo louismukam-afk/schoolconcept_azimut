@@ -184,3 +184,8 @@
     </div>
 
 @endsection
+
+@section('breadcrumb')
+        <li class="active"><strong>@lang('admin.dashboard')</strong></li>
+
+@endsection

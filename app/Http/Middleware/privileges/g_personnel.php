@@ -1,6 +1,7 @@
 <?php namespace gesecole\Http\Middleware\privileges;
 
 use Closure;
+use gesecole\Functions;
 use Illuminate\Support\Facades\Auth;
 class g_personnel {
 
@@ -13,7 +14,8 @@ class g_personnel {
 	 */
 	public function handle($request, Closure $next)
 	{
-        if(Auth::user()->role>2 && Auth::user()->role!=17){
+        $r=Auth::user()->roles->fetch('value')->toArray();
+        if(!Functions::pp_exists($r,2) && !Functions::contain($r,17)){
             return view('not_auth',['titre'=>'']);
         }
 		return $next($request);

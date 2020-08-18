@@ -1,6 +1,7 @@
 <?php namespace gesecole\Http\Middleware\privileges;
 
 use Closure;
+use gesecole\Functions;
 use Illuminate\Support\Facades\Auth;
 
 class g_editeur {
@@ -14,8 +15,10 @@ class g_editeur {
 	 */
 	public function handle($request, Closure $next)
 	{
-	    if(Auth::user()->role>2){
-	        return view('not_auth',['titre'=>'']);
+        $r=Auth::user()->roles->fetch('value')->toArray();
+
+        if(!Functions::pp_exists($r,2)){
+            return view('not_auth',['titre'=>'']);
         }
 		return $next($request);
 	}

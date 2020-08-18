@@ -108,7 +108,7 @@ class groupeController extends Controller {
         session(['success'=>true]);
 
         //$request->request->add(['cycle'=>$id_cycle]);
-        return redirect()->to('/admin/programmes/groupe/'.$id);
+        return redirect()->to(url('/admin/programmes/groupe/'.$id));
 	}
 
 	/**
@@ -158,7 +158,7 @@ class groupeController extends Controller {
         session(['success'=>true]);
 
         //$request->request->add(['cycle'=>$id_cycle]);
-        return redirect()->to('/admin/programmes/groupe/'.$id_classe_matiere);
+        return redirect()->to(url('/admin/programmes/groupe/'.$id_classe_matiere));
 	}
 
 }

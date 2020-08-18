@@ -39,7 +39,7 @@
     </div>
 
     <div class="col-md-8">
-        <a data-toggle="modal" data-backdrop="false" href="#add_retrait" class="btn btn-warning btn-lg"><span class="fa fa-money"></span> {{trans('admin.nouveau_retrait')}}</a>
+        <a data-toggle="modal" data-backdrop="false" href="#add_retrait" class="btn btn-warning"><span class="fa fa-money"></span> {{trans('admin.nouveau_retrait')}}</a>
     </div>
 
     <div class="col-md-8">
@@ -133,4 +133,9 @@
 
         </div>
     </div>
+@endsection
+@section('breadcrumb')
+    <li><strong><a href="{{url('comptabilite')}}">@lang('admin.comptabilite')</a></strong></li>
+
+    <li class="active"><strong>{{$titre}}</strong></li>
 @endsection

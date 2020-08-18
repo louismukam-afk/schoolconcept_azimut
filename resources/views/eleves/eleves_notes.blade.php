@@ -2,9 +2,9 @@
 @section('sub-content')
     <div class="add-container col-md-12" style="margin-top: 25px">
         <div class="row">
-            <h3 class="col-md-10">{{trans('eleve.gerer_notes').' '.(App::getLocale()=='en')?$matiere->nom_anglais:$matiere->nom}}    :     @if($sequence==1 || $sequence==2) CC @elseif($sequence==3 || $sequence==4) @lang('admin.session_normale') @elseif($sequence==5 || $sequence==6) @lang('admin.rattrapage') @endif</h3>
+            <h3 class="col-md-10">{{((App::getLocale()=='en')?$matiere->nom_anglais:$matiere->nom)}}    :     @if($sequence==1 || $sequence==2) CC @elseif($sequence==3 || $sequence==4) @lang('admin.session_normale') @elseif($sequence==5 || $sequence==6) @lang('admin.rattrapage') @endif</h3>
 
-            <div class="col-md-2">
+            <div class="col-md-2" style="display: none">
                 <a href="#" class="btn-xs btn btn-danger"><span class="glyphicon glyphicon-trash"></span> @lang('admin.del')</a>
 
             </div>
@@ -32,15 +32,16 @@
                         </div>
                         <div class="form-group col-md-4 row">
                             <div class="input-group">
-                                <input type="number" id="note{{$i}}" name="note[]" step="0.05" @if($sequence==5 || $sequence==6) disabled @endif  class="form-control"
+                                <input type="number" id="note{{$i}}" name="note[]" step="0.01" @if($sequence==5 || $sequence==6) disabled @endif  class="form-control"
                                        @foreach($notes as $n)
                                         @if($n->id_eleve==$e->id)
-                                       value="{{$n->note}}"
+                                       value="@if($sequence==1 || $sequence==2){{round($n->note/1.5,2)}}@elseif($sequence==3 || $sequence==4){{round($n->note/3.5,2)}}@elseif($sequence==5 || $sequence==6){{round($n->note/3.5,2)}}@endif"
+
                                             <?php break;?>
                                         @endif
                                        @endforeach
                                        required>
-                                <span class="input-group-addon">/@if($sequence==1 || $sequence==2) 30 @elseif($sequence==3 || $sequence==4) 70 @elseif($sequence==5 || $sequence==6) 100 @endif</span>
+                                <span class="input-group-addon">/@if($sequence==1 || $sequence==2) 20 @elseif($sequence==3 || $sequence==4) 20 @elseif($sequence==5 || $sequence==6) 20 @endif</span>
                             </div>
 
                         </div>
@@ -75,4 +76,14 @@
             }
         }
     </script>
+@endsection
+
+@section('breadcrumb')
+    <li><strong><a href="{{url('eleves')}}">@lang('menu.gestion_notes')</a></strong></li>
+    <li><strong><a href="{{url('eleves/notes')}}">Notes</a></strong></li>
+
+    <li><a href="{{url('eleves/notes/edit')}}"><strong>@lang('admin.choix_classe')</strong></a></li>
+    <li><a href="{{url('eleves/notes/matieres').'?id='.$id_classe.'&cycle='.$id_cycle.'&nniveau='.$id_nniveau}}"><strong>@lang('admin.titre_matiere')</strong></a></li>
+
+    <li class="active"><strong>{{$titre}}</strong></li>
 @endsection

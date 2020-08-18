@@ -67,7 +67,7 @@
         ////suite
         'email'=>'Adresse email',
         'tel'=>'Numéros de téléphones',
-        'status_matrimonial'=>'Status matrimonial',
+        'status_matrimonial'=>'Statut matrimonial',
         'region_origine'=>'Region d\'origine',
         'departement_origine'=>'Département d\'origine',
         'diplome_preinscription'=>'Diplome présenté à la préinscription',

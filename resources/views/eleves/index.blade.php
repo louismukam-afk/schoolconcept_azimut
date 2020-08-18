@@ -49,3 +49,7 @@
 
 
 @endsection
+
+@section('breadcrumb')
+    <li class="active"><strong>@lang('menu.gestion_notes')</strong></li>
+@endsection

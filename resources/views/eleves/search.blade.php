@@ -25,7 +25,7 @@
                  class="panel-collapse collapsing">
                 <div
                         class="panel-body">
-                    <li class="col-md-12"><a href={{route('etat_disciplinaire').'/?id=0'}}>{{trans('inscription.all_eleves')}}</a></li>
+                    <li class="col-md-12"><a href={{route('etat_disciplinaire').'?id=0'}}>{{trans('inscription.all_eleves')}}</a></li>
 
 
                     @foreach($cycles as $cy)
@@ -169,4 +169,8 @@
             document.getElementById("id_cycle").value = id_cycle;
         }
     </script>
+@endsection
+@section('breadcrumb')
+    <li><strong><a href="{{url('eleves')}}">@lang('menu.gestion_notes')</a></strong></li>
+    <li class="active"><strong>{{$titre}}</strong></li>
 @endsection

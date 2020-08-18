@@ -15,6 +15,7 @@
 
 
 Route::group(['middleware'=>'auth'],function (){
+    Route::group(['middleware'=>'dc'],function (){
     Route::get('/', 'WelcomeController@index');
     Route::get('home', 'WelcomeController@index');
     Route::get('/admin/nniveaux/get/{id}', 'admin\nniveauController@get');
@@ -36,7 +37,16 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/utilisateurs/', 'user\userController@index');
         Route::post('/utilisateurs/activer', 'user\userController@activate');
         Route::get('/utilisateurs/desactiver/{id}', 'user\userController@deactivate');
-        Route::get('/eleves/notes/delete', 'user\userController@deactivate');
+       // Route::get('/eleves/notes/delete', 'user\userController@deactivate');
+
+        //routes pour les roles
+        Route::get('admin/roles/{id}',['uses'=>'admin\RoleController@index','as'=>'role_management']);
+        Route::post('admin/roles/store',['uses'=>'admin\RoleController@store','as'=>'store_role']);
+        Route::get('admin/roles/delete/{id}',['uses'=>'admin\RoleController@destroy','as'=>'delete_role']);
+
+
+        Route::post('/inscriptions/payement/update', ['uses'=>'inscriptions\payementController@update','as'=>'update_payement']);
+
 
     });
 
@@ -82,12 +92,12 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/admin/scolarite/destroy/{id}', 'admin\scolariteController@destroy');
         Route::post('/admin/scolarite/update', 'admin\scolariteController@update');
         Route::post('/admin/scolarite/store', 'admin\scolariteController@store');
-        Route::post('/admin/scolarite/get', ['as'=>'get_scolarite','uses'=>'admin\scolariteController@getScolarite']);
 
 //Matières
         Route::get('/admin/matieres/', 'admin\matiereController@index');
         Route::post('/admin/matieres/update/', 'admin\matiereController@update');
         Route::post('/admin/matieres/store', 'admin\matiereController@store');
+        Route::get('/admin/matieres/destroy/{id}', 'admin\matiereController@destroy');
 //Programmes
         Route::get('/admin/programmes/', 'admin\programmeController@index');
         Route::get('/admin/programmes/selection-matieres/', 'admin\programmeController@create');
@@ -136,6 +146,8 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/inscriptions/eleves/search', 'inscriptions\enregistrementController@index');
         Route::get('/inscriptions/enregistrement/create/', 'inscriptions\enregistrementController@create');
         Route::get('/inscriptions/enregistrement/edit/{id}', 'inscriptions\enregistrementController@edit');
+                Route::get('/inscriptions/enregistrement/destroy/{id}', ['uses'=>'inscriptions\enregistrementController@destroy','as'=>'destroy_eleve']);
+
         Route::post('/inscriptions/enregistrement/store/', 'inscriptions\enregistrementController@store');
         Route::post('/inscriptions/enregistrement/update/{id}', 'inscriptions\enregistrementController@update');
         Route::get('/inscriptions/', 'inscriptions\inscriptionController@index');
@@ -149,6 +161,8 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/inscriptions/payement/search', 'inscriptions\payementController@search');
         Route::get('/inscriptions/payement/create/{id}', 'inscriptions\payementController@create');
         Route::post('/inscriptions/payement/store/{id}', 'inscriptions\payementController@store');
+        
+
         Route::get('/inscriptions/recu','inscriptions\inscriptionController@show');
         Route::get('/inscriptions/print/{id}','inscriptions\inscriptionController@print_receipe');
         Route::get('/inscriptions/payement/print/{id}','inscriptions\payementController@print_receipe');
@@ -161,6 +175,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::any('/inscriptions/photos/store',['as'=>'store_photo','uses'=>'inscriptions\photosController@store']);
         Route::any('/inscriptions/cartes/',['as'=>'show_carte','uses'=>'inscriptions\photosController@show_carte']);
         Route::any('/inscriptions/cartes/eleve/',['as'=>'show_carte_eleve','uses'=>'inscriptions\photosController@search_carte_eleve']);
+        Route::post('/admin/scolarite/get', ['as'=>'get_scolarite','uses'=>'admin\scolariteController@getScolarite']);
 
 
 
@@ -187,6 +202,7 @@ Route::group(['middleware'=>'auth'],function (){
 
         Route::get('/eleves/releves/','eleves\relevesController@index');
         Route::get('/eleves/releves/print/','eleves\relevesController@create');
+        Route::get('/eleves/releves/get/',['uses'=>'eleves\relevesController@get','as'=>'get_releves']);
 
 
     });
@@ -213,6 +229,8 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/personnel/edit/{id}', 'personnel\personnelController@edit');
         Route::post('/personnel/store/', 'personnel\personnelController@store');
         Route::post('/personnel/update/{id}', 'personnel\personnelController@update');
+        Route::get('/personnel/destroy/{id}', 'personnel\personnelController@destroy');
+
 
 
 ////routes pour les fonctions_personnel
@@ -307,7 +325,7 @@ Route::group(['middleware'=>'auth'],function (){
 
     //modifier le mot de passe utilisateur
     Route::any('/user-profile/edit-password','WelcomeController@change_password');
-
+});
 });
 Route::group(['middleware'=>'start'],function () {
 

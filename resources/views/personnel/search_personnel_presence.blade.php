@@ -73,3 +73,8 @@
         @endif
     </div>
 @endsection
+@section('breadcrumb')
+    <li><strong><a href="{{url('personnel')}}">@lang('menu.gestion_personnel')</a></strong></li>
+
+    <li class="active"><strong>{{$titre}}</strong></li>
+@endsection

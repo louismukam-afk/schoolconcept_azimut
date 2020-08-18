@@ -90,3 +90,7 @@
         } );
     </script>
 @endsection
+@section('breadcrumb')
+    <li><strong><a href="{{url('inscriptions')}}">@lang('menu.gestion_inscriptions')</a></strong></li>
+    <li><strong><a href="{{url('inscriptions/selection-listes')}}">@lang('inscription.listes')</a></strong></li>
+@endsection

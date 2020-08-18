@@ -25,7 +25,7 @@
         <th class="number-column">#</th>
         <th class="mat-column">Matricule/Matricle</th>
         <th>Nom/Name</th>
-        <th class="note-column">Note /30</th>
+        <th class="note-column">Note /20</th>
         </thead>
         <tbody>
         <?php $i=1; ?>
@@ -37,7 +37,7 @@
                 <td class="note-column">
                     @foreach($notes as $n)
                         @if($n->id_eleve==$e->id)
-                            {{$n->note}}
+                            {{round($n->note/1.5,2)}}
                         @endif
                     @endforeach
                 </td>
@@ -48,4 +48,14 @@
 </div>
 
 
+@endsection
+
+@section('breadcrumb')
+    <li><strong><a href="{{url('eleves')}}">@lang('menu.gestion_notes')</a></strong></li>
+    <li><strong><a href="{{url('eleves/notes')}}">Notes</a></strong></li>
+
+    <li><a href="{{url('eleves/notes/show')}}"><strong>@lang('admin.choix_classe')</strong></a></li>
+    <li><a href="{{url('eleves/notes/matieres/show').'?id='.$classe->id.'&cycle='.$id_cycle.'&nniveau='.$nniveau->id}}"><strong>@lang('admin.titre_matiere')</strong></a></li>
+
+    <li class="active"><strong>{{$titre}}</strong></li>
 @endsection

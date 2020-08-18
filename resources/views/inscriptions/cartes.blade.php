@@ -77,8 +77,16 @@
                                                 <img src="{{asset($url)}}" alt="">
                                             </div>
                                             <div class="card-sign text-uppercase">
-                                                Le directeur
+                                                @lang('admin.ledirect')
                                             </div>
+                                            <div class="sign">
+                                                <img src="{{asset('/img/signature.png')}}" alt="">
+
+                                            </div>
+                                            <div class="cachet">
+                                                 <img src="{{asset('/img/cachet.png')}}" alt="">
+                                            </div>
+
                                         </div>
                                         <div class="text-uppercase fait-le">
                                             <div class="field-title ">Fait le {{date('d/m/Y')}}</div>
@@ -148,7 +156,13 @@
                                                 <img src="{{asset($url)}}" alt="">
                                             </div>
                                             <div class="card-sign text-uppercase">
-                                                Le directeur
+                                                @lang('admin.ledirect')
+                                            </div>
+                                             <div class="sign">
+                                                <img src="{{asset('/img/signature.png')}}" alt="">
+                                            </div>
+                                            <div class="cachet">
+                                                 <img src="{{asset('/img/cachet.png')}}" alt="">
                                             </div>
                                         </div>
                                         <div class="text-uppercase fait-le">
@@ -176,4 +190,9 @@
 
     @endif
 
+@endsection
+
+@section('breadcrumb')
+    <li><strong><a href="{{url('inscriptions')}}">@lang('menu.gestion_inscriptions')</a></strong></li>
+    <li class="active"><strong>{{$titre}}</strong></li>
 @endsection
