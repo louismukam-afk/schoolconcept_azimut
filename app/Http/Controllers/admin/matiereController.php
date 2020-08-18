@@ -2,6 +2,7 @@
 
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
+use Illuminate\Support\Facades\App;
 
 use Illuminate\Http\Request;
 use gesecole\matiere;
@@ -37,7 +38,7 @@ class matiereController extends Controller {
     public function index()
     {
         $titre=trans('admin.titre_matiere');
-        $m=matiere::paginate(200);
+        $m=matiere::orderBy((App::getLocale()=='en')?'nom_anglais':'nom')->paginate(200);
         $values= array('titre'=>$titre,'matieres'=>$m);
         if(session('success')){
             Session::forget('success');
@@ -132,6 +133,11 @@ class matiereController extends Controller {
      */
     public function destroy($id)
     {
+    	matiere::destroy([$id]);
+    	        session(['success'=>true]);
+
+    	return redirect()->action('admin\matiereController@index');
+
 
     }
 

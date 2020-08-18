@@ -85,4 +85,12 @@
             document.getElementById("id_cycle").value = id_cycle;
         }
     </script>
+
+
+@endsection
+
+@section('breadcrumb')
+    <li><strong><a href="{{url('eleves')}}">@lang('menu.gestion_notes')</a></strong></li>
+
+    <li class="active"><strong>@lang('admin.choix_classe')</strong></li>
 @endsection

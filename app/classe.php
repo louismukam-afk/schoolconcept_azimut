@@ -36,7 +36,7 @@ class classe extends Model {
     public $timestamps = false;
 
 
-    public function getNom_anglaisAttribute()
+    public function getNom_anglais()
     {
         if($this->attributes['nom_anglais']==null){
             return $this->nom;

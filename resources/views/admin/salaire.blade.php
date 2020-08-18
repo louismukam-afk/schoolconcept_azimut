@@ -101,3 +101,8 @@
     </div>
 
 @endsection
+
+@section('breadcrumb')
+    <li><strong><a href="{{url('admin')}}">@lang('admin.dashboard')</a></strong></li>
+    <li class="active"><strong>{{$titre}}</strong></li>
+@endsection

@@ -146,9 +146,34 @@
     font-weight: 600;
     font-size: 8px;
     position: absolute;
+    text-align: center;
     bottom: 0;
 
 
+}
+.sign{
+      position: absolute;
+    bottom: -3mm;
+    right: 0;
+    height: 8mm;
+    width: 100%;
+}
+.sign img
+{
+    height: inherit;
+    width: 20mm;
+}
+.cachet
+{
+    position: absolute;
+ width: 20mm; 
+ height: 15mm;
+ bottom: 0;
+ right: 0;
+    
+}
+.cachet img{
+    height: inherit;
 }
 .card-photo
 {
@@ -160,7 +185,7 @@
 {
    width: inherit;
     height: inherit;
-    border: solid 2px #4e6f6f;
+    border: solid 1px #4e6f6f;
 }
 
 
@@ -203,7 +228,7 @@
         margin: 0;
         height: 297mm;
     }
-    .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.copy
+    .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.copy,.breadcrumb
     {
         display: none;
     }
@@ -296,6 +321,42 @@
 
 
     }
+
+    .card-sign
+{
+    color: #4e6f6f !important;
+    font-weight: 600;
+    font-size: 8px;
+    text-align: center;
+    position: absolute;
+    bottom: 5mm;
+
+
+}
+.sign
+{
+    position: absolute;
+    bottom: -1mm;
+    height: 8mm;
+    width: 100%;
+}
+.sign img
+{
+    height: inherit;
+    width: 20mm;
+}
+.cachet
+{
+    position: absolute;
+ width: 15mm; 
+ right: 0;
+ height: 15mm;
+ bottom: 0;
+    
+}
+.cachet img{
+    height: inherit;
+}
 
 
 

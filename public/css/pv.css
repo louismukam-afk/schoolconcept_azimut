@@ -104,7 +104,7 @@ table{
         margin-right: 2%;
     }
 
-    .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.copy
+    .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.copy,.breadcrumb
     {
         display: none;
     }
@@ -157,13 +157,16 @@ table{
 
 
     table{
-        font-size: 10px;
+        font-size: 9px;
         width: 100%;
         border-collapse: collapse;
         height: auto;
     }
     .nom-column{
         min-width:180px ;
+                height: 12px;
+        overflow-y: hidden!important;
+
     }
     .mat-column{
         width: 100px;
@@ -186,7 +189,7 @@ table{
     .table tbody tr,.table tbody tr td{
         padding-top: 0;
         padding-bottom: 0;
-        height: 12px;
+        overflow-y: hidden!important;
 
     }
 

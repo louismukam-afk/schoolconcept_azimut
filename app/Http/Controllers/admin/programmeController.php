@@ -130,7 +130,7 @@ class programmeController extends Controller {
         session(['success'=>true]);
 
         //$request->request->add(['cycle'=>$id_cycle]);
-        return redirect()->to('/admin/programmes/selection-matieres?id='.$id.'&cycle='.$id_cycle.'&nniveau='.$nniveau);
+        return redirect()->to(url('/admin/programmes/selection-matieres?id='.$id.'&cycle='.$id_cycle.'&nniveau='.$nniveau));
 	}
 
 	/**
@@ -189,7 +189,7 @@ class programmeController extends Controller {
         session(['success'=>true]);
 
         //$request->request->add(['cycle'=>$id_cycle]);
-        return redirect()->to('/admin/programmes/selection-matieres?id='.$cm->id_classe.'&cycle='.$id_cycle.'&nniveau='.$nniveau);
+        return redirect()->to(url('/admin/programmes/selection-matieres?id='.$cm->id_classe.'&cycle='.$id_cycle.'&nniveau='.$nniveau));
 	}
 
 	/**
@@ -206,7 +206,7 @@ class programmeController extends Controller {
 		$cm=classeMatiere::find($id);
 		$cm->delete();
         session(['success'=>true]);
-        return redirect()->to('/admin/programmes/selection-matieres?id='.$id_classe.'&nniveau='.$nniveau.'&cycle='.$id_cycle);
+        return redirect()->to(url('/admin/programmes/selection-matieres?id='.$id_classe.'&nniveau='.$nniveau.'&cycle='.$id_cycle));
 	}
 
 }

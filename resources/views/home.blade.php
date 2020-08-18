@@ -53,3 +53,9 @@
         </div>
     </div>
 @endsection
+
+@section('breadcrumb')
+    <ul class="breadcrumb" style="margin-bottom: 0;padding: 2px 15px;font-size: 18px">
+        <li class="active"><strong>Accueil</strong></li>
+    </ul>
+@endsection

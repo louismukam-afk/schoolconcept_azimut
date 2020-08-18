@@ -187,3 +187,10 @@ function getMoisEng($mois){
     if($mois==12) return 'Décember';
 }
 ?>
+
+    @section('breadcrumb')
+        <li><strong><a href="{{url('comptabilite')}}">@lang('admin.comptabilite')</a></strong></li>
+        <li><strong><a href="{{url('comptabilite/payement-salaire')}}">@lang('admin.search_personnel')</a></strong></li>
+
+        <li class="active"><strong>Bulletin de paie</strong></li>
+    @endsection

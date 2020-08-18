@@ -44,3 +44,10 @@
 
         </div>
 @endsection
+
+@section('breadcrumb')
+    <li><strong><a href="{{url('inscriptions')}}">@lang('menu.gestion_inscriptions')</a></strong></li>
+    <li><strong><a href="{{url('inscriptions/payement/search')}}">@lang('inscription.title_search')</a></strong></li>
+    <li class="active"><strong>{{$titre}}</strong></li>
+@endsection
+

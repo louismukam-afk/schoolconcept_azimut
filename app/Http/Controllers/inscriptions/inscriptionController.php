@@ -179,16 +179,20 @@ class inscriptionController extends Controller {
                $e->matricule=$m;
                $e->save();
            } else{
-               $e = eleve::find($id_eleve);
-               $c = classe::find($id_classe);
-               $param = parametres::all();
-               $pa = $param->where('nom', 'initiales_etablissement', false)->first();
 
-               $front = session('year');
-               $front = substr($front, 2, 2);
-               $number = sprintf('%04d', $e->id);
-               $e->matricule = $front . $pa->valeur . '-' . $c->code . $number;
-               $e->save();
+               $e = eleve::find($id_eleve);
+                if(sizeof($e->matricule)<=0){
+                   $c = classe::find($id_classe);
+                   $param = parametres::all();
+                   $pa = $param->where('nom', 'initiales_etablissement', false)->first();
+
+                   $front = session('year');
+                   $front = substr($front, 2, 2);
+                   $number = sprintf('%04d', $e->id);
+                   $e->matricule = $front . $pa->valeur . '-' . $c->code . $number;
+                   $e->save();
+                }
+              
            }
 
 

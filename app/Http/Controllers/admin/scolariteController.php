@@ -95,6 +95,7 @@ class scolariteController extends Controller {
         $s0=scolarite::whereIdCycle($cycle)->where('id_niveau','=',$classe)->first();
         if($s0!=null)
         {
+            $s=new scolarite();
             $s0->id_niveau=$classe;
             $s0->id_cycle=$cycle;
             $s0->inscription=$inscription;

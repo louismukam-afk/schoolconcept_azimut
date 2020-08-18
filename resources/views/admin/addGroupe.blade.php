@@ -98,3 +98,11 @@
 
     </script>
 @endsection
+
+@section('breadcrumb')
+    <li><strong><a href="{{url('admin')}}">@lang('admin.dashboard')</a></strong></li>
+    <li><strong><a href="{{url('admin/programmes')}}">@lang('admin.selectionner_classe')</a></strong></li>
+    <li><strong><a href="{{url('admin/programmes/selection-matieres').'?id='.$classeMatiere->id_classe.'&cycle='.$id_cycle.'&nniveau='.$classeMatiere->id_nniveau}}">@lang('admin.programme')</a></strong></li>
+
+    <li class="active"><strong>@lang('admin.groupe')</strong></li>
+@endsection

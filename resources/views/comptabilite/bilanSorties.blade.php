@@ -192,6 +192,7 @@
 
         $('#table-decaissement').dataTable( {
             dom: 'Bfrtip',
+            pageLength:50,
             buttons: [
                 //'copy', 'csv', 'excel', 'pdf', 'print'
                 {
@@ -233,3 +234,9 @@
         })
     </script>
     @endsection
+
+@section('breadcrumb')
+    <li><strong><a href="{{url('comptabilite')}}">@lang('admin.comptabilite')</a></strong></li>
+
+    <li class="active"><strong>{{$titre}}</strong></li>
+@endsection

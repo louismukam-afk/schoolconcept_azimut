@@ -176,7 +176,6 @@
     @else
         <div class="col-md-8">
             <form class="form-horizontal" id="add_inscription_form" method="get" action="{{URL::to('/inscriptions/find/')}}">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                 <input type="hidden" name="id_eleve" value="{{session('inscription_new_record')}}">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -222,6 +221,8 @@
                                     <ul class="dropdown-menu">
                                         <li><a style="color: white" href="{{ URL::to('/inscriptions/create/').'/'.$e->id }}"   class="btn-success"><span class="glyphicon glyphicon-cloud-upload"></span> {{  trans('inscription.inscrire')  }}</a></li>
                                         <li><a style="color: white" class="btn-primary"   href="{{ URL::to('/inscriptions/print-certificate/').'/'.$e->id }}"><span class="fa fa-file-text-o"></span> {{  trans('admin.certificat_scolarite')  }}</a></li>
+                                        <li><a style="color: white" class="btn-danger"   href="{{ route('destroy_eleve',$e->id) }}"><span class="fa fa-trash"></span> {{  trans('admin.del')  }}</a></li>
+
                                     </ul>
                                 </div>
                         </tr>
@@ -286,4 +287,9 @@
 
         }
     </script>
+@endsection
+
+@section('breadcrumb')
+    <li><strong><a href="{{url('inscriptions')}}">@lang('menu.gestion_inscriptions')</a></strong></li>
+    <li class="active"><strong>{{$titre}}</strong></li>
 @endsection

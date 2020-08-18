@@ -25,19 +25,19 @@
             @if(App::getLocale()!="en")
                 <div class="ligne">
                     <div class="matricule">
-                        @lang('admin.matricule') : {{$eleve->matricule}}
+                        @lang('admin.matricule')  @lang('inscription.eleve') : {{$eleve->matricule}}
                     </div>
 
-                    <div class="type">
+                    <!--<div class="type">
                         @lang('inscription.eleve')
-                    </div>
+                    </div>-->
                 </div>
                 <p>Le Directeur de l’Institut Supérieur des Sciences Biologiques et Appliquées certifie que :</p>
                 <br>
             <p>
                 <strong>M. / Mme/ Mlle {{$eleve->nom.' '.$eleve->prenom}}</strong><br>
                 Né(e) le {{(new DateTime($eleve->date_naiss))->format('d-m-Y')}} à {{$eleve->lieu_naiss}}<br>
-                est régulièrement inscrit pour le niveau  <strong>{{$nniveau->nom}}</strong> du cycle
+                est régulièrement inscrit(e) pour le niveau  <strong>{{$nniveau->nom}}</strong> du cycle
                 <strong>{{$cycle->nom}} {{$classe->nom}}</strong>
 
             </p>
@@ -66,4 +66,10 @@
 
 
     @endif
+@endsection
+
+@section('breadcrumb')
+    <li><strong><a href="{{url('inscriptions')}}">@lang('menu.gestion_inscriptions')</a></strong></li>
+    <li><strong><a href="{{url('inscriptions/new')}}">@lang('inscription.title_search_register')</a></strong></li>
+
 @endsection

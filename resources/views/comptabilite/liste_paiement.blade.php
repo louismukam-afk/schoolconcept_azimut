@@ -36,3 +36,10 @@
     <a class="btn btn-success" href="{{URL::to('/comptabilite/payement-salaire/create/').'/'.$personnel->id}}"><span class="glyphicon glyphicon-plus"></span>{{  trans('inscription.add_payement')  }}</a>
 </div>
     @endsection
+
+@section('breadcrumb')
+    <li><strong><a href="{{url('comptabilite')}}">@lang('admin.comptabilite')</a></strong></li>
+    <li><strong><a href="{{url('comptabilite/payement-salaire')}}">@lang('admin.search_personnel')</a></strong></li>
+
+    <li class="active"><strong>{{$titre}}</strong></li>
+@endsection

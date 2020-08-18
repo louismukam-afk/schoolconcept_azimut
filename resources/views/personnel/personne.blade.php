@@ -28,12 +28,12 @@
             @foreach($personnel as $c)
                 <tr>
                     <td>{{$i++}}</td>
-                    <td><strong >{{$c->nom}}</strong></td>
+                    <td><a href="{{ URL::to('/personnel/edit/').'/'.$c->id }}"><span class="glyphicon glyphicon-edit"></span> <strong >{{$c->nom}}</strong></a></td>
                     <td><strong >{{$c->lieu_naiss}}</strong></td>
                     <td><strong >{{$c->sexe}}</strong></td>
                     <td><strong >{{$c->tel1}}</strong></td>
 
-                    <td><a href="{{ URL::to('/personnel/edit/').'/'.$c->id }}"   class="btn btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-edit"></span> {{trans('admin.see_edit')}}</a></td>
+                    <td><a href="{{ URL::to('/personnel/destroy/').'/'.$c->id }}"   class="btn btn-danger btn-xs pull-right"><span class="glyphicon glyphicon-remove"></span> {{trans('admin.del')}}</a></td>
                 </tr>
             @endforeach
             </tbody>
@@ -221,4 +221,10 @@
 
 
     </script>
+@endsection
+
+@section('breadcrumb')
+    <li><strong><a href="{{url('personnel')}}">@lang('menu.gestion_personnel')</a></strong></li>
+
+    <li class="active"><strong>{{$titre}}</strong></li>
 @endsection

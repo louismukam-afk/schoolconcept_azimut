@@ -224,7 +224,8 @@ class personnelController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		//
+		personnel::destroy([$id]);
+        return redirect()->to(\URL::previous());
 	}
 
 }

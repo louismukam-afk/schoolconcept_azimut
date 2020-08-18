@@ -20,7 +20,6 @@
 
         <div class="col-md-8">
             <form class="form-horizontal" id="add_inscription_form" method="get" action="{{URL::to('/search/eleve')}}">
-                <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                 <input type="hidden" name="view" value="inscriptions/search_edit_eleve">
                 <div class="col-md-6">
                     <div class="form-group">
@@ -74,4 +73,9 @@
                 {{Session::forget('search_result')}}
             @endif
         </div>
+@endsection
+
+@section('breadcrumb')
+    <li><strong><a href="{{url('inscriptions')}}">@lang('menu.gestion_inscriptions')</a></strong></li>
+    <li class="active"><strong>@lang('inscription.title_search')</strong></li>
 @endsection

@@ -23,7 +23,6 @@
 
     <div class="col-md-8">
         <form class="form-horizontal" id="add_inscription_form" method="get" action="{{URL::to('/search/personnel/')}}">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
             <input type="hidden" name="view" value="admin/taux">
             <input type="hidden" name="titre" value="{{trans('admin.search_personnel')}}">
             <div class="col-md-6">
@@ -75,4 +74,9 @@
 
 
 
+@endsection
+
+@section('breadcrumb')
+    <li><strong><a href="{{url('admin')}}">@lang('admin.dashboard')</a></strong></li>
+    <li class="active"><strong>{{$titre}}</strong></li>
 @endsection

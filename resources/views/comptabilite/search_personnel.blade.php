@@ -79,3 +79,9 @@
     </div>
     @endif
 @endsection
+
+@section('breadcrumb')
+    <li><strong><a href="{{url('comptabilite')}}">@lang('admin.comptabilite')</a></strong></li>
+
+    <li class="active"><strong>{{$titre}}</strong></li>
+@endsection

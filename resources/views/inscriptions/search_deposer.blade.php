@@ -12,7 +12,6 @@
 
     <div class="col-md-8">
         <form class="form-horizontal" id="add_inscription_form" method="get" action="{{URL::to('/inscriptions/payement/search')}}">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
             <div class="col-md-8">
                 <div class="form-group">
                     <label for="search">{{  trans('inscription.recherche')  }} : </label>
@@ -84,4 +83,9 @@
         @endif
     </div>
     </div>
+@endsection
+
+@section('breadcrumb')
+    <li><strong><a href="{{url('inscriptions')}}">@lang('menu.gestion_inscriptions')</a></strong></li>
+    <li class="active"><strong>{{$titre}}</strong></li>
 @endsection

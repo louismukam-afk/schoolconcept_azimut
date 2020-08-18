@@ -309,7 +309,7 @@ return [
     "anciennete"=>"Ancienneté",
     "an"=>"An(s)",
     "w_date"=>"La date du serveur est incorrecte",
-    ""=>"",
+    "ledirect"=>"Le directeur",
     ""=>"",
     ""=>"",
     ""=>"",

@@ -14,8 +14,8 @@
             <th>#</th>
             <th>{{  trans('admin.username')  }}</th>
             <th>{{  trans('admin.fullname')  }}</th>
-            <th>Role </th>
             <th>@lang('inscription.nom') @lang('admin.personnel')</th>
+            <th>Role </th>
 
             <th>{{  trans('admin.actif')  }}</th>
             </thead>
@@ -26,7 +26,6 @@
                     <td>{{$i++}}</td>
                     <td><strong >{{$u->name}}</strong></td>
                     <td> <strong>{{$u->fullname}}</strong></td>
-                    <td>{{getRole($u->role)}}</td>
                     <td>
                         @foreach($personnels as $p)
                             @if($p->id==$u->id_personnel)
@@ -35,7 +34,9 @@
                             @endif
                         @endforeach
                     </td>
-                    @if($u->active==1)
+                    <td><a href="{{route('role_management',$u->id)}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-lock"></span> Role</a></td>
+
+                @if($u->active==1)
                     <td>{{trans('inscription.oui')}}</td>
                     <td>
                         <a  class="btn btn-danger btn-xs"   href="{{url('utilisateurs/desactiver/'.$u->id)}}"> <span class="glyphicon glyphicon-ban-circle"></span> {{  trans('admin.desactiver')  }}</a>
@@ -69,17 +70,7 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
                             <input type="hidden" name="id" id="id_utilisateur" value=""/>
                             <fieldset>
-                                <div class="form-group">
-                                    <label for="role">Role : </label>
-                                    <select  name="role" form="activate_user_form" class="form-control">
-                                        <option value="2">{{trans('admin.editeur')}}</option>
-                                        <option value="16">{{trans('admin.g_comptabilite')}}</option>
-                                        <option value="17">{{trans('admin.g_personnel')}}</option>
-                                        <option value="18">{{trans('admin.g_notes')}}</option>
-                                        <option value="18.5">{{trans('admin.enseignant')}}</option>
-                                        <option value="19">{{trans('admin.g_inscriptions')}}</option>
-                                    </select>
-                                </div>
+
                                 <div class="form-group">
                                     <label >@lang('admin.personnel') : </label>
                                     <select  name="personnel" form="activate_user_form" class="form-control">
@@ -135,4 +126,9 @@
             return trans('admin.aucun');
     }
 ?>
+@endsection
+
+@section('breadcrumb')
+    <li><strong><a href="{{url('admin')}}">@lang('admin.dashboard')</a></strong></li>
+    <li class="active"><strong>{{$titre}}</strong></li>
 @endsection

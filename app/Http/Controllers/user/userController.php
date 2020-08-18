@@ -1,8 +1,11 @@
 <?php namespace gesecole\Http\Controllers\user;
 
+use gesecole\Functions;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
+use gesecole\parametres;
 use gesecole\personnel;
+use gesecole\Role;
 use gesecole\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
@@ -35,13 +38,20 @@ class userController extends Controller {
 
 	public function index()
 	{
-		$values=array('titre'=>trans('admin.liste_utilisateurs'));
-		if(\Auth::user()->role>0)
-		    $u=User::where('role','>','1')->orderBy('created_at','desc')->paginate(30);
-		else
-            $u=User::where('role','>','0')->orderBy('created_at','desc')->paginate(30);
+        $values=array('titre'=>trans('admin.liste_utilisateurs'));
+        if(!Functions::contain(\Auth::user()->roles->fetch('value')->toArray(),0)){
+            $u_array=Role::where('value','<=',1)->get()->fetch('id_user')->toArray();
+            $u=User::whereNotIn('id',$u_array)->orderBy('created_at','desc')->paginate(30);
 
-		$p=personnel::orderBy('nom')->get();
+
+        }
+        else{
+            $u_array=Role::where('value','<=',0)->get()->fetch('id_user')->toArray();
+            $u=User::whereNotIn('id',$u_array)->orderBy('created_at','desc')->paginate(30);
+
+        }
+
+        $p=personnel::orderBy('nom')->get();
 
         $values['utilisateurs']=$u;
         $values['personnels']=$p;
@@ -49,7 +59,7 @@ class userController extends Controller {
             Session::forget('success');
             $values['success']=true;
         }
-		return view('admin/utilisateurs',$values);
+        return view('admin\utilisateurs',$values);
 	}
 
 	/**
@@ -62,17 +72,14 @@ class userController extends Controller {
 
         $this->validate($request,[
            'id'=>'required|numeric',
-            'role'=>'required|numeric',
             'personnel'=>'required|numeric',
         ]);
         $u=User::find($request->input('id'));
         $u->active=1;
-        $role=$request->input('role');
         $personnel=$request->input('personnel');
         if($personnel!=0){
             $u->id_personnel=$personnel;
         }
-        $u->role=$role;
         $u->save();
         session(['success'=>true]);
         return redirect()->action('user\userController@index');

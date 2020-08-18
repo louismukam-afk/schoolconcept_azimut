@@ -82,3 +82,10 @@
     </div>
 
 @endsection
+
+@section('breadcrumb')
+    <li><strong><a href="{{url('personnel')}}">@lang('menu.gestion_personnel')</a></strong></li>
+    <li><strong><a href="{{url('personnel/fonction/pers')}}">@lang('admin.search_personnel')</a></strong></li>
+
+    <li class="active"><strong>@lang('admin.fonctions')</strong></li>
+@endsection

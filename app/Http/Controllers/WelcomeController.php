@@ -71,7 +71,7 @@ class WelcomeController extends Controller {
         $p->valeur=$school_year;
         $p->save();
         session(['year'=>$p->valeur]);
-        return redirect()->to('/');
+        return redirect()->to(url('/'));
     }
     public function blk(){
 	    $p=parametres::firstOrNew(['nom'=>'auth']);
@@ -103,7 +103,7 @@ class WelcomeController extends Controller {
             [
                 'ancien_mot_de_passe'=>'required',
                 'nouveau_mot_de_passe'=>'required|min:6',
-                'password_again'=>'required|min:6|same:nouveau_mot_de_passe',
+                'password_again'=>'required|min:6',
             ]
             );
 
@@ -116,14 +116,23 @@ class WelcomeController extends Controller {
            return response()->json($errors);
         }
         $password=\Auth::user()->password;
-        $tpass=$request->input('ancien_mot_de_passe');
+        $apass=$request->input('ancien_mot_de_passe');
+          $npass=$request->input('nouveau_mot_de_passe');
+                    $cpass=$request->input('password_again');
 
-        if (!\Hash::check($tpass,$password)){
+         if (strcmp($npass,$cpass)!=0) {
+            
+                        return response()->json(['invalid'=>'Le mot de passe et la confirmation doivent etre identiques']);
+        }
+
+        if (!\Hash::check($apass,$password)){
             return response()->json(['invalid'=>trans('admin.apass_invalide')]);
         }
+
+      
         else {
-            \Auth::user()->password=bcrypt($request->input('nouveau_mot_de_passe'));
-            \Auth::user()->save();
+            \Auth::user()->password=bcrypt($npass);
+           \Auth::user()->save();
             return response()->json(['success'=>trans('admin.succes')]);
         }
     }

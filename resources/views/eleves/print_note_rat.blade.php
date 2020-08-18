@@ -26,9 +26,9 @@
         <th class="number-column">#</th>
         <th class="mat-column">Matricule/Matricle</th>
         <th>Nom/Name</th>
-        <th class="note-column">CC /30</th>
-        <th class="note-column">Note /70</th>
-        <th class="note-column">Total /100</th>
+        <th class="note-column">CC /20</th>
+        <th class="note-column">Note R /20</th>
+        <th class="note-column">Note /20</th>
 
         <th class="note-column">GP</th>
         <th class="note-column">Grade</th>
@@ -53,7 +53,7 @@
 
                     @foreach($notes_cc as $n)
                         @if($n->id_eleve==$e->id)
-                            {{$n->note}}
+                            {{round($n->note/1.5,2)}}
 
                             <?php $total+=$n->note;break; ?>
                         @endif
@@ -63,14 +63,15 @@
                 <td class="note-column">
                     @foreach($notes as $n)
                         @if($n->id_eleve==$e->id)
-                            {{$n->note}}
+                            {{round($n->note/3.5,2)}}
 
 
                             <?php $total+=$n->note; break;?>
                         @endif
                     @endforeach
                 </td>
-                <td>{{$total}}
+                <td>
+                    {{round($total/5,2)}}
                     @if($total>=50)
                         <?php $notesCap++; ?>
                     @elseif($total>=35)
@@ -96,4 +97,13 @@
 </div>
 
 
+@endsection
+@section('breadcrumb')
+    <li><strong><a href="{{url('eleves')}}">@lang('menu.gestion_notes')</a></strong></li>
+    <li><strong><a href="{{url('eleves/notes')}}">Notes</a></strong></li>
+
+    <li><a href="{{url('eleves/notes/show')}}"><strong>@lang('admin.choix_classe')</strong></a></li>
+    <li><a href="{{url('eleves/notes/matieres/show').'?id='.$classe->id.'&cycle='.$id_cycle.'&nniveau='.$nniveau->id}}"><strong>@lang('admin.titre_matiere')</strong></a></li>
+
+    <li class="active"><strong>{{$titre}}</strong></li>
 @endsection

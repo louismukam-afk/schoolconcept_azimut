@@ -112,3 +112,8 @@
         </div>
     </div>
 @endsection
+
+@section('breadcrumb')
+    <li class="active"><strong>@lang('menu.gestion_inscriptions')</strong></li>
+
+@endsection

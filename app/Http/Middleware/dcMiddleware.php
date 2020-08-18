@@ -2,6 +2,7 @@
 
 use Closure;
 use gesecole\parametres;
+use Illuminate\Support\Facades\Session;
 
 class dcMiddleware {
 
@@ -14,29 +15,39 @@ class dcMiddleware {
 	 */
 	public function handle($request, Closure $next)
 	{
-	    if(session('dc_interval')!=null) {
+        if(session('dc_interval')!=null) {
             $d = session('dc_interval');
             $f = microtime(true);
             $i = $f - $d;
             if($i<0)
+
                 return view('w_date');
-            if (($i)>=600)
+            if ($i>=600)
             {
                 $dc=parametres::whereNom('dc')->first();
                 if ($dc==null)
                 {
                     $dc=new parametres();
                     $dc->nom='dc';
-                    $dc->valeur=date('Y-m-d');
+                    $dc->valeur=date('Y-m-d H:i:s');
                     $dc->save();
+                    Session::remove('dc_interval');
                     session(['dc_interval'=>microtime(true)]);
                 }else{
-                    $d=date('Y-m-d');
+
+                    $d=date('Y-m-d H:i:s');
                     if($d>=$dc->valeur)
                     {
-                        $dc->valeur=date('Y-m-d');
+                        //dump($i.' '.$d.' '.$dc->valeur);
+
+
+                        $dc->valeur=$d;
                         $dc->save();
+
+                        Session::remove('dc_interval');
+
                         session(['dc_interval'=>microtime(true)]);
+
 
                     }
                     else{
@@ -52,15 +63,21 @@ class dcMiddleware {
             {
                 $dc=new parametres();
                 $dc->nom='dc';
-                $dc->valeur=date('Y-m-d');
+
+                $dc->valeur=date('Y-m-d H:i:s');
                 $dc->save();
+
+                Session::remove('dc_interval');
+
                 session(['dc_interval'=>microtime(true)]);
             }else{
-                $d=date('Y-m-d');
+                $d=date('Y-m-d H:i:s');
                 if($d>=$dc->valeur)
                 {
-                    $dc->valeur=date('Y-m-d');
+                    $dc->valeur=$d;
                     $dc->save();
+                    Session::remove('dc_interval');
+
                     session(['dc_interval'=>microtime(true)]);
 
                 }
@@ -71,7 +88,7 @@ class dcMiddleware {
             }
         }
 
-		return $next($request);
+        return $next($request);
 	}
 
 }

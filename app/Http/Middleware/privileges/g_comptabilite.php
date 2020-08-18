@@ -1,6 +1,7 @@
 <?php namespace gesecole\Http\Middleware\privileges;
 
 use Closure;
+use gesecole\Functions;
 use Illuminate\Support\Facades\Auth;
 
 class g_comptabilite {
@@ -14,7 +15,8 @@ class g_comptabilite {
 	 */
 	public function handle($request, Closure $next)
 	{
-        if(Auth::user()->role>1 && Auth::user()->role!=16){
+        $r=Auth::user()->roles->fetch('value')->toArray();
+        if(!Functions::pp_exists($r,1) && !Functions::contain($r,16)){
             return view('not_auth',['titre'=>'']);
         }
 		return $next($request);

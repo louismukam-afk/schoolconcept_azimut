@@ -75,13 +75,13 @@ class Kernel extends ConsoleKernel {
             {
                 $dc=new parametres();
                 $dc->nom='dc';
-                $dc->valeur=date('Y-m-d');
+                $dc->valeur=date('Y-m-d H:i:s');
                 $dc->save();
             }else{
-                $d=date('Y-m-d');
+                $d=date('Y-m-d H:i:s');
                 if($d>$dc->valeur)
                 {
-                    $dc->valeur=date('Y-m-d');
+                    $dc->valeur=date('Y-m-d H:i:s');
                     $dc->save();
                 }
 
