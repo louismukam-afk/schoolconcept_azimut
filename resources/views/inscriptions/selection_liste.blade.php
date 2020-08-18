@@ -1,5 +1,17 @@
 @extends('skeleton')
 @section('sub-content')
+
+    <style>
+        .panel-success>.panel-heading {
+            background-color: #3c763d;
+            color:white;
+            border:solid 1px #3c763d;
+        }
+        .panel-success {
+
+            border:solid 1px #3c763d;
+        }
+    </style>
     <div id="monaccordeon" class="panel-group col-md-12">
         <h3>{{trans('inscription.choix_liste')}}</h3>
         <div class="panel panel-primary">
@@ -289,6 +301,116 @@
 
             </div>
         </div>
+
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <a class="accordion-toggle" href="#item8" dataparent="#monaccordeon"
+                       data-toggle="collapse">
+                        {{trans('admin.frais_pi')}}
+                    </a>
+                </h3>
+            </div>
+
+
+
+            <div id="item8"
+                 class="panel-collapse collapsing">
+                <div
+                        class="panel-body">
+                    <form class="form-horizontal" id="check_list_form" method="get" action="{{route('show_frais_liste')}}">
+                        <div class="">
+
+                           <div class="row">
+                                   <div class="col-md-5" >
+                                       <div class="form-group" style="padding: 5px 10px">
+                                           <label>@lang('admin.frais'): </label>
+                                           <select form="check_list_form" id="frais" name="frais" class="form-control" required="required">
+                                               <option value="">-- @lang('admin.selectionner') --</option>
+                                               @foreach($frais as $f)
+                                                   <option value="{{$f->id}}"> {{$f->nom}} </option>
+                                               @endforeach
+                                           </select>
+
+                                       </div>
+                                   </div>
+
+                               <div class="col-md-5" >
+                                   <div class="form-group" style="padding: 5px 10px">
+                                       <label>Type: </label>
+                                       <select form="check_list_form" id="type" name="type" class="form-control" required>
+                                           <option value="0">@lang('admin.impaye')</option>
+                                           <option value="1">@lang('admin.paye')</option>
+                                       </select>
+
+                                   </div>
+                               </div>
+                           </div>
+
+                            <div class="row">
+
+
+                                <div class="col-md-5">
+                                    <div class="form-group" style="padding: 5px 10px">
+                                        <label>@lang('admin.specialites')  : </label>
+
+                                        <select form="check_list_form" id="select_classe_for_frais" name="classe" class="form-control" onchange="classForFraisChange()" required>
+                                            <?php $n=0;$i=0; ?>
+                                            <option value=""> -- @lang('admin.choix_classe') --</option>
+                                                <option value="0"> @lang('admin.tous') </option>
+                                            @foreach($classes_list as $c)
+                                                @if($i=0)
+                                                    <optgroup label="<{{(App::getLocale()=='en')?$c->niveau->nom_anglais:$c->niveau->nom}}">
+                                                        <?php  $i++; ?>
+                                                        @endif
+                                                        @if($c->id_niveau!=$n)
+                                                            <?php $n=$c->id_niveau ?>
+                                                    </optgroup>
+                                                    <optgroup label="{{(App::getLocale()=='en')?$c->niveau->nom_anglais:$c->niveau->nom}}">
+                                                        @endif
+                                                        <option id="{{$c->niveau->id}}" value="{{$c->id}}" @if(old('classe')==$c->id) selected @endif>{{(App::getLocale()=='en')?$c->nom_anglais:$c->nom}}</option>
+                                                        @endforeach
+                                                    </optgroup>
+                                        </select>
+
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                            <div class="row">
+                                  <div class="col-md-5">
+                                      <div class="form-group" style="padding: 5px 10px">
+                                          <label>  @lang('admin.nniveau') </label>
+                                          <select form="check_list_form"  name="nniveau" class="form-control" id="select_nniveau_for_frais">
+                                              @foreach($nniveaux as $nn)
+                                                  <option value="{{$nn->id}}"  @if(old('nniveau')==$nn->id) selected @endif>{{$nn->nom}}</option>
+                                              @endforeach
+                                          </select>
+
+                                      </div>
+                                  </div>
+                            </div>
+
+
+
+
+
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3">
+                                <input type="submit" class="btn btn-success form-control" value="{{trans('admin.confirmer')}}" >
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
     </div>
 
 
@@ -316,7 +438,7 @@
                         <fieldset>
                             <div class="form-group">
                                 <label for="nniveau">{{  trans('admin.nniveau')  }} : </label>
-                                <select  name="nniveau" id="nniveau" form="choix_level_form" class="form-control" required>
+                                <select  name="nniveau" id="nniveau" form="choix_level_form" class="form-control" required >
                                     @foreach($nniveaux as $nn)
                                         <option value="{{$nn->id}}">{{$nn->nom}}</option>
                                     @endforeach
@@ -349,7 +471,20 @@
             document.getElementById("id").value = id; 
             document.getElementById("id_cycle").value = id_cycle; 
             document.getElementById("option").value = option; 
-        } 
+        }
+
+        function classForFraisChange()
+        {
+            selectClass = $('#select_classe_for_frais');
+            selectNNiveau = $('#select_nniveau_for_frais');
+
+            if(selectClass.val() == 0) {
+                selectNNiveau.attr('disabled','disabled');
+            } else {
+                selectNNiveau.removeAttr('disabled');
+
+            }
+        }
     </script>
 @endsection
 

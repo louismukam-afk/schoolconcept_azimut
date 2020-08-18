@@ -7,6 +7,7 @@ use gesecole\inscription;
 use gesecole\niveau;
 use gesecole\NNiveau;
 use gesecole\payement;
+use gesecole\Vars;
 use Illuminate\Support\Facades\DB;
 use gesecole\Http\Requests;
 use Illuminate\Support\Facades\Session;
@@ -99,7 +100,7 @@ class inscriptionController extends Controller {
             ->get();
         $cy=cycle::all();
         $e=eleve::find($id_eleve);
-        $nniveau=NNiveau::all();
+        $nniveau = NNiveau::orderBy('nom')->get();
         $values= array('titre'=>trans('inscription.title_search_register'));
         $values['classes']=$c;
         $values['cycles']=$cy;
@@ -168,6 +169,7 @@ class inscriptionController extends Controller {
            $p->date_payement = $today;
            $p->montant = $montant;
            $p->motif = 'Inscription';
+           $p->type = Vars::INSCRIPTION_TYPE;
            $p->save();
            $numero = sprintf('%08d', $p->id);
            $p->numero = $numero;
