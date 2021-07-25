@@ -203,6 +203,7 @@
           <root url="file://$MODULE_DIR$/vendor/webmozart/assert" />
           <root url="jar://$APPLICATION_HOME_DIR$/plugins/phpspec/lib/phpspec.jar!/phpspec_stub" />
         </CLASSES>
+        <JAVADOC />
         <SOURCES>
           <root url="file://$MODULE_DIR$/vendor/barryvdh/laravel-debugbar" />
           <root url="file://$MODULE_DIR$/vendor/barryvdh/laravel-ide-helper" />
@@ -281,6 +282,5 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="image-bg" />
-    <orderEntry type="module" module-name="GEICOM" />
   </component>
 </module>

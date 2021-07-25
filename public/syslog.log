@@ -1,0 +1,50 @@
+[22-Jul-2021 09:28:02 Africa/Brazzaville] PHP Warning:  Use of undefined constant MCRYPT_RIJNDAEL_128 - assumed 'MCRYPT_RIJNDAEL_128' (this will throw an Error in a future version of PHP) in D:\projects\SchoolConcept\bootstrap\app.php on line 14
+[22-Jul-2021 09:28:02 Africa/Brazzaville] PHP Warning:  Use of undefined constant MCRYPT_MODE_CBC - assumed 'MCRYPT_MODE_CBC' (this will throw an Error in a future version of PHP) in D:\projects\SchoolConcept\bootstrap\app.php on line 14
+[22-Jul-2021 09:28:02 Africa/Brazzaville] PHP Fatal error:  Uncaught Error: Call to undefined function Illuminate\Encryption\mcrypt_decrypt() in D:\projects\SchoolConcept\vendor\compiled.php:12167
+Stack trace:
+#0 D:\projects\SchoolConcept\vendor\compiled.php(12162): Illuminate\Encryption\Encrypter->mcryptDecrypt()
+#1 D:\projects\SchoolConcept\bootstrap\app.php(18): Illuminate\Encryption\Encrypter->decrypt()
+#2 D:\projects\SchoolConcept\bootstrap\app.php(81): secEnv2()
+#3 D:\projects\SchoolConcept\public\index.php(38): require_once('D:\\projects\\Sch...')
+#4 {main}
+  thrown in D:\projects\SchoolConcept\vendor\compiled.php on line 12167
+[22-Jul-2021 09:28:05 Africa/Brazzaville] PHP Warning:  Use of undefined constant MCRYPT_RIJNDAEL_128 - assumed 'MCRYPT_RIJNDAEL_128' (this will throw an Error in a future version of PHP) in D:\projects\SchoolConcept\bootstrap\app.php on line 14
+[22-Jul-2021 09:28:05 Africa/Brazzaville] PHP Warning:  Use of undefined constant MCRYPT_MODE_CBC - assumed 'MCRYPT_MODE_CBC' (this will throw an Error in a future version of PHP) in D:\projects\SchoolConcept\bootstrap\app.php on line 14
+[22-Jul-2021 09:28:05 Africa/Brazzaville] PHP Fatal error:  Uncaught Error: Call to undefined function Illuminate\Encryption\mcrypt_decrypt() in D:\projects\SchoolConcept\vendor\compiled.php:12167
+Stack trace:
+#0 D:\projects\SchoolConcept\vendor\compiled.php(12162): Illuminate\Encryption\Encrypter->mcryptDecrypt()
+#1 D:\projects\SchoolConcept\bootstrap\app.php(18): Illuminate\Encryption\Encrypter->decrypt()
+#2 D:\projects\SchoolConcept\bootstrap\app.php(81): secEnv2()
+#3 D:\projects\SchoolConcept\public\index.php(38): require_once('D:\\projects\\Sch...')
+#4 {main}
+  thrown in D:\projects\SchoolConcept\vendor\compiled.php on line 12167
+[22-Jul-2021 09:28:06 Africa/Brazzaville] PHP Warning:  Use of undefined constant MCRYPT_RIJNDAEL_128 - assumed 'MCRYPT_RIJNDAEL_128' (this will throw an Error in a future version of PHP) in D:\projects\SchoolConcept\bootstrap\app.php on line 14
+[22-Jul-2021 09:28:06 Africa/Brazzaville] PHP Warning:  Use of undefined constant MCRYPT_MODE_CBC - assumed 'MCRYPT_MODE_CBC' (this will throw an Error in a future version of PHP) in D:\projects\SchoolConcept\bootstrap\app.php on line 14
+[22-Jul-2021 09:28:06 Africa/Brazzaville] PHP Fatal error:  Uncaught Error: Call to undefined function Illuminate\Encryption\mcrypt_decrypt() in D:\projects\SchoolConcept\vendor\compiled.php:12167
+Stack trace:
+#0 D:\projects\SchoolConcept\vendor\compiled.php(12162): Illuminate\Encryption\Encrypter->mcryptDecrypt()
+#1 D:\projects\SchoolConcept\bootstrap\app.php(18): Illuminate\Encryption\Encrypter->decrypt()
+#2 D:\projects\SchoolConcept\bootstrap\app.php(81): secEnv2()
+#3 D:\projects\SchoolConcept\public\index.php(38): require_once('D:\\projects\\Sch...')
+#4 {main}
+  thrown in D:\projects\SchoolConcept\vendor\compiled.php on line 12167
+[22-Jul-2021 09:28:07 Africa/Brazzaville] PHP Warning:  Use of undefined constant MCRYPT_RIJNDAEL_128 - assumed 'MCRYPT_RIJNDAEL_128' (this will throw an Error in a future version of PHP) in D:\projects\SchoolConcept\bootstrap\app.php on line 14
+[22-Jul-2021 09:28:07 Africa/Brazzaville] PHP Warning:  Use of undefined constant MCRYPT_MODE_CBC - assumed 'MCRYPT_MODE_CBC' (this will throw an Error in a future version of PHP) in D:\projects\SchoolConcept\bootstrap\app.php on line 14
+[22-Jul-2021 09:28:07 Africa/Brazzaville] PHP Fatal error:  Uncaught Error: Call to undefined function Illuminate\Encryption\mcrypt_decrypt() in D:\projects\SchoolConcept\vendor\compiled.php:12167
+Stack trace:
+#0 D:\projects\SchoolConcept\vendor\compiled.php(12162): Illuminate\Encryption\Encrypter->mcryptDecrypt()
+#1 D:\projects\SchoolConcept\bootstrap\app.php(18): Illuminate\Encryption\Encrypter->decrypt()
+#2 D:\projects\SchoolConcept\bootstrap\app.php(81): secEnv2()
+#3 D:\projects\SchoolConcept\public\index.php(38): require_once('D:\\projects\\Sch...')
+#4 {main}
+  thrown in D:\projects\SchoolConcept\vendor\compiled.php on line 12167
+[22-Jul-2021 09:28:08 Africa/Brazzaville] PHP Warning:  Use of undefined constant MCRYPT_RIJNDAEL_128 - assumed 'MCRYPT_RIJNDAEL_128' (this will throw an Error in a future version of PHP) in D:\projects\SchoolConcept\bootstrap\app.php on line 14
+[22-Jul-2021 09:28:08 Africa/Brazzaville] PHP Warning:  Use of undefined constant MCRYPT_MODE_CBC - assumed 'MCRYPT_MODE_CBC' (this will throw an Error in a future version of PHP) in D:\projects\SchoolConcept\bootstrap\app.php on line 14
+[22-Jul-2021 09:28:08 Africa/Brazzaville] PHP Fatal error:  Uncaught Error: Call to undefined function Illuminate\Encryption\mcrypt_decrypt() in D:\projects\SchoolConcept\vendor\compiled.php:12167
+Stack trace:
+#0 D:\projects\SchoolConcept\vendor\compiled.php(12162): Illuminate\Encryption\Encrypter->mcryptDecrypt()
+#1 D:\projects\SchoolConcept\bootstrap\app.php(18): Illuminate\Encryption\Encrypter->decrypt()
+#2 D:\projects\SchoolConcept\bootstrap\app.php(81): secEnv2()
+#3 D:\projects\SchoolConcept\public\index.php(38): require_once('D:\\projects\\Sch...')
+#4 {main}
+  thrown in D:\projects\SchoolConcept\vendor\compiled.php on line 12167
