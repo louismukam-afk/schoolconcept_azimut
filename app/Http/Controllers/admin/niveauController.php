@@ -5,8 +5,10 @@ use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
 
 use gesecole\niveau;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 
 class niveauController extends Controller {
 
@@ -132,10 +134,15 @@ class niveauController extends Controller {
 	 */
 	public function destroy($id)
 	{
-        $c=niveau::find($id);
-        $c->delete();
-        session(['success'=>true]);
-        return redirect()->action('admin\niveauController@index');
+
+        try {
+            $c=niveau::find($id);
+            $c->delete();
+            session(['success'=>true]);
+        } catch (QueryException $fe) {
+            return  redirect()->to(URL::previous())->withErrors(['constraint_violation' => trans('admin.cannot_delete')]);
+        }
+        return redirect()->to(URL::previous());
 	}
 
 }

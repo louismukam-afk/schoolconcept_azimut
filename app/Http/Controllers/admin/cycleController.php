@@ -1,12 +1,15 @@
 <?php namespace gesecole\Http\Controllers\admin;
 
+use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use gesecole\cycle;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
 use gesecole\parametres;
 use gesecole\niveau;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 
 class cycleController extends Controller {
@@ -124,10 +127,15 @@ class cycleController extends Controller {
 	 */
 	public function destroy($id)
 	{
-        $c=cycle::find($id);
-        $c->delete();
-        session(['success'=>true]);
-        return redirect()->action('admin\cycleController@index');
+        try {
+            $c=cycle::find($id);
+            $c->delete();
+            session(['success'=>true]);
+        } catch (QueryException $fe) {
+            return  redirect()->to(URL::previous())->withErrors(['constraint_violation' => trans('admin.cannot_delete')]);
+        }
+
+        return redirect()->to(URL::previous());
 	}
 
 }

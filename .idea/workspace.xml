@@ -2,17 +2,33 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c5522a3f-f74c-474c-87f2-901ced8f473f" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migrations/2021_07_25_144157_addForeignKeysToTables.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bootstrap/cache.php" beforeDir="false" afterPath="$PROJECT_DIR$/bootstrap/cache.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/phpunit/phpunit/src/Util/PHP/eval-stdin.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/FraisController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/FraisController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/classeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/classeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/cycleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/cycleController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/horaireController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/horaireController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/matiereController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/matiereController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/niveauController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/niveauController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/nniveauController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/nniveauController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/programmeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/programmeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/salleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/salleController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/en/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/admin.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/fr/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/fr/admin.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/addProgram.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/addProgram.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/inscriptions/listes.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/inscriptions/listes.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/composer/ClassLoader.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/ClassLoader.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_real.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_real.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_static.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_static.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings">
+  <component name="ComposerSettings" doNotAsk="true">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution />
   </component>
@@ -442,6 +458,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SearchEverywhereHistoryKey" value="731c1e3c969f2da68d400b7240b6a3c9&#9;FILE&#9;file://C:/Users/Joel/Desktop/projects/SchoolConcept/storage/framework/views/731c1e3c969f2da68d400b7240b6a3c9&#10;p&#9;null&#9;null" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -475,6 +492,7 @@
       <method v="2" />
     </configuration>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -587,7 +605,7 @@
       <workItem from="1540238707005" duration="1673000" />
       <workItem from="1597709361466" duration="23422000" />
       <workItem from="1609663986331" duration="2847000" />
-      <workItem from="1627219596769" duration="87000" />
+      <workItem from="1627219596769" duration="17381000" />
     </task>
     <servers />
   </component>
@@ -628,10 +646,25 @@
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <ignored-roots>
       <path value="$PROJECT_DIR$/gesEcole" />
     </ignored-roots>
@@ -641,7 +674,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/app/Http/Controllers/admin/niveauController.php</url>
-          <line>70</line>
+          <line>72</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">

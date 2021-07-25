@@ -4,9 +4,11 @@ use gesecole\cycle;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
 use gesecole\NNiveau;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use gesecole\parametres;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 
 class nniveauController extends Controller {
 
@@ -129,9 +131,14 @@ class nniveauController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		NNiveau::destroy($id);
-        session(['success'=>true]);
-        return redirect()->action('admin\nniveauController@index');
+        try {
+            NNiveau::destroy($id);
+            session(['success'=>true]);
+        } catch (QueryException $fe) {
+            return  redirect()->to(URL::previous())->withErrors(['constraint_violation' => trans('admin.cannot_delete')]);
+        }
+
+        return redirect()->to(URL::previous());
 	}
 
 	public function get($id){

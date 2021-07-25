@@ -2,12 +2,14 @@
 
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\App;
 
 use Illuminate\Http\Request;
 use gesecole\matiere;
 use gesecole\parametres;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 
 class matiereController extends Controller {
 
@@ -133,10 +135,15 @@ class matiereController extends Controller {
      */
     public function destroy($id)
     {
-    	matiere::destroy([$id]);
-    	        session(['success'=>true]);
+        try {
+            matiere::destroy([$id]);
+            session(['success'=>true]);
+        } catch (QueryException $fe) {
+            return  redirect()->to(URL::previous())->withErrors(['constraint_violation' => trans('admin.cannot_delete')]);
+        }
 
-    	return redirect()->action('admin\matiereController@index');
+
+    	return redirect()->to(URL::previous());
 
 
     }

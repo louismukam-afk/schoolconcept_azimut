@@ -2,6 +2,7 @@
 
 use gesecole\classe;
 use gesecole\classeMatiere;
+use gesecole\groupeMatieres;
 use gesecole\Http\Controllers\Controller;
 use gesecole\cycle;
 use gesecole\niveau;
@@ -204,6 +205,12 @@ class programmeController extends Controller {
         $id_cycle=$request->input('cycle');
         $nniveau=$request->input('nniveau');
 		$cm=classeMatiere::find($id);
+		$matieresFille = groupeMatieres::where('id_matiere_mere', '=', $cm->id_matiere)
+            ->where('id_classe', '=', $id_classe)
+            ->where('id_nniveau', '=', $nniveau)
+            ->get()->fetch('id')->toArray();
+
+        groupeMatieres::destroy($matieresFille);
 		$cm->delete();
         session(['success'=>true]);
         return redirect()->to(url('/admin/programmes/selection-matieres?id='.$id_classe.'&nniveau='.$nniveau.'&cycle='.$id_cycle));

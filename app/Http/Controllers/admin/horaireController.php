@@ -3,10 +3,12 @@
 use gesecole\horaire;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Session;
 
 use gesecole\parametres;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class horaireController extends Controller {
 
@@ -162,9 +164,14 @@ class horaireController extends Controller {
 	 */
 	public function destroy($id)
 	{
-        horaire::destroy($id);
-        session(['success'=>true]);
-        return redirect()->action('admin\horaireController@index');
+        try {
+            horaire::destroy($id);
+            session(['success'=>true]);
+        } catch (QueryException $fe) {
+            return  redirect()->to(URL::previous())->withErrors(['constraint_violation' => trans('admin.cannot_delete')]);
+        }
+
+        return redirect()->to(URL::previous());
 	}
 
 }

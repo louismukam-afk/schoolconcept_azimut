@@ -327,7 +327,7 @@ return [
     "tous"=>"Tous",
     "paid_eleve"=>"Etudiants ayant payé",
     "unpaid_eleve"=>"Etudiants n'ayant pas payé",
-    ""=>"",
+    "cannot_delete"=>"Cet élément ne peu être supprimé car il est utilisé ailleurs",
     ""=>"",
 
 

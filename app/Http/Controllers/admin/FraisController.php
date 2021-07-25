@@ -7,6 +7,7 @@ use gesecole\parametres;
 use gesecole\payement;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 
 class FraisController extends Controller {
 
@@ -138,14 +139,14 @@ class FraisController extends Controller {
 	 */
 	public function destroy($id)
 	{
-        $d=payement::whereType($id)->first();
+        $d=payement::where('type', '=', $id)->first();
         if(!$d){
             frais::destroy($id);
             session(['success'=>true]);
         }else
             session(['custom_error'=>trans('admin.cannot_del_frais')]);
 
-        return redirect()->action('admin\FraisController@index');
+        return redirect()->to(URL::previous());
 
 	}
 

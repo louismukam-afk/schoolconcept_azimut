@@ -238,7 +238,7 @@
 
         $('#table-matiere').dataTable( {
             dom: 'Bfrtip',
-           pageLength:200,
+           pageLength : 50,
             buttons:[]
         } );
     </script>

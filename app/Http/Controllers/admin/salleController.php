@@ -1,5 +1,6 @@
 <?php namespace gesecole\Http\Controllers\admin;
 
+use gesecole\dispense;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
 
@@ -126,6 +127,8 @@ class salleController extends Controller {
 	 */
 	public function destroy($id)
 	{
+
+        dispense::where('id_salle', '=', $id)->update(['id_salle' => 0]);
         salle::destroy($id);
         session(['success'=>true]);
         return redirect()->action('admin\salleController@index');

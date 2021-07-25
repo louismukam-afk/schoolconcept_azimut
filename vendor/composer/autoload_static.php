@@ -325,10 +325,12 @@ class ComposerStaticInita8e744cd6ac8bb0715dcab13ed5037a3
     );
 
     public static $classMap = array (
+        'AddForeignKeysToTables' => __DIR__ . '/../..' . '/database/migrations/2021_07_25_144157_addForeignKeysToTables.php',
         'AddTypeAndInscriptionColumnToPayement' => __DIR__ . '/../..' . '/database/migrations/2020_08_18_020130_add_type_and_inscription_column_to_payement.php',
         'BulletinGenere' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_115836_bulletin_genere.php',
         'Classe' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_120129_classe.php',
         'ClasseMatiere' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_120147_classe_matiere.php',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'CreateFraisTable' => __DIR__ . '/../..' . '/database/migrations/2019_08_17_193950_create_frais_table.php',
         'CreateGroupeMatieresTable' => __DIR__ . '/../..' . '/database/migrations/2018_05_04_153612_create_groupe_matieres_table.php',
         'CreateHeureRealisesTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_27_155005_create_heure_realises_table.php',
