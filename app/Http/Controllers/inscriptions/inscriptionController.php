@@ -183,7 +183,7 @@ class inscriptionController extends Controller {
            } else{
 
                $e = eleve::find($id_eleve);
-                if(sizeof($e->matricule)<=0){
+                if(strlen($e->matricule) <= 0){
                    $c = classe::find($id_classe);
                    $param = parametres::all();
                    $pa = $param->where('nom', 'initiales_etablissement', false)->first();

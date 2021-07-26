@@ -2,38 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c5522a3f-f74c-474c-87f2-901ced8f473f" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/public/js/jquery-ui-1.12.1/AUTHORS.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/jquery-ui-1.12.1/LICENSE.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/jquery-ui-1.12.1/external/jquery/jquery.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/jquery-ui-1.12.1/images/ui-icons_444444_256x240.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/jquery-ui-1.12.1/images/ui-icons_555555_256x240.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/jquery-ui-1.12.1/images/ui-icons_777620_256x240.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/jquery-ui-1.12.1/images/ui-icons_777777_256x240.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/jquery-ui-1.12.1/images/ui-icons_cc0000_256x240.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/jquery-ui-1.12.1/images/ui-icons_ffffff_256x240.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/jquery-ui-1.12.1/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/jquery-ui-1.12.1/jquery-ui.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/jquery-ui-1.12.1/jquery-ui.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/jquery-ui-1.12.1/jquery-ui.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/jquery-ui-1.12.1/jquery-ui.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/jquery-ui-1.12.1/jquery-ui.structure.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/jquery-ui-1.12.1/jquery-ui.structure.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/jquery-ui-1.12.1/jquery-ui.theme.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/jquery-ui-1.12.1/jquery-ui.theme.min.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/public/js/jquery-ui-1.12.1/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/enregistrementController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/enregistrementController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/comptabilite/bilanEntrees.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/comptabilite/bilanEntrees.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/comptabilite/bilanSorties.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/comptabilite/bilanSorties.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/comptabilite/create-payment.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/comptabilite/create-payment.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/eleves/discipline.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/eleves/discipline.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/inscriptions/add_eleve.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/inscriptions/add_eleve.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/inscriptions/edit_eleve.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/inscriptions/edit_eleve.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/personnel/discipline.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/personnel/discipline.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/personnel/edit_personnel.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/personnel/edit_personnel.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/personnel/personne.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/personnel/personne.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/personnel/updatePresence.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/personnel/updatePresence.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/inscriptionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/inscriptionController.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -625,7 +595,7 @@
       <workItem from="1540238707005" duration="1673000" />
       <workItem from="1597709361466" duration="23422000" />
       <workItem from="1609663986331" duration="2847000" />
-      <workItem from="1627219596769" duration="41366000" />
+      <workItem from="1627219596769" duration="42018000" />
     </task>
     <servers />
   </component>
