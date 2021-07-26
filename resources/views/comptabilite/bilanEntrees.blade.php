@@ -68,15 +68,15 @@
 
                         <div class="form-group">
                             <label for="date_debut">{{  trans('admin.date_debut')  }} : </label>
-                            <input placeholder="jj-mm-aaaa" class="form-control" id="date_debut" name="date_debut" type="date"  value="{{ old('date_debut') }}" required>
+                            <input readonly placeholder="yyyy/mm/dd" class="form-control datepicker" id="date_debut" name="date_debut" type="text"  value="{{ old('date_debut') }}" required>
 
                         </div>
                         <div class="form-group ">
                             <label for="date_fin">{{  trans('admin.date_fin')  }} : </label>
-                            <input placeholder="jj-mm-aaaa" class="form-control" id="date_fin" name="date_fin" type="date"  value="{{ old('date_fin') }}" required >
+                            <input readonly placeholder="yyyy/mm/dd" class="form-control datepicker" id="date_fin" name="date_fin" type="text"  value="{{ old('date_fin') }}" required >
 
                         </div>
-                        <input placeholder="jj-mm-aaaa" class="btn  btn-primary pull-right " type="submit" value="{{  trans('admin.confirmer')  }}">
+                        <input  class="btn  btn-primary pull-right " type="submit" value="{{  trans('admin.confirmer')  }}">
 
 
                     </fieldset>

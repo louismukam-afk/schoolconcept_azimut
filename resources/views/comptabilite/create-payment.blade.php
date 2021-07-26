@@ -77,12 +77,12 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label >@lang('admin.du') :</label>
-                                        <input class="form-control" name="du" type="date"   value="{{$dd}}">
+                                        <input class="form-control datepicker" name="du" type="text" readonly placeholder="yyyy/mm/dd" value="{{$dd}}">
                                     </div>
                                     <div class="col-md-6">
                                         <label >@lang('admin.au') :</label>
 
-                                        <input class="form-control" name="au" type="date"   value="{{$df }}">
+                                        <input readonly class="form-control datepicker" name="au" type="text"   value="{{$df}}" placeholder="yyyy/mm/dd">
                                     </div>
 
                                 </div>

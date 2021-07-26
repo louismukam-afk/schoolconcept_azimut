@@ -166,7 +166,7 @@
                             <div class="form-group col-md-6">
                                 <label >{{  trans('admin.compte_heure_')  }} : </label>
                                 <div class="input-group">
-                                    <input class="form-control"  name="nombre" type="number"  value="{{ old('nombre') }}"  required>
+                                    <input class="form-control"  name="nombre" type="number"  step="0.01" value="{{ old('nombre') }}"  required>
                                     <span class="input-group-addon">{{ trans('admin.heure') }}</span>
 
                                 </div>
@@ -174,7 +174,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label > Date : </label>
-                                <input class="form-control"  name="date" type="date"  value="{{ old('date') }}" >
+                                <input readonly placeholder="yyyy/mm/dd" class="form-control datepicker"   name="date" type="text"  value="{{ old('date') }}" >
 
                             </div>
                             <div class="col-md-12">

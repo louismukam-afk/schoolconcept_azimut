@@ -61,11 +61,11 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="date">{{  trans('inscription.date_naiss')  }} : <span class="required">*</span></label>
-                                <input class="form-control" id="nom" name="date_naiss" type="date"  value="{{ old('date_naiss') }}" placeholder="jj/mm/aaaa" required>
+                                <input readonly class="form-control" id="date_naiss" name="date_naiss" type="text"  value="{{ old('date_naiss') }}" placeholder="yyyy/mm/dd" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="lieu_naiss">{{  trans('inscription.lieu_naiss')  }} : <span class="required">*</span></label>
-                                <input class="form-control" id="nom" name="lieu_naiss" type="text"  value="{{ old('lieu_naiss') }}" required>
+                                <input class="form-control" id="lieu_naiss" name="lieu_naiss" type="text"  value="{{ old('lieu_naiss') }}" required>
                             </div>
                         </div>
                         <div class="row">
@@ -114,7 +114,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="date_rec">{{  trans('admin.date_rec')  }} :</label>
-                                <input class="form-control" id="date_rec" name="date_rec" type="date"  value="{{ old('date_rec') }}" >
+                                <input readonly class="form-control" id="date_rec" name="date_rec" type="text"  value="{{ old('date_rec') }}" placeholder="yyyy/mm/dd">
                             </div>
                         </div>
                         <label >Type :</label>
@@ -214,10 +214,7 @@
                 }
             ]
         } );
-        $(function () {
-            //$('#date_debut').datepicker({ dateFormat: 'dd-mm-yy' });
-            //$('#date_fin').datepicker({ dateFormat: 'dd-mm-yy' });
-        });
+
 
 
     </script>

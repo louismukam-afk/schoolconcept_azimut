@@ -128,7 +128,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="date">Date :</label>
-                                            <input id="date" name="date" type="date" class="form-control">
+                                            <input readonly id="date" name="date" type="text" class="form-control" placeholder="yyyy/mm/dd">
                                         </div>
                                     </div>
 

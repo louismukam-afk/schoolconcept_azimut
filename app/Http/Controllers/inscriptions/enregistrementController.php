@@ -6,6 +6,7 @@ use gesecole\Http\Controllers\Controller;
 use gesecole\parametres;
 use gesecole\Photo;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use gesecole\parents;
 use Illuminate\Http\Request;
@@ -151,6 +152,9 @@ class enregistrementController extends Controller {
 
         if(($p0->nom==null) && ($p1->nom==null) && ($p2->nom==null) ){
             session(['error_parent'=>true]);
+            Input::flash();
+            return redirect()->action('inscriptions\enregistrementController@create')->withInput();
+
 
         }elseif ($eTest!=null){
             session(['error_eleve'=>true]);

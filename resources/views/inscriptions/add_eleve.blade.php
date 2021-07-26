@@ -36,7 +36,7 @@
 
                         <div class="form-group">
                             <label for="nom">{{  trans('inscription.nom')  }} : <span class="required">*</span></label>
-                            <input class="form-control" id="nom" name="nom" type="text"  value="{{ old('nom') }}"  autofocus>
+                            <input class="form-control" id="nom" name="nom" type="text"  value="{{ old('nom') }}"  autofocus required>
 
                         </div>
 
@@ -44,14 +44,14 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="date_naiss">{{  trans('inscription.date_naiss')  }} : <span class="required">*</span></label>
-                                    <input class="form-control" id="date_naiss" name="date_naiss" type="date"  value="{{ old('date_naiss') }}"  placeholder="dd/mm/yyyy">
+                                    <input readonly class="form-control" id="date_naiss" name="date_naiss" type="text"  value="{{ old('date_naiss') }}"  placeholder="yyyy/mm/dd" required>
 
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="lieu_naiss">{{  trans('inscription.lieu_naiss')  }} : <span class="required">*</span></label>
-                                    <input class="form-control" id="lieu_naiss" name="lieu_naiss" type="text"  value="{{ old('lieu_naiss') }}"  >
+                                    <input class="form-control" id="lieu_naiss" name="lieu_naiss" type="text"  value="{{ old('lieu_naiss') }}"  required>
 
                                 </div>
                             </div>
@@ -70,7 +70,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="nationalite">{{  trans('inscription.nationalite')  }} : <span class="required">*</span></label>
-                                    <input class="form-control" id="nationalite" name="nationalite" type="text"  value="{{ old('nationalite') }}"  >
+                                    <input class="form-control" id="nationalite" name="nationalite" type="text"  value="{{ old('nationalite') }}" required >
 
                                 </div>
                             </div>
@@ -410,6 +410,8 @@
                 stopLoading();
             }
         }
+
+
     </script>
 
 @endsection

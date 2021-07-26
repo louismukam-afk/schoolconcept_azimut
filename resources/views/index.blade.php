@@ -11,14 +11,16 @@
     <link href="{{ URL::asset('css/font-awesome.css')  }}" rel="stylesheet" />
         <!-- CUSTOM STYLES-->
     <link href="{{ URL::asset('css/custom.css')  }}" rel="stylesheet" media="screen"/>
-    <link href="{{ URL::asset('js/jquery-ui/jquery-ui.css')  }}" rel="stylesheet" media="screen"/>
+    <link href="{{ URL::asset('js/jquery-ui-1.12.1/jquery-ui.css')  }}" rel="stylesheet" media="screen"/>
     <link href="{{ URL::asset('js/datatables/datatables.min.css')  }}" rel="stylesheet"/>
 
 
     <!-- GOOGLE FONTS-->
+    <!--<script src="{{ URL::asset('js/jquery-ui-1.12.1/external/jquery/jquery.js')  }}"></script>-->
+
     <script src="{{ URL::asset('js/jquery.min.js')  }}"></script>
 
-    <script src="{{ URL::asset('js/jquery-ui/jquery-ui.min.js')  }}"></script>
+    <script src="{{ URL::asset('js/jquery-ui-1.12.1/jquery-ui.js')  }}"></script>
     <!-- BOOTSTRAP SCRIPTS -->
     <script src="{{ URL::asset('dist/js/bootstrap.min.js')  }}"></script>
     <!-- CUSTOM SCRIPTS -->
@@ -383,6 +385,14 @@ if(session('nom_etab')==null){
             });
 
         }
+
+            jQuery.noConflict();
+            $( "#date_naiss, #date, #date_rec, .datepicker" ).datepicker({
+                changeMonth: true,
+                changeYear: true,
+                dateFormat: 'yy/mm/dd',
+                yearRange: '1900:c+10'
+            });
     });
 
 

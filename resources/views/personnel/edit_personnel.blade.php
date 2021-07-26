@@ -27,7 +27,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <label for="date">{{  trans('inscription.date_naiss')  }} : <span class="required">*</span></label>
-                        <input class="form-control" id="date_naiss" name="date_naiss" type="date"  value="{{ $personnel->date_naiss }}" placeholder="jj/mm/aaaa" required disabled>
+                        <input readonly class="form-control" id="date_naiss" name="date_naiss" type="text"  value="{{ $personnel->date_naiss }}" placeholder="yyyy/mm/dd" required disabled>
                     </div>
                     <div class="col-md-6">
                         <label for="lieu_naiss">{{  trans('inscription.lieu_naiss')  }} : <span class="required">*</span></label>

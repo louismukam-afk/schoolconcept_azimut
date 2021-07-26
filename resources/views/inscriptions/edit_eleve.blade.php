@@ -50,7 +50,7 @@
                     <div class="col-md-5">
                         <div class="form-group">
                             <label for="date_naiss">{{  trans('inscription.date_naiss')  }} : <span class="required">*</span></label>
-                            <input disabled class="form-control" id="date_naiss" name="date_naiss" type="date"  value="{{ $eleve->date_naiss }}"  placeholder="10/07/2009">
+                            <input readonly disabled class="form-control" id="date_naiss" name="date_naiss" type="text"  value="{{ $eleve->date_naiss }}"  placeholder="yyyy/mm/dd">
 
                         </div>
                     </div>
