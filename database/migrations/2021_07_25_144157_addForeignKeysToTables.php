@@ -12,6 +12,7 @@ class AddForeignKeysToTables extends Migration {
 	 */
 	public function up()
 	{
+
 	    //Table n_niveaus
 		Schema::table('n_niveaus', function(Blueprint $table)
 		{
@@ -44,23 +45,9 @@ class AddForeignKeysToTables extends Migration {
 		});
 
 
-        //Table dispense
 
-        Schema::table('dispense', function(Blueprint $table)
-        {
-            $table->foreign('id_matiere')->references('id')->on('matiere')->onDelete('restrict');
-            $table->foreign('id_classe')->references('id')->on('classe')->onDelete('restrict');
-            $table->foreign('id_horaire')->references('id')->on('horaire')->onDelete('restrict');
-            $table->foreign('id_nniveau')->references('id')->on('n_niveaus')->onDelete('restrict');
-            //$table->foreign('id_salle')->references('id')->on('salles')->onDelete('restrict');
-        });
 
-        //Table fonction_personnel
 
-        Schema::table('fonction_personnel', function(Blueprint $table)
-        {
-            $table->foreign('id_fonction')->references('id')->on('fonction')->onDelete('restrict');
-        });
 
         //Table groupe_matieres
 
@@ -69,22 +56,7 @@ class AddForeignKeysToTables extends Migration {
             $table->foreign('id_nniveau')->references('id')->on('n_niveaus')->onDelete('restrict');
         });
 
-        // Heure_realise
-        Schema::table('heure_realise', function(Blueprint $table)
-        {
-            //$table->foreign('id_classe')->references('id')->on('classe')->onDelete('restrict');
-            //$table->foreign('id_nniveau')->references('id')->on('n_niveaus')->onDelete('restrict');
-            //$table->foreign('id_matiere')->references('id')->on('matiere')->onDelete('restrict');
-        });
 
-        // Heures_prevues
-
-        Schema::table('heures_prevues', function(Blueprint $table)
-        {
-            //$table->foreign('id_classe')->references('id')->on('classe')->onDelete('restrict');
-            //$table->foreign('id_nniveau')->references('id')->on('n_niveaus')->onDelete('restrict');
-            //$table->foreign('id_matiere')->references('id')->on('matiere')->onDelete('restrict');
-        });
 
         // Inscription
         Schema::table('inscription', function(Blueprint $table)
@@ -101,7 +73,86 @@ class AddForeignKeysToTables extends Migration {
             $table->foreign('id_eleve')->references('id')->on('eleve')->onDelete('restrict');
         });
 
+        // decaissement
+        Schema::table('decaissement', function(Blueprint $table)
+        {
 
+            $table->foreign('id_personnel')->references('id')->on('personnel')->onDelete('restrict');
+
+        });
+
+
+        //Table dispense
+        Schema::table('dispense', function(Blueprint $table)
+        {
+            $table->foreign('id_matiere')->references('id')->on('matiere')->onDelete('restrict');
+            $table->foreign('id_classe')->references('id')->on('classe')->onDelete('restrict');
+            $table->foreign('id_horaire')->references('id')->on('horaire')->onDelete('restrict');
+            $table->foreign('id_nniveau')->references('id')->on('n_niveaus')->onDelete('restrict');
+            $table->foreign('id_personnel')->references('id')->on('personnel')->onDelete('restrict');
+        });
+
+
+        // fonction_personnel
+        Schema::table('fonction_personnel', function(Blueprint $table)
+        {
+            $table->foreign('id_personnel')->references('id')->on('personnel')->onDelete('restrict');
+            $table->foreign('id_fonction')->references('id')->on('fonction')->onDelete('restrict');
+        });
+
+
+
+        // taux
+        Schema::table('taux', function(Blueprint $table)
+        {
+            $table->foreign('id_personnel')->references('id')->on('personnel')->onDelete('restrict');
+        });
+
+
+
+        // discipline_personnel
+        Schema::table('discipline_personnel', function(Blueprint $table)
+        {
+            $table->foreign('id_personnel')->references('id')->on('personnel')->onDelete('restrict');
+        });
+
+
+
+        // Salaire
+        Schema::table('salaire', function(Blueprint $table)
+        {
+            $table->foreign('id_personnel')->references('id')->on('personnel')->onDelete('restrict');
+        });
+
+
+
+        // Payement_salaire
+        Schema::table('payement_salaire', function(Blueprint $table)
+        {
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('restrict');
+            $table->foreign('id_personnel')->references('id')->on('personnel')->onDelete('restrict');
+        });
+
+
+
+        // Heure_realise
+        Schema::table('heure_realise', function(Blueprint $table)
+        {
+            $table->foreign('id_personnel')->references('id')->on('personnel')->onDelete('restrict');
+
+        });
+
+
+
+        // Heures_prevues
+
+        Schema::table('heures_prevues', function(Blueprint $table)
+        {
+            $table->foreign('id_classe')->references('id')->on('classe')->onDelete('restrict');
+            $table->foreign('id_nniveau')->references('id')->on('n_niveaus')->onDelete('restrict');
+            $table->foreign('id_matiere')->references('id')->on('matiere')->onDelete('restrict');
+            $table->foreign('id_personnel')->references('id')->on('personnel')->onDelete('restrict');
+        });
 
 
 	}
@@ -113,6 +164,7 @@ class AddForeignKeysToTables extends Migration {
 	 */
 	public function down()
 	{
+
 		Schema::table('n_niveaus', function(Blueprint $table)
 		{
 			$table->dropForeign(['id_cycle']);
@@ -139,38 +191,15 @@ class AddForeignKeysToTables extends Migration {
 
 
 
-        Schema::table('dispense', function(Blueprint $table)
-        {
-            $table->dropForeign(['id_nniveau']);
-            $table->dropForeign(['id_horaire']);
-            $table->dropForeign(['id_classe']);
-            //$table->dropForeign(['id_salle']);
-            $table->dropForeign(['id_matiere']);
-        });
 
-        Schema::table('fonction_personnel', function(Blueprint $table)
-        {
-            $table->dropForeign(['id_fonction']);
-        });
+
+
 
         Schema::table('groupe_matieres', function(Blueprint $table)
         {
             $table->dropForeign(['id_nniveau']);
         });
 
-//        Schema::table('heure_realise', function(Blueprint $table)
-//        {
-//            $table->dropForeign(['id_classe']);
-//            $table->dropForeign(['id_nniveau']);
-//            $table->dropForeign(['id_matiere']);
-//        });
-//
-//        Schema::table('heures_prevues', function(Blueprint $table)
-//        {
-//            $table->dropForeign(['id_classe']);
-//            $table->dropForeign(['id_nniveau']);
-//            $table->dropForeign(['id_matiere']);
-//        });
 
         Schema::table('inscription', function(Blueprint $table)
         {
@@ -185,6 +214,71 @@ class AddForeignKeysToTables extends Migration {
             $table->dropForeign(['id_eleve']);
         });
 
+
+        Schema::table('decaissement', function(Blueprint $table)
+        {
+            $table->dropForeign(['id_personnel']);
+        });
+
+
+        Schema::table('dispense', function(Blueprint $table)
+        {
+            $table->dropForeign(['id_nniveau']);
+            $table->dropForeign(['id_horaire']);
+            $table->dropForeign(['id_classe']);
+            $table->dropForeign(['id_personnel']);
+            $table->dropForeign(['id_matiere']);
+
+        });
+
+
+        Schema::table('fonction_personnel', function(Blueprint $table)
+        {
+            $table->dropForeign(['id_personnel']);
+            $table->dropForeign(['id_fonction']);
+        });
+
+
+
+        Schema::table('taux', function(Blueprint $table)
+        {
+            $table->dropForeign(['id_personnel']);
+        });
+
+
+        Schema::table('discipline_personnel', function(Blueprint $table)
+        {
+            $table->dropForeign(['id_personnel']);
+        });
+
+
+
+        Schema::table('salaire', function(Blueprint $table)
+        {
+            $table->dropForeign(['id_personnel']);
+        });
+
+
+        Schema::table('payement_salaire', function(Blueprint $table)
+        {
+            $table->dropForeign(['id_personnel']);
+            $table->dropForeign(['id_user']);
+        });
+
+
+       Schema::table('heure_realise', function(Blueprint $table)
+        {
+            $table->dropForeign(['id_personnel']);
+        });
+
+
+        Schema::table('heures_prevues', function(Blueprint $table)
+        {
+            $table->dropForeign(['id_classe']);
+            $table->dropForeign(['id_nniveau']);
+            $table->dropForeign(['id_matiere']);
+            $table->dropForeign(['id_personnel']);
+        });
 
 
 

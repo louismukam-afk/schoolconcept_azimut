@@ -7,8 +7,10 @@ use gesecole\Http\Controllers\Controller;
 use gesecole\personnel;
 use gesecole\parametres;
 use gesecole\titulaire;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 
 class personnelController extends Controller {
 
@@ -224,7 +226,12 @@ class personnelController extends Controller {
 	 */
 	public function destroy($id)
 	{
-		personnel::destroy([$id]);
+        try {
+            personnel::destroy([$id]);
+            session(['success'=>true]);
+        } catch (QueryException $fe) {
+            return  redirect()->to(URL::previous())->withErrors(['constraint_violation' => trans('admin.cannot_delete')]);
+        }
         return redirect()->to(\URL::previous());
 	}
 

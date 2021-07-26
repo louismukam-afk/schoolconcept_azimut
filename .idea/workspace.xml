@@ -3,7 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="c5522a3f-f74c-474c-87f2-901ced8f473f" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/inscriptionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/inscriptionController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/personnel/personnelController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/personnel/personnelController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/2021_07_25_144157_addForeignKeysToTables.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_07_25_144157_addForeignKeysToTables.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -595,7 +596,7 @@
       <workItem from="1540238707005" duration="1673000" />
       <workItem from="1597709361466" duration="23422000" />
       <workItem from="1609663986331" duration="2847000" />
-      <workItem from="1627219596769" duration="42018000" />
+      <workItem from="1627219596769" duration="47961000" />
     </task>
     <servers />
   </component>
