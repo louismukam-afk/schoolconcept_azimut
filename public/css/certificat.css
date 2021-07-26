@@ -92,6 +92,7 @@
         margin-bottom: 2%;
         margin-left: 2%;
         margin-right: 2%;
+        size: A4 portrait;
     }
 
     .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.copy,.breadcrumb
@@ -123,12 +124,14 @@
     .traduction
     {
         -webkit-print-color-adjust:exact;
+        color-adjust: exact;
         font-size: 10px !important;
         color: grey !important;
     }
     .traduction2
     {
         -webkit-print-color-adjust:exact;
+        color-adjust: exact;
         font-size: 15px !important;
         color: grey !important;
     }

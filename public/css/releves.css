@@ -33,6 +33,7 @@ p
 .big-traduction
 {
     -webkit-print-color-adjust:exact;
+        color-adjust: exact;
     font-size: 15px !important;
     color: grey !important;
     margin-left: 5px;
@@ -104,6 +105,7 @@ p
 .traduction
 {
     -webkit-print-color-adjust:exact;
+        color-adjust: exact;
     font-size: 10px !important;
     color: grey !important;
     margin-left: 5px;
@@ -153,6 +155,7 @@ table{
         margin-bottom: 2%;
         margin-left: 2%;
         margin-right: 2%;
+        size: A4 portrait;
     }
 
     .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.breadcrumb
@@ -201,11 +204,10 @@ table{
 
     .sign-footer{
         position: absolute;
-        min-height: 50px;
         width: 100%;
         padding-right: 50px;
         padding-left: 50px;
-        bottom: 18mm;
+        bottom: 8mm;
     }
     .dep{
         position: absolute;
@@ -220,6 +222,7 @@ table{
     .traduction
     {
         -webkit-print-color-adjust:exact;
+        color-adjust: exact;
         font-size: 10px !important;
         color: grey !important;
         margin-left: 5px;
@@ -228,6 +231,7 @@ table{
     .big-traduction
     {
         -webkit-print-color-adjust:exact;
+        color-adjust: exact;
         font-size: 15px !important;
         color: grey !important;
         margin-left: 5px;
@@ -282,6 +286,7 @@ table{
 
     .table tbody tr,.table tbody tr td{
                 -webkit-print-color-adjust:exact;
+        color-adjust: exact;
         padding-top: 0;
         padding-bottom: 0;
         border: solid black 1px;
@@ -292,6 +297,7 @@ table{
     }
     .table thead th,.table thead,.table tbody{
                 -webkit-print-color-adjust:exact;
+        color-adjust: exact;
 
         border-color: black !important;
         border: solid black 1px !important;

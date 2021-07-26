@@ -24,6 +24,7 @@
     margin-bottom: 2%;
     margin-left: 2%;
     margin-right: 2%;
+
 }
 
 .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.copy,.breadcrumb
@@ -83,6 +84,7 @@
 .bulletin-header .logo-nav
 {
     -webkit-print-color-adjust:exact;
+        color-adjust: exact;
     left: 45%;
     width: 100px;
     height: 100px;
@@ -142,6 +144,7 @@
 .groupe-row
 {
     -webkit-print-color-adjust:exact;
+        color-adjust: exact;
     border-left: none !important;
     border-right: none !important;
 }

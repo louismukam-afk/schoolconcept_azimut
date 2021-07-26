@@ -84,9 +84,9 @@ body {
 .recu > .panel > .panel-body > .row .etablissement
 {
     padding: 5px;
-    width: 200px;
+    width: 350px;
     font-size: 20px;
-    min-height: 100px;
+    min-height: 60px;
 }
 .recu > .panel > .panel-body >.row .numero
 {
@@ -393,6 +393,21 @@ p
     display: none;
     background-color: rgba(0,0,0,0.3);
 }
+.page-header {
+    padding-bottom: 9px;
+    margin: 0;
+}
 
 
-
+.recu .duplicata .background-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-print-color-adjust:exact;
+    color-adjust: exact;
+    background-image: url("../img/logo.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 110mm;
+    opacity: .2;
+}

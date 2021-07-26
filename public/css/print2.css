@@ -25,6 +25,9 @@ html,body {
     height: 95%;
 }
 
+@page{
+    size: A4 portrait;
+}
 
 .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.navbar,.navbar-header,.modal,.back-button,.copy,.breadcrumb
 {
@@ -135,6 +138,7 @@ html,body {
 .traduction
 {
     -webkit-print-color-adjust:exact;
+        color-adjust: exact;
     font-size: 10px !important;
     color: grey !important;
     margin-left: 7mm;

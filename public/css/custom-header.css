@@ -37,6 +37,7 @@
 .custom-header .logo-nav
 {
     -webkit-print-color-adjust:exact;
+    color-adjust: exact;
     left: 46%;
     width: 80px;
     height: 80px;
@@ -111,6 +112,7 @@
     .custom-header .logo-nav
     {
         -webkit-print-color-adjust:exact;
+        color-adjust: exact;
         left: 46%;
         width: 80px;
         height: 80px;
@@ -134,11 +136,13 @@
     .traduction
     {
         -webkit-print-color-adjust:exact;
+        color-adjust: exact;
         font-size: 10px !important;
         color: grey !important;
     }
     .div-bar{
         -webkit-print-color-adjust:exact;
+        color-adjust: exact;
         margin-top: 0;
         height: 2mm;
         border-top: solid 1px;

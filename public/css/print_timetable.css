@@ -24,6 +24,9 @@
 {
     display: none;
 }
+@page  {
+    size: A4 landscape;
+}
 
 .caption
 {
@@ -33,6 +36,7 @@
 .traduction
 {
     -webkit-print-color-adjust:exact;
+        color-adjust: exact;
     font-size: 10px !important;
     color: grey !important;
 }
@@ -55,6 +59,7 @@
 .pause
 {
         -webkit-print-color-adjust:exact;
+        color-adjust: exact;
     color: gray !important;
     font-size: 12px !important;
 }

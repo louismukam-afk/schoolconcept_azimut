@@ -35,6 +35,7 @@ p
 .traduction
 {
     -webkit-print-color-adjust:exact;
+        color-adjust: exact;
     font-size: 10px !important;
     color: grey !important;
     margin-left: 5px;
@@ -95,6 +96,7 @@ table{
         margin-bottom: 2%;
         margin-left: 2%;
         margin-right: 2%;
+        size: A4 landscape;
     }
 
     .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.copy.breadcrumb
@@ -106,6 +108,7 @@ table{
     .traduction
     {
         -webkit-print-color-adjust:exact;
+        color-adjust: exact;
         font-size: 10px !important;
         color: grey !important;
         margin-left: 5px;

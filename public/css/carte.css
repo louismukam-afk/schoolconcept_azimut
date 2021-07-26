@@ -53,6 +53,7 @@
 .card-e .logo
 {
     -webkit-print-color-adjust:exact;
+        color-adjust: exact;
     position: absolute;
     width: 11mm;
     height: 11mm;
@@ -222,6 +223,7 @@
         margin-bottom: 1%;
         margin-left: 1%;
         margin-right: 1%;
+        size: A4 portrait;
     }
     body
     {
@@ -251,6 +253,7 @@
         border-radius: 4px;
 
         -webkit-print-color-adjust:exact;
+        color-adjust: exact;
         width: 102mm;
         height: 57mm;
         padding: 2mm;
@@ -274,6 +277,7 @@
     .card-e .logo
     {
         -webkit-print-color-adjust:exact;
+        color-adjust: exact;
         position: absolute;
         width: 11mm;
         height: 11mm;
