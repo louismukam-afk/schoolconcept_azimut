@@ -50,7 +50,6 @@ class personnel extends Model {
     public $fillable=['matricule','nom','date_naiss','lieu_naiss','nationalite','diplome','sexe','date_entree','tel1','tel2','adresse','email','type','matieres','autre_information'];
 
 
-    public $timestamps=false;
     public function dispenses(){
         return $this->hasMany(dispense::class,'id_personnel');
 

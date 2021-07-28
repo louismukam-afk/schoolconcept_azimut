@@ -28,6 +28,5 @@ class decaissement extends Model {
     public $fillable=['id_personnel','motif','montant','date','annee_scoaire'];
 
 
-    public $timestamps=false;
 
 }

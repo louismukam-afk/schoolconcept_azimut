@@ -20,6 +20,5 @@ class parametres extends Model {
     public $fillable=['nom','valeur'];
 
 
-    public $timestamps = false;
 
 }

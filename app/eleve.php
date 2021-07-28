@@ -72,7 +72,6 @@ class eleve extends Model {
 
     public $fillable = ['nom', 'prenom', 'date_naiss','lieu_naiss','sexe','nationalite','quartier','lien_tuteur','matricule','email','tel','status_matrimonial','region_origine','departement_origine','diplome_preinscription','annee_obtention','pays_obtention','dernier_etablissement','annee_sortie','diplome_obtenu','premiere_langue','deuxieme_langue','autre_langue','profession'];
 
-    public $timestamps=false;
 
     public function parents(){
         return $this->hasMany(parents::class,'id_eleve');

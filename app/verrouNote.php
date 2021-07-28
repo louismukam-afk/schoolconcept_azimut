@@ -19,6 +19,5 @@ class verrouNote extends Model {
 
     public $fillable=['sequence','annee_scolaire'];
 
-    public $timestamps=false;
 
 }

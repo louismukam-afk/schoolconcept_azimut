@@ -24,7 +24,6 @@ class matiere extends Model {
     public $fillable=['nom','nom_anglais','groupe'];
 
 
-    public $timestamps=false;
 
     public function notes(){
         return $this->hasMany(note::class,'id_matiere');

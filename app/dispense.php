@@ -31,6 +31,5 @@ class dispense extends Model {
     public $fillable=['id_personnel','id_classe','id_nniveau','id_matiere','jour','id_horaire','annee_scolaire'];
 
 
-    public $timestamps=false;
 
 }

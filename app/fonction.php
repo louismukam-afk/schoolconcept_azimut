@@ -19,7 +19,6 @@ class fonction extends Model {
     public $fillable=['nom'];
 
 
-    public $timestamps=false;
     public function fonction_personnels(){
         return $this->hasMany(fonction_personnel::class,'id_fonction');
 

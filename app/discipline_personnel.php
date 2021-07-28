@@ -25,8 +25,7 @@ class discipline_personnel extends Model {
 
     protected  $table='discipline_personnel';
 
-    public $fillable=['id_personnnel','type','date_d','abscence_just','nombre','annee_scolaire','heure_arrive'];
+    public $fillable=['id_personnel','type','date_d','abscence_just','nombre','annee_scolaire','heure_arrive'];
 
-    public $timestamps=false;
 
 }

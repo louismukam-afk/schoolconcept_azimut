@@ -22,6 +22,5 @@ class horaire extends Model {
     public $fillable=['intervalle','type','ordre'];
 
 
-    public $timestamps=false;
 
 }

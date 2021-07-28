@@ -22,6 +22,5 @@ class salaire extends Model {
     public $fillable=['id_personnel','type','montant'];
 
 
-    public $timestamps=false;
 
 }

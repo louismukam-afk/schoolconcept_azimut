@@ -33,7 +33,6 @@ class scolarite extends Model {
 
     public $fillable=['id_niveau','id_cycle','tranche1','tranche2','tranche3','tranche4',' tranche5'];
 
-    public $timestamps=false;
 
 
 }

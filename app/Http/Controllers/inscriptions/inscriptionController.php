@@ -168,6 +168,7 @@ class inscriptionController extends Controller {
            $p->annee_scolaire = $annee_scolaire;
            $p->date_payement = $today;
            $p->montant = $montant;
+           $p->id_inscription = $i->id;
            $p->motif = 'Inscription';
            $p->type = Vars::INSCRIPTION_TYPE;
            $p->save();

@@ -33,7 +33,6 @@ class classe extends Model {
     public $fillable=['nom','nom_anglais','code','id_niveau','capacite'];
 
     
-    public $timestamps = false;
 
 
     public function getNom_anglais()

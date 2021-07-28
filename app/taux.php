@@ -21,6 +21,5 @@ class taux extends Model {
 
     public $fillable=['id_personnel','taux'];
 
-    public $timestamps=false;
 
 }

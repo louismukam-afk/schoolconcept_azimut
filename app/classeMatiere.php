@@ -32,7 +32,6 @@ class classeMatiere extends Model {
     public $fillable=['id_cycle','id_classe','id_nniveau','id_matiere','coef','max','semestre','type'];
 
 
-    public $timestamps=false;
 
 
 }

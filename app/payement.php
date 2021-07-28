@@ -28,7 +28,6 @@ class payement extends Model {
     public $fillable=['id_eleve','annee_scolaire','date_payement','montant','motif','numero'];
 
 
-    public $timestamps=false;
 
 
 }

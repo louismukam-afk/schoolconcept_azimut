@@ -6,7 +6,9 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddEleveForeignKey' => $baseDir . '/database/migrations/2021_07_28_211332_addEleveForeignKey.php',
     'AddForeignKeysToTables' => $baseDir . '/database/migrations/2021_07_25_144157_addForeignKeysToTables.php',
+    'AddTimestampToTables' => $baseDir . '/database/migrations/2021_07_28_220313_addTimestampToTables.php',
     'AddTypeAndInscriptionColumnToPayement' => $baseDir . '/database/migrations/2020_08_18_020130_add_type_and_inscription_column_to_payement.php',
     'BulletinGenere' => $baseDir . '/database/migrations/2017_09_26_115836_bulletin_genere.php',
     'Classe' => $baseDir . '/database/migrations/2017_09_26_120129_classe.php',

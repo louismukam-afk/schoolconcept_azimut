@@ -55,6 +55,5 @@ class payement_salaire extends Model {
     public $fillable=['id_personnel','annee_scolaire','date_p','montant','id_user','numero','mois','heure_realise','primes','acomptes','cnss','cas_sociales','assurances','autre_retenues','taux','total','total_retenu','net_a_payer'];
 
 
-    public $timestamps=false;
 
 }

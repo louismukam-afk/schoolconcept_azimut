@@ -22,6 +22,5 @@ class groupeMatieres extends Model {
 	public $fillable=['id_classe_matiere','id_matiere_mere','id_classe','id_nniveau','semestre'];
 
 
-    public $timestamps=false;
 
 }

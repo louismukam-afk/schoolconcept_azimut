@@ -26,7 +26,6 @@ class note extends Model {
     public $fillable=['id_matiere','id_eleve','note','sequence','annee_scolaire'];
 
 
-    public $timestamps=false;
 
 
 }

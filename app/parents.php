@@ -32,6 +32,5 @@ class parents extends Model {
     public $fillable=['nom','profession','ville','quartier','tel1','tel2','type','id_eleve'];
 
 
-    public $timestamps=false;
 
 }

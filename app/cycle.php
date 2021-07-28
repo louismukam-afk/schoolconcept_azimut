@@ -18,7 +18,6 @@ class cycle extends Model {
 
    public $fillable=['nom'];
 
-    public $timestamps=false;
 
     public function niveaux(){
         return $this->hasMany(niveau::class,'id_cycle');

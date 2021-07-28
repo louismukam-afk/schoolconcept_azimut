@@ -9,6 +9,5 @@ class discipline extends Model {
 
 
 
-    public $timestamps=false;
 
 }

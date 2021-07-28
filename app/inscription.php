@@ -39,6 +39,5 @@ class inscription extends Model {
     public function eleve(){
        return $this->belongsTo(eleve::class,'id_eleve');
     }
-    public $timestamps=false;
 
 }

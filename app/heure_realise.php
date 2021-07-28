@@ -25,6 +25,5 @@ class heure_realise extends Model {
     public $fillable=['id_personnel','nombre','date_heure_realisee','annee_scolaire'];
 
 
-    public $timestamps=false;
 
 }

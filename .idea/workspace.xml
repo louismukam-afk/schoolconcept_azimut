@@ -2,8 +2,37 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c5522a3f-f74c-474c-87f2-901ced8f473f" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/database/migrations/2021_07_28_200547_create_session_table.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migrations/2021_07_28_211332_addEleveForeignKey.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migrations/2021_07_28_220313_addTimestampToTables.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/inscriptionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/inscriptionController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/NNiveau.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/NNiveau.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/classe.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/classe.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/classeMatiere.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/classeMatiere.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/cycle.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/cycle.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/decaissement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/decaissement.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/discipline.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/discipline.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/discipline_personnel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/discipline_personnel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/dispense.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/dispense.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/eleve.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/eleve.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/fonction.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/fonction.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/fonction_personnel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/fonction_personnel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/groupeMatieres.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/groupeMatieres.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/heure_realise.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/heure_realise.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/horaire.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/horaire.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/inscription.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/inscription.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/matiere.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/matiere.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/niveau.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/niveau.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/note.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/note.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/parametres.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/parametres.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/parents.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/parents.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/payement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/payement.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/payement_salaire.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/payement_salaire.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/personnel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/personnel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/salaire.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/salaire.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/scolarite.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/scolarite.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/taux.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/taux.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/verrouNote.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/verrouNote.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_static.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_static.php" afterDir="false" />
     </list>
@@ -599,7 +628,7 @@
       <workItem from="1597709361466" duration="23422000" />
       <workItem from="1609663986331" duration="2847000" />
       <workItem from="1627219596769" duration="48408000" />
-      <workItem from="1627462848922" duration="17008000" />
+      <workItem from="1627462848922" duration="22617000" />
     </task>
     <servers />
   </component>

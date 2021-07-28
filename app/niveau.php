@@ -41,7 +41,6 @@ class niveau extends Model {
         else
             return $this->nom;
     }
-    public $timestamps=false;
 
     public function classes(){
         return $this->hasMany(classe::class,'id_niveau');

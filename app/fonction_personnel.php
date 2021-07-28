@@ -22,6 +22,5 @@ class fonction_personnel extends Model {
     public $fillable=['id_fonction','id_personnel','annee_scolaire'];
 
 
-    public $timestamps=false;
 
 }
