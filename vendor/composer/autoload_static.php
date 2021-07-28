@@ -345,6 +345,7 @@ class ComposerStaticInita8e744cd6ac8bb0715dcab13ed5037a3
         'CreateRolesTable' => __DIR__ . '/../..' . '/database/migrations/2018_12_18_024809_create_roles_table.php',
         'CreateSallesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_17_123019_create_salles_table.php',
         'CreateScolarite' => __DIR__ . '/../..' . '/database/migrations/2017_10_28_050011_create_scolarite.php',
+        'CreateSessionTable' => __DIR__ . '/../..' . '/database/migrations/2021_07_28_200547_create_session_table.php',
         'CreateVerrouNotesTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_19_152912_create_verrou_notes_table.php',
         'Cycle' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_120204_cycle.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',

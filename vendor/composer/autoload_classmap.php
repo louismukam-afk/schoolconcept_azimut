@@ -26,6 +26,7 @@ return array(
     'CreateRolesTable' => $baseDir . '/database/migrations/2018_12_18_024809_create_roles_table.php',
     'CreateSallesTable' => $baseDir . '/database/migrations/2018_07_17_123019_create_salles_table.php',
     'CreateScolarite' => $baseDir . '/database/migrations/2017_10_28_050011_create_scolarite.php',
+    'CreateSessionTable' => $baseDir . '/database/migrations/2021_07_28_200547_create_session_table.php',
     'CreateVerrouNotesTable' => $baseDir . '/database/migrations/2017_10_19_152912_create_verrou_notes_table.php',
     'Cycle' => $baseDir . '/database/migrations/2017_09_26_120204_cycle.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
