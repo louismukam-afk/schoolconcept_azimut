@@ -331,6 +331,8 @@ return [
     "cannot_delete"=>"Cet élément ne peu être supprimé car il est utilisé ailleurs",
     "must_specify"=>"Vous devez specifier le/la :value",
     "cycle"=>"Cycle",
+    "confirm_delete"=>"Êtes vous sure de vouloir supprimer cet élément?",
+    "confirm_delete_student"=>"Si vous supprimer cet étudiant, son inscription, ses paiements, ses notes,... seront supprimés. Êtes vous sure de vouloir le supprimer?",
 
 
 ];

@@ -221,7 +221,7 @@
                                     <ul class="dropdown-menu">
                                         <li><a style="color: white" href="{{ URL::to('/inscriptions/create/').'/'.$e->id }}"   class="btn-success"><span class="glyphicon glyphicon-cloud-upload"></span> {{  trans('inscription.inscrire')  }}</a></li>
                                         <li><a style="color: white" class="btn-primary"   href="{{ URL::to('/inscriptions/print-certificate/').'/'.$e->id }}"><span class="fa fa-file-text-o"></span> {{  trans('admin.certificat_scolarite')  }}</a></li>
-                                        <li><a style="color: white" class="btn-danger"   href="{{ route('destroy_eleve',$e->id) }}"><span class="fa fa-trash"></span> {{  trans('admin.del')  }}</a></li>
+                                        <li><a style="color: white" class="btn-danger"   href="#" onclick="fill_delete_modal({{$e->id}}, '{{ route('destroy_eleve',$e->id) }}', null, '@lang('admin.confirm_delete_student')')"><span class="fa fa-trash"></span> {{  trans('admin.del')  }}</a></li>
 
                                     </ul>
                                 </div>

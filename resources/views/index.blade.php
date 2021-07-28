@@ -384,7 +384,37 @@ if(session('nom_etab')==null){
         </div>
     </div>
 </div>
-   
+
+
+<div class="modal fade" id="confirm_delete_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #d9534f">
+                <button type="button" class="close" data-dismiss="modal">x</button>
+                <h4 class="modal-title" style="color: white">{{  trans('admin.remplir_champs')  }}</h4>
+            </div>
+            <div class="modal-body">
+
+                <form accept-charset="UTF-8" role="form" method="GET" id="confirm_delete_form" action="">
+                    <input type="hidden" name="id" id="confirm_delete_item_id" value=""/>
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+
+                    <fieldset>
+                        <h4 id="confirm_delete_text">@lang('admin.confirm_delete')</h4>
+                        <div class="btn  btn-primary pull-right" style="margin-left: 10px"  class="close" data-dismiss="modal">@lang('inscription.non')</div>
+                        <input class="btn  btn-danger pull-right" type="submit" value="{{  trans('inscription.oui')  }}">
+
+
+                    </fieldset>
+
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 <script>
     $(function () {
@@ -543,6 +573,28 @@ if(session('nom_etab')==null){
         document.getElementById("option_select_classe").value = option;
         $('#choix_level_form').attr('action', actionUrl);
         getAllCycles();
+    }
+
+    function fill_delete_modal(id, actionUrl, method, text)
+    {
+        var jForm = $('#confirm_delete_form');
+        if(id) {
+            document.getElementById("confirm_delete_item_id").value = id;
+        }
+        jForm.attr('action', actionUrl);
+        if(method) {
+            jForm.attr('method', method);
+        } else {
+            jForm.attr('method', 'GET');
+        }
+        if(text) {
+            $('#confirm_delete_text').html(text);
+        } else {
+            $('#confirm_delete_text').html('@lang('admin.confirm_delete')');
+
+        }
+
+        $('#confirm_delete_modal').modal('show');
     }
 
 

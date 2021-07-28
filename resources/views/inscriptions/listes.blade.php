@@ -46,7 +46,7 @@
                         <a href="#" class=" btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li><a style="color: white" href="{{ URL::to('/inscriptions/edit/').'/'.$e->id }}"   class="btn-primary"><span class="glyphicon glyphicon-edit"></span> {{  trans('admin.edit_inscription')  }}</a></li>
-                            <!--<li><a style="color: white" href="{{ URL::to('/inscriptions/remove/').'/'.$e->id }}"   class="btn-danger"><span class="glyphicon glyphicon-trash"></span> {{  trans('admin.desinscrire')  }}</a></li>-->
+                            <li><a style="color: white" href="#" onclick="fill_delete_modal({{$e->id}}, '{{ URL::to('/inscriptions/remove/').'/'.$e->id }}', null, null)"   class="btn-danger"><span class="glyphicon glyphicon-trash"></span> {{  trans('admin.desinscrire')  }}</a></li>
                         </ul>
                     </div>
 
