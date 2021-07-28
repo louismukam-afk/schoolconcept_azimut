@@ -119,6 +119,12 @@ class cycleController extends Controller {
         $c->save();
 	}
 
+    public function getAll(){
+        $cycles = cycle::all();
+        $cycles = $cycles->toArray();
+        return response()->json($cycles);
+    }
+
 	/**
 	 * Remove the specified resource from storage.
 	 *

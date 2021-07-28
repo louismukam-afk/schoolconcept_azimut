@@ -411,3 +411,10 @@ p
     background-size: 110mm;
     opacity: .2;
 }
+
+form input[type=text][disabled] {
+    background-color: #eee;
+}
+input[type=text][readonly] {
+    background-color: white;
+}

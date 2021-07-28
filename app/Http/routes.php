@@ -19,8 +19,10 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('/', 'WelcomeController@index');
     Route::get('home', 'WelcomeController@index');
     Route::get('/admin/nniveaux/get/{id}', 'admin\nniveauController@get');
+    Route::get('/admin/cycles/get-all', ['uses' => 'admin\cycleController@getAll', 'as' => 'get_all_cycles']);
 
-    Route::group(['middleware'=>'lvl0'],function (){
+
+        Route::group(['middleware'=>'lvl0'],function (){
         Route::get('/admin/blk/', 'WelcomeController@blk');
         Route::get('/admin/unblk/', 'WelcomeController@unblk');
 

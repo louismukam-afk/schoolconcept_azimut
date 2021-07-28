@@ -45,6 +45,7 @@ return [
     'classe_matiere'=>'affecter une matiere a une Spécialité',
     'titre_note'=>'entrer la note',
     'selectionner_classe'=>'Sélectionner une Spécialité',
+    'select_item'=>'Sélectionner un élément',
     'selectionner_eleve'=>'Sélectionner un étudiant',
     'ajouter_matiere'=>'Ajouter des matieres',
     'ajouter_classe_matiere'=>'ajouter une matiere a une Spécialité',
@@ -329,6 +330,7 @@ return [
     "unpaid_eleve"=>"Etudiants n'ayant pas payé",
     "cannot_delete"=>"Cet élément ne peu être supprimé car il est utilisé ailleurs",
     "must_specify"=>"Vous devez specifier le/la :value",
+    "cycle"=>"Cycle",
 
 
 ];

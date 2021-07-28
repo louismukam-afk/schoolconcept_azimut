@@ -341,7 +341,49 @@ if(session('nom_etab')==null){
     <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
     <!-- JQUERY SCRIPTS -->
 
-    
+
+<div class="modal fade" id="choose_level">
+    <div class="modal-dialog" style="width: 20%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">x</button>
+                <h4 class="modal-title">{{  trans('admin.remplir_champs')  }}</h4>
+            </div>
+            <div
+                    class="modal-body">
+
+
+
+                <form accept-charset="UTF-8" role="form" method="GET" id="choix_level_form" action="">
+                    <input type="hidden" name="id" id="id_select_classe" value=""/>
+                    <input type="hidden" name="option" id="option_select_classe" value=""/>
+
+                    <fieldset>
+                        <div class="form-group">
+                            <label for="cycle">{{  trans('admin.cycle')  }} : </label>
+                            <select  name="cycle" id="cycle_select_classe" form="choix_level_form" class="form-control" required>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="nniveau">{{  trans('admin.nniveau')  }} : </label>
+                            <select  name="nniveau" id="nniveau_select_classe" form="choix_level_form" class="form-control" required>
+                                <option value="" disabled>@lang('admin.select_item')</option>
+                            </select>
+                        </div>
+
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
+                        <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}" autofocus>
+
+
+                    </fieldset>
+
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+</div>
    
 </body>
 <script>
@@ -393,6 +435,12 @@ if(session('nom_etab')==null){
                 dateFormat: 'yy/mm/dd',
                 yearRange: '1900:c+10'
             });
+
+            $('#cycle_select_classe').on('change', function (e) {
+                if(e.target.value) {
+                    getNniveau(e.target.value);
+                }
+            })
     });
 
 
@@ -433,16 +481,51 @@ if(session('nom_etab')==null){
         return (sa);
     }
 
+    function getAllCycles() {
+        var jElement = $('#cycle_select_classe');
+        jElement.empty();
+        $('.loading_icon').css('display','inline');
+        $.ajax({
+            type: 'GET',
+            url: '{{route('get_all_cycles')}}',
+            timeout: 20000,
+            success: function (data) {
+                jElement.append('<option value="" disabled>'+ '@lang('admin.select_item')' +'</option>');
+                var i = 0;
+                var selectedValue = -1;
+                $.each(data,function (key,val) {
+                    jElement.append('<option value="'+val.id+'">'+val.nom+'</option>');
+                    i++;
+                    if(i == 1) {
+                        selectedValue = val.id;
+                    }
+                })
+
+                //$('.loading_icon').css('display','none');
+                if(selectedValue != -1) {
+                    getNniveau(selectedValue);
+                }
+            },
+            error: function (data) {
+                $('.loading_icon').css('display','none');
+            }
+
+
+        });
+    }
+
       function getNniveau(cycle) {
-             $('#nniveau').empty();
+            var jElement = $('#nniveau_select_classe');
+            jElement.empty();
             $('.loading_icon').css('display','inline');
             $.ajax({
                 type: 'GET',
                 url: '{{url('/admin/nniveaux/get/')}}/'+cycle,
                 timeout: 20000,
                 success: function (data) {
+                    jElement.append('<option value="" disabled>'+ '@lang('admin.select_item')' +'</option>');
                     $.each(data,function (key,val) {
-                        $('#nniveau').append('<option value="'+val.id+'">'+val.nom+'</option>');
+                        jElement.append('<option value="'+val.id+'">'+val.nom+'</option>');
                     })
                     $('.loading_icon').css('display','none');
                 },
@@ -453,6 +536,16 @@ if(session('nom_etab')==null){
 
             });
         }
+
+    function choose_level(id, actionUrl, option)
+    {
+        document.getElementById("id_select_classe").value = id;
+        document.getElementById("option_select_classe").value = option;
+        $('#choix_level_form').attr('action', actionUrl);
+        getAllCycles();
+    }
+
+
 
 </script>
 </html>
