@@ -42,7 +42,7 @@ class cycleController extends Controller {
 	public function index(Request $req)
 	{
         $titre='Cycles';
-        $cycles=cycle::paginate(5);
+        $cycles=cycle::orderBy('ordre')->paginate(5);
 	    $values= array('titre'=>$titre,'cycles'=>$cycles);
         if(session('success')){
             Session::forget('success');
@@ -72,13 +72,15 @@ class cycleController extends Controller {
 	public function store(Request $req)
 	{
         $this->validate($req,[
-            'nom'=>'required'
+            'nom'=>'required',
+            'ordre'=>'required|numeric',
         ]);
         $c=new cycle();
         $c->nom=$req->input('nom');
+        $c->ordre = $req->input('ordre');
         $c->save();
         session(['success'=>true]);
-        return redirect()->action('admin\cycleController@index');
+        return redirect()->to(URL::previous());
 	}
 
 	/**
@@ -109,18 +111,25 @@ class cycleController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update(Request $req,$id)
+	public function update(Request $req)
 	{
         $this->validate($req,[
-            'nom'=>'required'
+            'id'=>'required|numeric',
+            'nom'=>'required',
+            'ordre'=>'required|numeric',
+
         ]);
+        $id = $req->input('id');
         $c=cycle::find($id);
-        $c->nom=$req->input('nom');
+        $c->nom = $req->input('nom');
+        $c->ordre = $req->input('ordre');
         $c->save();
+        session(['success'=>true]);
+        return redirect()->to(URL::previous());
 	}
 
     public function getAll(){
-        $cycles = cycle::all();
+        $cycles = cycle::orderBy('ordre')->get();
         $cycles = $cycles->toArray();
         return response()->json($cycles);
     }

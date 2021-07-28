@@ -40,7 +40,7 @@ class nniveauController extends Controller {
 	public function index()
 	{
         $titre=trans('admin.nniveau');
-        $nn=NNiveau::paginate(20);
+        $nn=NNiveau::orderBy('ordre')->paginate(20);
         $cy=cycle::all();
         $values= array('titre'=>$titre,'nniveaux'=>$nn,'cycles'=>$cy);
         if(session('success')){
@@ -71,10 +71,13 @@ class nniveauController extends Controller {
 		$this->validate($request,[
 		   'nom'=>'required',
             'cycle'=>'required|numeric',
+            'ordre'=>'required|numeric',
+
         ]);
         $nn= new NNiveau();
         $nn->nom=$request->input('nom');
         $nn->id_cycle=$request->input('cycle');
+        $nn->ordre = $request->input('ordre');
         $nn->save();
         session(['success'=>true]);
         return redirect()->action('admin\nniveauController@index');
@@ -114,10 +117,13 @@ class nniveauController extends Controller {
             'id'=>'required|numeric',
             'nom'=>'required',
             'cycle'=>'required|numeric',
+            'ordre'=>'required|numeric',
+
         ]);
         $nn= NNiveau::find($request->input('id'));
         $nn->nom=$request->input('nom');
         $nn->id_cycle=$request->input('cycle');
+        $nn->ordre = $request->input('ordre');
         $nn->save();
         session(['success'=>true]);
         return redirect()->action('admin\nniveauController@index');
@@ -142,7 +148,7 @@ class nniveauController extends Controller {
 	}
 
 	public function get($id){
-	    $nn=NNiveau::where('id_cycle','=',$id)->get();
+	    $nn=NNiveau::where('id_cycle','=',$id)->orderBy('ordre')->get();
 	    $nn=$nn->toArray();
 	    return response()->json($nn);
     }

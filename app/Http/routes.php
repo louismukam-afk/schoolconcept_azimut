@@ -64,6 +64,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/admin/cycles/', 'admin\cycleController@index');
         Route::get('/admin/cycles/destroy/{id}', 'admin\cycleController@destroy');
         Route::post('/admin/cycles/store', 'admin\cycleController@store');
+        Route::post('/admin/cycles/update', 'admin\cycleController@update');
 
         //Les nniveaux
         Route::get('/admin/nniveaux/', 'admin\nniveauController@index');

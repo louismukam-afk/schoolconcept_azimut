@@ -1,6 +1,7 @@
 @extends('skeleton')
 @section('sub-content')
     <div class="col-md-6">
+        @include('perso.functions')
         @if(isset($success))
 
             <div class="alert alert-success">
@@ -15,13 +16,14 @@
                 <th>#</th>
                 <th>{{trans('inscription.nom')}}</th>
                 <th>Cycle</th>
+                <th>{{trans('admin.numero_ordre')}}</th>
                 </thead>
                 <tbody>
                 <?php $i=1; ?>
                 @foreach($nniveaux as $nn)
                     <tr>
                         <td>{{$i++}}</td>
-                        <td><strong ><a data-toggle="modal" data-backdrop="false" href="#edit_niveau" onclick="editer_nniveau({{$nn->id}},'{{$nn->nom}}',{{$nn->id_cycle}})" > <span class="glyphicon glyphicon-edit"></span> {{$nn->nom}}</a> </strong></td>
+                        <td><strong ><a data-toggle="modal" data-backdrop="false" href="#edit_niveau" onclick="editer_nniveau({{$nn->id}},'{{sanitize($nn->nom)}}',{{$nn->id_cycle}},{{$nn->ordre}})" > <span class="glyphicon glyphicon-edit"></span> {{$nn->nom}}</a> </strong></td>
                         <td>
                             @foreach($cycles as $c)
                                 @if($c->id==$nn->id_cycle)
@@ -30,7 +32,9 @@
                                 @endif
                             @endforeach
                         </td>
-                        <td><a href="{{ URL::to('/admin/nniveaux/destroy/').'/'.$nn->id }}"  title="Supprimer" class="btn btn-danger btn-xs pull-right"><span class="glyphicon glyphicon-trash"></span> Supprimer</a></td>
+                        <td><strong>{{$nn->ordre}}</strong></td>
+
+                        <td><a href="{{ URL::to('/admin/nniveaux/destroy/').'/'.$nn->id }}"  title="Supprimer" class="btn btn-danger btn-xs pull-right"><span class="glyphicon glyphicon-trash"></span> @lang('admin.delete')</a></td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -67,6 +71,12 @@
                                                 <option value="{{$c->id}}">{{$c->nom}}</option>
                                             @endforeach
                                         </select>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="ordre">{{  trans('admin.numero_ordre')  }} : <span class="required">*</span></label>
+                                        <input class="form-control" id="ordre" name="ordre" type="number"   required >
 
                                     </div>
 
@@ -142,6 +152,12 @@
 
                                     </div>
 
+                                    <div class="form-group">
+                                        <label for="edit_ordre">{{  trans('admin.numero_ordre')  }} : <span class="required">*</span></label>
+                                        <input class="form-control" id="edit_ordre" name="ordre" type="number"   required >
+
+                                    </div>
+
 
                                     <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
 
@@ -167,12 +183,14 @@
     </div>
 
     <script>
-        function editer_nniveau(id,nom,cycle)
+        function editer_nniveau(id,nom,cycle, ordre)
         {
 
             document.getElementById("edit_id_niveau").value = id;
             document.getElementById("edit_nom").value = nom;
             document.getElementById("edit_cycle").value = cycle;
+            document.getElementById("edit_ordre").value = ordre;
+
 
 
         }

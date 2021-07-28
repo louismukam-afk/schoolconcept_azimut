@@ -333,6 +333,7 @@ return [
     "cycle"=>"Cycle",
     "confirm_delete"=>"Êtes vous sure de vouloir supprimer cet élément?",
     "confirm_delete_student"=>"Si vous supprimer cet étudiant, son inscription, ses paiements, ses notes,... seront supprimés. Êtes vous sure de vouloir le supprimer?",
+    "delete" => "Supprimer",
 
 
 ];

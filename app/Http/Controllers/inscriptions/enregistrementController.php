@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use gesecole\parents;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\Validator;
 use Intervention\Image\Facades\Image;
 
@@ -304,8 +305,12 @@ class enregistrementController extends Controller {
 	 */
 	public function destroy($id)
 	{
-	       eleve::destroy([$id]);
-            return redirect()->to(\URL::previous()); 
+        try {
+            eleve::destroy([$id]);
+        } catch (QueryException $fe) {
+            return  redirect()->to(URL::previous())->withErrors(['constraint_violation' => trans('admin.cannot_delete')]);
+        }
+            return redirect()->to(\URL::previous());
 	}
 
 }

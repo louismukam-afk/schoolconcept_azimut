@@ -327,6 +327,7 @@ class ComposerStaticInita8e744cd6ac8bb0715dcab13ed5037a3
     public static $classMap = array (
         'AddEleveForeignKey' => __DIR__ . '/../..' . '/database/migrations/2021_07_28_211332_addEleveForeignKey.php',
         'AddForeignKeysToTables' => __DIR__ . '/../..' . '/database/migrations/2021_07_25_144157_addForeignKeysToTables.php',
+        'AddOrderInCycleAndNniveau' => __DIR__ . '/../..' . '/database/migrations/2021_07_28_234018_addOrderInCycleAndNniveau.php',
         'AddTimestampToTables' => __DIR__ . '/../..' . '/database/migrations/2021_07_28_220313_addTimestampToTables.php',
         'AddTypeAndInscriptionColumnToPayement' => __DIR__ . '/../..' . '/database/migrations/2020_08_18_020130_add_type_and_inscription_column_to_payement.php',
         'BulletinGenere' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_115836_bulletin_genere.php',

@@ -1,7 +1,8 @@
 @extends('skeleton')
 @section('sub-content')
     <div class="col-md-10">
-        @if(isset($success))
+        @include('perso.functions')
+    @if(isset($success))
 
             <div class="alert alert-success">
                 {{  trans('admin.succes')  }}
@@ -42,7 +43,7 @@
                         <div class="btn-group">
                             <a href="#" class=" btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a style="color: white" title="Modifier les informations" class="btn-primary"  data-toggle="modal" data-backdrop="false" href="#edit_classe" onclick="editer_classe({{$c->id}},'{{$c->code}}',{{$c->id_niveau}},{{$c->capacite}},'{{$c->nom}}','{{$c->nom_anglais}}')"><span class="glyphicon glyphicon-pencil"  ></span> {{  trans('admin.edit')  }}</a></li>
+                                <li><a style="color: white" title="Modifier les informations" class="btn-primary"  data-toggle="modal" data-backdrop="false" href="#edit_classe" onclick="editer_classe({{$c->id}},'{{sanitize($c->code)}}',{{$c->id_niveau}},{{$c->capacite}},'{{sanitize($c->nom)}}','{{sanitize($c->nom_anglais)}}')"><span class="glyphicon glyphicon-pencil"  ></span> {{  trans('admin.edit')  }}</a></li>
                                 <li><a style="color: white" href="{{ URL::to('/admin/classes/destroy/').'/'.$c->id }}"   class="btn-danger"><span class="glyphicon glyphicon-trash"></span> {{  trans('admin.del')  }}</a></li>
                             </ul>
                         </div>
