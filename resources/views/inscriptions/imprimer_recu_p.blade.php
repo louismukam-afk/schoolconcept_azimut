@@ -81,8 +81,8 @@
                         <div class="traduction col-md-12">School year :</div>
                        <div class="details">
                            <div class="col-md-12"><h4 class="grey-text">Details</h4></div>
-                           <div class="col-md-6"><span>Total pension :</span><strong><span class="{{$total==0?'text-danger':'' }}">{{$total==0?'Le montant n\'est pas défini':$total.' '.trans('inscription.devise')}}</span></strong></div>
-                           <div class="col-md-12 traduction">Total school fees</div>
+                           <div class="col-md-6"><span>@if(isset($frais)) Total à payer @else Total pension @endif :</span><strong><span class="{{$total==0?'text-danger':'' }}">{{$total==0?'Le montant n\'est pas défini':$total.' '.trans('inscription.devise')}}</span></strong></div>
+                           <div class="col-md-12 traduction">@if(isset($frais)) Total expected @else Total school fees @endif</div>
                            <div class="col-md-6"><span>Solde en Caisse : </span><strong>{{$solde.' '.trans('inscription.devise')}}</strong></div>
                            <div class="col-md-12 traduction">Cash balance : </div>
                            <div class="col-md-6"><span>Reste à payer : </span><strong><span class="{{$total==0?'text-danger':'' }}">{{$total==0?'Le montant n\'est pas défini':$total-$solde.' '.trans('inscription.devise')}}</span></strong></div>
@@ -92,9 +92,12 @@
                     </div>
 
                 </div>
-                <div class="row" style="padding-top: 3mm">
-                    <p class="col-md-6">DATE : {{$payement->date_payement}}</p>
-                    <p class="col-md-6 visa"><strong>VISA</strong></p>
+              <div class="row"  style="padding-top:5mm">
+                    <p class="col-md-6"><strong>DATE :</strong> {{$payement->date_payement}}</p>
+                </div>
+                <div class="row" style="padding-left:20mm">
+                    <p class="col-md-6" style="padding-top:5mm"><strong>SIGNATURE</strong></p>
+                    <p class="col-md-6 visa"><strong>Caissier <span class="traduction"> Cashier</span></strong></p>
                 </div>
 
 
@@ -163,8 +166,8 @@
                         <div class="traduction col-md-12">School year :</div>
                         <div class="details">
                             <div class="col-md-12"><h4 class="grey-text">Details</h4></div>
-                            <div class="col-md-6"><span>Total pension :</span><strong><span class="{{$total==0?'text-danger':'' }}">{{$total==0?'Le montant n\'est pas défini':$total.' '.trans('inscription.devise')}}</span></strong></div>
-                            <div class="col-md-12 traduction">Total school fees</div>
+                            <div class="col-md-6"><span>@if(isset($frais)) Total à payer @else Total pension @endif :</span><strong><span class="{{$total==0?'text-danger':'' }}">{{$total==0?'Le montant n\'est pas défini':$total.' '.trans('inscription.devise')}}</span></strong></div>
+                            <div class="col-md-12 traduction">@if(isset($frais)) Total expected @else Total school fees @endif</div>
                             <div class="col-md-6"><span>Solde en Caisse : </span><strong>{{$solde.' '.trans('inscription.devise')}}</strong></div>
                             <div class="col-md-12 traduction">Cash balance : </div>
                             <div class="col-md-6"><span>Reste à payer : </span><strong><span class="{{$total==0?'text-danger':'' }}">{{$total==0?'Le montant n\'est pas défini':$total-$solde.' '.trans('inscription.devise')}}</span></strong></div>
@@ -174,9 +177,12 @@
                     </div>
 
                 </div>
-                <div class="row" style="padding-top: 3mm">
-                    <p class="col-md-6">DATE : {{$payement->date_payement}}</p>
-                    <p class="col-md-6 visa"><strong>VISA</strong></p>
+                <div class="row" style="padding-top:5mm">
+                    <p class="col-md-6"><strong>DATE :</strong> {{$payement->date_payement}}</p>
+                </div>
+                <div class="row" style="padding-left:20mm">
+                    <p class="col-md-6" style="padding-top:5mm"><strong>SIGNATURE</strong></p>
+                    <p class="col-md-6 visa"><strong>Caissier <span class="traduction"> Cashier</span></strong></p>
                 </div>
 
 

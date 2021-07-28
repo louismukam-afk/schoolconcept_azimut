@@ -29,7 +29,7 @@
             <div class="background-container">
             </div>
             <div class="panel-heading">
-                <h3 class="panel-title">RECU DE PAYEMENT DES FRAIS D'INSCRIPTION</h3>
+                <h3 class="panel-title">RECU DE PAIEMENT DES FRAIS D'INSCRIPTION</h3>
                 <div class="traduction">REGISTRATION FEES PAYMENT RECEIPT</div>
             </div>
             <div class="panel-body">
@@ -70,8 +70,11 @@
                     <p class="col-md-12 traduction">Amount</p>
                 </div>
                 <div class="row">
-                    <p class="col-md-6">DATE : {{$payement->date_payement}}</p>
-                    <p class="col-md-6 visa"><strong>VISA</strong></p>
+                    <p class="col-md-6"><strong>DATE :</strong> {{$payement->date_payement}}</p>
+                </div>
+                <div class="row" style="padding-left:20mm">
+                    <p class="col-md-6" style="padding-top:5mm"><strong>SIGNATURE</strong></p>
+                    <p class="col-md-6 visa"><strong>Caissier <span class="traduction"> Cashier</span></strong></p>
                 </div>
 
 
@@ -128,8 +131,11 @@
                     <p class="col-md-12 traduction">Amount</p>
                 </div>
                 <div class="row">
-                    <p class="col-md-6">DATE : {{$payement->date_payement}}</p>
-                    <p class="col-md-6 visa"><strong>VISA</strong></p>
+                    <p class="col-md-6"><strong>DATE :</strong> {{$payement->date_payement}}</p>
+                </div>
+                <div class="row" style="padding-left:20mm">
+                    <p class="col-md-6" style="padding-top:5mm"><strong>SIGNATURE</strong></p>
+                    <p class="col-md-6 visa"><strong>Caissier <span class="traduction"> Cashier</span></strong></p>
                 </div>
 
 

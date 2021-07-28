@@ -3,8 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="c5522a3f-f74c-474c-87f2-901ced8f473f" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/personnel/personnelController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/personnel/personnelController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_07_25_144157_addForeignKeysToTables.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_07_25_144157_addForeignKeysToTables.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/inscriptions/imprimer_recu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/inscriptions/imprimer_recu.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/inscriptions/imprimer_recu_p.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/inscriptions/imprimer_recu_p.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -452,7 +452,8 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SearchEverywhereHistoryKey" value="731c1e3c969f2da68d400b7240b6a3c9&#9;FILE&#9;file://C:/Users/Joel/Desktop/projects/SchoolConcept/storage/framework/views/731c1e3c969f2da68d400b7240b6a3c9&#10;p&#9;null&#9;null" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/inscriptions" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.General" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -596,7 +597,8 @@
       <workItem from="1540238707005" duration="1673000" />
       <workItem from="1597709361466" duration="23422000" />
       <workItem from="1609663986331" duration="2847000" />
-      <workItem from="1627219596769" duration="47961000" />
+      <workItem from="1627219596769" duration="48408000" />
+      <workItem from="1627462848922" duration="2113000" />
     </task>
     <servers />
   </component>
@@ -650,6 +652,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
