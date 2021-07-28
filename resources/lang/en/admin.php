@@ -315,6 +315,8 @@ return [
     "paid_eleve"=>"Students who paid",
     "unpaid_eleve"=>"Students who haven't paid",
     "cannot_delete"=>"This item cannot be deleted cause it is used elsewhere",
+    "must_specify"=>"You must specify the :value",
+
 
 
 

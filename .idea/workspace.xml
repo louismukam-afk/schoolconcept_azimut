@@ -3,8 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="c5522a3f-f74c-474c-87f2-901ced8f473f" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/inscriptions/imprimer_recu.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/inscriptions/imprimer_recu.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/inscriptions/imprimer_recu_p.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/inscriptions/imprimer_recu_p.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/listesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/listesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/en/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/admin.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/fr/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/fr/admin.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -598,7 +599,7 @@
       <workItem from="1597709361466" duration="23422000" />
       <workItem from="1609663986331" duration="2847000" />
       <workItem from="1627219596769" duration="48408000" />
-      <workItem from="1627462848922" duration="2113000" />
+      <workItem from="1627462848922" duration="4241000" />
     </task>
     <servers />
   </component>

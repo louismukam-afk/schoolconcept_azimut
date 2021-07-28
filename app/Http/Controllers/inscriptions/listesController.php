@@ -215,19 +215,24 @@ class listesController extends Controller {
     {
         $this->validate($request,[
             'classe'=>'required',
-            'nniveau'=>'required',
+            //'nniveau'=>'required',
             'type'=>'required',
             'frais'=>'required',
         ]);
 
+
+
         $classe=$request->input('classe');
         $type=$request->input('type');
         $nniveau = $request->input('nniveau');
-        $nniveauObject = NNiveau::find($nniveau);
-        $cycle = cycle::find($nniveauObject->id_cycle);
         $frais=$request->input('frais');
-
         $f=Frais::find($frais);
+
+        if($classe != 0) {
+            if($nniveau == null || strlen($nniveau) <= 0) {
+                return redirect()->to(\URL::previous())->withErrors(['no_nniveau' => trans('admin.must_specify', ['value' => trans('admin.nniveau')])]);
+            }
+        }
 
         $values['titre'] = trans('inscription.listes');
 

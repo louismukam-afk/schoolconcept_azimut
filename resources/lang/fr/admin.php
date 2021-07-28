@@ -328,7 +328,7 @@ return [
     "paid_eleve"=>"Etudiants ayant payé",
     "unpaid_eleve"=>"Etudiants n'ayant pas payé",
     "cannot_delete"=>"Cet élément ne peu être supprimé car il est utilisé ailleurs",
-    ""=>"",
+    "must_specify"=>"Vous devez specifier le/la :value",
 
 
 ];
