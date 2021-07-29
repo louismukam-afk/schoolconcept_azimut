@@ -196,6 +196,11 @@ class presenceController extends Controller {
 
         $h->annee_scolaire=\session('year');
         $h->nombre=$nombre;
+
+        $current_user = \Auth::user();
+        $h->id_creator = $current_user->id;
+        $h->id_last_editor = $current_user->id;
+
         $h->save();
         session(['success'=>true]);
         return redirect()->action('personnel\presenceController@create',['id'=>$id]);

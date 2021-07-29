@@ -253,6 +253,12 @@ class payementController extends Controller {
         $ps->total_retenu=floatval($total_retenu);
         $ps->net_a_payer=floatval($total-$total_retenu)   ;
         $ps->annee_scolaire=\session('year');
+
+        $current_user = \Auth::user();
+        $ps->id_creator = $current_user->id;
+        $ps->edition_details = 'net_a_payer : ' . $total - $total_retenu;
+        $ps->id_last_editor = $current_user->id;
+
         $ps->save();
         $numero=sprintf('%08d',$ps->id);
         $ps->numero=$numero;

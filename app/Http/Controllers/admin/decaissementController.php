@@ -76,7 +76,12 @@ class decaissementController extends Controller {
         $d->motif=$request->input('motif');
         $d->date=date('Y-m-d');
         $d->annee_scolaire=\session('year');
+
+        $current_user = \Auth::user();
+        $d->id_creator = $current_user->id;
+        $d->id_last_editor = $current_user->id;
         $d->save();
+
         session(['success'=>true]);
         return redirect()->action('admin\decaissementController@index');
 	}

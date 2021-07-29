@@ -330,6 +330,7 @@ class ComposerStaticInita8e744cd6ac8bb0715dcab13ed5037a3
         'AddOrderInCycleAndNniveau' => __DIR__ . '/../..' . '/database/migrations/2021_07_28_234018_addOrderInCycleAndNniveau.php',
         'AddTimestampToTables' => __DIR__ . '/../..' . '/database/migrations/2021_07_28_220313_addTimestampToTables.php',
         'AddTypeAndInscriptionColumnToPayement' => __DIR__ . '/../..' . '/database/migrations/2020_08_18_020130_add_type_and_inscription_column_to_payement.php',
+        'AddUserIdToFewtables' => __DIR__ . '/../..' . '/database/migrations/2021_07_29_001027_addUserIdToFewtables.php',
         'BulletinGenere' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_115836_bulletin_genere.php',
         'Classe' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_120129_classe.php',
         'ClasseMatiere' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_120147_classe_matiere.php',

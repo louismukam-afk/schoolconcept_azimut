@@ -184,6 +184,11 @@ class payementController extends Controller {
         $p->id_eleve=$id_eleve;
         $p->date_payement=$today;
 
+        $current_user = \Auth::user();
+        $p->edition_details = 'montant = ' . $montant;
+        $p->id_creator = $current_user->id;
+        $p->id_last_editor = $current_user->id;
+
         $p->save();
         $numero=sprintf('%08d',$p->id);
         $p->numero=$numero;
@@ -299,7 +304,13 @@ class payementController extends Controller {
         $montant=$request->input('montant');
         $p=payement::find($id);
         $p->montant=$montant;
+
+        $current_user = \Auth::user();
+        $p->id_last_editor = $current_user->id;
+
         $p->save();
+
+
         return redirect()->to(\URL::previous());
 
 	}

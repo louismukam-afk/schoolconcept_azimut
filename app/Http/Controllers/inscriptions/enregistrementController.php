@@ -1,7 +1,6 @@
 <?php namespace gesecole\Http\Controllers\inscriptions;
 
 use gesecole\eleve;
-use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
 use gesecole\parametres;
 use gesecole\Photo;
@@ -11,7 +10,6 @@ use Illuminate\Support\Facades\Session;
 use gesecole\parents;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Validation\Validator;
 use Intervention\Image\Facades\Image;
 
 class enregistrementController extends Controller {
@@ -162,6 +160,9 @@ class enregistrementController extends Controller {
         }
         else{
 
+            $current_user = \Auth::user();
+            $e->id_creator = $current_user->id;
+            $e->id_last_editor = $current_user->id;
 
                 $e->save();
                 if ($p0->nom != null) {
@@ -179,12 +180,12 @@ class enregistrementController extends Controller {
             $photo=$req->file('photo');
             if($photo!=null){
 
-
-                Image::make($photo->getRealPath())->encode('jpg',80)->resize(300,300)->save('img/photos/'.$e->id.'-'.session('year').'.jpg');
+                $savePath = photosController::getPhotosSaveDirPath() . '/' .$e->id.'-'.session('year').'.jpg';
+                Image::make($photo->getRealPath())->encode('jpg',80)->resize(300,300)->save($savePath);
                 $ph=new Photo();
                 $ph->eleve_id=$e->id;
                 $ph->annee_scolaire=\session('year');
-                $ph->url='img/photos/'.$e->id.'-'.session('year').'.jpg';
+                $ph->url = $savePath;
                 $ph->save();
 
 
@@ -280,15 +281,19 @@ class enregistrementController extends Controller {
         $e->deuxieme_langue=$req->input('deuxieme_langue');
         $e->autre_langue=$req->input('autre_langue');
         $e->profession=$req->input('profession');
+
+        $current_user = \Auth::user();
+        $e->id_last_editor = $current_user->id;
         $e->save();
 
         $photo=$req->file('photo');
         if($photo!=null){
 
 
-            Image::make($photo->getRealPath())->encode('jpg',80)->resize(300,300)->save('img/photos/'.$e->id.'-'.session('year').'.jpg');
+            $savePath = photosController::getPhotosSaveDirPath() . '/' .$e->id.'-'.session('year').'.jpg';
+            Image::make($photo->getRealPath())->encode('jpg',80)->resize(300,300)->save($savePath);
             $ph=Photo::firstOrNew(['eleve_id'=>$id,'annee_scolaire'=>\session('year')]);
-            $ph->url='img/photos/'.$e->id.'-'.session('year').'.jpg';
+            $ph->url = $savePath;
             $ph->save();
 
 

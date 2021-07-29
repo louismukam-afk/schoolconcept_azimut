@@ -33,8 +33,7 @@ Route::group(['middleware'=>'auth'],function (){
 
 
 
-        //pour les recherches
-        Route::get('/search/retrait', 'searchController@retrait');
+
         //pour les utilisateurs
         Route::get('/utilisateurs/', 'user\userController@index');
         Route::post('/utilisateurs/activer', 'user\userController@activate');
@@ -48,6 +47,8 @@ Route::group(['middleware'=>'auth'],function (){
 
 
         Route::post('/inscriptions/payement/update', ['uses'=>'inscriptions\payementController@update','as'=>'update_payement']);
+        Route::get('/inscriptions/enregistrement/destroy/{id}', ['uses'=>'inscriptions\enregistrementController@destroy','as'=>'destroy_eleve']);
+        Route::get('/inscriptions/remove/{id_eleve}','inscriptions\inscriptionController@destroy');
 
 
     });
@@ -156,7 +157,6 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/inscriptions/eleves/search', 'inscriptions\enregistrementController@index');
         Route::get('/inscriptions/enregistrement/create/', 'inscriptions\enregistrementController@create');
         Route::get('/inscriptions/enregistrement/edit/{id}', 'inscriptions\enregistrementController@edit');
-                Route::get('/inscriptions/enregistrement/destroy/{id}', ['uses'=>'inscriptions\enregistrementController@destroy','as'=>'destroy_eleve']);
 
         Route::post('/inscriptions/enregistrement/store/', 'inscriptions\enregistrementController@store');
         Route::post('/inscriptions/enregistrement/update/{id}', 'inscriptions\enregistrementController@update');
@@ -184,7 +184,6 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/inscriptions/listes/show/','inscriptions\listesController@show');
         Route::get('/inscriptions/listes/frais/show', ['as'=>'show_frais_liste','uses'=>'inscriptions\listesController@showFrais']);
         Route::get('/inscriptions/print-certificate/{id}','inscriptions\inscriptionController@certificate');
-        Route::get('/inscriptions/remove/{id_eleve}','inscriptions\inscriptionController@destroy');
         Route::any('/inscriptions/photos/','inscriptions\photosController@create');
         Route::any('/inscriptions/photos/store',['as'=>'store_photo','uses'=>'inscriptions\photosController@store']);
         Route::any('/inscriptions/cartes/',['as'=>'show_carte','uses'=>'inscriptions\photosController@show_carte']);
@@ -308,6 +307,9 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/comptabilite/', 'comptabilite\comptabiliteController@index');
         // les décaissements
         Route::get('/admin/retrait/','admin\decaissementController@index');
+        //pour les recherches
+        Route::get('/search/retrait', 'searchController@retrait');
+
         Route::post('/admin/retrait/store','admin\decaissementController@store');
         // le payement des salaires
         Route::get('/comptabilite/payement-salaire/','comptabilite\payementController@index');

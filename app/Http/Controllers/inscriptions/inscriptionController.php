@@ -162,6 +162,12 @@ class inscriptionController extends Controller {
        $i->id_nniveau=$id_nniveau;
        $i->date_inscription=$today;
        $i->montant=$montant;
+
+        $current_user = \Auth::user();
+        $i->id_creator = $current_user->id;
+        $i->edition_details = 'classe =' . $id_classe . ', cycle = ' . $id_cycle . ', nniveau = ' . $id_nniveau . ', montant = ' . $montant;
+        $i->id_last_editor = $current_user->id;
+
        if($i->save()) {
            $p = new payement();
            $p->id_eleve = $id_eleve;
@@ -171,6 +177,12 @@ class inscriptionController extends Controller {
            $p->id_inscription = $i->id;
            $p->motif = 'Inscription';
            $p->type = Vars::INSCRIPTION_TYPE;
+
+           $current_user = \Auth::user();
+           $p->edition_details = 'montant = ' . $montant;
+           $p->id_creator = $current_user->id;
+           $p->id_last_editor = $current_user->id;
+
            $p->save();
            $numero = sprintf('%08d', $p->id);
            $p->numero = $numero;
@@ -184,6 +196,7 @@ class inscriptionController extends Controller {
            } else{
 
                $e = eleve::find($id_eleve);
+
                 if(strlen($e->matricule) <= 0){
                    $c = classe::find($id_classe);
                    $param = parametres::all();
@@ -344,6 +357,10 @@ class inscriptionController extends Controller {
         $i->id_classe=$id_classe;
         $i->id_cycle=$id_cycle;
         $i->id_nniveau=$id_nniveau;
+
+        $current_user = \Auth::user();
+        $i->id_last_editor = $current_user->id;
+
         if($i->save()) {
 
 

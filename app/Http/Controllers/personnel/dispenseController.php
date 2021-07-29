@@ -213,6 +213,11 @@ class dispenseController extends Controller {
         $c->jour=$req->input('jour');
         $c->id_salle=$salle;
         $c->id_horaire=$req->input('id_horaire');
+
+        $current_user = \Auth::user();
+        $c->id_creator = $current_user->id;
+        $c->id_last_editor = $current_user->id;
+
         $c->save();
 
         $hp=heuresPrevues::whereAnneeScolaire(\session('year'))
@@ -323,6 +328,10 @@ class dispenseController extends Controller {
         $c->id_nniveau=$req->input('nniveau');
         $c->jour=$req->input('jour');
         $c->id_horaire=$req->input('id_horaire');
+
+        $current_user = \Auth::user();
+        $c->id_last_editor = $current_user->id;
+
         $c->save();
         $hp=heuresPrevues::whereAnneeScolaire(\session('year'))
             ->where('id_personnel','=',$req->input('personnel'))
@@ -408,6 +417,10 @@ class dispenseController extends Controller {
         $c->id_personnel = $req->input('id_personnel');
         $c->id_classe = $req->input('id_classe');
         $c->annee_scolaire = $req->input('annee_scolaire');
+
+        $current_user = \Auth::user();
+        $c->id_last_editor = $current_user->id;
+
         $c->save();
         session(['success' => true]);
         return redirect()->action('personnel\dispenseController@index');

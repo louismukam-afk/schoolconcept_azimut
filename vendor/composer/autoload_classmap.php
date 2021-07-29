@@ -11,6 +11,7 @@ return array(
     'AddOrderInCycleAndNniveau' => $baseDir . '/database/migrations/2021_07_28_234018_addOrderInCycleAndNniveau.php',
     'AddTimestampToTables' => $baseDir . '/database/migrations/2021_07_28_220313_addTimestampToTables.php',
     'AddTypeAndInscriptionColumnToPayement' => $baseDir . '/database/migrations/2020_08_18_020130_add_type_and_inscription_column_to_payement.php',
+    'AddUserIdToFewtables' => $baseDir . '/database/migrations/2021_07_29_001027_addUserIdToFewtables.php',
     'BulletinGenere' => $baseDir . '/database/migrations/2017_09_26_115836_bulletin_genere.php',
     'Classe' => $baseDir . '/database/migrations/2017_09_26_120129_classe.php',
     'ClasseMatiere' => $baseDir . '/database/migrations/2017_09_26_120147_classe_matiere.php',

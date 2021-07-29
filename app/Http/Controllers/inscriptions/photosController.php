@@ -132,7 +132,7 @@ class photosController extends Controller {
                 $ext=$p->getClientOriginalExtension();
                 $ph=Photo::firstOrNew(['annee_scolaire'=>session('year'),'eleve_id'=>$e]);
 
-                $savePath = $this->getPhotosSaveDirPath() . '/' .$e.'-'.session('year').'.'.$ext;
+                $savePath = self::getPhotosSaveDirPath() . '/' .$e.'-'.session('year').'.'.$ext;
                 Image::make($p->getRealPath())->resize(300,300)->save($savePath);
                 $ph->url=$savePath;
                 $ph->save();
@@ -292,7 +292,7 @@ class photosController extends Controller {
 
     }
 
-    public function getPhotosSaveDirPath() {
+    public static function getPhotosSaveDirPath() {
         $dir = 'img/photos/'. session('year');
         if(!file_exists($dir)) {
             mkdir($dir, 0777, true);

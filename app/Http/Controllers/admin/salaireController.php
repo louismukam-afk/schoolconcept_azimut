@@ -83,6 +83,12 @@ class salaireController extends Controller {
         $c->montant=$req->input('montant');
         $c->type=$req->input('type');
         $c->id_personnel=$req->input('id_personnel');
+
+        $current_user = \Auth::user();
+        $c->id_creator = $current_user->id;
+        $c->edition_details = 'montant : ' . $c->montant;
+        $c->id_last_editor = $current_user->id;
+
         $c->save();
         session(['success'=>true]);
         return redirect()->action('admin\salaireController@index');
@@ -129,6 +135,10 @@ class salaireController extends Controller {
         $c->montant=$req->input('montant');
         $c->type=$req->input('type');
         $c->id_personnel=$req->input('id_personnel');
+
+        $current_user = \Auth::user();
+        $c->id_last_editor = $current_user->id;
+
         $c->save();
         session(['success'=>true]);
         return redirect()->action('admin\salaireController@index');

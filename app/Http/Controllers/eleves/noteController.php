@@ -833,15 +833,27 @@ class noteController extends Controller {
 
             return redirect()->to(url('/eleves/notes/matieres?id='.$id_classe.'&cycle='.$id_cycle.'&nniveau='.$id_nniveau));
         }
-        foreach ($eleveList as $e){
-            $n=note::firstOrNew(['annee_scolaire'=>session('year'),'id_matiere'=>$id_matiere,'sequence'=>$sequence,'id_eleve'=>$e]);
+        $current_user = \Auth::user();
 
+        foreach ($eleveList as $e){
+            $n = note::where('annee_scolaire', '=', session('year'))
+                ->where('id_matiere', '=', $id_matiere)
+                ->where('sequence', '=', $sequence)
+                ->where('id_eleve', '=', $e)
+                ->first();
+
+            if($n == null) {
+                $n = new note();
+                $n->id_creator = $current_user->id;
+                $n->edition_details = 'note : ' . $noteList[$i]*$mul;
                 $n->id_matiere=$id_matiere;
                 $n->sequence=$sequence;
                 $n->id_eleve=$e;
                 $n->annee_scolaire=session('year');
-                $n->note=$noteList[$i]*$mul;
-                $n->save();
+            }
+            $n->note=$noteList[$i]*$mul;
+            $n->id_last_editor = $current_user->id;
+            $n->save();
 
             $i++;
         }

@@ -187,7 +187,11 @@ class disciplineController extends Controller {
         foreach ($justify as $j)
         {
             $jst=discipline::find($j);
+
             $jst->just=1;
+            $current_user = \Auth::user();
+            $jst->edition_details = 'just = 1';
+            $jst->id_last_editor = $current_user->id;
             $jst->save();
         }
 
@@ -246,6 +250,8 @@ class disciplineController extends Controller {
         if($type==5)
             $d->exclus_def=1;
 
+        $current_user = \Auth::user();
+        $d->id_last_editor = $current_user->id;
 
         $d->save();
         session(['success'=>true]);

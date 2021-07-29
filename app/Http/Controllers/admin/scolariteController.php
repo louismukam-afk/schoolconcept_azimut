@@ -93,9 +93,10 @@ class scolariteController extends Controller {
         $tranche5=$req->input('tranche5');
 
         $s0=scolarite::whereIdCycle($cycle)->where('id_niveau','=',$classe)->first();
+        $current_user = \Auth::user();
+
         if($s0!=null)
         {
-            $s=new scolarite();
             $s0->id_niveau=$classe;
             $s0->id_cycle=$cycle;
             $s0->inscription=$inscription;
@@ -105,6 +106,9 @@ class scolariteController extends Controller {
             $s0->tranche4=floatval($tranche4);
             $s0->tranche5=floatval($tranche5);
             $s0->total=$tranche1+$tranche2+$tranche3+$tranche4+$tranche5;
+
+            $s0->id_last_editor = $current_user->id;
+
             $s0->save();
         }else{
             $s=new scolarite();
@@ -117,6 +121,11 @@ class scolariteController extends Controller {
             $s->tranche4=floatval($tranche4);
             $s->tranche5=floatval($tranche5);
             $s->total=$tranche1+$tranche2+$tranche3+$tranche4+$tranche5;
+
+            $s->id_creator = $current_user->id;
+            $s->id_last_editor = $current_user->id;
+            $s->edition_details = 'total : ' . $s->total. ', inscription : ' . $inscription;
+
             $s->save();
 
         }
@@ -186,6 +195,10 @@ class scolariteController extends Controller {
         $s->tranche4=floatval($tranche4);
         $s->tranche5=floatval($tranche5);
         $s->total=$tranche1+$tranche2+$tranche3+$tranche4+$tranche5;
+
+        $current_user = \Auth::user();
+        $s->id_last_editor = $current_user->id;
+
         $s->save();
         session(['success'=>true]);
         return redirect()->action('admin\scolariteController@index');
