@@ -31,7 +31,7 @@
                                         <div class="logo">
                                         </div>
                                         <div class="school text-uppercase">
-                                            {{$nom_e}}
+                                            <span>{{$nom_e}}</span>
                                         </div>
                                     </div>
 
@@ -39,6 +39,7 @@
                                         {{trans_choice('admin.carte_e',1)}}
                                     </div>
                                     <div class="card-body">
+                                        <div class="filigrane"></div>
                                         <div class="card-infos">
                                             <div class="infos-group text-uppercase">
                                                 <div class="field-title">Matricule</div>
@@ -110,7 +111,7 @@
                                         <div class="logo">
                                         </div>
                                         <div class="school text-uppercase">
-                                            {{$nom_e}}
+                                            <span>{{$nom_e}}</span>
                                         </div>
                                     </div>
 
@@ -118,6 +119,7 @@
                                         {{trans_choice('admin.carte_e',1)}}
                                     </div>
                                     <div class="card-body">
+                                        <div class="filigrane"></div>
                                         <div class="card-infos">
                                             <div class="infos-group text-uppercase">
                                                 <div class="field-title">Matricule</div>
