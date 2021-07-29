@@ -41,6 +41,11 @@
     background-size: 100% 100%;
 }
 
+.card-e.card-back {
+    background: url("../img/school-concept-carte-back.jpg");
+    background-size: 100% 100%;
+}
+
 .card-e-box
 {
     position: relative;
@@ -287,6 +292,14 @@
         background: url("../img/carte.png") !important;
         background-size: 100% 100% !important;
     }
+
+    .card-e.card-back {
+        background: url("../img/school-concept-carte-back.jpg")!important;
+        background-size: 100% 100%!important;
+    }
+
+
+
     .card-e.left
     {
         left : 15mm;

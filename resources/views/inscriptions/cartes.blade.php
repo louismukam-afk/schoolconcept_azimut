@@ -14,7 +14,7 @@
 
 
         </div>
-        <?php $k=0 ?>
+        <?php $k=0;$k1=0 ?>
 
         @for($i=0;$i<$n;$i++)
             <div class="card-group">
@@ -176,6 +176,38 @@
                             </div>
                         @endif
                         <?php $k++ ?>
+
+
+                    </div>
+                @endfor
+
+
+            </div>
+
+
+            <div class="card-group">
+
+                @for($j=0; $j<5; $j++)
+
+                    <div class="row card-row">
+
+                        @if(isset($eleves[$k1]))
+                            <?php $e=$eleves[$k1] ?>
+                            <div class="card-e card-back left">
+
+                            </div>
+                        @endif
+
+                        <?php $k1++ ?>
+
+                        @if(isset($eleves[$k1]))
+                                <?php $e=$eleves[$k1] ?>
+
+                            <div class="card-e card-back right">
+
+                            </div>
+                        @endif
+                        <?php $k1++ ?>
 
 
                     </div>
