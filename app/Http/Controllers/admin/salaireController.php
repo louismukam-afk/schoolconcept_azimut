@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Session;
 use gesecole\personnel;
 use gesecole\salaire;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class salaireController extends Controller {
 
@@ -123,25 +124,25 @@ class salaireController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update(Request $req,$id)
+	public function update(Request $req)
 	{
         $this->validate($req,[
-            'montant'=>'numeric',
-            'id_personnel'=>'required|numeric',
+            'id'=>'numeric|required',
+            'montant'=>'numeric|required',
             'type'=>'required|numeric',
 
         ]);
+        $id = $req->input('id');
         $c=salaire::find($id);
         $c->montant=$req->input('montant');
         $c->type=$req->input('type');
-        $c->id_personnel=$req->input('id_personnel');
 
         $current_user = \Auth::user();
         $c->id_last_editor = $current_user->id;
 
         $c->save();
         session(['success'=>true]);
-        return redirect()->action('admin\salaireController@index');
+        return redirect()->to(URL::previous());
 
 	}
 
