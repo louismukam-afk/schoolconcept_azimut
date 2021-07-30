@@ -1,7 +1,6 @@
 @extends('skeleton')
 @section('sub-content')
     <link rel="stylesheet" href="{{asset('css/carte.css')}}">
-
     @if(isset($inscription))
         @if($inscription== 0)
             <div class="alert alert-danger">
@@ -194,7 +193,9 @@
                         @if(isset($eleves[$k1]))
                             <?php $e=$eleves[$k1] ?>
                             <div class="card-e card-back left">
-
+                                    <div class="qrcode-container">
+                                        <img class="qrcode" src="data:image/png;base64, {!! base64_encode(\QrCode::format('png')->errorCorrection('H')->size(200)->generate(openssl_encrypt($e->id, \gesecole\Http\Controllers\startController::SIMPLE_CRYPT_ALGO, \gesecole\Http\Controllers\startController::PASSPHRASE, 0, \gesecole\Http\Controllers\startController::VECTOR))) !!}" />
+                                    </div>
                             </div>
                         @endif
 
@@ -204,7 +205,9 @@
                                 <?php $e=$eleves[$k1] ?>
 
                             <div class="card-e card-back right">
-
+                                    <div class="qrcode-container">
+                                        <img class="qrcode" src="data:image/png;base64, {!! base64_encode(\QrCode::format('png')->errorCorrection('H')->size(200)->generate(openssl_encrypt($e->id, \gesecole\Http\Controllers\startController::SIMPLE_CRYPT_ALGO, \gesecole\Http\Controllers\startController::PASSPHRASE, 0, \gesecole\Http\Controllers\startController::VECTOR))) !!}" />
+                                    </div>
                             </div>
                         @endif
                         <?php $k1++ ?>

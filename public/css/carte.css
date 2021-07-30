@@ -46,9 +46,19 @@
     background-size: 100% 100%;
 }
 
-.card-e-box
-{
-    position: relative;
+.qrcode-container {
+    width: 20mm;
+    height: 20mm;
+    padding: 0;
+    background-color: white;
+    position: absolute;
+    bottom: 2mm;
+    left: 2mm;
+
+}
+.qrcode-container img {
+    width: 100%;
+    height: 100%;
 }
 
 .card-e-box
@@ -311,6 +321,22 @@
     .card-e-box
     {
         position: relative;
+    }
+
+    .qrcode-container {
+        color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+        width: 20mm;
+        height: 20mm;
+        position: absolute;
+        bottom: 2mm;
+        padding: 0;
+        left: 2mm;
+
+    }
+    .qrcode-container img {
+        width: 100%;
+        height: 100%;
     }
     .card-e .logo
     {

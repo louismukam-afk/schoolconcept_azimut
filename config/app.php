@@ -138,6 +138,8 @@ return [
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
         Intervention\Image\ImageServiceProvider::class,
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+
 
 
 		/*
@@ -187,6 +189,7 @@ return [
 		'Mail'      => 'Illuminate\Support\Facades\Mail',
 		'Password'  => 'Illuminate\Support\Facades\Password',
 		'Queue'     => 'Illuminate\Support\Facades\Queue',
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
 		'Redirect'  => 'Illuminate\Support\Facades\Redirect',
 		'Redis'     => 'Illuminate\Support\Facades\Redis',
 		'Request'   => 'Illuminate\Support\Facades\Request',

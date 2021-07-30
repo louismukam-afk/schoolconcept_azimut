@@ -11,6 +11,9 @@ use Intervention\Image\Facades\Image;
 
 class startController extends Controller {
 
+     const PASSPHRASE = "yxrpi7PCloUxCVxw";
+     const VECTOR = "ABCDEFGH";
+     const SIMPLE_CRYPT_ALGO = "blowfish";
 	/**
 	 * Display a listing of the resource.
 	 *

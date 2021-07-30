@@ -3,6 +3,7 @@
 use gesecole\classe;
 use gesecole\eleve;
 use gesecole\Http\Controllers\admin\nniveauController;
+use gesecole\Http\Controllers\startController;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
 
@@ -221,12 +222,6 @@ class photosController extends Controller {
             $values['classe']=$classe;
             $values['niveau']=$classe->niveau;
             $values['nniveau']=$nn;
-
-
-
-
-
-
 
             return view('inscriptions/cartes',$values);
 
