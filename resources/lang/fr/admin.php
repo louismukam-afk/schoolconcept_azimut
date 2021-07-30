@@ -335,6 +335,7 @@ return [
     "confirm_delete_student"=>"Si vous supprimer cet étudiant, son inscription, ses paiements, ses notes,... seront supprimés. Êtes vous sure de vouloir le supprimer?",
     "delete" => "Supprimer",
     "today" => "Aujourd'hui",
+    "s_result_containing" => "Résultats contenant les termes << :terms >>",
 
 
 ];

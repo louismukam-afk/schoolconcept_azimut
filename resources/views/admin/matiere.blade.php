@@ -1,5 +1,37 @@
 @extends('skeleton')
 @section('sub-content')
+
+    <div class="row">
+        <div class="col-md-8">
+            <form class="form-horizontal" id="add_inscription_form" method="get" action="{{URL::to('/admin/matieres/')}}">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="search">{{  trans('inscription.recherche')  }} : </label>
+                        <div class="input-group">
+                            <input id="search" type="search" name="search" placeholder="{{trans('inscription.nom')}}" class="form-control" autofocus>
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-primary" ><span class="fa fa-search"> </span>{{trans('inscription.search')}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+        <div class="col-md-4">
+
+            <button class="btn btn-success" data-toggle="modal" data-backdrop="false" href="#add_cycle"
+            ><span class="glyphicon glyphicon-plus"></span>{{  trans('admin.ajouter_matiere')  }}</button>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            @if(isset($search_term))
+                <h4 style="color: gray">{{trans('admin.s_result_containing', ['terms' => $search_term])}}</h4>
+            @endif
+        </div>
+    </div>
     <div class="col-md-8">
         @if(isset($success))
 
@@ -8,8 +40,7 @@
             </div>
 
         @endif
-            <button class="btn btn-success" data-toggle="modal" data-backdrop="false" href="#add_cycle"
-            ><span class="glyphicon glyphicon-plus"></span>{{  trans('admin.ajouter_matiere')  }}</button>
+
 
         <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 15px;">
             <thead>

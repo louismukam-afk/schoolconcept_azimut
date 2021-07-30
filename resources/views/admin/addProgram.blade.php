@@ -139,8 +139,41 @@
 
 
     </div>
+
+
+
     <div class="add-container col-md-12" style="margin-top: 25px">
         <h3>{{trans('admin.ajouter_matiere')}}</h3>
+        <div class="row">
+            <div class="col-md-8">
+                <form class="form-horizontal"  method="get" action="{{URL::to('/admin/programmes/selection-matieres')}}">
+                    <input type="hidden" name="id" value="{{ $classe->id }}">
+                    <input type="hidden" name="cycle" value="{{ $id_cycle }}">
+                    <input type="hidden" name="nniveau" id="id_nniveau" value="{{$id_nniveau}}"/>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="search">{{  trans('inscription.recherche')  }} : </label>
+                            <div class="input-group">
+                                <input id="search" type="search" name="search" placeholder="{{trans('inscription.nom')}}" class="form-control" autofocus>
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-primary" ><span class="fa fa-search"> </span>{{trans('inscription.search')}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                @if(isset($search_term))
+                    <h4 style="color: gray">{{trans('admin.s_result_containing', ['terms' => $search_term])}}</h4>
+                @endif
+            </div>
+        </div>
         <form accept-charset="UTF-8" role="form" method="POST" id="add_level_form" action="{{ url('/admin/programmes/store/') }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
             <input type="hidden" name="id" value="{{ $classe->id }}">
@@ -236,11 +269,11 @@
 
         }
 
-        $('#table-matiere').dataTable( {
+        /*$('#table-matiere').dataTable( {
             dom: 'Bfrtip',
            pageLength : 50,
             buttons:[]
-        } );
+        } );*/
     </script>
 @endsection
 

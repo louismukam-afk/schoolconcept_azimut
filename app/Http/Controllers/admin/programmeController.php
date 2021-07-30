@@ -8,6 +8,7 @@ use gesecole\cycle;
 use gesecole\niveau;
 use gesecole\NNiveau;
 use gesecole\parametres;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
@@ -68,6 +69,8 @@ class programmeController extends Controller {
         $this->validate($request,[
             "nniveau"=>"required|numeric",
         ]);
+
+        $limit = 50;
 	    $id=$request->input('id');
 	    $c=classe::find($id);
 	    $cycle= $request->input('cycle');
@@ -75,9 +78,39 @@ class programmeController extends Controller {
 	    $nniveau=$request->input('nniveau');
         $titre=trans('admin.programme');
         $p=DB::select('SELECT cm.id,cm.id_matiere,cm.type,cm.id_cycle,cm.semestre,m.nom_anglais,m.nom as nom_matiere,coef,max FROM classe_matiere cm, matiere m ,classe c WHERE cm.id_classe=c.id AND cm.id_matiere=m.id And c.id=?  AND cm.id_cycle=? AND cm.id_nniveau=?',[$id,$cycle,$nniveau]);
-        $m=DB::select('select m.id,m.nom,m.nom_anglais FROM matiere m WHERE  m.id NOT IN (SELECT cm.id_matiere FROM classe_matiere cm WHERE cm.id_classe=?  AND cm.id_cycle=? AND cm.id_nniveau=?)',[$id,$cycle,$nniveau]);
-
         $values= array('titre'=>$titre,'programmes'=>$p);
+
+        $search_term = $request->input('search');
+        if($search_term) {
+            $values['search_term']=$search_term;
+            $terms = explode(' ', $search_term);
+            $rawSql = '';
+            $i = 0;
+            $processedTerms = [];
+            foreach ($terms as $t) {
+                if($i != 0) {
+                    $rawSql .= ' OR ';
+                }
+                $rawSql .=  (App::getLocale()=='en'?'nom_anglais':'nom') . ' like ?';
+                $processedTerms[$i] = '%' . $t . '%';
+                $i++;
+            }
+
+
+            $rawSql = 'AND (' . $rawSql . ') ORDER BY ' . ((App::getLocale()=='en')?'nom_anglais':'nom') . ' LIMIT ' . $limit;
+
+            $finalArray = array_merge([$id,$cycle,$nniveau], $processedTerms);
+
+
+            $m=DB::select('select m.id,m.nom,m.nom_anglais FROM matiere m WHERE  m.id NOT IN (SELECT cm.id_matiere FROM classe_matiere cm WHERE cm.id_classe=?  AND cm.id_cycle=? AND cm.id_nniveau=?)' .$rawSql ,$finalArray);
+
+
+
+        } else {
+            $m=DB::select('select m.id,m.nom,m.nom_anglais FROM matiere m WHERE  m.id NOT IN (SELECT cm.id_matiere FROM classe_matiere cm WHERE cm.id_classe=?  AND cm.id_cycle=? AND cm.id_nniveau=?) LIMIT '. $limit,[$id,$cycle,$nniveau]);
+
+        }
+
         $values['classe']=$c;
         $values['matieres']=$m;
         $values['id_cycle']=$cycle;

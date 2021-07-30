@@ -37,11 +37,37 @@ class matiereController extends Controller {
             }
         }
     }
-    public function index()
+    public function index(Request $request)
     {
         $titre=trans('admin.titre_matiere');
-        $m=matiere::orderBy((App::getLocale()=='en')?'nom_anglais':'nom')->paginate(200);
-        $values= array('titre'=>$titre,'matieres'=>$m);
+        $values= array('titre'=>$titre);
+
+        $search_term = $request->input('search');
+        if($search_term) {
+            $values['search_term']=$search_term;
+            $terms = explode(' ', $search_term);
+            $rawSql = '';
+            $i = 0;
+            $processedTerms = [];
+            foreach ($terms as $t) {
+                if($i != 0) {
+                    $rawSql .= ' OR ';
+                }
+                $rawSql .=  (App::getLocale()=='en'?'nom_anglais':'nom') . ' like ?';
+                $processedTerms[$i] = '%' . $t . '%';
+                $i++;
+            }
+
+
+            $m=matiere::whereRaw($rawSql, $processedTerms)
+                ->orderBy((App::getLocale()=='en')?'nom_anglais':'nom')->paginate(50);
+
+        } else {
+            $m=matiere::orderBy((App::getLocale()=='en')?'nom_anglais':'nom')->paginate(50);
+        }
+
+        $values['matieres']=$m;
+
         if(session('success')){
             Session::forget('success');
             $values['success']=true;
@@ -52,7 +78,6 @@ class matiereController extends Controller {
 
     /**
      * Show the form for creating a new resource.
-     *
      * @return Response
      */
     public function create()

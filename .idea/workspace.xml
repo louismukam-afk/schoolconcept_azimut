@@ -3,12 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="c5522a3f-f74c-474c-87f2-901ced8f473f" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/comptabilite/bilanComptaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/comptabilite/bilanComptaController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/payement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/payement.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/matiereController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/matiereController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/programmeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/programmeController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/lang/en/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/admin.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/lang/fr/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/fr/admin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/comptabilite/bilanEntrees.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/comptabilite/bilanEntrees.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/comptabilite/bilanSorties.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/comptabilite/bilanSorties.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/addProgram.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/addProgram.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/matiere.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/matiere.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -606,7 +606,7 @@
       <workItem from="1627219596769" duration="48408000" />
       <workItem from="1627462848922" duration="50511000" />
       <workItem from="1627590571269" duration="470000" />
-      <workItem from="1627621336475" duration="11262000" />
+      <workItem from="1627621336475" duration="15391000" />
     </task>
     <servers />
   </component>
