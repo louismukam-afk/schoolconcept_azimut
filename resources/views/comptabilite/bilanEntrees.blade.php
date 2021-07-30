@@ -15,6 +15,7 @@
                 <a href="{{url('/comptabilite/bilan/entrees').'?option=year'}}" class="btn btn-success"> @lang('admin.toute_lannee')</a>
                 <a href="{{url('/comptabilite/bilan/entrees').'?option=month'}}" class="btn btn-info"> @lang('admin.mois')</a>
                 <a href="{{url('/comptabilite/bilan/entrees').'?option=week'}}" class="btn btn-warning"> @lang('admin.semaine')</a>
+                <a href="{{url('/comptabilite/bilan/entrees').'?option=today'}}" class="btn btn-primary"> @lang('admin.today')</a>
 
             </div>
 
@@ -30,6 +31,7 @@
                 <thead>
                 <th>#</th>
                 <th>{{trans('inscription.motif')}}</th>
+                <th>{{trans('inscription.nom')}}</th>
                 <th>Date</th>
                 <th>@lang('inscription.montant')</th>
                 <th></th>
@@ -40,6 +42,7 @@
                     <tr>
                         <td>{{$i++}}</td>
                         <td><strong >{{$p->motif}}</strong></td>
+                        <td>@if($p->eleve) {{$p->eleve->nom . ' ' . $p->eleve->prenom }} @endif</strong></td>
                         <td>{{(new DateTime($p->date_payement))->format('d-m-Y')}}</td>
                         <td>{{$p->montant}}</td>
                         <!-- TO CHANGE -->
@@ -64,6 +67,7 @@
             <div class="panel-body">
                 <form accept-charset="UTF-8" role="form" method="POST" action="{{ url('/comptabilite/bilan/entrees') }}">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="date_range" value="1">
                     <fieldset>
 
                         <div class="form-group">

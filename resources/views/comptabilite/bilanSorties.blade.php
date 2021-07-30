@@ -18,6 +18,7 @@
                         <a href="{{url('/comptabilite/bilan/sorties').'?option=year'}}" class="btn btn-success"> @lang('admin.toute_lannee')</a>
                         <a href="{{url('/comptabilite/bilan/sorties').'?option=month'}}" class="btn btn-info"> @lang('admin.mois')</a>
                         <a href="{{url('/comptabilite/bilan/sorties').'?option=week'}}" class="btn btn-warning"> @lang('admin.semaine')</a>
+                        <a href="{{url('/comptabilite/bilan/sorties').'?option=today'}}" class="btn btn-primary"> @lang('admin.today')</a>
 
                     </div>
                     <h4 style="margin-top: 15px;">
@@ -72,6 +73,8 @@
                         <div class="panel-body">
                             <form accept-charset="UTF-8" role="form" method="POST" action="{{ url('/comptabilite/bilan/sorties') }}">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <input type="hidden" name="date_range" value="1">
+
                                 <fieldset>
 
                                     <div class="form-group ">

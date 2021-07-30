@@ -321,6 +321,8 @@ return [
     "confirm_delete" => "Are you sure you want to delete this item?",
     "confirm_delete_student" => "If you delete this student, his registration, payments, grades, ... will be deleted. Are you sure you want to delete him?",
     "delete" => "delete",
+    "today" => "Today",
+
 
 
 

@@ -42,9 +42,10 @@ class bilanComptaController extends Controller {
 
 	public function index(Request $request)
 	{
+
         $this->validate($request,[
-           'date_debut'=>'date',
-            'date_fin'=>'date',
+           'date_debut' => 'date',
+            'date_fin' => 'date',
         ]);
         $tt=trans('admin.toute_lannee');
         $option=$request->input('option');
@@ -52,17 +53,29 @@ class bilanComptaController extends Controller {
 
         $date_debut=$request->input('date_debut');
         $date_fin=$request->input('date_fin');
+        $date_range=$request->input('date_range');
 
-        if($date_debut!=null && $date_fin!=null){
-            $p=payement::whereAnneeScolaire(\session('year'))
-                ->where('date_payement','>=',(new \DateTime($date_debut))->format('Y-m-d'))
-                ->where('date_payement','<=',(new \DateTime($date_fin))->format('Y-m-d'))
-                ->orderBy('date_payement','desc')
-                ->get();
+        if($date_range && ($date_debut != null || $date_fin != null)) {
+            if($date_debut!=null && $date_fin!=null){
+                $p=payement::with('eleve')->whereAnneeScolaire(\session('year'))
+                    ->where('date_payement','>=',(new \DateTime($date_debut))->format('Y-m-d'))
+                    ->where('date_payement','<=',(new \DateTime($date_fin))->format('Y-m-d'))
+                    ->orderBy('date_payement','desc')
+                    ->get();
 
-
-
-        }else{
+            } elseif ($date_debut != null && $date_fin == null) {
+                $p=payement::with('eleve')->whereAnneeScolaire(\session('year'))
+                    ->where('date_payement','>=',(new \DateTime($date_debut))->format('Y-m-d'))
+                    ->orderBy('date_payement','desc')
+                    ->get();
+            } else {
+                $p=payement::with('eleve')->whereAnneeScolaire(\session('year'))
+                    ->where('date_payement','<=',(new \DateTime($date_fin))->format('Y-m-d'))
+                    ->orderBy('date_payement','desc')
+                    ->get();
+            }
+        }
+       else{
             if($option=='month')
             {
                 $tt=trans('admin.mois');
@@ -70,7 +83,7 @@ class bilanComptaController extends Controller {
                 $dd=date('Y-m-01');
                 $df=date('Y-m-t');
 
-                $p=payement::whereAnneeScolaire(\session('year'))
+                $p=payement::with('eleve')->whereAnneeScolaire(\session('year'))
                     ->where('date_payement','>=',(new \DateTime($dd))->format('Y-m-d'))
                     ->where('date_payement','<=',(new \DateTime($df))->format('Y-m-d'))
                     ->orderBy('date_payement','desc')
@@ -83,16 +96,26 @@ class bilanComptaController extends Controller {
 
                 $monday = Carbon::now()->startOfWeek()->toDateString();
                 $sunday = Carbon::now()->endOfWeek()->toDateString();
-                $p=payement::whereAnneeScolaire(\session('year'))
+                $p=payement::with('eleve')->whereAnneeScolaire(\session('year'))
                     ->where('date_payement','>=',(new \DateTime($monday))->format('Y-m-d'))
                     ->where('date_payement','<=',(new \DateTime($sunday))->format('Y-m-d'))
                     ->orderBy('date_payement','desc')
                     ->get();
 
             }
+            elseif ($option=='today'){
+                $tt=trans('admin.today');
+
+                $d = date('Y-m-d');
+                $p=payement::with('eleve')->whereAnneeScolaire(\session('year'))
+                    ->where('date_payement','=', $d)
+                    ->orderBy('date_payement','created_at')
+                    ->get();
+
+            }
             else{
                 $tt=trans('admin.toute_lannee');
-                $p=payement::whereAnneeScolaire(\session('year'))->orderBy('date_payement','desc')->get();
+                $p=payement::with('eleve')->whereAnneeScolaire(\session('year'))->orderBy('date_payement','desc')->get();
             }
 
         }
@@ -104,7 +127,7 @@ class bilanComptaController extends Controller {
             $total+=$pay->montant;
         }
         $values= array('titre'=>$titre,'payements'=>$p,'total'=>$total,'table_titre'=>$tt);
-        if($date_debut!=null && $date_fin!=null)
+        if($date_range && ($date_debut != null || $date_fin != null))
         {
             $values['date_debut']=$date_debut;
             $values['date_fin']=$date_fin;
@@ -131,23 +154,45 @@ class bilanComptaController extends Controller {
         $option = $request->input('option');
         $date_debut = $request->input('date_debut');
         $date_fin = $request->input('date_fin');
+        $date_range=$request->input('date_range');
 
-        if ($date_debut != null && $date_fin != null) {
-            $p = payement_salaire::whereAnneeScolaire(\session('year'))
-                ->where('date_p', '>=', (new \DateTime($date_debut))->format('Y-m-d'))
-                ->where('date_p', '<=', (new \DateTime($date_fin))->format('Y-m-d'))
-                ->orderBy('date_p', 'desc')
-                ->get();
+        if($date_range && ($date_debut != null || $date_fin != null)) {
+            if ($date_debut != null && $date_fin != null) {
+                $p = payement_salaire::whereAnneeScolaire(\session('year'))
+                    ->where('date_p', '>=', (new \DateTime($date_debut))->format('Y-m-d'))
+                    ->where('date_p', '<=', (new \DateTime($date_fin))->format('Y-m-d'))
+                    ->orderBy('date_p', 'desc')
+                    ->get();
 
+                $d = decaissement::whereAnneeScolaire(\session('year'))
+                    ->where('date', '>=', (new \DateTime($date_debut))->format('Y-m-d'))
+                    ->where('date', '<=', (new \DateTime($date_fin))->format('Y-m-d'))
+                    ->orderBy('date', 'desc')
+                    ->get();
 
-            $d = decaissement::whereAnneeScolaire(\session('year'))
-                ->where('date', '>=', (new \DateTime($date_debut))->format('Y-m-d'))
-                ->where('date', '<=', (new \DateTime($date_fin))->format('Y-m-d'))
-                ->orderBy('date', 'desc')
-                ->get();
+            } elseif ($date_debut != null && $date_fin == null) {
+                $p = payement_salaire::whereAnneeScolaire(\session('year'))
+                    ->where('date_p', '>=', (new \DateTime($date_debut))->format('Y-m-d'))
+                    ->orderBy('date_p', 'desc')
+                    ->get();
 
+                $d = decaissement::whereAnneeScolaire(\session('year'))
+                    ->where('date', '>=', (new \DateTime($date_debut))->format('Y-m-d'))
+                    ->orderBy('date', 'desc')
+                    ->get();
+            } else {
+                $p = payement_salaire::whereAnneeScolaire(\session('year'))
+                    ->where('date_p', '<=', (new \DateTime($date_fin))->format('Y-m-d'))
+                    ->orderBy('date_p', 'desc')
+                    ->get();
 
-        } else {
+                $d = decaissement::whereAnneeScolaire(\session('year'))
+                    ->where('date', '<=', (new \DateTime($date_fin))->format('Y-m-d'))
+                    ->orderBy('date', 'desc')
+                    ->get();
+                }
+        }
+            else {
             if ($option == 'month') {
                 $tt = trans('admin.mois');
 
@@ -183,6 +228,20 @@ class bilanComptaController extends Controller {
                     ->orderBy('date', 'desc')
                     ->get();
 
+            } elseif ($option == 'today') {
+                $tt = trans('admin.today');
+
+                $d = date('Y-m-d');
+                $p = payement_salaire::whereAnneeScolaire(\session('year'))
+                    ->where('date_p', '=', $d)
+                    ->orderBy('date_p', 'desc')
+                    ->get();
+
+                $d = decaissement::whereAnneeScolaire(\session('year'))
+                    ->where('date', '=', $d)
+                    ->orderBy('date', 'desc')
+                    ->get();
+
             } else {
                 $tt = trans('admin.toute_lannee');
                 $p = payement_salaire::whereAnneeScolaire(\session('year'))->orderBy('date_p', 'desc')->get();
@@ -204,7 +263,7 @@ class bilanComptaController extends Controller {
             }
             $pers = personnel::all();
             $values = array('titre' => $titre, 'payements' => $p, 'total' => $total_p, 'total_d' => $total_d, 'decaissements' => $d, 'personnels' => $pers, 'table_titre' => $tt);
-            if ($date_debut != null && $date_fin != null) {
+            if ($date_range && ($date_debut != null || $date_fin != null)) {
                 $values['date_debut'] = $date_debut;
                 $values['date_fin'] = $date_fin;
             }

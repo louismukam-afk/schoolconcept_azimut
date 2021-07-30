@@ -29,5 +29,8 @@ class payement extends Model {
 
 
 
+    public function eleve() {
+        return $this->belongsTo(eleve::class, 'id_eleve');
+    }
 
 }
