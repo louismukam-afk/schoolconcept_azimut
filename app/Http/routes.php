@@ -20,6 +20,8 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('home', 'WelcomeController@index');
     Route::get('/admin/nniveaux/get/{id}', 'admin\nniveauController@get');
     Route::get('/admin/cycles/get-all', ['uses' => 'admin\cycleController@getAll', 'as' => 'get_all_cycles']);
+    Route::get('/inscriptions/print/{id}','inscriptions\inscriptionController@print_receipe');
+    Route::get('/inscriptions/payement/print/{id}','inscriptions\payementController@print_receipe');
 
 
         Route::group(['middleware'=>'lvl0'],function (){
@@ -177,9 +179,7 @@ Route::group(['middleware'=>'auth'],function (){
 
 
         Route::get('/inscriptions/recu','inscriptions\inscriptionController@show');
-        Route::get('/inscriptions/print/{id}','inscriptions\inscriptionController@print_receipe');
-        Route::get('/inscriptions/payement/print/{id}','inscriptions\payementController@print_receipe');
-        Route::get('/inscriptions/payement/list/{id}','inscriptions\payementController@index_liste');
+       Route::get('/inscriptions/payement/list/{id}','inscriptions\payementController@index_liste');
         Route::get('/inscriptions/selection-listes','inscriptions\listesController@index');
         Route::get('/inscriptions/listes/show/','inscriptions\listesController@show');
         Route::get('/inscriptions/listes/frais/show', ['as'=>'show_frais_liste','uses'=>'inscriptions\listesController@showFrais']);

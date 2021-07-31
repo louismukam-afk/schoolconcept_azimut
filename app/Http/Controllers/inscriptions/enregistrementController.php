@@ -2,6 +2,7 @@
 
 use gesecole\eleve;
 use gesecole\Http\Controllers\Controller;
+use gesecole\inscription;
 use gesecole\parametres;
 use gesecole\Photo;
 use Illuminate\Database\QueryException;
@@ -301,6 +302,21 @@ class enregistrementController extends Controller {
         session(['success'=>true]);
         return redirect()->action('inscriptions\enregistrementController@edit',[$id]) ;
 	}
+
+	public function status_eleve(Request $request) {
+	    $id = $request->input('id_eleve');
+	    $eleve = eleve::find($id);
+	    if($eleve) {
+	        $inscription = inscription::with('classe', 'nniveau')
+                ->where('id_eleve', '=', $id)
+                ->where('annee_scolaire', '=', \session('year'))
+                ->first();
+
+	        if($inscription) {
+
+            }
+        }
+    }
 
 	/**
 	 * Remove the specified resource from storage.

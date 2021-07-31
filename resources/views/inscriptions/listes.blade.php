@@ -1,9 +1,9 @@
 @extends('skeleton')
 @section('sub-content')
     <div class="row">
-        <a href="#" class="btn btn-warning btn-lg" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> {{trans('inscription.imprimer')}}</a>
-
-
+        <div class="col-md-12">
+            <a href="#" class="btn btn-warning btn-lg" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> {{trans('inscription.imprimer')}}</a>
+        </div>
     </div>
     <link rel="stylesheet" media="print" href="{{URL::asset('css/print_table.css')}}">
 

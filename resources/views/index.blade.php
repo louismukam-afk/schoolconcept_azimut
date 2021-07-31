@@ -3,7 +3,7 @@
 <head>
       <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{  session('big_title')  }}</title>
+    <title>{{  isset($page_title) ? $page_title : session('big_title')  }}</title>
     <link rel="shortcut icon" href="{{URL::asset('favicon.ico')}}" type="image/x-icon">
 	<!-- BOOTSTRAP STYLES-->
     <link href="{{ URL::asset('dist/css/bootstrap.min.css')  }}" rel="stylesheet" />
@@ -199,7 +199,7 @@ if(session('nom_etab')==null){
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper" >
             <div id="page-inner">
-                <div class="row">
+                <div class="row hidden">
                     <div class="col-md-12">
 
                      <h2 class="big-title">{{  session('big_title')  }}</h2>

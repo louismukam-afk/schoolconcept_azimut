@@ -29,7 +29,7 @@
             <td>{{$p->date_payement}}</td>
             <td>
             <!-- TO CHANGE -->
-                        <a  class="btn btn-warning"  href="@if($p->motif=='Inscription' || $p->type == \gesecole\Vars::INSCRIPTION_TYPE){{URL::to('/inscriptions/print/'.$p->id)}} @else{{URL::to('/inscriptions/payement/print/'.$p->id)}}@endif" ><span class="glyphicon glyphicon-print"  ></span> {{  trans('inscription.print_receipe')  }}</a>
+                        <a  class="btn btn-warning"  href="@if($p->type == \gesecole\Vars::INSCRIPTION_TYPE){{URL::to('/inscriptions/print/'.$p->id)}} @else{{URL::to('/inscriptions/payement/print/'.$p->id)}}@endif" ><span class="glyphicon glyphicon-print"  ></span> {{  trans('inscription.print_receipe')  }}</a>
 
         </tr>
         @endforeach

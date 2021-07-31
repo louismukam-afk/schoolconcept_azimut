@@ -256,7 +256,7 @@ class payementController extends Controller {
             $ps=payement::whereIdEleve($p->id_eleve)->where('annee_scolaire','=',session('year'))
                 //TO CHANGE
 
-                ->where('motif', '<>', 'Inscription')
+                ->where('id_inscription', '=', 0)
                 ->where('type','=',0)
                 ->get();
 

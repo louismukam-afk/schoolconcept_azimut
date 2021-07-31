@@ -1,5 +1,6 @@
 @extends('skeleton')
 @section('sub-content')
+    @include('perso.functions')
     <div class="col-md-12">
         @if(isset($success))
 
@@ -165,9 +166,9 @@
                     extend: 'excelHtml5',
                     text: '<i class="fa fa-file-excel-o"></i> Excel',
                     titleAttr: 'Export to Excel',
-                    title: 'Bilan entrées {{$table_titre}}',
+                    title: '{!! trans('admin.bilan_sorties') !!} - {!! sanitize($table_titre) !!}',
                     exportOptions: {
-                        columns: ':not(:last-child)'
+                        columns: 'visible'
                     }
                 }
                 ,
@@ -175,9 +176,9 @@
                     extend: 'pdfHtml5',
                     text: '<i class="fa fa-file-pdf-o"></i> PDF',
                     titleAttr: 'PDF',
-                    title: 'Bilan entrées {{$table_titre}}',
+                    title: '{!! trans('admin.bilan_sorties') !!} - {!! sanitize($table_titre) !!}',
                     exportOptions: {
-                        columns: ':not(:last-child)'
+                        columns: 'visible'
                     }
                 }
                 ,
@@ -185,9 +186,9 @@
                     extend: 'print',
                     text: '<i class="fa fa-print"></i> @lang("inscription.imprimer")',
                     titleAttr: 'Imprimer',
-                    title: 'Bilan entrées {{$table_titre}}',
+                    title: '{!! trans('admin.bilan_sorties') !!} - {!! sanitize($table_titre) !!}',
                     exportOptions: {
-                        columns: ':not(:last-child)'
+                        columns: 'visible'
                     }
                 }
             ]
@@ -202,7 +203,7 @@
                     extend: 'excelHtml5',
                     text: '<i class="fa fa-file-excel-o"></i> Excel',
                     titleAttr: 'Export to Excel',
-                    title: 'Bilan entrées {{$table_titre}}',
+                    title: '{!! trans('admin.bilan_sorties') !!} - {!! sanitize($table_titre) !!}',
                     exportOptions: {
                         columns: 'visible'
                     }
@@ -212,9 +213,9 @@
                     extend: 'pdfHtml5',
                     text: '<i class="fa fa-file-pdf-o"></i> PDF',
                     titleAttr: 'PDF',
-                    title: 'Bilan entrées {{$table_titre}}',
+                    title: '{!! trans('admin.bilan_sorties') !!} - {!! sanitize($table_titre) !!}',
                     exportOptions: {
-                        columns: ':not(:last-child)'
+                        columns: 'visible'
                     }
                 }
                 ,
@@ -222,19 +223,14 @@
                     extend: 'print',
                     text: '<i class="fa fa-print"></i> @lang("inscription.imprimer")',
                     titleAttr: 'Imprimer',
-                    title: 'Bilan entrées {{$table_titre}}',
+                    title: '{!! trans('admin.bilan_sorties') !!} - {!! sanitize($table_titre) !!}',
                     exportOptions: {
                         columns: 'visible'
                     }
                 }
             ]
         } );
-        $(function () {
 
-
-           // $('#date_debut').datepicker({ dateFormat: 'dd-mm-yy' });
-           // $('#date_fin').datepicker({ dateFormat: 'dd-mm-yy' });
-        })
     </script>
     @endsection
 

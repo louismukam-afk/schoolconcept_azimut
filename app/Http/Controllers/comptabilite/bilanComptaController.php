@@ -111,11 +111,12 @@ class bilanComptaController extends Controller {
                     ->where('date_payement','=', $d)
                     ->orderBy('date_payement','created_at')
                     ->get();
-
             }
             else{
                 $tt=trans('admin.toute_lannee');
-                $p=payement::with('eleve')->whereAnneeScolaire(\session('year'))->orderBy('date_payement','desc')->get();
+                $p=payement::with('eleve.inscriptions.classe', 'eleve.inscriptions.nniveau')
+                ->whereAnneeScolaire(\session('year'))->orderBy('date_payement','desc')->get();
+
             }
 
         }
@@ -131,11 +132,15 @@ class bilanComptaController extends Controller {
         {
             $values['date_debut']=$date_debut;
             $values['date_fin']=$date_fin;
+            $values['table_titre'] = $date_debut . ' - ' . $date_fin;
+
         }
         if(session('success')){
             $values['success']=true;
             Session::forget('success');
         }
+        $values['annee_scolaire'] = \session('year');
+
 
 
         return view('comptabilite/bilanEntrees',$values);
@@ -266,6 +271,7 @@ class bilanComptaController extends Controller {
             if ($date_range && ($date_debut != null || $date_fin != null)) {
                 $values['date_debut'] = $date_debut;
                 $values['date_fin'] = $date_fin;
+                $values['table_titre'] = $date_debut . ' - ' . $date_fin;
             }
             if (session('success')) {
                 $values['success'] = true;
