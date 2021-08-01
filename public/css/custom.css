@@ -418,3 +418,7 @@ form input[type=text][disabled] {
 input[type=text][readonly] {
     background-color: white;
 }
+
+.dropdown-menu>li>a:hover {
+    background-color: #2c3e50;
+}

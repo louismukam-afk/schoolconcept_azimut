@@ -18,16 +18,16 @@
 
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
             <div class="div-square">
-                <a href="{{URL::to('/inscriptions/new')}}" >
+                <a href="{{URL::to('/inscriptions/find')}}" >
                     <i class="fa fa-user fa-5x"></i>
-                    <h4>{{trans('inscription.title_inscription')}}</h4>
+                    <h4 style="overflow-wrap: anywhere">{{trans('admin.op_eleve')}}</h4>
                 </a>
             </div>
 
 
         </div>
 
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+        <!--<div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
             <div class="div-square">
                 <a href="{{URL::to('/inscriptions/payement/')}}" >
                     <i class="fa fa-money fa-5x"></i>
@@ -36,27 +36,12 @@
             </div>
 
 
-        </div>
+        </div>-->
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
             <div class="div-square">
                 <a href="{{URL::to('/inscriptions/selection-listes/')}}" >
                     <i class="fa fa-list-alt fa-5x"></i>
                     <h4>{{trans('inscription.listes')}}</h4>
-                </a>
-            </div>
-
-
-        </div>
-
-
-
-    </div>
-    <div class="row text-center pad-top">
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-            <div class="div-square">
-                <a href="{{URL::to('/inscriptions/eleves/search')}}" >
-                    <i class="fa fa-search fa-5x"></i>
-                    <h4>{{trans('admin.see_edit').' '.trans('inscription.eleve')}}</h4>
                 </a>
             </div>
 
@@ -73,6 +58,24 @@
 
 
         </div>
+
+
+
+    </div>
+    <div class="row text-center pad-top">
+        <!--
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+            <div class="div-square">
+                <a href="{{URL::to('/inscriptions/eleves/search')}}" >
+                    <i class="fa fa-search fa-5x"></i>
+                    <h4>{{trans('admin.see_edit').' '.trans('inscription.eleve')}}</h4>
+                </a>
+            </div>
+
+
+        </div>-->
+
+
 
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
             <div class="div-square">

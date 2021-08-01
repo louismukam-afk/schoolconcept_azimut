@@ -347,6 +347,9 @@ return [
     "allow_student_access" => "Autoriser l'accès",
     "deny_student_access" => "Refuser l'accès",
     "tranche" => "Tranche",
+    "op_eleve" => "Inscription / Paiement / Opérations sur les étudiants",
+    "inscription" => "Inscription",
+    "search" => "Rechercher",
 
 
 

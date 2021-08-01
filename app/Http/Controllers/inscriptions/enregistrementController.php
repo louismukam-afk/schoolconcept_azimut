@@ -334,6 +334,7 @@ class enregistrementController extends Controller {
                 $solde = payement::where('id_eleve', '=', $id)
                     ->where('type', '=', 0)
                     ->where('id_inscription', '=', 0)
+                    ->where('annee_scolaire', '=', \session('year'))
                     ->sum('montant');
 
                 $values['solde'] = $solde;

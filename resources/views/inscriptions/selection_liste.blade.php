@@ -52,7 +52,7 @@
             </div>
         </div>
 
-        
+
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">
@@ -107,7 +107,7 @@
 
                                         <select form="check_list_pay_form" id="select_classe_for_pay" name="id" class="form-control" onchange="classForPayChange()" required>
                                             <?php $n=0;$i=0; ?>
-                                            <option value=""> -- @lang('admin.choix_classe') --</option>
+                                            <option value="" disabled> -- @lang('admin.choix_classe') --</option>
                                             <option value="0"> @lang('admin.tous') </option>
                                             @foreach($classes_list as $c)
                                                 @if($i=0)
@@ -226,7 +226,7 @@
 
                                         <select form="check_list_form" id="select_classe_for_frais" name="classe" class="form-control" onchange="classForFraisChange()" required>
                                             <?php $n=0;$i=0; ?>
-                                            <option value=""> -- @lang('admin.choix_classe') --</option>
+                                            <option value="" disabled> -- @lang('admin.choix_classe') --</option>
                                                 <option value="0"> @lang('admin.tous') </option>
                                             @foreach($classes_list as $c)
                                                 @if($i=0)
@@ -289,6 +289,10 @@
 
     <script>
 
+        $(function (){
+            classForFraisChange()
+            classForPayChange();
+        })
 
         function classForFraisChange()
         {

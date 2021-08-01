@@ -331,7 +331,8 @@ return [
     "deny_access" => "Access denied",
     "no_access_status" => "Status undefined",
     "allow_student_access" => "Allow access",
-    "deny_student_access" => "Deny access"
+    "deny_student_access" => "Deny access",
+    "op_eleve" => "Register / Payment / Operations on students",
 
 
 

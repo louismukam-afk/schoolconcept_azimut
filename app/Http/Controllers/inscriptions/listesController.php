@@ -250,7 +250,7 @@ class listesController extends Controller {
                 $tranches = "(s.tranche1+s.tranche2+s.tranche3+s.tranche4+s.tranche5)";
                 $tranche = "(s.tranche1+s.tranche2+s.tranche3+s.tranche4+s.tranche5)";
 
-                $motif=trans('admin.scolarited');
+                $motif=trans('admin.scolarite');
 
 
             }

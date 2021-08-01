@@ -87,9 +87,9 @@ class inscriptionController extends Controller {
         //$e=eleve::whereRaw("nom LIKE '%?%' or prenom LIKE '%?%' or matricule LIKE '%?%'",[$pattern,$pattern,$pattern]);
         $values= array('titre'=>trans('inscription.title_search_register'));
         $values['eleves']=$e;
-        session(['search_result'=>true]);
+        //session(['search_result'=>true]);
 
-        return view('inscriptions/add_inscription',$values);
+        return view('inscriptions/eleve_operations',$values);
     }
 
 
@@ -101,7 +101,7 @@ class inscriptionController extends Controller {
         $cy=cycle::all();
         $e=eleve::find($id_eleve);
         $nniveau = NNiveau::orderBy('nom')->get();
-        $values= array('titre'=>trans('inscription.title_search_register'));
+        $values= array('titre'=>trans('admin.inscription'));
         $values['classes']=$c;
         $values['cycles']=$cy;
         $values['nniveaux']=$nniveau;
