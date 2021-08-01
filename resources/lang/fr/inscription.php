@@ -54,7 +54,7 @@
         'retour_ins'=>'Retour aux inscriptions',
         'listes'=>'Afficher les listes',
         'choix_liste'=>'Choisir une liste à afficher',
-        'eleves_inscrits'=>'Elèves inscrits',
+        'eleves_inscrits'=>'Etudiants inscrits',
         'all_eleves'=>'Tous les étudiants',
         'eleves_de'=>'Liste des étudiants de',
         'no_tranche1'=>'1ère tranche impayée',

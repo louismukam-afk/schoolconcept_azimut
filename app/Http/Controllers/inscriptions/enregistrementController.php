@@ -1,10 +1,14 @@
 <?php namespace gesecole\Http\Controllers\inscriptions;
 
+use gesecole\acces_eleve;
 use gesecole\eleve;
 use gesecole\Http\Controllers\Controller;
 use gesecole\inscription;
 use gesecole\parametres;
+use gesecole\payement;
 use gesecole\Photo;
+use gesecole\scolarite;
+use gesecole\Vars;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
@@ -304,18 +308,99 @@ class enregistrementController extends Controller {
 	}
 
 	public function status_eleve(Request $request) {
-	    $id = $request->input('id_eleve');
-	    $eleve = eleve::find($id);
+	    $id = $request->input('id');
+	    $show_access = $request->input('show_access');
+        $values= array('titre'=>trans('admin.status_eleve'));
+
+        $eleve = eleve::find($id);
+
 	    if($eleve) {
-	        $inscription = inscription::with('classe', 'nniveau')
+	        if($show_access == 1) {
+                $values['show_access'] = $show_access;
+            }
+            $acces = acces_eleve::where('annee_scolaire', '=', \session('year'))
+                ->where('id_eleve', '=', $id)
+                ->first();
+            $values['eleve'] = $eleve;
+            $values['acces'] = $acces;
+
+            $inscription = inscription::with('classe.niveau', 'nniveau.cycle')
                 ->where('id_eleve', '=', $id)
                 ->where('annee_scolaire', '=', \session('year'))
                 ->first();
 
 	        if($inscription) {
+	            $values['inscription'] = $inscription;
+                $solde = payement::where('id_eleve', '=', $id)
+                    ->where('type', '=', 0)
+                    ->where('id_inscription', '=', 0)
+                    ->sum('montant');
+
+                $values['solde'] = $solde;
+
+
+                $scolarite = scolarite::where('id_cycle', '=', $inscription->nniveau->cycle->id)
+                    ->where('id_niveau', '=', $inscription->classe->niveau->id)
+                    ->first();
+
+                $values['scolarite'] = $scolarite;
+
 
             }
         }
+
+	    return view('inscriptions.status_eleve', $values);
+    }
+
+
+    public function set_status(Request $request) {
+	    $status = $request->input('status');
+	    $id = $request->input('id');
+	    $eleve = eleve::find($id);
+	    if($eleve) {
+
+            $current_user = \Auth::user();
+
+            $acces = acces_eleve::where('annee_scolaire', '=', \session('year'))
+                ->where('id_eleve', '=', $id)
+                ->first();
+
+            if($acces == null) {
+                $acces = new acces_eleve();
+                $acces->annee_scolaire = \session('year');
+                $acces->id_eleve = $id;
+                $acces->id_creator = $current_user->id;
+                if($status == 1) {
+                    $acces->edition_details = 'status = '. Vars::DECISION_ALLOW;
+                } else {
+                    $acces->edition_details = 'status = '. Vars::DECISION_ALLOW;
+
+                }
+
+            }
+            $acces->id_last_editor = $current_user->id;
+
+            if($status == 1) {
+                $acces->decision = Vars::DECISION_ALLOW;
+            } else {
+                $acces->decision = Vars::DECISION_DENY;
+            }
+
+            $acces->save();
+        }
+
+	    return redirect()->to(URL::previous());
+
+    }
+
+    public function get_status(Request $request) {
+        $id = $request->input('id');
+
+            $acces = acces_eleve::where('annee_scolaire', '=', \session('year'))
+                ->where('id_eleve', '=', $id)
+                ->first();
+
+
     }
 
 	/**

@@ -1,6 +1,7 @@
 <?php namespace gesecole;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
 
 
 /**
@@ -35,22 +36,16 @@ class classe extends Model {
     
 
 
-    public function getNom_anglais()
-    {
-        if($this->attributes['nom_anglais']==null){
-            return $this->nom;
-        }
-        else
-            return $this->nom_anglais;
-    }
+
 
     public function getNom()
     {
-        if($this->nom==null){
-            return $this->nom_anglais;
+        if(App::getLocale() == 'en') {
+            if($this->nom_anglais){
+                return $this->nom_anglais;
+            }
         }
-        else
-            return $this->nom;
+        return $this->nom;
     }
 
 
@@ -74,6 +69,8 @@ class classe extends Model {
     public function inscriptions(){
         return $this->hasMany(inscription::class,'id_classe');
     }
+
+
 
 
 }

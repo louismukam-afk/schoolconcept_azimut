@@ -1,6 +1,7 @@
 <?php namespace gesecole;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
 
 /**
  * gesecole\niveau
@@ -24,22 +25,14 @@ class niveau extends Model {
 
 
 
-    public function getNom_anglais()
-    {
-        if($this->nom_anglais==null){
-            return $this->nom;
-        }
-        else
-            return $this->nom_anglais;
-    }
-
     public function getNom()
     {
-        if($this->nom==null){
-            return $this->nom_anglais;
+        if(App::getLocale() == 'en') {
+            if($this->nom_anglais){
+                return $this->nom_anglais;
+            }
         }
-        else
-            return $this->nom;
+        return $this->nom;
     }
 
     public function classes(){
@@ -50,5 +43,6 @@ class niveau extends Model {
         return $this->hasOne(scolarite::class,'id_niveau');
 
     }
+
 
 }

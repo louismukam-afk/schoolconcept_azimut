@@ -2,20 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c5522a3f-f74c-474c-87f2-901ced8f473f" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/database/migrations/2021_07_31_113354_fillIdinscriptionInPayment.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/acces_eleve.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/database/migrations/2021_07_31_170518_create_acces_eleves_table.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/inscriptions/status_eleve.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/comptabilite/bilanComptaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/comptabilite/bilanComptaController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/enregistrementController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/enregistrementController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/listesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/listesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/payementController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/payementController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/privileges/g_admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/privileges/g_admin.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/routes.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/routes.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/inscription.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/inscription.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/custom.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/comptabilite/bilanEntrees.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/comptabilite/bilanEntrees.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/comptabilite/bilanSorties.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/comptabilite/bilanSorties.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/inscriptions/liste_paiement.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/inscriptions/liste_paiement.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/NNiveau.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/NNiveau.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Vars.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Vars.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/classe.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/classe.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/niveau.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/niveau.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/en/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/admin.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/fr/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/fr/admin.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lang/fr/inscription.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/fr/inscription.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/inscriptions/listes.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/inscriptions/listes.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/inscriptions/selection_liste.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/inscriptions/selection_liste.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_static.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_static.php" afterDir="false" />
     </list>
@@ -467,15 +470,15 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SearchEverywhereHistoryKey" value="731c1e3c969f2da68d400b7240b6a3c9&#9;FILE&#9;file://C:/Users/Joel/Desktop/projects/SchoolConcept/storage/framework/views/731c1e3c969f2da68d400b7240b6a3c9&#10;p&#9;null&#9;null" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/img" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/inscriptions" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.General" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\projects\SchoolConcept\public\img" />
       <recent name="D:\projects\SchoolConcept\resources\views\inscriptions" />
+      <recent name="D:\projects\SchoolConcept\public\img" />
       <recent name="D:\projects\SchoolConcept\resources\views\admin" />
       <recent name="D:\projects\SchoolConcept\database\migrations" />
       <recent name="D:\projects\SchoolConcept\app" />
@@ -616,7 +619,7 @@
       <workItem from="1627462848922" duration="50511000" />
       <workItem from="1627590571269" duration="470000" />
       <workItem from="1627621336475" duration="24805000" />
-      <workItem from="1627724051234" duration="6324000" />
+      <workItem from="1627724051234" duration="36309000" />
     </task>
     <servers />
   </component>

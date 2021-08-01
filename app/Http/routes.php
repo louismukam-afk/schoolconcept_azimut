@@ -22,6 +22,8 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('/admin/cycles/get-all', ['uses' => 'admin\cycleController@getAll', 'as' => 'get_all_cycles']);
     Route::get('/inscriptions/print/{id}','inscriptions\inscriptionController@print_receipe');
     Route::get('/inscriptions/payement/print/{id}','inscriptions\payementController@print_receipe');
+    Route::get('/inscriptions/eleve/status','inscriptions\enregistrementController@status_eleve');
+    Route::get('/inscriptions/eleve/set-status','inscriptions\enregistrementController@set_status');
 
 
         Route::group(['middleware'=>'lvl0'],function (){
@@ -181,7 +183,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/inscriptions/recu','inscriptions\inscriptionController@show');
        Route::get('/inscriptions/payement/list/{id}','inscriptions\payementController@index_liste');
         Route::get('/inscriptions/selection-listes','inscriptions\listesController@index');
-        Route::get('/inscriptions/listes/show/','inscriptions\listesController@show');
+        Route::get('/inscriptions/listes/show',['as'=>'show_sco_liste','uses'=>'inscriptions\listesController@show']);
         Route::get('/inscriptions/listes/frais/show', ['as'=>'show_frais_liste','uses'=>'inscriptions\listesController@showFrais']);
         Route::get('/inscriptions/print-certificate/{id}','inscriptions\inscriptionController@certificate');
         Route::any('/inscriptions/photos/','inscriptions\photosController@create');

@@ -22,4 +22,14 @@ class g_admin {
 		return $next($request);
 	}
 
+
+	public static function currentUserIsAdmin() {
+        $r = Auth::user()->roles->fetch('value')->toArray();
+        if(!Functions::pp_exists($r,1)){
+            return false;
+        }
+
+        return true;
+    }
+
 }

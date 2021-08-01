@@ -336,6 +336,18 @@ return [
     "delete" => "Supprimer",
     "today" => "Aujourd'hui",
     "s_result_containing" => "Résultats contenant les termes << :terms >>",
+    "status_eleve" => "Status de l'étudiant",
+    "filiere" => "Filière",
+    "total" => "Total",
+    "status" => "Status",
+    "reste" => "Reste",
+    "allow_access" => "Accès autorisé",
+    "deny_access" => "Accès non autorisé",
+    "no_access_status" => "Status non défini",
+    "allow_student_access" => "Autoriser l'accès",
+    "deny_student_access" => "Refuser l'accès",
+    "tranche" => "Tranche",
+
 
 
 ];

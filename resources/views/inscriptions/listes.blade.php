@@ -1,5 +1,6 @@
 @extends('skeleton')
 @section('sub-content')
+    @include('perso.functions')
     <div class="row">
         <div class="col-md-12">
             <a href="#" class="btn btn-warning btn-lg" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> {{trans('inscription.imprimer')}}</a>
@@ -70,7 +71,7 @@
                     extend: 'excelHtml5',
                     text: '<i class="fa fa-file-excel-o"></i> Excel',
                     titleAttr: 'Export to Excel',
-                    title: '{{$titre_liste}}',
+                    title: '{!! sanitize($titre_liste) !!}',
                     exportOptions: {
                         columns: ':not(:last-child)'
                     }
@@ -80,7 +81,7 @@
                     extend: 'pdfHtml5',
                     text: '<i class="fa fa-file-pdf-o"></i> PDF',
                     titleAttr: 'PDF',
-                    title: '{{$titre_liste}}',
+                    title: '{!! sanitize($titre_liste) !!}',
                     exportOptions: {
                         columns: ':not(:last-child)'
                     }

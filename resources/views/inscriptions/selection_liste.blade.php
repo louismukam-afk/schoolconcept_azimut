@@ -14,6 +14,7 @@
     </style>
     <div id="monaccordeon" class="panel-group col-md-12">
         <h3>{{trans('inscription.choix_liste')}}</h3>
+
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">
@@ -25,217 +26,138 @@
             </div>
 
             <div id="item1"
-                    class="panel-collapse collapsing">
+                 class="panel-collapse collapsing">
                 <div
                         class="panel-body">
-                        <li class="col-md-12"><a  href={{URL::to('/inscriptions/listes/show?id=0')}}>{{trans('inscription.all_eleves')}}</a></li>
+                    <li class="col-md-12"><a  href={{URL::to('/inscriptions/listes/show?id=0')}}>{{trans('inscription.all_eleves')}}</a></li>
 
 
-                        @foreach($niveaux as $n)
-                            <div class="col-md-6">
+                    @foreach($niveaux as $n)
+                        <div class="col-md-6">
                             <h4 class="page-header"> {{(App::getLocale()=='en')?$n->nom_anglais:$n->nom}}</h4>
 
-                                @foreach($classes as $c)
-                                    <div class="col-md-12">
+                            @foreach($classes as $c)
+                                <div class="col-md-12">
                                     @if($c->id_niveau==$n->id)
-                                        <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choose_level({{$c->id}}, '{{URL::to('/inscriptions/listes/show/')}}', '')">{{(App::getLocale()=='en')?$c->nom_anglais:$c->nom}}</a></li>
+                                        <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choose_level({{$c->id}}, '{{URL::to('/inscriptions/listes/show')}}', '')">{{(App::getLocale()=='en')?$c->nom_anglais:$c->nom}}</a></li>
                                     @endif
+                                </div>
+                            @endforeach
+                        </div>
+                    @endforeach
+
+
+                </div>
+
+            </div>
+        </div>
+
+        
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <a class="accordion-toggle" href="#item0" dataparent="#monaccordeon"
+                       data-toggle="collapse">
+                        {{trans('admin.scolarite_pi')}}
+                    </a>
+                </h3>
+            </div>
+
+            <div id="item0"
+                 class="panel-collapse collapsing">
+                <div class="panel-body">
+                    <form class="form-horizontal" id="check_list_pay_form" method="get" action="{{route('show_sco_liste')}}">
+                        <div class="">
+
+                            <div class="row">
+                                <div class="col-md-5" >
+                                    <div class="form-group" style="padding: 5px 10px">
+                                        <label>@lang('admin.tranche'): </label>
+                                        <select form="check_list_pay_form" id="option" name="option" class="form-control" required="required">
+                                            <option value="" disabled>-- @lang('admin.selectionner') --</option>
+                                            <option value="1"> @lang('admin.tranche1') </option>
+                                            <option value="2"> @lang('admin.tranche2') </option>
+                                            <option value="3"> @lang('admin.tranche3') </option>
+                                            <option value="4"> @lang('admin.tranche4') </option>
+                                            <option value="5"> @lang('admin.tranche5') </option>
+                                            <option value="5"> @lang('admin.schoolfees') </option>
+                                        </select>
+
                                     </div>
-                                @endforeach
+                                </div>
+
+                                <div class="col-md-5" >
+                                    <div class="form-group" style="padding: 5px 10px">
+                                        <label>Type: </label>
+                                        <select form="check_list_pay_form" id="type_pay" name="type" class="form-control" required>
+                                            <option value="0">@lang('admin.impaye')</option>
+                                            <option value="1">@lang('admin.paye')</option>
+                                        </select>
+
+                                    </div>
+                                </div>
                             </div>
-                        @endforeach
+
+                            <div class="row">
 
 
-                </div>
+                                <div class="col-md-5">
+                                    <div class="form-group" style="padding: 5px 10px">
+                                        <label>@lang('admin.specialites')  : </label>
 
-            </div>
-        </div>
-        <div
-                class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    <a class="accordion-toggle" href="#item2" dataparent="#monaccordeon"
-                       data-toggle="collapse">
-                        {{trans('inscription.no_tranche1')}}
-                    </a>
-                </h3>
-            </div>
-            <div id="item2"
-                 class="panel-collapse collapsing">
-                <div
-                        class="panel-body">
-                    <ul >
-                        <li class="col-md-12"><a href={{URL::to('/inscriptions/listes/show?id=0&option=1')}}>{{trans('inscription.all_eleves')}}</a></li>
+                                        <select form="check_list_pay_form" id="select_classe_for_pay" name="id" class="form-control" onchange="classForPayChange()" required>
+                                            <?php $n=0;$i=0; ?>
+                                            <option value=""> -- @lang('admin.choix_classe') --</option>
+                                            <option value="0"> @lang('admin.tous') </option>
+                                            @foreach($classes_list as $c)
+                                                @if($i=0)
+                                                    <optgroup label="<{{(App::getLocale()=='en')?$c->niveau->nom_anglais:$c->niveau->nom}}">
+                                                        <?php  $i++; ?>
+                                                        @endif
+                                                        @if($c->id_niveau!=$n)
+                                                            <?php $n=$c->id_niveau ?>
+                                                    </optgroup>
+                                                    <optgroup label="{{(App::getLocale()=='en')?$c->niveau->nom_anglais:$c->niveau->nom}}">
+                                                        @endif
+                                                        <option id="{{$c->niveau->id}}" value="{{$c->id}}" @if(old('classe')==$c->id) selected @endif>{{(App::getLocale()=='en')?$c->nom_anglais:$c->nom}}</option>
+                                                        @endforeach
+                                                    </optgroup>
+                                        </select>
 
-
-                            @foreach($niveaux as $n)
-                                <div class="col-md-6">
-                                    <h4 class="page-header"> {{(App::getLocale()=='en')?$n->nom_anglais:$n->nom}}</h4>
-
-                                    @foreach($classes as $c)
-                                        <div class="col-md-12">
-                                            @if($c->id_niveau==$n->id)
-                                                <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choose_level({{$c->id}}, '{{URL::to('/inscriptions/listes/show/')}}', 1)">{{(App::getLocale()=='en')?$c->nom_anglais:$c->nom}}</a></li>
-                                            @endif
-                                        </div>
-                                    @endforeach
+                                    </div>
                                 </div>
-                            @endforeach
 
 
-                    </ul>
-                </div>
 
-            </div>
-        </div>
-        <div
-                class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    <a class="accordion-toggle" href="#item3" dataparent="#monaccordeon"
-                       data-toggle="collapse">
-                        {{trans('inscription.no_tranche2')}}
-                    </a>
-                </h3>
-            </div>
-            <div id="item3"
-                 class="panel-collapse collapsing">
-                <div
-                        class="panel-body">
-                    <ul >
-                        <li class="col-md-12"><a href={{URL::to('/inscriptions/listes/show?id=0&option=2')}}>{{trans('inscription.all_eleves')}}</a></li>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group" style="padding: 5px 10px">
+                                        <label>  @lang('admin.nniveau') </label>
+                                        <select form="check_list_pay_form"  name="nniveau" class="form-control" id="select_nniveau_for_pay">
+                                            @foreach($nniveaux as $nn)
+                                                <option value="{{$nn->id}}"  @if(old('nniveau')==$nn->id) selected @endif>{{$nn->nom}}</option>
+                                            @endforeach
+                                        </select>
 
-
-                            @foreach($niveaux as $n)
-                                <div class="col-md-6">
-                                    <h4 class="page-header"> {{(App::getLocale()=='en')?$n->nom_anglais:$n->nom}}</h4>
-
-                                    @foreach($classes as $c)
-                                        <div class="col-md-12">
-                                            @if($c->id_niveau==$n->id)
-                                                <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choose_level({{$c->id}}, '{{URL::to('/inscriptions/listes/show/')}}', 2)">{{(App::getLocale()=='en')?$c->nom_anglais:$c->nom}}</a></li>
-                                            @endif
-                                        </div>
-                                    @endforeach
+                                    </div>
                                 </div>
-                            @endforeach
-
-                    </ul>
-                </div>
-
-            </div>
-        </div>
-        <div
-                class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    <a class="accordion-toggle" href="#item4" dataparent="#monaccordeon"
-                       data-toggle="collapse">
-                        {{trans('inscription.no_tranche3')}}
-                    </a>
-                </h3>
-            </div>
-            <div id="item4"
-                 class="panel-collapse collapsing">
-                <div
-                        class="panel-body">
-                    <ul >
-                        <li class="col-md-12"><a href={{URL::to('/inscriptions/listes/show?id=0&option=3')}}>{{trans('inscription.all_eleves')}}</a></li>
-
-                            @foreach($niveaux as $n)
-                                <div class="col-md-6">
-                                    <h4 class="page-header"> {{(App::getLocale()=='en')?$n->nom_anglais:$n->nom}}</h4>
-
-                                    @foreach($classes as $c)
-                                        <div class="col-md-12">
-                                            @if($c->id_niveau==$n->id)
-                                                <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choose_level({{$c->id}}, '{{URL::to('/inscriptions/listes/show/')}}', 3)">{{(App::getLocale()=='en')?$c->nom_anglais:$c->nom}}</a></li>
-                                            @endif
-                                        </div>
-                                    @endforeach
-                                </div>
-                            @endforeach
-
-
-                    </ul>
-                </div>
-
-            </div>
-        </div>
-        <div
-                class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    <a class="accordion-toggle" href="#item5" dataparent="#monaccordeon"
-                       data-toggle="collapse">
-                        {{trans('inscription.no_tranche4')}}
-                    </a>
-                </h3>
-            </div>
-            <div id="item5"
-                 class="panel-collapse collapsing">
-                <div
-                        class="panel-body">
-                    <ul >
-                        <li class="col-md-12"><a href={{URL::to('/inscriptions/listes/show?id=0&option=4')}}>{{trans('inscription.all_eleves')}}</a></li>
-
-
-                            @foreach($niveaux as $n)
-                                <div class="col-md-6">
-                                    <h4 class="page-header"> {{(App::getLocale()=='en')?$n->nom_anglais:$n->nom}}</h4>
-
-                                    @foreach($classes as $c)
-                                        <div class="col-md-12">
-                                            @if($c->id_niveau==$n->id)
-                                                <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choose_level({{$c->id}}, '{{URL::to('/inscriptions/listes/show/')}}', 4)">{{(App::getLocale()=='en')?$c->nom_anglais:$c->nom}}</a></li>
-                                            @endif
-                                        </div>
-                                    @endforeach
-                                </div>
-                            @endforeach
-
-
-                    </ul>
-                </div>
-
-            </div>
-        </div>
-
-        <div
-                class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    <a class="accordion-toggle" href="#item6" dataparent="#monaccordeon"
-                       data-toggle="collapse">
-                        {{trans('inscription.no_tranche5')}}
-                    </a>
-                </h3>
-            </div>
-            <div id="item6"
-                 class="panel-collapse collapsing">
-                <div
-                        class="panel-body">
-                    <ul >
-                        <li class="col-md-12"><a href={{URL::to('/inscriptions/listes/show?id=0&option=5')}}>{{trans('inscription.all_eleves')}}</a></li>
+                            </div>
 
 
 
 
-                            @foreach($niveaux as $n)
-                                <div class="col-md-6">
-                                    <h4 class="page-header"> {{(App::getLocale()=='en')?$n->nom_anglais:$n->nom}}</h4>
 
-                                    @foreach($classes as $c)
-                                        <div class="col-md-12">
-                                            @if($c->id_niveau==$n->id)
-                                                <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choose_level({{$c->id}}, '{{URL::to('/inscriptions/listes/show/')}}', 5)">{{(App::getLocale()=='en')?$c->nom_anglais:$c->nom}}</a></li>
-                                            @endif
-                                        </div>
-                                    @endforeach
-                                </div>
-                            @endforeach
 
-                    </ul>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3">
+                                <input type="submit" class="btn btn-success form-control" value="{{trans('admin.confirmer')}}" >
+
+                            </div>
+                        </div>
+                    </form>
                 </div>
 
             </div>
@@ -244,44 +166,12 @@
 
 
 
-        <div
-                class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    <a class="accordion-toggle" href="#item7" dataparent="#monaccordeon"
-                       data-toggle="collapse">
-                        {{trans('admin.no_scolarite')}}
-                    </a>
-                </h3>
-            </div>
-            <div id="item7"
-                 class="panel-collapse collapsing">
-                <div
-                        class="panel-body">
-                    <ul >
-                        <li class="col-md-12"><a href={{URL::to('/inscriptions/listes/show?id=0&option=5')}}>{{trans('inscription.all_eleves')}}</a></li>
 
 
 
-                            @foreach($niveaux as $n)
-                                <div class="col-md-6">
-                                    <h4 class="page-header"> {{(App::getLocale()=='en')?$n->nom_anglais:$n->nom}}</h4>
 
-                                    @foreach($classes as $c)
-                                        <div class="col-md-12">
-                                            @if($c->id_niveau==$n->id)
-                                                <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choose_level({{$c->id}}, '{{URL::to('/inscriptions/listes/show/')}}', 5)">{{(App::getLocale()=='en')?$c->nom_anglais:$c->nom}}</a></li>
-                                            @endif
-                                        </div>
-                                    @endforeach
-                                </div>
-                            @endforeach
 
-                    </ul>
-                </div>
 
-            </div>
-        </div>
 
         <div class="panel panel-success">
             <div class="panel-heading">
@@ -297,8 +187,7 @@
 
             <div id="item8"
                  class="panel-collapse collapsing">
-                <div
-                        class="panel-body">
+                <div class="panel-body">
                     <form class="form-horizontal" id="check_list_form" method="get" action="{{route('show_frais_liste')}}">
                         <div class="">
 
@@ -405,6 +294,19 @@
         {
             selectClass = $('#select_classe_for_frais');
             selectNNiveau = $('#select_nniveau_for_frais');
+
+            if(selectClass.val() == 0) {
+                selectNNiveau.attr('disabled','disabled');
+            } else {
+                selectNNiveau.removeAttr('disabled');
+
+            }
+        }
+
+        function classForPayChange()
+        {
+            selectClass = $('#select_classe_for_pay');
+            selectNNiveau = $('#select_nniveau_for_pay');
 
             if(selectClass.val() == 0) {
                 selectNNiveau.attr('disabled','disabled');

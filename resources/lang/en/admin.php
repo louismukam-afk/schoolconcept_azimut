@@ -323,6 +323,17 @@ return [
     "delete" => "delete",
     "today" => "Today",
     "s_result_containing" => "Results including terms << :terms >>",
+    "status_eleve" => "Student status",
+    "total" => "Total",
+    "status" => "Status",
+    "reste" => "Left",
+    "allow_access" => "Access allowed",
+    "deny_access" => "Access denied",
+    "no_access_status" => "Status undefined",
+    "allow_student_access" => "Allow access",
+    "deny_student_access" => "Deny access"
+
+
 
 
 

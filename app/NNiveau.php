@@ -18,4 +18,10 @@ class NNiveau extends Model {
     public $fillable=['nom','id_cycle'];
 	//
 
+
+    public function cycle()
+    {
+        return $this->belongsTo(cycle::class, 'id_cycle');
+    }
+
 }
