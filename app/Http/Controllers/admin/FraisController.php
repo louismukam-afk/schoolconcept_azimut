@@ -76,9 +76,23 @@ class FraisController extends Controller {
 
         $nom=$request->input('nom');
         $montant=$request->input('montant');
+        $show_on_report=$request->input('show_on_report');
+        $ordre=$request->input('ordre');
+
         $n=new Frais();
         $n->nom=$nom;
         $n->montant=$montant;
+        if($show_on_report == 1) {
+            $n->show_on_report = true;
+        } else {
+            $n->show_on_report = false;
+        }
+        if($ordre) {
+            $n->ordre = $ordre;
+        } else {
+            $max_ordre = Frais::all()->max('ordre');
+            $n->ordre = $max_ordre + 1;
+        }
         $n->save();
         session(['success'=>true]);
         return redirect()->action('admin\FraisController@index');
@@ -123,9 +137,20 @@ class FraisController extends Controller {
         $id =$request->input('id');
         $nom=$request->input('nom');
         $montant=$request->input('montant');
+        $show_on_report=$request->input('show_on_report');
+        $ordre=$request->input('ordre');
+
         $n=Frais::find($id);
         $n->nom=$nom;
         $n->montant=$montant;
+        if($show_on_report == 1) {
+            $n->show_on_report = true;
+        } else {
+            $n->show_on_report = false;
+        }
+        if($ordre) {
+            $n->ordre = $ordre;
+        }
         $n->save();
         session(['success'=>true]);
         return redirect()->action('admin\FraisController@index');

@@ -353,6 +353,8 @@ return [
     "scan_carte" => "Scan de cartes",
     "bad_code" => "Mauvais code scanné. Cet étudiant semble ne être pas dans la base de données",
     "process_scan" => "Scannez une carte avec le lecteur",
+    "show_on_report" => "Afficher sur le rapport",
+
 
 
 

@@ -338,6 +338,7 @@ return [
     "scan_carte" => "Scan cards",
     "bad_code" => "Bad code scanned. This student seems not to be in the database",
     "process_scan" => "Scan a card with the reader",
+    "show_on_report" => "Show on report",
 
 
 

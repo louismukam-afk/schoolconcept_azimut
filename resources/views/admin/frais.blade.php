@@ -1,7 +1,7 @@
 @extends('skeleton')
 @section('sub-content')
     @include('perso.functions')
-    <div class="col-md-6">
+    <div class="col-md-8">
         @if(isset($success))
 
             <div class="alert alert-success">
@@ -26,6 +26,8 @@
             <th>#</th>
             <th>@lang('admin.nom')</th>
             <th>@lang('admin.montant')</th>
+            <th>@lang('admin.show_on_report')</th>
+            <th>@lang('admin.numero_ordre')</th>
             </thead>
             <tbody>
             <?php $i=1; ?>
@@ -37,10 +39,20 @@
                         <strong>{{$n->montant}}</strong>
                     </td>
                     <td>
+                        @if($n->show_on_report)
+                            @lang('inscription.oui')
+                        @else
+                            @lang('inscription.non')
+                        @endif
+                    </td>
+
+                    <td>{{$n->ordre}} </td>
+
+                    <td>
                         <div class="btn-group">
                             <a href="#" class=" btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a style="color: white" class="btn-primary"  data-toggle="modal" data-backdrop="false" href="#edit_frais" onclick="editer_frais({{$n->id}},'{{sanitize($n->nom)}}',{{$n->montant}})"><span class="glyphicon glyphicon-pencil"  ></span> {{  trans('admin.edit')  }}</a></li>
+                                <li><a style="color: white" class="btn-primary"  data-toggle="modal" data-backdrop="false" href="#edit_frais" onclick="editer_frais({{$n->id}},'{{sanitize($n->nom)}}',{{$n->montant}}, {{$n->show_on_report == true ? 1 : 0}}, {{$n->ordre}})"><span class="glyphicon glyphicon-pencil"  ></span> {{  trans('admin.edit')  }}</a></li>
                                 <li>
                                     <a style="color: white" href="{{ URL::to('/admin/frais/destroy/').'/'.$n->id }}"   class="btn-danger"><span class="glyphicon glyphicon-trash"></span> @lang('admin.del')</a>
                                 </li>
@@ -67,7 +79,7 @@
 
 
 
-                        <form accept-charset="UTF-8" role="form" method="POST" id="add_level_form" action="{{ url('/admin/frais/store/') }}">
+                        <form accept-charset="UTF-8" role="form" method="POST" id="add_frais_form" action="{{ url('/admin/frais/store/') }}">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <fieldset>
 
@@ -81,6 +93,21 @@
                                 <div class="form-group">
                                     <label>{{  trans('admin.montant')  }} : </label>
                                     <input class="form-control"  name="montant" type="number"  value="{{ old('montant') }}" required >
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label>{{  trans('admin.show_on_report')  }} : </label>
+                                    <select name="show_on_report" id="show_on_report" class="form-control" form="add_frais_form">
+                                        <option value="0" @if(old('show_on_report') == '0') selected @endif>@lang('inscription.non')</option>
+                                        <option value="1" @if(old('show_on_report') == '1') selected @endif>@lang('inscription.oui')</option>
+                                    </select>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label>{{  trans('admin.numero_ordre')  }} : </label>
+                                    <input class="form-control" id="ordre"  name="ordre" type="number"  value="{{ old('ordre') }}"  />
 
                                 </div>
                                 <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
@@ -116,7 +143,7 @@
 
 
 
-                            <form accept-charset="UTF-8" role="form" method="POST" id="edit_level_form" action="{{ url('/admin/frais/update/') }}">
+                            <form accept-charset="UTF-8" role="form" method="POST" id="edit_frais_form" action="{{ url('/admin/frais/update/') }}">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <input type="hidden" name="id" id="edit_id_frais" value=""/>
                                 <fieldset>
@@ -129,6 +156,21 @@
                                     <div class="form-group">
                                         <label>{{  trans('admin.montant')  }} : </label>
                                         <input class="form-control" id="edit_montant" name="montant" type="number"  required >
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>{{  trans('admin.show_on_report')  }} : </label>
+                                        <select name="show_on_report" id="edit_show_on_report" class="form-control" form="edit_frais_form">
+                                            <option value="0" >@lang('inscription.non')</option>
+                                            <option value="1" >@lang('inscription.oui')</option>
+                                        </select>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>{{  trans('admin.numero_ordre')  }} : </label>
+                                        <input class="form-control" id="edit_ordre"  name="ordre" type="number"   />
 
                                     </div>
                                     <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
@@ -155,12 +197,14 @@
     </div>
 
     <script>
-        function editer_frais(id,nom,montant)
+        function editer_frais(id, nom, montant, show, ordre)
         {
 
             document.getElementById("edit_id_frais").value = id;
             document.getElementById("edit_nom").value = nom;
             document.getElementById("edit_montant").value = montant;
+            document.getElementById("edit_show_on_report").value = show;
+            document.getElementById("edit_ordre").value = ordre;
 
         }
     </script>

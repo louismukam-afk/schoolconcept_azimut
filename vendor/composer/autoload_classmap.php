@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'AddEleveForeignKey' => $baseDir . '/database/migrations/2021_07_28_211332_addEleveForeignKey.php',
     'AddForeignKeysToTables' => $baseDir . '/database/migrations/2021_07_25_144157_addForeignKeysToTables.php',
+    'AddOrderAndRapportToFrais' => $baseDir . '/database/migrations/2021_08_02_045540_addOrderAndRapportToFrais.php',
     'AddOrderInCycleAndNniveau' => $baseDir . '/database/migrations/2021_07_28_234018_addOrderInCycleAndNniveau.php',
     'AddTimestampToTables' => $baseDir . '/database/migrations/2021_07_28_220313_addTimestampToTables.php',
     'AddTypeAndInscriptionColumnToPayement' => $baseDir . '/database/migrations/2020_08_18_020130_add_type_and_inscription_column_to_payement.php',
