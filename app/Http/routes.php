@@ -23,7 +23,8 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('/inscriptions/print/{id}','inscriptions\inscriptionController@print_receipe');
     Route::get('/inscriptions/payement/print/{id}','inscriptions\payementController@print_receipe');
     Route::get('/inscriptions/eleve/status','inscriptions\enregistrementController@status_eleve');
-    Route::get('/inscriptions/eleve/set-status','inscriptions\enregistrementController@set_status');
+    Route::get('/inscriptions/eleve/scan-carte','inscriptions\inscriptionController@index_scan_carte');
+    Route::get('/inscriptions/eleve/process-scan/','inscriptions\inscriptionController@process_scan');
 
 
         Route::group(['middleware'=>'lvl0'],function (){
@@ -59,6 +60,9 @@ Route::group(['middleware'=>'auth'],function (){
 
     //Tableau de bord d'admin
     Route::group(['middleware'=>'lvl2'],function (){
+        Route::get('/inscriptions/eleve/set-status','inscriptions\enregistrementController@set_status');
+
+
         Route::get('/admin/', 'admin\adminController@index');
         //routes pour le verrou des notes
         Route::get('/admin/verrou-note/', 'admin\verrou_noteController@index');

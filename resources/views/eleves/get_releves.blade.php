@@ -44,7 +44,7 @@
 
                 },
                 beforeSend: function () {
-                    startLoading();
+                    showLoader();
                 },
                 success: function (data) {
                     //console.log(data);
@@ -52,10 +52,10 @@
 
                 },
                 error: function () {
-                    alert('Une erreur est survenue');
+                    alert('Une erreur est survenue\n An error has occured');
                 },
                 complete: function () {
-                    stopLoading();
+                    hideLoader();
                 }
 
 

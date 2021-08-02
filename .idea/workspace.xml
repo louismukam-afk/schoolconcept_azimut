@@ -2,17 +2,21 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c5522a3f-f74c-474c-87f2-901ced8f473f" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/resources/views/inscriptions/eleve_operations.blade.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/loading3.gif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/img/scan-code.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/inscriptions/scan_carte.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/enregistrementController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/enregistrementController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/inscriptionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/inscriptionController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/listesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/listesController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/custom.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/custom.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/routes.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/routes.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/lang/en/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/admin.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/lang/fr/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/fr/admin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/inscriptions/add_inscription.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/inscriptions/add_inscription.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/inscriptions/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/inscriptions/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/inscriptions/selection_liste.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/inscriptions/selection_liste.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/eleves/get_releves.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/eleves/get_releves.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/home.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/inscriptions/cartes.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/inscriptions/cartes.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/inscriptions/status_eleve.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/inscriptions/status_eleve.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/skeleton.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/skeleton.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -462,15 +466,15 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SearchEverywhereHistoryKey" value="731c1e3c969f2da68d400b7240b6a3c9&#9;FILE&#9;file://C:/Users/Joel/Desktop/projects/SchoolConcept/storage/framework/views/731c1e3c969f2da68d400b7240b6a3c9&#10;p&#9;null&#9;null" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/inscriptions" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/img" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.General" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\projects\SchoolConcept\resources\views\inscriptions" />
       <recent name="D:\projects\SchoolConcept\public\img" />
+      <recent name="D:\projects\SchoolConcept\resources\views\inscriptions" />
       <recent name="D:\projects\SchoolConcept\resources\views\admin" />
       <recent name="D:\projects\SchoolConcept\database\migrations" />
       <recent name="D:\projects\SchoolConcept\app" />
@@ -611,7 +615,7 @@
       <workItem from="1627462848922" duration="50511000" />
       <workItem from="1627590571269" duration="470000" />
       <workItem from="1627621336475" duration="24805000" />
-      <workItem from="1627724051234" duration="44081000" />
+      <workItem from="1627724051234" duration="61803000" />
     </task>
     <servers />
   </component>

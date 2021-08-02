@@ -312,6 +312,7 @@ class enregistrementController extends Controller {
 	    $show_access = $request->input('show_access');
         $values= array('titre'=>trans('admin.status_eleve'));
 
+        $id=intval($id);
         $eleve = eleve::find($id);
 
 	    if($eleve) {

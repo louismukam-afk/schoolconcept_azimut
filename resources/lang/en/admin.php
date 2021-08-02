@@ -333,6 +333,12 @@ return [
     "allow_student_access" => "Allow access",
     "deny_student_access" => "Deny access",
     "op_eleve" => "Register / Payment / Operations on students",
+    "inscription" => "Registering",
+    "search" => "Search",
+    "scan_carte" => "Scan cards",
+    "bad_code" => "Bad code scanned. This student seems not to be in the database",
+    "process_scan" => "Scan a card with the reader",
+
 
 
 

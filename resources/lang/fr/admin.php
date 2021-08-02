@@ -350,6 +350,9 @@ return [
     "op_eleve" => "Inscription / Paiement / Opérations sur les étudiants",
     "inscription" => "Inscription",
     "search" => "Rechercher",
+    "scan_carte" => "Scan de cartes",
+    "bad_code" => "Mauvais code scanné. Cet étudiant semble ne être pas dans la base de données",
+    "process_scan" => "Scannez une carte avec le lecteur",
 
 
 

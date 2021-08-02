@@ -3,6 +3,7 @@
 use gesecole\classe;
 use gesecole\cycle;
 use gesecole\eleve;
+use gesecole\Http\Controllers\startController;
 use gesecole\inscription;
 use gesecole\niveau;
 use gesecole\NNiveau;
@@ -392,6 +393,26 @@ class inscriptionController extends Controller {
             return redirect()->action('inscriptions\inscriptionController@edit',['id_eleve'=>$id_eleve]);
         }
 	}
+
+	public function index_scan_carte(){
+        $values= array('titre'=> trans('admin.scan_carte'));
+
+        return view('inscriptions.scan_carte', $values);
+
+    }
+
+    public function process_scan(Request $request){
+	    $scanned = $request->input('scanned');
+	    //$id_eleve = openssl_decrypt($scanned, startController::SIMPLE_CRYPT_ALGO, startController::PASSPHRASE, 0, startController::VECTOR);
+        $eleve = eleve::find(intval($scanned));
+        if($eleve) {
+            return response()->json(intval($scanned));
+        } else {
+            return response()->json(0);
+
+        }
+
+    }
 
 	/**
 	 * Remove the specified resource from storage.

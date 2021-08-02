@@ -38,10 +38,48 @@
         $('.loading_icon').css('display','none');
     }
 
+    function showLoader() {
+        $('.loader').removeClass('hidden');
+    }
+    function hideLoader() {
+        $('.loader').addClass('hidden');
 
+    }
 </script>
+
+    <style>
+        #loader {
+            display: none;
+        }
+
+        .loader{
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: 100000;
+            background-color: rgba(0, 0, 0, 0.6);
+            top: 0;
+            left: 0;
+        }
+        .loader img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 150px;
+            transform: translate(-50%, -50%);
+        }
+        #qrcode-input {
+            height: 0;
+        }
+    </style>
 </head>
+
+
+
 <body>
+<div  class="loader hidden">
+    <img src="{{asset('img/loading3.gif')}}" alt="">
+</div>
 <div class="loading-back">  </div>
 <div class="col-md-12" >
     <a href="#"><img class="back-button" src="{{URL::asset('img/back_button.png')}}" onclick="history.back()" width="50px" height="50px"></a>
@@ -206,7 +244,7 @@ if(session('nom_etab')==null){
                     </div>
                 </div>              
                  <!-- /. ROW  -->
-                  <hr style="margin-top: 0;margin-bottom: 0" / >
+                  <hr style="margin-top: 0;margin-bottom: 0" />
                 <div class="row-fluid">
                     <ul class="breadcrumb" style="margin-bottom: 0;padding: 2px 15px;font-size: 16px">
 
@@ -265,7 +303,8 @@ if(session('nom_etab')==null){
                     </div>
 
                 </div>
-                  <!-- /. ROW  --> 
+                  <!-- /. ROW  -->
+
                     @yield('content')
                  <!-- /. ROW  -->
 
@@ -598,6 +637,48 @@ if(session('nom_etab')==null){
     }
 
 
+    $(function (){
+        $('#qrcode-input').on('change', function (e){
+            console.log('scanned', e.target.value);
+            var scanned = e.target.value;
+            e.target.value = "";
+            $('#scan-error-message').addClass('hidden');
 
+            $.ajax({
+                url : '{{url('/inscriptions/eleve/process-scan')}}',
+                type:'GET',
+                dataType:'html',
+                data:'scanned='+scanned,
+                beforeSend: function () {
+                    showLoader();
+                },
+                success: function (res) {
+
+                    console.log(res);
+
+
+                    if(res == 0) {
+                        hideLoader();
+                        $('#scan-error-message').removeClass('hidden');
+                        $('#status-container').addClass('hidden');
+
+
+                    } else {
+
+                        location.href = '{{url('/inscriptions/eleve/status')}}' + '?id=' + res + "&show_access=1"
+                    }
+                },
+
+                error: function (xhr) {
+                    console.error(xhr);
+                }
+
+            })
+        })
+
+        $('#qrcode-input').on('focusout', function (e){
+            e.target.focus();
+        })
+    })
 </script>
 </html>

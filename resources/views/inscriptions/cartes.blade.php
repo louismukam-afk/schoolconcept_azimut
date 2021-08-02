@@ -194,7 +194,7 @@
                             <?php $e=$eleves[$k1] ?>
                             <div class="card-e card-back left">
                                     <div class="qrcode-container">
-                                        <img class="qrcode" src="data:image/png;base64, {!! base64_encode(\QrCode::format('png')->errorCorrection('H')->size(200)->generate(openssl_encrypt($e->id, \gesecole\Http\Controllers\startController::SIMPLE_CRYPT_ALGO, \gesecole\Http\Controllers\startController::PASSPHRASE, 0, \gesecole\Http\Controllers\startController::VECTOR))) !!}" />
+                                        <img class="qrcode" src="data:image/png;base64, {!! base64_encode(\QrCode::format('png')->errorCorrection('H')->size(200)->generate($e->id)) !!}" />
                                     </div>
                             </div>
                         @endif
@@ -206,7 +206,7 @@
 
                             <div class="card-e card-back right">
                                     <div class="qrcode-container">
-                                        <img class="qrcode" src="data:image/png;base64, {!! base64_encode(\QrCode::format('png')->errorCorrection('H')->size(200)->generate(openssl_encrypt($e->id, \gesecole\Http\Controllers\startController::SIMPLE_CRYPT_ALGO, \gesecole\Http\Controllers\startController::PASSPHRASE, 0, \gesecole\Http\Controllers\startController::VECTOR))) !!}" />
+                                        <img class="qrcode" src="data:image/png;base64, {!! base64_encode(\QrCode::format('png')->errorCorrection('H')->size(200)->generate($e->id)) !!}" />
                                     </div>
                             </div>
                         @endif
