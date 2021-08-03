@@ -19,6 +19,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Frais extends Model {
 
-	//
+	public function getPrintedNom() {
+	    if($this->code) {
+	        return $this->code;
+        }
+	    return $this->nom;
+    }
 
 }

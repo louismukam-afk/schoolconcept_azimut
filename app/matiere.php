@@ -1,6 +1,7 @@
 <?php namespace gesecole;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
 
 /**
  * gesecole\matiere
@@ -44,10 +45,11 @@ class matiere extends Model {
 
     public function getNom()
     {
-        if($this->nom==null){
-            return $this->nom_anglais;
+        if(App::getLocale() == 'en') {
+            if($this->nom_anglais){
+                return $this->nom_anglais;
+            }
         }
-        else
-            return $this->nom;
+        return $this->nom;
     }
 }

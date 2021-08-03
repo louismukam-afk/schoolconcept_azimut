@@ -2,11 +2,37 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c5522a3f-f74c-474c-87f2-901ced8f473f" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/database/migrations/2021_08_03_132759_addCodeToFrais.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/css/print_scolarite_state.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/views/inscriptions/fiche_scolarite.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Frais.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Frais.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/FraisController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/FraisController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/classeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/classeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/cycleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/cycleController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/niveauController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/niveauController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/listesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/listesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/routes.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/routes.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/matiere.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/matiere.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/lang/en/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/admin.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/lang/fr/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/fr/admin.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/classes.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/classes.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/admin/frais.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/frais.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/scolarite.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/scolarite.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/admin/selection_classe_programme.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/selection_classe_programme.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/comptabilite/bilanEntrees.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/comptabilite/bilanEntrees.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/comptabilite/bilanSorties.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/comptabilite/bilanSorties.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/eleves/classe_note.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/eleves/classe_note.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/eleves/classe_note_show.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/eleves/classe_note_show.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/eleves/classe_releves.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/eleves/classe_releves.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/eleves/search.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/eleves/search.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/inscriptions/add_inscription.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/inscriptions/add_inscription.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/inscriptions/selection_classe.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/inscriptions/selection_classe.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/inscriptions/selection_liste.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/inscriptions/selection_liste.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/perso/functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/perso/functions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/personnel/dispense.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/personnel/dispense.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/personnel/dispenses.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/personnel/dispenses.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/skeleton.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/skeleton.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_static.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_static.php" afterDir="false" />
     </list>
@@ -458,18 +484,18 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SearchEverywhereHistoryKey" value="731c1e3c969f2da68d400b7240b6a3c9&#9;FILE&#9;file://C:/Users/Joel/Desktop/projects/SchoolConcept/storage/framework/views/731c1e3c969f2da68d400b7240b6a3c9&#10;p&#9;null&#9;null" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/img" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/css" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.General" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="D:\projects\SchoolConcept\public\img" />
+      <recent name="D:\projects\SchoolConcept\public\css" />
       <recent name="D:\projects\SchoolConcept\resources\views\inscriptions" />
+      <recent name="D:\projects\SchoolConcept\public\img" />
       <recent name="D:\projects\SchoolConcept\resources\views\admin" />
       <recent name="D:\projects\SchoolConcept\database\migrations" />
-      <recent name="D:\projects\SchoolConcept\app" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Joel\Desktop\test\gesecole\app" />
@@ -607,7 +633,8 @@
       <workItem from="1627462848922" duration="50511000" />
       <workItem from="1627590571269" duration="470000" />
       <workItem from="1627621336475" duration="24805000" />
-      <workItem from="1627724051234" duration="64808000" />
+      <workItem from="1627724051234" duration="69378000" />
+      <workItem from="1627973456477" duration="31540000" />
     </task>
     <servers />
   </component>
@@ -674,7 +701,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/app/Http/Controllers/admin/niveauController.php</url>
-          <line>72</line>
+          <line>73</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">

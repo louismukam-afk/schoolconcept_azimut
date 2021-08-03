@@ -24,7 +24,8 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('/inscriptions/payement/print/{id}','inscriptions\payementController@print_receipe');
     Route::get('/inscriptions/eleve/status','inscriptions\enregistrementController@status_eleve');
     Route::get('/inscriptions/eleve/scan-carte','inscriptions\inscriptionController@index_scan_carte');
-    Route::get('/inscriptions/eleve/process-scan/','inscriptions\inscriptionController@process_scan');
+    Route::get('/inscriptions/eleve/process-scan','inscriptions\inscriptionController@process_scan');
+    Route::get('/inscriptions/fiche-scolarite','inscriptions\listesController@fiche_scolarite');
 
 
         Route::group(['middleware'=>'lvl0'],function (){
@@ -33,11 +34,7 @@ Route::group(['middleware'=>'auth'],function (){
 
     });
 
-    Route::group(['middleware'=>'lvl1'],function (){
-
-
-
-
+    Route::group(['middleware'=>'lvl1'],function () {
 
         //pour les utilisateurs
         Route::get('/utilisateurs/', 'user\userController@index');

@@ -5,6 +5,7 @@ use gesecole\cycle;
 use gesecole\Http\Controllers\Controller;
 use gesecole\parametres;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 use gesecole\niveau;
 use Illuminate\Http\Request;
@@ -41,7 +42,7 @@ class classeController extends Controller {
 
     public function index()
 	{
-        $c=classe::paginate(15);
+        $c=classe::orderBy(App::getLocale() == 'en'? 'nom_anglais' : 'nom')->paginate(30);
         $n=niveau::all();
         $values= array('titre'=>trans('admin.specialites'),'niveaux'=>$n,'classes'=>$c);
         if(session('success')){

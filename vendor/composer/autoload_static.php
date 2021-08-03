@@ -333,6 +333,7 @@ class ComposerStaticInita8e744cd6ac8bb0715dcab13ed5037a3
     );
 
     public static $classMap = array (
+        'AddCodeToFrais' => __DIR__ . '/../..' . '/database/migrations/2021_08_03_132759_addCodeToFrais.php',
         'AddEleveForeignKey' => __DIR__ . '/../..' . '/database/migrations/2021_07_28_211332_addEleveForeignKey.php',
         'AddForeignKeysToTables' => __DIR__ . '/../..' . '/database/migrations/2021_07_25_144157_addForeignKeysToTables.php',
         'AddOrderAndRapportToFrais' => __DIR__ . '/../..' . '/database/migrations/2021_08_02_045540_addOrderAndRapportToFrais.php',

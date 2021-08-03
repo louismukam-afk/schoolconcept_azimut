@@ -34,12 +34,12 @@
 
                     @foreach($niveaux as $n)
                         <div class="col-md-6">
-                            <h4 class="page-header"> {{(App::getLocale()=='en')?$n->nom_anglais:$n->nom}}</h4>
+                            <h4 class="page-header"> {{$n->getNom()}}</h4>
 
                             @foreach($classes as $c)
                                 <div class="col-md-12">
                                     @if($c->id_niveau==$n->id)
-                                        <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choose_level({{$c->id}}, '{{URL::to('/inscriptions/listes/show')}}', '')">{{(App::getLocale()=='en')?$c->nom_anglais:$c->nom}}</a></li>
+                                        <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choose_level({{$c->id}}, '{{URL::to('/inscriptions/listes/show')}}', '')">{{$c->getNom()}}</a></li>
                                     @endif
                                 </div>
                             @endforeach
@@ -56,14 +56,14 @@
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">
-                    <a class="accordion-toggle" href="#item0" dataparent="#monaccordeon"
+                    <a class="accordion-toggle" href="#item2" dataparent="#monaccordeon"
                        data-toggle="collapse">
                         {{trans('admin.scolarite_pi')}}
                     </a>
                 </h3>
             </div>
 
-            <div id="item0"
+            <div id="item2"
                  class="panel-collapse collapsing">
                 <div class="panel-body">
                     <form class="form-horizontal" id="check_list_pay_form" method="get" action="{{route('show_sco_liste')}}">
@@ -111,15 +111,15 @@
                                             <option value="0"> @lang('admin.tous') </option>
                                             @foreach($classes_list as $c)
                                                 @if($i=0)
-                                                    <optgroup label="<{{(App::getLocale()=='en')?$c->niveau->nom_anglais:$c->niveau->nom}}">
+                                                    <optgroup label="<{{$c->niveau->getNom()}}">
                                                         <?php  $i++; ?>
                                                         @endif
                                                         @if($c->id_niveau!=$n)
-                                                            <?php $n=$c->id_niveau ?>
+                                                            <?php $n = $c->id_niveau ?>
                                                     </optgroup>
-                                                    <optgroup label="{{(App::getLocale()=='en')?$c->niveau->nom_anglais:$c->niveau->nom}}">
+                                                    <optgroup label="{{$c->niveau->getNom()}}">
                                                         @endif
-                                                        <option id="{{$c->niveau->id}}" value="{{$c->id}}" @if(old('classe')==$c->id) selected @endif>{{(App::getLocale()=='en')?$c->nom_anglais:$c->nom}}</option>
+                                                        <option id="{{$c->niveau->id}}" value="{{$c->id}}" @if(old('classe')==$c->id) selected @endif>{{$c->getNom()}}</option>
                                                         @endforeach
                                                     </optgroup>
                                         </select>
@@ -166,7 +166,38 @@
 
 
 
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <a class="accordion-toggle" href="#item3" dataparent="#monaccordeon"
+                       data-toggle="collapse">
+                        {{trans('admin.fiche_scolarite')}}
+                    </a>
+                </h3>
+            </div>
 
+            <div id="item3"
+                 class="panel-collapse collapsing">
+                <div class="panel-body">
+                    @foreach($niveaux as $n)
+                        <div class="col-md-6">
+                            <h4 class="page-header"> {{$n->getNom()}}</h4>
+
+                            @foreach($classes as $c)
+                                <div class="col-md-12">
+                                    @if($c->id_niveau==$n->id)
+                                        <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="choose_level({{$c->id}}, '{{URL::to('/inscriptions/fiche-scolarite')}}', '')">{{$c->getNom()}}</a></li>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+                    @endforeach
+
+
+                </div>
+
+            </div>
+        </div>
 
 
 
@@ -230,15 +261,15 @@
                                                 <option value="0"> @lang('admin.tous') </option>
                                             @foreach($classes_list as $c)
                                                 @if($i=0)
-                                                    <optgroup label="<{{(App::getLocale()=='en')?$c->niveau->nom_anglais:$c->niveau->nom}}">
+                                                    <optgroup label="<{{$c->niveau->getNom()}}">
                                                         <?php  $i++; ?>
                                                         @endif
                                                         @if($c->id_niveau!=$n)
                                                             <?php $n=$c->id_niveau ?>
                                                     </optgroup>
-                                                    <optgroup label="{{(App::getLocale()=='en')?$c->niveau->nom_anglais:$c->niveau->nom}}">
+                                                    <optgroup label="{{$c->niveau->getNom()}}">
                                                         @endif
-                                                        <option id="{{$c->niveau->id}}" value="{{$c->id}}" @if(old('classe')==$c->id) selected @endif>{{(App::getLocale()=='en')?$c->nom_anglais:$c->nom}}</option>
+                                                        <option id="{{$c->niveau->id}}" value="{{$c->id}}" @if(old('classe')==$c->id) selected @endif>{{$c->getNom()}}</option>
                                                         @endforeach
                                                     </optgroup>
                                         </select>

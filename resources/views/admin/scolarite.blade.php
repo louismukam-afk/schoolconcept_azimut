@@ -43,7 +43,7 @@
                             @foreach($niveaux as $c)
 
                                     @if($c->id==$s->id_niveau)
-                                    <a  data-toggle="modal" data-backdrop="false" href="#edit-classe" onclick="editer_scolarite({{$s->id}},{{$s->id_niveau}},{{$s->id_cycle}},{{$s->inscription}},{{$s->tranche1}},{{$s->tranche2}},{{$s->tranche3}},{{$s->tranche4}},{{$s->tranche5}})"><span class="glyphicon glyphicon-edit"  ></span> {{$cy?$cy->nom.' - ':''}} {{(App::getLocale()=='en')?$c->nom_anglais:$c->nom}}</a></li>
+                                    <a  data-toggle="modal" data-backdrop="false" href="#edit-classe" onclick="editer_scolarite({{$s->id}},{{$s->id_niveau}},{{$s->id_cycle}},{{$s->inscription}},{{$s->tranche1}},{{$s->tranche2}},{{$s->tranche3}},{{$s->tranche4}},{{$s->tranche5}})"><span class="glyphicon glyphicon-edit"  ></span> {{$cy?$cy->nom.' - ':''}} {{$c->getNom()}}</a></li>
                                         <?php break; ?>
                                     @endif
                             @endforeach
@@ -99,7 +99,7 @@
                                     <label for="classe">{{trans('admin.level')}} : <span class="required">*</span></label>
                                     <select id="classe" name="classe" form="add_level_form" class="form-control">
                                         @foreach($niveaux as $c)
-                                            <option value="{{  $c->id  }}" @if($c->id == old('classe')) selected @endif>{{  (App::getLocale()=='en')?$c->nom_anglais:$c->nom  }}</option>
+                                            <option value="{{  $c->id  }}" @if($c->id == old('classe')) selected @endif>{{  $c->getNom()  }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -189,7 +189,7 @@
                                     <label for="edit_classes">{{trans('admin.level')}} : <span class="required">*</span></label>
                                     <select id="edit_classes" name="classes" form="edit_scolarite_form" class="form-control">
                                         @foreach($niveaux as $c)
-                                            <option value="{{  $c->id  }}" @if($c->id == old('classes')) selected @endif>{{  ((App::getLocale()=='en')?$c->nom_anglais:$c->nom)  }}</option>
+                                            <option value="{{  $c->id  }}" @if($c->id == old('classes')) selected @endif>{{  ($c->getNom())  }}</option>
                                         @endforeach
                                     </select>
                                 </div>

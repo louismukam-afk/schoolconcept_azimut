@@ -7,6 +7,7 @@ use gesecole\Http\Controllers\Controller;
 use gesecole\niveau;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 
@@ -39,7 +40,7 @@ class niveauController extends Controller {
 
 	public function index()
 	{
-        $n=niveau::paginate(15);
+        $n=niveau::orderBy(App::getLocale() == 'en'? 'nom_anglais' : 'nom')->paginate(30);
         $values= array('titre'=>trans('admin.level'),'niveaux'=>$n);
         if(session('success')){
             Session::forget('success');

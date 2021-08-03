@@ -1,0 +1,113 @@
+
+/*=============================================================
+    Authour URI: www.binarycart.com
+    License: Commons Attribution 3.0
+
+    http://creativecommons.org/licenses/by/3.0/
+
+    100% To use For Personal And Commercial Use.
+    IN EXCHANGE JUST GIVE US CREDITS AND TELL YOUR FRIENDS ABOUT US
+
+    ========================================================  */
+
+/* cyrillic-ext */
+@font-face { font-family: open-sans;
+    font-weight: 400;
+    font-style: normal;
+    src: url('../fonts/open-sans.regular.ttf'); }
+/*==============================================
+    GENERAL  STYLES
+    =============================================*/
+@page  {
+    size: A4 landscape;
+}
+
+.wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.navbar,.navbar-header,.modal,.copy,.back-button,.copy,.dt-buttons,.dataTables_filter,.dataTables_info,.dataTables_paginate,.breadcrumb
+{
+    display: none;
+}
+table.dataTable thead th,table.dataTable tbody tr,.table.dataTable tbody tr td
+{
+    padding: 2px;
+    padding-top: 0;
+    padding-bottom: 0;
+
+    height: 12px;
+}
+
+table.dataTable thead .classe
+{
+    width: 50px;
+}
+
+.caption
+{
+    padding-bottom: 30px;
+}
+
+table td.back-green, table th.back-green {
+    color-adjust: exact!important;
+    -webkit-print-color-adjust: exact!important;
+    background-color: greenyellow!important;
+}
+table td.back-yellow, table th.back-yellow {
+    color-adjust: exact!important;
+    -webkit-print-color-adjust: exact!important;
+    background-color: yellow!important;
+}
+table td.back-black, table th.back-black {
+    color-adjust: exact!important;
+    -webkit-print-color-adjust: exact!important;
+    background-color: black!important;
+}
+
+table tr td.border-left-bold, table tr th.border-left-bold {
+    border-left-width: 10px!important;
+}
+
+
+
+.list-cont
+{
+    font-size: 11px;
+}
+.table tr, .table th, .table th td, .table tr td {
+    page-break-inside: avoid;
+}
+.table  tr,.table  tr td, .table  th,.table  th td{
+    padding-top: 0!important;
+    padding-bottom: 0!important;
+    height: 12px!important;
+    font-size: 10px!important;
+    line-height: 11px!important;
+    -webkit-print-color-adjust: exact!important;
+    color-adjust: exact!important;
+    border-color: black!important;
+
+}
+
+table tbody {
+    -webkit-print-color-adjust: exact!important;
+    color-adjust: exact!important;
+    border-color: black!important;
+}
+
+.table  tr.center-cell,.table  tr td.center-cell, .table  th.center-cell,.table  th td.center-cell{
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table  tr.center-vertical-cell,.table  tr td.center-vertical-cell, .table  th.center-vertical-cell,.table  th td.center-vertical-cell{
+    vertical-align: middle;
+}
+
+
+.copy
+{
+    font-size: 10px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+

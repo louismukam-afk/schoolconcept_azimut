@@ -48,15 +48,15 @@
 
                             @foreach($classes as $c)
                                 @if($i=0)
-                                    <optgroup label="{{(App::getLocale()=='en')?$c->niveau->nom_anglais:$c->niveau->nom}}">
+                                    <optgroup label="{{$c->niveau->getNom()}}">
                                         <?php  $i++; ?>
                                         @endif
                                         @if($c->id_niveau!=$n)
                                             <?php $n=$c->id_niveau ?>
                                     </optgroup>
-                                    <optgroup label="{{(App::getLocale()=='en')?$c->niveau->nom_anglais:$c->niveau->nom}}">
+                                    <optgroup label="{{$c->niveau->getNom()}}">
                                         @endif
-                                        <option value="{{$c->id}}" @if($inscription->id_classe==$c->id) selected @endif>{{(App::getLocale()=='en')?$c->nom_anglais:$c->nom}}</option>
+                                        <option value="{{$c->id}}" @if($inscription->id_classe==$c->id) selected @endif>{{$c->getNom()}}</option>
                                         @endforeach
                                     </optgroup>
                         </select>
@@ -113,15 +113,15 @@
                                 <option value=""> -- @lang('admin.choix_classe') --</option>
                             @foreach($classes as $c)
                                     @if($i=0)
-                                        <optgroup label="<{{(App::getLocale()=='en')?$c->niveau->nom_anglais:$c->niveau->nom}}">
+                                        <optgroup label="<{{$c->niveau->getNom()}}">
                                             <?php  $i++; ?>
                                     @endif
                                 @if($c->id_niveau!=$n)
                                     <?php $n=$c->id_niveau ?>
                                     </optgroup>
-                                    <optgroup label="{{(App::getLocale()=='en')?$c->niveau->nom_anglais:$c->niveau->nom}}">
+                                    <optgroup label="{{$c->niveau->getNom()}}">
                                         @endif
-                                <option id="{{$c->niveau->id}}" value="{{$c->id}}" @if(old('classe')==$c->id) selected @endif>{{(App::getLocale()=='en')?$c->nom_anglais:$c->nom}}</option>
+                                <option id="{{$c->niveau->id}}" value="{{$c->id}}" @if(old('classe')==$c->id) selected @endif>{{$c->getNom()}}</option>
                             @endforeach
                                     </optgroup>
                         </select>

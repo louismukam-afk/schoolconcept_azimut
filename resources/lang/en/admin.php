@@ -339,6 +339,19 @@ return [
     "bad_code" => "Bad code scanned. This student seems not to be in the database",
     "process_scan" => "Scan a card with the reader",
     "show_on_report" => "Show on report",
+    "etat_general" => "General state",
+    "fiche_scolarite" => "Tuition record",
+    "code" => "Code",
+    "versement" => "Installment",
+    "ordre1" => "st",
+    "ordre2" => "nd",
+    "ordre3" => "rd",
+    "ordre4" => "th",
+    "nom_prenom" => "Names and first names",
+    "modalite_inscription" => "Modality of registration",
+    "observations" => "Observations",
+    "fiche_scolarite_eleve" => "Student's tuition sheet",
+
 
 
 

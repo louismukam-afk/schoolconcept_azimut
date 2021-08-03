@@ -24,6 +24,7 @@
             <thead>
             <caption style="font-size: 22px">{{  trans('admin.frais_l')  }}</caption>
             <th>#</th>
+            <th>@lang('admin.code')</th>
             <th>@lang('admin.nom')</th>
             <th>@lang('admin.montant')</th>
             <th>@lang('admin.show_on_report')</th>
@@ -34,6 +35,7 @@
             @foreach($frais as $n)
                 <tr>
                     <td>{{$i++}}</td>
+                    <td>{{$n->code}} </td>
                     <td>{{$n->nom}} </td>
                     <td>
                         <strong>{{$n->montant}}</strong>
@@ -52,7 +54,7 @@
                         <div class="btn-group">
                             <a href="#" class=" btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a style="color: white" class="btn-primary"  data-toggle="modal" data-backdrop="false" href="#edit_frais" onclick="editer_frais({{$n->id}},'{{sanitize($n->nom)}}',{{$n->montant}}, {{$n->show_on_report == true ? 1 : 0}}, {{$n->ordre}})"><span class="glyphicon glyphicon-pencil"  ></span> {{  trans('admin.edit')  }}</a></li>
+                                <li><a style="color: white" class="btn-primary"  data-toggle="modal" data-backdrop="false" href="#edit_frais" onclick="editer_frais({{$n->id}}, '{{sanitize($n->code)}}', '{{sanitize($n->nom)}}',{{$n->montant}}, {{$n->show_on_report == true ? 1 : 0}}, {{$n->ordre}})"><span class="glyphicon glyphicon-pencil"  ></span> {{  trans('admin.edit')  }}</a></li>
                                 <li>
                                     <a style="color: white" href="{{ URL::to('/admin/frais/destroy/').'/'.$n->id }}"   class="btn-danger"><span class="glyphicon glyphicon-trash"></span> @lang('admin.del')</a>
                                 </li>
@@ -85,8 +87,14 @@
 
 
                                 <div class="form-group">
+                                    <label for="code">{{  trans('admin.code')  }} : <span class="required">*</span></label>
+                                    <input class="form-control" id="code" name="code" type="text"  value="{{ old('code') }}"  required autofocus>
+
+                                </div>
+
+                                <div class="form-group">
                                     <label for="nom">{{  trans('admin.nom')  }} : <span class="required">*</span></label>
-                                    <input class="form-control" id="nom" name="nom" type="text"  value="{{ old('nom') }}" required autofocus>
+                                    <input class="form-control" id="nom" name="nom" type="text"  value="{{ old('nom') }}" required>
 
                                 </div>
 
@@ -138,8 +146,7 @@
                             <button type="button" class="close" data-dismiss="modal">x</button>
                             <h4 class="modal-title">{{  trans('admin.remplir_champs')  }}</h4>
                         </div>
-                        <div
-                                class="modal-body">
+                        <div class="modal-body">
 
 
 
@@ -147,6 +154,13 @@
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <input type="hidden" name="id" id="edit_id_frais" value=""/>
                                 <fieldset>
+
+                                    <div class="form-group">
+                                        <label for="edit_code">{{  trans('admin.code')  }} : <span class="required">*</span></label>
+                                        <input class="form-control" id="edit_code" name="code" type="text"    required >
+
+                                    </div>
+
                                     <div class="form-group">
                                         <label for="nom">{{  trans('admin.nom')  }} : <span class="required">*</span></label>
                                         <input class="form-control" id="edit_nom" name="nom" type="text"   required >
@@ -197,10 +211,11 @@
     </div>
 
     <script>
-        function editer_frais(id, nom, montant, show, ordre)
+        function editer_frais(id, code, nom, montant, show, ordre)
         {
 
             document.getElementById("edit_id_frais").value = id;
+            document.getElementById("edit_code").value = code;
             document.getElementById("edit_nom").value = nom;
             document.getElementById("edit_montant").value = montant;
             document.getElementById("edit_show_on_report").value = show;

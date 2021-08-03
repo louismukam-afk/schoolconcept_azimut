@@ -354,6 +354,18 @@ return [
     "bad_code" => "Mauvais code scanné. Cet étudiant semble ne être pas dans la base de données",
     "process_scan" => "Scannez une carte avec le lecteur",
     "show_on_report" => "Afficher sur le rapport",
+    "etat_general" => "Etat général",
+    "fiche_scolarite" => "Fiche de scolarité",
+    "code" => "Code",
+    "versement" => "Versement",
+    "ordre1" => "er",
+    "ordre2" => "ème",
+    "ordre3" => "ème",
+    "ordre4" => "ème",
+    "nom_prenom" => "Noms et prénoms",
+    "modalite_inscription" => "Modalité d'inscription",
+    "observations" => "Observations",
+    "fiche_scolarite_eleve" => "Fiche de scolarité des étudiants",
 
 
 

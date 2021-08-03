@@ -184,6 +184,20 @@ function jour($n){
     return trans('admin.aucun');
 }
 
+function getIeme ($num) {
+        switch ($num) {
+            case 1 : $val = trans('admin.ordre1');
+                break;
+            case 2 : $val = trans('admin.ordre2');
+                break;
+            case 3 : $val = trans('admin.ordre3');
+                break;
+            default : $val = trans('admin.ordre4');
+        }
+    return $val;
+
+}
+
 function sanitize($str){
     $str=str_replace("'","\'",$str);
     $str=str_replace("\n","\\n",$str);

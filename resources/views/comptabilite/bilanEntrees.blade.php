@@ -2,7 +2,9 @@
 @section('sub-content')
 <div class="col-md-12">
     @include('perso.functions')
-    @if(isset($success))
+    <link rel="stylesheet" media="print" href="{{URL::asset('css/print_table.css')}}">
+
+@if(isset($success))
 
         <div class="alert alert-success">
             {{  trans('admin.succes')  }}

@@ -1,6 +1,8 @@
 @extends('skeleton')
 @section('sub-content')
     @include('perso.functions')
+    <link rel="stylesheet" media="print" href="{{URL::asset('css/print_table.css')}}">
+
     <div class="col-md-12">
         @if(isset($success))
 
@@ -167,9 +169,7 @@
                     text: '<i class="fa fa-file-excel-o"></i> Excel',
                     titleAttr: 'Export to Excel',
                     title: '{!! trans('admin.bilan_sorties') !!} - {!! sanitize($table_titre) !!}',
-                    exportOptions: {
-                        columns: 'visible'
-                    }
+
                 }
                 ,
                 {
@@ -177,9 +177,7 @@
                     text: '<i class="fa fa-file-pdf-o"></i> PDF',
                     titleAttr: 'PDF',
                     title: '{!! trans('admin.bilan_sorties') !!} - {!! sanitize($table_titre) !!}',
-                    exportOptions: {
-                        columns: 'visible'
-                    }
+
                 }
                 ,
                 {
@@ -187,9 +185,7 @@
                     text: '<i class="fa fa-print"></i> @lang("inscription.imprimer")',
                     titleAttr: 'Imprimer',
                     title: '{!! trans('admin.bilan_sorties') !!} - {!! sanitize($table_titre) !!}',
-                    exportOptions: {
-                        columns: 'visible'
-                    }
+
                 }
             ]
         } );
@@ -204,9 +200,7 @@
                     text: '<i class="fa fa-file-excel-o"></i> Excel',
                     titleAttr: 'Export to Excel',
                     title: '{!! trans('admin.bilan_sorties') !!} - {!! sanitize($table_titre) !!}',
-                    exportOptions: {
-                        columns: 'visible'
-                    }
+
                 }
                 ,
                 {
@@ -214,9 +208,7 @@
                     text: '<i class="fa fa-file-pdf-o"></i> PDF',
                     titleAttr: 'PDF',
                     title: '{!! trans('admin.bilan_sorties') !!} - {!! sanitize($table_titre) !!}',
-                    exportOptions: {
-                        columns: 'visible'
-                    }
+
                 }
                 ,
                 {
@@ -224,9 +216,7 @@
                     text: '<i class="fa fa-print"></i> @lang("inscription.imprimer")',
                     titleAttr: 'Imprimer',
                     title: '{!! trans('admin.bilan_sorties') !!} - {!! sanitize($table_titre) !!}',
-                    exportOptions: {
-                        columns: 'visible'
-                    }
+
                 }
             ]
         } );

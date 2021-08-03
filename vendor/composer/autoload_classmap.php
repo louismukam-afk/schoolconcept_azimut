@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddCodeToFrais' => $baseDir . '/database/migrations/2021_08_03_132759_addCodeToFrais.php',
     'AddEleveForeignKey' => $baseDir . '/database/migrations/2021_07_28_211332_addEleveForeignKey.php',
     'AddForeignKeysToTables' => $baseDir . '/database/migrations/2021_07_25_144157_addForeignKeysToTables.php',
     'AddOrderAndRapportToFrais' => $baseDir . '/database/migrations/2021_08_02_045540_addOrderAndRapportToFrais.php',

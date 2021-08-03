@@ -8,6 +8,8 @@ use gesecole\Http\Controllers\Controller;
 use gesecole\classe;
 use gesecole\niveau;
 use gesecole\NNiveau;
+use gesecole\payement;
+use gesecole\scolarite;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use gesecole\inscription;
@@ -394,6 +396,64 @@ class listesController extends Controller {
 
 
 
+    }
+
+    public function fiche_scolarite(Request $request){
+	    $this->validate($request,[
+	        'id'=> 'required|numeric',
+	        'nniveau'=> 'required|numeric',
+        ]);
+        $id_nniveau = $request->input('nniveau');
+        $id_classe = $request->input('id');
+        $nniveau = NNiveau::find($id_nniveau);
+        $classe = classe::find($id_classe);
+        $id_cycle = $nniveau->id_cycle;
+        $frais_report = Frais::where('show_on_report', '=', true)
+            ->orderBy('ordre')
+            ->get();
+        $frais_array = $frais_report->fetch('id')->toArray();
+        $scolarite = scolarite::where('id_cycle', '=', $id_cycle)
+            ->where('id_niveau', '=', $classe->id_niveau)
+            ->first();
+
+            $eleves_inscrits = eleve::join('inscription', 'inscription.id_eleve', '=', 'eleve.id')
+                ->where('annee_scolaire', '=', session('year'))
+                ->where('id_cycle', '=', $id_cycle)
+                ->where('id_classe', '=', $id_classe)
+                ->where('id_nniveau', '=', $id_nniveau)
+                ->select(['eleve.id', 'matricule', 'nom', 'prenom', 'inscription.id as id_inscription'])
+                ->orderBy('nom')
+                ->orderBy('prenom')
+                ->get();
+
+        foreach ($eleves_inscrits as $e) {
+            $inscription = payement::where('id_eleve', '=', $e->id)
+                ->where('id_inscription', '=', $e->id_inscription)
+                ->where('annee_scolaire', '=', session('year'))
+                ->first();
+            $frais = payement::where('id_eleve', '=', $e->id)
+                ->where('annee_scolaire', '=', session('year'))
+                ->whereIn('type', $frais_array)
+                ->get();
+            $payements = payement::where('id_eleve', '=', $e->id)
+                ->where('annee_scolaire', '=', session('year'))
+                ->where('type', '=', 0)
+                ->orderBy('date_payement', 'desc')
+                ->get();
+
+            $e->montant_inscription = $inscription->montant;
+            $e->payements_frais = $frais;
+            $e->payements = $payements;
+
+        }
+
+        return view('inscriptions.fiche_scolarite')
+            ->with('eleves', $eleves_inscrits)
+            ->with('titre_liste', trans('admin.fiche_scolarite_eleve') . ' / ' . trans('admin.year') . ' ' . session('year')  . ' / ' . trans('admin.classe') . ' ' . $classe->code . ' - ' . $nniveau->nom)
+            ->with('frais', $frais_report)
+            ->with('scolarite', $scolarite)
+            ->with('titre', trans('admin.fiche_scolarite_eleve'))
+            ->with('page_title', trans('admin.fiche_scolarite_eleve'));
     }
 
 	/**

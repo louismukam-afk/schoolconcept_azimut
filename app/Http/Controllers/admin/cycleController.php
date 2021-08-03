@@ -42,7 +42,7 @@ class cycleController extends Controller {
 	public function index(Request $req)
 	{
         $titre='Cycles';
-        $cycles=cycle::orderBy('ordre')->paginate(5);
+        $cycles=cycle::orderBy('ordre')->paginate(15);
 	    $values= array('titre'=>$titre,'cycles'=>$cycles);
         if(session('success')){
             Session::forget('success');

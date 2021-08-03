@@ -70,16 +70,19 @@ class FraisController extends Controller {
 	public function store(Request $request)
 	{
         $this->validate($request,[
+            'code'=>'required',
             'nom'=>'required',
             'montant'=>'required|numeric',
         ]);
 
+        $code=$request->input('code');
         $nom=$request->input('nom');
         $montant=$request->input('montant');
         $show_on_report=$request->input('show_on_report');
         $ordre=$request->input('ordre');
 
         $n=new Frais();
+        $n->code = $code;
         $n->nom=$nom;
         $n->montant=$montant;
         if($show_on_report == 1) {
@@ -131,17 +134,20 @@ class FraisController extends Controller {
         $this->validate($request,[
             'id'=>'required|numeric',
             'nom'=>'required',
+            'code'=>'required',
             'montant'=>'required|numeric',
         ]);
 
         $id =$request->input('id');
         $nom=$request->input('nom');
+        $code=$request->input('code');
         $montant=$request->input('montant');
         $show_on_report=$request->input('show_on_report');
         $ordre=$request->input('ordre');
 
         $n=Frais::find($id);
         $n->nom=$nom;
+        $n->code=$code  ;
         $n->montant=$montant;
         if($show_on_report == 1) {
             $n->show_on_report = true;
