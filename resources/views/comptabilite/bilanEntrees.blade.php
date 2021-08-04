@@ -3,7 +3,11 @@
 <div class="col-md-12">
     @include('perso.functions')
     <link rel="stylesheet" media="print" href="{{URL::asset('css/print_table.css')}}">
-
+    <style media="screen">
+        .hidden-row {
+            display: none;
+        }
+    </style>
 @if(isset($success))
 
         <div class="alert alert-success">
@@ -42,8 +46,10 @@
                 <th></th>
                 </thead>
                 <tbody>
-                <?php $i=1; ?>
+                <?php $i=1; $sumPayments = 0;?>
                 @foreach($payements as $p)
+                    <?php $sumPayments += $p->montant;?>
+
                     <tr>
                         <td>{{$i++}}</td>
                         <td><strong >{{$p->motif}}</strong></td>
@@ -52,7 +58,7 @@
                             @if($p->eleve)
                                 @foreach($p->eleve->inscriptions as $ins)
                                     @if($ins->annee_scolaire == $annee_scolaire)
-                                        {{App::getLocale() == 'en' ? $ins->classe->nom_anglais : $ins->classe->nom}} - {{$ins->nniveau->nom}}
+                                        {{$ins->classe->getNom()}} - {{$ins->nniveau->nom}}
                                         <?php break; ?>
                                     @endif
                                 @endforeach
@@ -64,7 +70,20 @@
                         <td>                        <a  class="btn btn-warning"  href="@if($p->type == \gesecole\Vars::INSCRIPTION_TYPE){{URL::to('/inscriptions/print/'.$p->id)}} @else{{URL::to('/inscriptions/payement/print/'.$p->id)}}@endif" ><span class="glyphicon glyphicon-eye-open"  ></span> {{  trans('admin.verifier')  }}</a></td>
                     </tr>
                 @endforeach
+                <tr class="hidden-row">
+                    <td >@lang('admin.total')</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>{{$sumPayments}}</td>
+                    <td></td>
+                </tr>
                 </tbody>
+                <tfoot>
+                    <th colspan="5">@lang('admin.total')</th>
+                    <th>{{$sumPayments}}</th>
+                </tfoot>
             </table>
 
            <!-- <div class="paginate" style="text-align: center;"> <?php /*echo(str_replace('/?', '?', $payements->render()) );*/ ?></div> -->

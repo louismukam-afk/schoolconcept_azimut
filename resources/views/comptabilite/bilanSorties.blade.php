@@ -3,6 +3,11 @@
     @include('perso.functions')
     <link rel="stylesheet" media="print" href="{{URL::asset('css/print_table.css')}}">
 
+    <style media="screen">
+        .hidden-row {
+            display: none;
+        }
+    </style>
     <div class="col-md-12">
         @if(isset($success))
 
@@ -14,6 +19,7 @@
 
 
 
+            <?php $i=1; $sumDepenses = 0; $sumSalaire = 0?>
 
             <div class="col-md-12">
                 <div class="col-md-8">
@@ -44,6 +50,8 @@
                         <tbody>
                         <?php $i=1; ?>
                         @foreach($payements as $p)
+                            <?php $sumSalaire += $p->net_a_payer?>
+
                             <tr>
                                 <td>{{$i++}}</td>
                                 <td>
@@ -59,7 +67,18 @@
                                 <td>{{$p->net_a_payer}}</td>
                             </tr>
                         @endforeach
+                        <tr class="hidden-row">
+                            <td>@lang('admin.total')</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{{$sumSalaire}}</td>
+                        </tr>
                         </tbody>
+                        <tfoot>
+                            <th colspan="4">@lang('admin.total')</th>
+                            <th>{{$sumSalaire}}</th>
+                        </tfoot>
                     </table>
 
 
@@ -121,6 +140,8 @@
                         <tbody>
                         <?php $i=1; ?>
                         @foreach($decaissements as $p)
+                            <?php $sumDepenses += $p->montant?>
+
                             <tr>
                                 <td>{{$i++}}</td>
                                 <td>
@@ -136,7 +157,18 @@
                                 <td>{{$p->montant}}</td>
                             </tr>
                         @endforeach
+                        <tr class="hidden-row">
+                            <td>@lang('admin.total')</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td>{{$sumDepenses}}</td>
+                        </tr>
                         </tbody>
+                        <tfoot>
+                        <th colspan="4">@lang('admin.total')</th>
+                        <th>{{$sumDepenses}}</th>
+                        </tfoot>
                     </table>
 
 

@@ -25,7 +25,7 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('/inscriptions/eleve/status','inscriptions\enregistrementController@status_eleve');
     Route::get('/inscriptions/eleve/scan-carte','inscriptions\inscriptionController@index_scan_carte');
     Route::get('/inscriptions/eleve/process-scan','inscriptions\inscriptionController@process_scan');
-    Route::get('/inscriptions/fiche-scolarite','inscriptions\listesController@fiche_scolarite');
+    Route::get('/inscriptions/fiche-scolarite','inscriptions\listesController0@fiche_scolarite');
 
 
         Route::group(['middleware'=>'lvl0'],function (){

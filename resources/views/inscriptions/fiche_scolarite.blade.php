@@ -157,9 +157,7 @@
         </tr>
         </tbody>
     </table>
-
-
-        <span class="col-md-12"><strong>Total: {{count($eleves)}}</strong></span>
+        
 </div>
 
     <script>
