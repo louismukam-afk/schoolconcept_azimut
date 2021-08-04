@@ -373,9 +373,9 @@ class enregistrementController extends Controller {
                 $acces->id_eleve = $id;
                 $acces->id_creator = $current_user->id;
                 if($status == 1) {
-                    $acces->edition_details = 'status = '. Vars::DECISION_ALLOW;
+                    $acces->edition_details = 'decision = '. Vars::DECISION_ALLOW;
                 } else {
-                    $acces->edition_details = 'status = '. Vars::DECISION_ALLOW;
+                    $acces->edition_details = 'decision = '. Vars::DECISION_DENY;
 
                 }
 
@@ -392,6 +392,51 @@ class enregistrementController extends Controller {
         }
 
 	    return redirect()->to(URL::previous());
+
+    }
+
+    public function set_multi_status(Request $request) {
+        $status = $request->input('status');
+        $ids = $request->input('ids');
+        $current_user = \Auth::user();
+
+        foreach ($ids as $id) {
+            $eleve = eleve::find($id);
+            if($eleve) {
+
+                $acces = acces_eleve::where('annee_scolaire', '=', \session('year'))
+                    ->where('id_eleve', '=', $id)
+                    ->first();
+
+                if($acces == null) {
+                    $acces = new acces_eleve();
+                    $acces->annee_scolaire = \session('year');
+                    $acces->id_eleve = $id;
+                    $acces->id_creator = $current_user->id;
+                    if($status == 1) {
+                        $acces->edition_details = 'decision = '. Vars::DECISION_ALLOW;
+                    } else {
+                        $acces->edition_details = 'decision = '. Vars::DECISION_DENY;
+
+                    }
+
+                }
+                $acces->id_last_editor = $current_user->id;
+
+                if($status == 1) {
+                    $acces->decision = Vars::DECISION_ALLOW;
+                } else {
+                    $acces->decision = Vars::DECISION_DENY;
+                }
+
+                $acces->save();
+            }
+
+        }
+
+
+
+        return response()->json('OK');
 
     }
 

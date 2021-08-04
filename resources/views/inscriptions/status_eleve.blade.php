@@ -10,7 +10,7 @@
         <h3 style="color: red; max-width: 600px; margin-left: auto; margin-right: auto" class="">@lang('admin.bad_code')</h3>
     </div>
     <div id="status-container">
-        @if(isset($eleve) && isset($show_access))
+        @if(isset($eleve))
             @if($acces == null)
                 <div class="alert alert-warning"  style="display: flex;justify-content: center;align-items: center">
                     <span class="fa fa-question-circle" style="color: gray; font-size: 9em"></span>

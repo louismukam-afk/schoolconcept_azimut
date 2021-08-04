@@ -8,6 +8,16 @@
     </div>
     <link rel="stylesheet" media="print" href="{{URL::asset('css/print_table.css')}}">
 
+    @if(\gesecole\Http\Middleware\privileges\g_admin::currentUserIsAdmin())
+        <div class="row hide-in-print">
+            <div class="col-md-12" style="margin-top: 10px">
+                <div class="btn-group">
+                    <span onclick="editStudentAccess(1)" class="btn btn-success"> @lang('admin.allow_student_access')</span>
+                    <span onclick="editStudentAccess(0)" class="btn btn-danger"> @lang('admin.deny_student_access')</span>
+                </div>
+            </div>
+        </div>
+    @endif
     @include('perso.header')
 
 
@@ -73,11 +83,47 @@
             <div class="col-md-12"><strong>@lang('admin.reste') @lang('admin.total'): {{$sumReste}} @lang('inscription.devise')</strong></div>
 
         @endif
+
+        <div id="dialog" title="@lang('admin.info')">
+            <h3 id="dialog-text" class="alert"></h3>
+        </div>
 </div>
 
     <script>
         var elevesArray = [{{$elevesStringArray}}];
 
+        function editStudentAccess(status) {
+            var jDText = $( "#dialog-text" );
+            $.ajax({
+                url : '{{url('inscriptions/eleve/set-multi-status')}}',
+                type: 'POST',
+                data: {
+                    ids : elevesArray,
+                    status : status,
+                    _token : '{{csrf_token()}}'
+                },
+                beforeSend : function () {
+                    showLoader();
+                },
+                success: function (data) {
+                    console.log(data);
+                    $( "#dialog" ).dialog( "open" );
+                    jDText.html("@lang('admin.status_edited')");
+                    jDText.removeClass('alert-danger');
+                    jDText.addClass('alert-success');
+                },
+                error: function (details) {
+                  console.error('details', details);
+                    $( "#dialog" ).dialog( "open" );
+                    jDText.html("@lang('admin.error_occured')");
+                    jDText.removeClass('alert-success');
+                    jDText.addClass('alert-danger');
+                },
+                complete: function () {
+                    hideLoader();
+                }
+            });
+        }
 
         $('#idTableListe').dataTable( {
             dom: 'Bfrtip',
@@ -106,6 +152,12 @@
 
             ]
         } );
+
+        jQuery.noConflict();
+        $( "#dialog" ).dialog({
+            autoOpen: false,
+            modal: true
+        });
     </script>
 @endsection
 @section('breadcrumb')

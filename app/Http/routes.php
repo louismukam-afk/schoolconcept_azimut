@@ -58,6 +58,7 @@ Route::group(['middleware'=>'auth'],function (){
     //Tableau de bord d'admin
     Route::group(['middleware'=>'lvl2'],function (){
         Route::get('/inscriptions/eleve/set-status','inscriptions\enregistrementController@set_status');
+        Route::post('/inscriptions/eleve/set-multi-status','inscriptions\enregistrementController@set_multi_status');
 
 
         Route::get('/admin/', 'admin\adminController@index');

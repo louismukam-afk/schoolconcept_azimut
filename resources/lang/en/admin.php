@@ -351,6 +351,10 @@ return [
     "modalite_inscription" => "Modality of registration",
     "observations" => "Observations",
     "fiche_scolarite_eleve" => "Student's tuition sheet",
+    "status_edited" => "The accesses have been modified successfully",
+    "error_occured" => "An error has occurred",
+    "info" => "Information",
+
 
 
 

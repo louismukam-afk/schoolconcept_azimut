@@ -366,6 +366,9 @@ return [
     "modalite_inscription" => "Modalité d'inscription",
     "observations" => "Observations",
     "fiche_scolarite_eleve" => "Fiche de scolarité des étudiants",
+    "status_edited" => "Les accès ont été modifiés avec succès",
+    "error_occured" => "Une erreur s'est produite",
+    "info" => "Information",
 
 
 
