@@ -276,20 +276,24 @@ class listesController extends Controller {
             if ($id == 0) {
                 $values['titre'] = trans('inscription.listes');
 
-                $e = DB::select('SELECT e.matricule,e.id, e.nom ,e.prenom,e.date_naiss,e.lieu_naiss,e.sexe,c.nom as nom_classe,c.code as code_classe,sol.solde,' . $tranche . ' AS tranche ,(sol.solde-' . $tranches . ') AS reste  ,nn.nom as nniveau FROM n_niveaus nn, eleve e,inscription,classe c,niveau n,scolarite s, (SELECT SUM(CASE WHEN p.type = 0 AND p.id_inscription=0 THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and annee_scolaire=? and inscription.id_classe=c.id AND sol.id=e.id AND c.id_niveau=n.id AND s.id_niveau=n.id AND s.id_cycle=inscription.id_cycle AND (sol.solde-' . $tranches . ')'.$opComp.'0 AND inscription.id_nniveau=nn.id ORDER BY code_classe,nom,prenom', [session('year'),session('year')]);
+                $e = DB::select('SELECT e.matricule,e.id, e.nom ,e.prenom,e.date_naiss,e.lieu_naiss,e.sexe,c.nom as nom_classe,c.code as code_classe,sol.solde,' . $tranche . ' AS tranche ,(' . $tranches . ' - sol.solde) AS reste  ,nn.nom as nniveau FROM n_niveaus nn, eleve e,inscription,classe c,niveau n,scolarite s, (SELECT SUM(CASE WHEN p.type = 0 AND p.id_inscription=0 THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and annee_scolaire=? and inscription.id_classe=c.id AND sol.id=e.id AND c.id_niveau=n.id AND s.id_niveau=n.id AND s.id_cycle=inscription.id_cycle AND (sol.solde-' . $tranches . ')'.$opComp.'0 AND inscription.id_nniveau=nn.id ORDER BY code_classe,nom,prenom', [session('year'),session('year')]);
                 $values['eleves'] = $e;
                 $values['titre_liste'] = $t0.' - '.trans('inscription.all_eleves');
-                $values['tranche']=true;
+                if($type != null) {
+                    $values['type']=$type;
+                }
                 $values['show_classe'] = true;
                 return view('inscriptions/listes', $values);
             } else {
                 $values['titre'] = trans('inscription.listes');
                 $classe = classe::find($id);
                 $classe_name = $classe->getNom();
-                $e = DB::select('SELECT e.matricule,e.id, e.nom ,e.prenom,e.date_naiss,e.lieu_naiss,e.sexe,c.nom as nom_classe,sol.solde,' . $tranche . ' AS tranche ,(sol.solde-' . $tranches . ') AS reste   FROM eleve e,inscription,classe c,niveau n,scolarite s, (SELECT SUM(CASE WHEN p.type = 0 AND p.id_inscription=0 THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and annee_scolaire=? and inscription.id_classe=c.id AND sol.id=e.id AND c.id_niveau=n.id AND s.id_niveau=n.id AND s.id_cycle=inscription.id_cycle AND (sol.solde-' . $tranches . ')'.$opComp.'0 AND c.id=? AND inscription.id_cycle=? AND inscription.id_nniveau=? ORDER BY nom_classe,nom,prenom', [session('year'),session('year'),$id,$cycle,$nniveau]);
+                $e = DB::select('SELECT e.matricule,e.id, e.nom ,e.prenom,e.date_naiss,e.lieu_naiss,e.sexe,c.nom as nom_classe,sol.solde,' . $tranche . ' AS tranche ,(' . $tranches . ' - sol.solde) AS reste   FROM eleve e,inscription,classe c,niveau n,scolarite s, (SELECT SUM(CASE WHEN p.type = 0 AND p.id_inscription=0 THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and annee_scolaire=? and inscription.id_classe=c.id AND sol.id=e.id AND c.id_niveau=n.id AND s.id_niveau=n.id AND s.id_cycle=inscription.id_cycle AND (sol.solde-' . $tranches . ')'.$opComp.'0 AND c.id=? AND inscription.id_cycle=? AND inscription.id_nniveau=? ORDER BY nom_classe,nom,prenom', [session('year'),session('year'),$id,$cycle,$nniveau]);
                 $values['eleves'] = $e;
                 $values['titre_liste'] = $t0.' - '. $classe_name.' '.NNiveau::find($nniveau)->nom;
-                $values['tranche']=true;
+                if($type != null) {
+                    $values['type']=$type;
+                }
                 return view('inscriptions/listes', $values);
             }
 
@@ -347,7 +351,7 @@ class listesController extends Controller {
 
                 $added=classe::find($classe)->nom;
             }
-            $values['tranche'] = true;
+
             $values['paid'] = true;
 
             if($frais!=0)
@@ -379,7 +383,6 @@ class listesController extends Controller {
 
 
             }
-            $values['tranche'] = true;
 
             if($frais!=0)
                 $values['titre_liste'] = trans('admin.unpaid_eleve').' : '.$f->nom.' - '.$added;
@@ -388,6 +391,9 @@ class listesController extends Controller {
 
         }
 
+        if($type != null) {
+            $values['type']=$type;
+        }
         $values['show_classe'] = true;
         $values['eleves'] = $e;
         return view('inscriptions.listes', $values);

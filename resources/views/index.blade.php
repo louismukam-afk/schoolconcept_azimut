@@ -388,8 +388,7 @@ if(session('nom_etab')==null){
                 <button type="button" class="close" data-dismiss="modal">x</button>
                 <h4 class="modal-title">{{  trans('admin.remplir_champs')  }}</h4>
             </div>
-            <div
-                    class="modal-body">
+            <div class="modal-body">
 
 
 
@@ -436,7 +435,6 @@ if(session('nom_etab')==null){
 
                 <form accept-charset="UTF-8" role="form" method="GET" id="confirm_delete_form" action="">
                     <input type="hidden" name="id" id="confirm_delete_item_id" value=""/>
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 
                     <fieldset>
                         <h4 id="confirm_delete_text">@lang('admin.confirm_delete')</h4>

@@ -25,13 +25,19 @@
         <th  class="sexe">{{  trans('inscription.sexe')  }}</th>
         @if(isset($show_classe))<th class="classe">@lang('admin.classe')</th>@endif
         @if(isset($show_classe))<th>@lang('admin.nniveau')</th>@endif
-        @if(isset($tranche))<th>{{trans('inscription.reste')}}</th>@endif
+        @if(isset($type) && $type != 1)<th>{{trans('inscription.reste')}}</th>@endif
         <th class="action"></th>
 
         </thead>
         <tbody>
-        <?php $i=1; ?>
+        <?php $i=1; $elevesStringArray = ""; $sumReste = 0?>
         @foreach($eleves as $e)
+            <?php
+                if($i != 1) {
+                    $elevesStringArray .= ', ';
+                }
+            $elevesStringArray .= $e->id;
+            ?>
             <tr>
                 <td>{{$i++}}</td>
                 <td>{{$e->matricule}}</td>
@@ -41,7 +47,11 @@
                 <td style="width: 25px">{{$e->sexe}}</td>
                 @if(isset($show_classe))<td>{{$e->code_classe}}</td>@endif
                 @if(isset($show_classe))<td>{{$e->nniveau}}</td>@endif
-                @if(isset($tranche))<td>{{$e->reste}}</td>@endif
+                @if(isset($type) && $type != 1)<td>
+                    {{$e->reste}}
+                    <?php $sumReste += $e->reste?>
+                </td>
+                @endif
                 <td class="action">
                     <div class="btn-group">
                         <a href="#" class=" btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></a>
@@ -58,10 +68,17 @@
     </table>
 
 
-        <span class="col-md-12"><strong>Total: {{count($eleves)}}</strong></span>
+        <div class="col-md-12"><strong>@lang('admin.total'): {{count($eleves)}}</strong></div>
+        @if(isset($type) && $type != 1)
+            <div class="col-md-12"><strong>@lang('admin.reste') @lang('admin.total'): {{$sumReste}} @lang('inscription.devise')</strong></div>
+
+        @endif
 </div>
 
     <script>
+        var elevesArray = [{{$elevesStringArray}}];
+
+
         $('#idTableListe').dataTable( {
             dom: 'Bfrtip',
             pageLength:5000,
