@@ -87,6 +87,16 @@
 
 
         </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                <div class="div-square">
+                    <a href="{{URL::to('/inscriptions/eleve/scan-carte')}}" >
+                        <i class="fa fa-qrcode fa-5x"></i>
+                        <h4>{{trans('admin.scan_carte')}} </h4>
+                    </a>
+                </div>
+
+            </div>
     </div>
 
 

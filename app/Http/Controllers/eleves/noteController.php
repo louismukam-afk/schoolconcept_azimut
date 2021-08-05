@@ -156,8 +156,9 @@ class noteController extends Controller {
         }
 
         $user=Auth::user();
-        $r=$user->roles->fetch('value')->toArray();
-        if(Functions::contain($r,18.5)){
+        /*$r=$user->roles->fetch('value')->toArray();
+        if(Functions::contain($r,18.5)){*/
+        if($user->isTeacher()) {
             $d=dispense::whereAnneeScolaire(\session('year'))
                 ->where('id_personnel','=',$user->id_personnel)
                 ->where('id_matiere','=',$id_m)
@@ -170,6 +171,8 @@ class noteController extends Controller {
                 return redirect()->to(url('/eleves/notes/matieres?id='.$id.'&cycle='.$id_cycle.'&nniveau='.$nniveau));
             }
         }
+
+        //}
 
         $mat=matiere::find($id_m);
         $cm=classeMatiere::whereIdClasse($id)->where('id_matiere','=',$id_m)->where('id_cycle','=',$id_cycle)->where('id_nniveau','=',$nniveau)->first();

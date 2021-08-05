@@ -19,6 +19,7 @@ return array(
     'ClasseMatiere' => $baseDir . '/database/migrations/2017_09_26_120147_classe_matiere.php',
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
     'CreateAccesElevesTable' => $baseDir . '/database/migrations/2021_07_31_170518_create_acces_eleves_table.php',
+    'CreateActionsTable' => $baseDir . '/database/migrations/2021_08_04_183912_create_actions_table.php',
     'CreateFraisTable' => $baseDir . '/database/migrations/2019_08_17_193950_create_frais_table.php',
     'CreateGroupeMatieresTable' => $baseDir . '/database/migrations/2018_05_04_153612_create_groupe_matieres_table.php',
     'CreateHeureRealisesTable' => $baseDir . '/database/migrations/2017_09_27_155005_create_heure_realises_table.php',

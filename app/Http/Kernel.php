@@ -38,6 +38,7 @@ class Kernel extends HttpKernel {
         'lvl18' => 'gesecole\Http\Middleware\privileges\g_notes',
         'lvl18.5' => 'gesecole\Http\Middleware\privileges\g_enseignants',
         'lvl19' => 'gesecole\Http\Middleware\privileges\g_inscriptions',
+        'action' => 'gesecole\Http\Middleware\ActionMiddleware',
         'auth' => 'gesecole\Http\Middleware\Authenticate',
 		'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
 		'guest' => 'gesecole\Http\Middleware\RedirectIfAuthenticated',

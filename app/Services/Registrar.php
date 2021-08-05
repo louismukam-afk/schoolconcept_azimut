@@ -1,5 +1,6 @@
 <?php namespace gesecole\Services;
 
+use gesecole\Action;
 use gesecole\parametres;
 use gesecole\Role;
 use gesecole\User;
@@ -53,10 +54,21 @@ class Registrar implements RegistrarContract {
             $r->value=0;
             $r->save();
 
+            $a = new Action();
+            $a->id_user = $ma->id;
+            $a->action_name = Action::ACTION_ALL;
+            $a->save();
+
+
             $r=new Role();
             $r->id_user=2;
             $r->value=1;
             $r->save();
+
+            $a = new Action();
+            $a->id_user = 2;
+            $a->action_name = Action::ACTION_ALMOST_ALL;
+            $a->save();
 
 
             return User::create([

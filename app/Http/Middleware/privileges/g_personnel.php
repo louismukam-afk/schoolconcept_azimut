@@ -14,10 +14,10 @@ class g_personnel {
 	 */
 	public function handle($request, Closure $next)
 	{
-        $r=Auth::user()->roles->fetch('value')->toArray();
+        /*$r=Auth::user()->roles->fetch('value')->toArray();
         if(!Functions::pp_exists($r,2) && !Functions::contain($r,17)){
             return view('not_auth',['titre'=>'']);
-        }
+        }*/
 		return $next($request);
 	}
 

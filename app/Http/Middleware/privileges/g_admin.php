@@ -15,10 +15,10 @@ class g_admin {
 	 */
 	public function handle($request, Closure $next)
 	{
-        $r=Auth::user()->roles->fetch('value')->toArray();
+        /*$r=Auth::user()->roles->fetch('value')->toArray();
         if(!Functions::pp_exists($r,1)){
             return view('not_auth',['titre'=>'']);
-        }
+        }*/
 		return $next($request);
 	}
 

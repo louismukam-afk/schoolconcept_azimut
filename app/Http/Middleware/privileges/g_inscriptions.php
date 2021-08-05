@@ -15,10 +15,10 @@ class g_inscriptions {
 	 */
 	public function handle($request, Closure $next)
 	{
-        $r=Auth::user()->roles->fetch('value')->toArray();
+        /*$r=Auth::user()->roles->fetch('value')->toArray();
         if(!Functions::pp_exists($r,2) && !Functions::contain($r,19)){
             return view('not_auth',['titre'=>'']);
-        }
+        }*/
 		return $next($request);
 	}
 

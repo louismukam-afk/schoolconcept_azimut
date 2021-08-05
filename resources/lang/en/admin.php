@@ -355,6 +355,21 @@ return [
     "error_occured" => "An error has occurred",
     "info" => "Information",
 
+    "create_update" => "Create/Update",
+    "create" => "Create",
+    "read" => "Read",
+    "action" => "Action|Actions",
+    "payment" => "Payment",
+    "settings" => "Settings",
+    "listes" => "Lists",
+    'print_receipt'=>'Print receipt',
+    'photo'=>'Photo',
+
+
+
+
+
+
 
 
 

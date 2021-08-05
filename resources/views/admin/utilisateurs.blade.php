@@ -34,7 +34,7 @@
                             @endif
                         @endforeach
                     </td>
-                    <td><a href="{{route('role_management',$u->id)}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-lock"></span> Role</a></td>
+                    <td><a href="{{route('action_management',$u->id)}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-lock"></span> {{trans_choice('admin.action',1)}}</a></td>
 
                 @if($u->active==1)
                     <td>{{trans('inscription.oui')}}</td>

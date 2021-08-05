@@ -11,6 +11,8 @@
 |
 */
 
+use \gesecole\Action;
+
 
 
 
@@ -20,12 +22,25 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('home', 'WelcomeController@index');
     Route::get('/admin/nniveaux/get/{id}', 'admin\nniveauController@get');
     Route::get('/admin/cycles/get-all', ['uses' => 'admin\cycleController@getAll', 'as' => 'get_all_cycles']);
-    Route::get('/inscriptions/print/{id}','inscriptions\inscriptionController@print_receipe');
-    Route::get('/inscriptions/payement/print/{id}','inscriptions\payementController@print_receipe');
-    Route::get('/inscriptions/eleve/status','inscriptions\enregistrementController@status_eleve');
-    Route::get('/inscriptions/eleve/scan-carte','inscriptions\inscriptionController@index_scan_carte');
-    Route::get('/inscriptions/eleve/process-scan','inscriptions\inscriptionController@process_scan');
-    Route::get('/inscriptions/fiche-scolarite','inscriptions\listesController0@fiche_scolarite');
+
+    Route::post('/admin/scolarite/get', ['as'=>'get_scolarite','uses'=>'admin\scolariteController@getScolarite']);
+
+    Route::get('/not-authorized',function(){
+        return view('not_auth',['titre'=>'']);
+    });
+        //pour les recherches
+
+        Route::get('/search/personnel', 'searchController@personnel');
+        Route::get('/search/eleve', 'searchController@eleve');
+        Route::any('/select/classe', 'searchController@select_classe');
+        Route::post('/update-school-year/', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN_SCHOOL_YEAR_CU, 'uses' => 'WelcomeController@editYear']);
+
+        //Pour la langue
+        Route::any('/language/french', 'WelcomeController@fr_locale');
+        Route::any('/language/english','WelcomeController@en_locale');
+
+        //modifier le mot de passe utilisateur
+        Route::any('/user-profile/edit-password','WelcomeController@change_password');
 
 
         Route::group(['middleware'=>'lvl0'],function (){
@@ -37,162 +52,229 @@ Route::group(['middleware'=>'auth'],function (){
     Route::group(['middleware'=>'lvl1'],function () {
 
         //pour les utilisateurs
-        Route::get('/utilisateurs/', 'user\userController@index');
-        Route::post('/utilisateurs/activer', 'user\userController@activate');
-        Route::get('/utilisateurs/desactiver/{id}', 'user\userController@deactivate');
-       // Route::get('/eleves/notes/delete', 'user\userController@deactivate');
+        Route::get('/utilisateurs', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN_USER, 'uses' => 'user\userController@index']);
+        Route::post('/utilisateurs/activer', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN_USER_ACTIVATE_DEACTIVATE, 'uses' => 'user\userController@activate']);
+        Route::get('/utilisateurs/desactiver/{id}', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN_USER_ACTIVATE_DEACTIVATE,'user\userController@deactivate']);
 
         //routes pour les roles
-        Route::get('admin/roles/{id}',['uses'=>'admin\RoleController@index','as'=>'role_management']);
-        Route::post('admin/roles/store',['uses'=>'admin\RoleController@store','as'=>'store_role']);
-        Route::get('admin/roles/delete/{id}',['uses'=>'admin\RoleController@destroy','as'=>'delete_role']);
+        Route::get('admin/roles/{id}',['middleware' => 'action', 'action' => Action::ACTION_ADMIN_USER_ACTION,'uses'=>'admin\RoleController@index','as'=>'role_management']);
+        Route::post('admin/roles/store',['middleware' => 'action', 'action' => Action::ACTION_ADMIN_USER_ACTION_CU,'uses'=>'admin\RoleController@store','as'=>'store_role']);
+        Route::get('admin/roles/delete/{id}',['middleware' => 'action', 'action' => Action::ACTION_ADMIN_USER_ACTION_CU,'uses'=>'admin\RoleController@destroy','as'=>'delete_role']);
+
+          Route::get('admin/actions/{id}',['middleware' => 'action', 'action' => Action::ACTION_ADMIN_USER_ACTION,'uses'=>'admin\actionController@index','as'=>'action_management']);
+        Route::post('admin/actions/update',['middleware' => 'action', 'action' => Action::ACTION_ADMIN_USER_ACTION_CU,'uses'=>'admin\actionController@update','as'=>'update_actions']);
 
 
-        Route::post('/inscriptions/payement/update', ['uses'=>'inscriptions\payementController@update','as'=>'update_payement']);
-        Route::get('/inscriptions/enregistrement/destroy/{id}', ['uses'=>'inscriptions\enregistrementController@destroy','as'=>'destroy_eleve']);
-        Route::get('/inscriptions/remove/{id_eleve}','inscriptions\inscriptionController@destroy');
+        Route::post('/inscriptions/payement/update', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN_STUDENT_PAYMENT_UPDATE,'uses'=>'inscriptions\payementController@update','as'=>'update_payement']);
+        Route::get('/inscriptions/enregistrement/destroy/{id}', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN_STUDENT_DELETE,'uses'=>'inscriptions\enregistrementController@destroy','as'=>'destroy_eleve']);
+        Route::get('/inscriptions/remove/{id_eleve}',['middleware' => 'action', 'action' => Action::ACTION_ADMIN_STUDENT_SUBCRIPTION_DELETE, 'uses' => 'inscriptions\inscriptionController@destroy']);
 
 
     });
 
     //Tableau de bord d'admin
     Route::group(['middleware'=>'lvl2'],function (){
-        Route::get('/inscriptions/eleve/set-status','inscriptions\enregistrementController@set_status');
-        Route::post('/inscriptions/eleve/set-multi-status','inscriptions\enregistrementController@set_multi_status');
+        Route::get('/inscriptions/eleve/set-status',['middleware' => 'action', 'action' => Action::ACTION_ADMIN_STUDENT_REGISTRATION_STATUS_UPDATE, 'uses' => 'inscriptions\enregistrementController@set_status']);
+        Route::post('/inscriptions/eleve/set-multi-status',['middleware' => 'action', 'action' => Action::ACTION_ADMIN_STUDENT_REGISTRATION_STATUS_UPDATE, 'uses' => 'inscriptions\enregistrementController@set_multi_status']);
 
 
-        Route::get('/admin/', 'admin\adminController@index');
+        Route::get('/admin/', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN, 'uses' => 'admin\adminController@index']);
         //routes pour le verrou des notes
-        Route::get('/admin/verrou-note/', 'admin\verrou_noteController@index');
-        Route::get('/admin/verrou-note/activate/{sequence}', 'admin\verrou_noteController@activate');
-        Route::get('/admin/verrou-note/deactivate/{sequence}', 'admin\verrou_noteController@deactivate');
+        Route::get('/admin/verrou-note/', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN_NOTE_LOCK, 'uses' => 'admin\verrou_noteController@index']);
+        Route::get('/admin/verrou-note/activate/{sequence}', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN_NOTE_LOCK_UPDATE, 'uses' => 'admin\verrou_noteController@activate']);
+        Route::get('/admin/verrou-note/deactivate/{sequence}', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN_NOTE_LOCK_UPDATE, 'uses' => 'admin\verrou_noteController@deactivate']);
 
-//routes pour les cycles
-        Route::get('/admin/cycles/', 'admin\cycleController@index');
-        Route::get('/admin/cycles/destroy/{id}', 'admin\cycleController@destroy');
-        Route::post('/admin/cycles/store', 'admin\cycleController@store');
-        Route::post('/admin/cycles/update', 'admin\cycleController@update');
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_ADMIN_CLASS_SETTINGS], function () {
+            Route::get('/admin/cycles/', 'admin\cycleController@index');
+            Route::get('/admin/nniveaux/', 'admin\nniveauController@index');
+            Route::get('/admin/salles/', 'admin\salleController@index');
+            Route::get('/admin/niveaux/', 'admin\niveauController@index');
+            Route::get('/admin/classes/', 'admin\classeController@index');
 
-        //Les nniveaux
-        Route::get('/admin/nniveaux/', 'admin\nniveauController@index');
-        Route::get('/admin/nniveaux/destroy/{id}', 'admin\nniveauController@destroy');
-        Route::post('/admin/nniveaux/store', 'admin\nniveauController@store');
-        Route::post('/admin/nniveaux/update', 'admin\nniveauController@update');
-
-
-        //Les salles
-        Route::get('/admin/salles/', 'admin\salleController@index');
-        Route::get('/admin/salles/destroy/{id}', 'admin\salleController@destroy');
-        Route::post('/admin/salles/store', 'admin\salleController@store');
-        Route::post('/admin/salles/update', 'admin\salleController@update');
-
-
-// Les niveaux
-        Route::get('/admin/niveaux/', 'admin\niveauController@index');
-        Route::get('/admin/niveaux/destroy/{id}', 'admin\niveauController@destroy');
-        Route::post('/admin/niveaux/store', 'admin\niveauController@store');
-        Route::post('/admin/niveaux/update', 'admin\niveauController@update');
-
-        // Les frais
-        Route::get('/admin/frais/', 'admin\FraisController@index');
-        Route::get('/admin/frais/destroy/{id}', 'admin\FraisController@destroy');
-        Route::post('/admin/frais/store', 'admin\FraisController@store');
-        Route::post('/admin/frais/update', 'admin\FraisController@update');
-
-//Les classes
-        Route::get('/admin/classes/', 'admin\classeController@index');
-        Route::get('/admin/classes/destroy/{id}', 'admin\classeController@destroy');
-        Route::post('/admin/classes/update', 'admin\classeController@update');
-        Route::post('/admin/classes/store', 'admin\classeController@store');
-//Les scolarités
-        Route::get('/admin/scolarites/', 'admin\scolariteController@index');
-        Route::get('/admin/scolarite/destroy/{id}', 'admin\scolariteController@destroy');
-        Route::post('/admin/scolarite/update', 'admin\scolariteController@update');
-        Route::post('/admin/scolarite/store', 'admin\scolariteController@store');
-
-//Matières
-        Route::get('/admin/matieres/', 'admin\matiereController@index');
-        Route::post('/admin/matieres/update/', 'admin\matiereController@update');
-        Route::post('/admin/matieres/store', 'admin\matiereController@store');
-        Route::get('/admin/matieres/destroy/{id}', 'admin\matiereController@destroy');
-//Programmes
-        Route::get('/admin/programmes/', 'admin\programmeController@index');
-        Route::get('/admin/programmes/selection-matieres/', 'admin\programmeController@create');
-        Route::post('/admin/programmes/store/', 'admin\programmeController@store');
-        Route::post('/admin/programmes/update/', 'admin\programmeController@update');
-        Route::get('/admin/programmes/destroy/{id}', 'admin\programmeController@destroy');
-
-        Route::get('/admin/programmes/groupe/{id}', 'admin\groupeController@create');
-        Route::get('/admin/programmes/groupe/destroy/{id}', 'admin\groupeController@destroy');
-        Route::post('/admin/programmes/groupe/store/', 'admin\groupeController@store');
+            Route::get('/admin/matieres/', 'admin\matiereController@index');
+            Route::get('/admin/programmes/', 'admin\programmeController@index');
+            Route::get('/admin/programmes/selection-matieres/', 'admin\programmeController@create');
+            Route::get('/admin/programmes/groupe/{id}', 'admin\groupeController@create');
 
 
 
+        });
 
-//routes pour les fonctions
-        Route::get('/admin/fonctions/', 'admin\fonctionController@index');
-        Route::get('/admin/fonctions/destroy/{id}', 'admin\fonctionController@destroy');
-        Route::post('/admin/fonctions/store', 'admin\fonctionController@store');
-        Route::post('/admin/fonctions/update', 'admin\fonctionController@update');
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_ADMIN_CLASS_SETTINGS_CU], function () {
+            Route::post('/admin/cycles/store', 'admin\cycleController@store');
+            Route::post('/admin/cycles/update', 'admin\cycleController@update');
+            Route::post('/admin/nniveaux/store', 'admin\nniveauController@store');
+            Route::post('/admin/nniveaux/update', 'admin\nniveauController@update');
+            Route::post('/admin/salles/store', 'admin\salleController@store');
+            Route::post('/admin/salles/update', 'admin\salleController@update');
+            Route::post('/admin/niveaux/store', 'admin\niveauController@store');
+            Route::post('/admin/niveaux/update', 'admin\niveauController@update');
+            Route::post('/admin/classes/update', 'admin\classeController@update');
+            Route::post('/admin/classes/store', 'admin\classeController@store');
+
+            Route::post('/admin/matieres/update/', 'admin\matiereController@update');
+            Route::post('/admin/matieres/store', 'admin\matiereController@store');
+            Route::post('/admin/programmes/store/', 'admin\programmeController@store');
+            Route::post('/admin/programmes/update/', 'admin\programmeController@update');
+            Route::post('/admin/programmes/groupe/store/', 'admin\groupeController@store');
+
+        });
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_ADMIN_CLASS_SETTINGS_DELETE], function () {
+            Route::get('/admin/cycles/destroy/{id}', 'admin\cycleController@destroy');
+            Route::get('/admin/nniveaux/destroy/{id}', 'admin\nniveauController@destroy');
+            Route::get('/admin/salles/destroy/{id}', 'admin\salleController@destroy');
+            Route::get('/admin/niveaux/destroy/{id}', 'admin\niveauController@destroy');
+            Route::get('/admin/classes/destroy/{id}', 'admin\classeController@destroy');
+
+            Route::get('/admin/matieres/destroy/{id}', 'admin\matiereController@destroy');
+            Route::get('/admin/programmes/destroy/{id}', 'admin\programmeController@destroy');
+
+            Route::get('/admin/programmes/groupe/destroy/{id}', 'admin\groupeController@destroy');
 
 
-//routes pour les horaires
-        Route::get('/admin/horaires/', 'admin\horaireController@index');
-        Route::get('/admin/horaires/destroy/{id}', 'admin\horaireController@destroy');
-        Route::post('/admin/horaires/store', 'admin\horaireController@store');
-        Route::post('/admin/horaires/update', 'admin\horaireController@update');
+        });
 
-///routes pour les salaires
 
-        Route::get('/admin/salaire/','admin\salaireController@index');
-        Route::post('/admin/salaire/store', 'admin\salaireController@store');
-        Route::post('/admin/salaire/update', 'admin\salaireController@update');
-        Route::get('/admin/salaire/destroy/{id}', 'admin\salaireController@destroy');
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_ADMIN_FEES_SETTINGS], function () {
+            Route::get('/admin/frais/', 'admin\FraisController@index');
+            Route::get('/admin/scolarites/', 'admin\scolariteController@index');
 
-        //pour les taux
-        Route::get('/admin/taux/', 'admin\tauxController@index');
-        Route::get('/admin/taux/create/{id}', 'admin\tauxController@create');
-        Route::post('/admin/taux/store/', 'admin\tauxController@store');
-        Route::get('/admin/taux/destroy/{id}', 'admin\tauxController@destroy');
+        });
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_ADMIN_FEES_SETTINGS_CU], function () {
+            Route::post('/admin/frais/store', 'admin\FraisController@store');
+            Route::post('/admin/frais/update', 'admin\FraisController@update');
+            Route::post('/admin/scolarite/update', 'admin\scolariteController@update');
+            Route::post('/admin/scolarite/store', 'admin\scolariteController@store');
+
+        });
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_ADMIN_FEES_SETTINGS_DELETE], function () {
+            Route::get('/admin/frais/destroy/{id}', 'admin\FraisController@destroy');
+            Route::get('/admin/scolarite/destroy/{id}', 'admin\scolariteController@destroy');
+
+        });
+
+
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_ADMIN_STAFF_SETTINGS], function () {
+            Route::get('/admin/fonctions/', 'admin\fonctionController@index');
+            Route::get('/admin/horaires/', 'admin\horaireController@index');
+
+        });
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_ADMIN_STAFF_SETTINGS_CU], function () {
+            Route::post('/admin/fonctions/store', 'admin\fonctionController@store');
+            Route::post('/admin/fonctions/update', 'admin\fonctionController@update');
+            Route::post('/admin/horaires/store', 'admin\horaireController@store');
+            Route::post('/admin/horaires/update', 'admin\horaireController@update');
+
+        });
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_ADMIN_STAFF_SETTINGS_DELETE], function () {
+            Route::get('/admin/fonctions/destroy/{id}', 'admin\fonctionController@destroy');
+            Route::get('/admin/horaires/destroy/{id}', 'admin\horaireController@destroy');
+
+        });
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_ADMIN_STAFF_FINANCIAL_SETTINGS], function () {
+            Route::get('/admin/salaire/','admin\salaireController@index');
+            Route::get('/admin/taux/', 'admin\tauxController@index');
+            Route::get('/admin/taux/create/{id}', 'admin\tauxController@create');
+
+        });
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_ADMIN_STAFF_FINANCIAL_SETTINGS_CU], function () {
+            Route::post('/admin/salaire/store', 'admin\salaireController@store');
+            Route::post('/admin/salaire/update', 'admin\salaireController@update');
+            Route::post('/admin/taux/store/', 'admin\tauxController@store');
+
+
+        });
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_ADMIN_STAFF_FINANCIAL_SETTINGS_DELETE], function () {
+            Route::get('/admin/salaire/destroy/{id}', 'admin\salaireController@destroy');
+            Route::get('/admin/taux/destroy/{id}', 'admin\tauxController@destroy');
+        });
 
     });
 
 
     Route::group(['middleware'=>'lvl19'],function (){
         //Inscriptions
-        Route::get('/inscriptions/eleves/search', 'inscriptions\enregistrementController@index');
-        Route::get('/inscriptions/enregistrement/create/', 'inscriptions\enregistrementController@create');
-        Route::get('/inscriptions/enregistrement/edit/{id}', 'inscriptions\enregistrementController@edit');
-
-        Route::post('/inscriptions/enregistrement/store/', 'inscriptions\enregistrementController@store');
-        Route::post('/inscriptions/enregistrement/update/{id}', 'inscriptions\enregistrementController@update');
-        Route::get('/inscriptions/', 'inscriptions\inscriptionController@index');
-        Route::get('/inscriptions/new', 'inscriptions\inscriptionController@search');
-        Route::get('/inscriptions/find', 'inscriptions\inscriptionController@find');
-        Route::get('/inscriptions/create/{id}', 'inscriptions\inscriptionController@create');
-        Route::get('/inscriptions/edit/{id}', 'inscriptions\inscriptionController@edit');
-        Route::post('/inscriptions/store', 'inscriptions\inscriptionController@store');
-        Route::post('/inscriptions/update', 'inscriptions\inscriptionController@update');
-        Route::get('/inscriptions/payement/', 'inscriptions\payementController@index');
-        Route::get('/inscriptions/payement/search', 'inscriptions\payementController@search');
-        Route::get('/inscriptions/payement/create/{id}', 'inscriptions\payementController@create');
-        Route::get('/inscriptions/payement/create-frais/{id}', 'inscriptions\payementController@create_frais');
-        Route::post('/inscriptions/payement/store/{id}', 'inscriptions\payementController@store');
-        Route::get('/inscriptions/payement/get/inscription', ['uses'=>'inscriptions\payementController@getLeftInscription','as'=>'get_left_inscription']);
+        Route::get('/inscriptions/', ['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION, 'uses' => 'inscriptions\inscriptionController@index']);
 
 
 
-        Route::get('/inscriptions/recu','inscriptions\inscriptionController@show');
-       Route::get('/inscriptions/payement/list/{id}','inscriptions\payementController@index_liste');
-        Route::get('/inscriptions/selection-listes','inscriptions\listesController@index');
-        Route::get('/inscriptions/listes/show',['as'=>'show_sco_liste','uses'=>'inscriptions\listesController@show']);
-        Route::get('/inscriptions/listes/frais/show', ['as'=>'show_frais_liste','uses'=>'inscriptions\listesController@showFrais']);
-        Route::get('/inscriptions/print-certificate/{id}','inscriptions\inscriptionController@certificate');
-        Route::any('/inscriptions/photos/','inscriptions\photosController@create');
-        Route::any('/inscriptions/photos/store',['as'=>'store_photo','uses'=>'inscriptions\photosController@store']);
-        Route::any('/inscriptions/cartes/',['as'=>'show_carte','uses'=>'inscriptions\photosController@show_carte']);
-        Route::any('/inscriptions/cartes/eleve/',['as'=>'show_carte_eleve','uses'=>'inscriptions\photosController@search_carte_eleve']);
-        Route::post('/admin/scolarite/get', ['as'=>'get_scolarite','uses'=>'admin\scolariteController@getScolarite']);
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION_SUBSCRIPTION], function () {
+            Route::get('/inscriptions/new', 'inscriptions\inscriptionController@search');
+            Route::get('/inscriptions/eleves/search', 'inscriptions\enregistrementController@index');
+            Route::get('/inscriptions/find', 'inscriptions\inscriptionController@find');
+            Route::get('/inscriptions/payement/', 'inscriptions\payementController@index');
+            Route::get('/inscriptions/payement/search', 'inscriptions\payementController@search');
+            Route::get('/inscriptions/enregistrement/edit/{id}', 'inscriptions\enregistrementController@edit');
+            Route::get('/inscriptions/eleve/status','inscriptions\enregistrementController@status_eleve');
+
+        });
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION_SUBSCRIPTION_STUDENT_CU], function () {
+
+            Route::get('/inscriptions/enregistrement/create/', 'inscriptions\enregistrementController@create');
+            Route::post('/inscriptions/enregistrement/store/', 'inscriptions\enregistrementController@store');
+            Route::post('/inscriptions/enregistrement/update/{id}', 'inscriptions\enregistrementController@update');
+        });
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION_SUBSCRIPTION_CREATE], function () {
+            Route::get('/inscriptions/create/{id}', 'inscriptions\inscriptionController@create');
+            Route::post('/inscriptions/store', 'inscriptions\inscriptionController@store');
+
+        });
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION_SUBSCRIPTION_UPDATE], function () {
+            Route::get('/inscriptions/edit/{id}', 'inscriptions\inscriptionController@edit');
+            Route::post('/inscriptions/update', 'inscriptions\inscriptionController@update');
+
+        });
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION_SUBSCRIPTION_PAYMENT], function () {
+            Route::get('/inscriptions/payement/list/{id}','inscriptions\payementController@index_liste');
+
+        });
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION_SUBSCRIPTION_PAYMENT_CREATE], function () {
+            Route::get('/inscriptions/payement/create/{id}', 'inscriptions\payementController@create');
+            Route::get('/inscriptions/payement/create-frais/{id}', 'inscriptions\payementController@create_frais');
+            Route::post('/inscriptions/payement/store/{id}', 'inscriptions\payementController@store');
+        });
+
+
+        //Route::get('/inscriptions/payement/get/inscription', ['uses'=>'inscriptions\payementController@getLeftInscription','as'=>'get_left_inscription']);
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION_LIST], function () {
+            Route::get('/inscriptions/selection-listes','inscriptions\listesController@index');
+            Route::get('/inscriptions/listes/show',['as'=>'show_sco_liste','uses'=>'inscriptions\listesController@show']);
+            Route::get('/inscriptions/listes/frais/show', ['as'=>'show_frais_liste','uses'=>'inscriptions\listesController@showFrais']);
+
+        });
+        Route::get('/inscriptions/fiche-scolarite',['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION_LIST_TUITION_SHEET,'uses' => 'inscriptions\listesController@fiche_scolarite']);
+        Route::get('/inscriptions/print/{id}',['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION_SUBSCRIPTION_PAYMENT_PRINT_RECEIPT, 'uses' => 'inscriptions\inscriptionController@print_receipe']);
+        Route::get('/inscriptions/payement/print/{id}',['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION_SUBSCRIPTION_PAYMENT_PRINT_RECEIPT, 'uses' => 'inscriptions\payementController@print_receipe']);
+
+
+        //Route::get('/inscriptions/recu','inscriptions\inscriptionController@show');
+        Route::get('/inscriptions/print-certificate/{id}',['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION_SUBSCRIPTION_CERTIFICATE, 'uses' => 'inscriptions\inscriptionController@certificate']);
+        Route::any('/inscriptions/photos/',['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION_STUDENT_PHOTO, 'uses' => 'inscriptions\photosController@create']);
+        Route::any('/inscriptions/photos/store',['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION_STUDENT_PHOTO_CU, 'as'=>'store_photo','uses'=>'inscriptions\photosController@store']);
+
+
+        Route::get('/inscriptions/eleve/scan-carte',['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION_SCAN_CARD, 'uses' => 'inscriptions\inscriptionController@index_scan_carte']);
+        Route::get('/inscriptions/eleve/process-scan',['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION_SCAN_CARD, 'uses' => 'inscriptions\inscriptionController@process_scan']);
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION_STUDENT_CARD], function () {
+            Route::any('/inscriptions/cartes/',['as'=>'show_carte','uses'=>'inscriptions\photosController@show_carte']);
+            Route::any('/inscriptions/cartes/eleve/',['as'=>'show_carte_eleve','uses'=>'inscriptions\photosController@search_carte_eleve']);
+
+        });
 
 
 
@@ -201,78 +283,116 @@ Route::group(['middleware'=>'auth'],function (){
     Route::group(['middleware'=>'lvl18'],function (){
         //Les élèves
 
-        Route::get('/eleves/discipline/', 'eleves\disciplineController@index');
-        Route::get('/eleves/discipline/search', 'eleves\disciplineController@search');
-        Route::get('/eleves/discipline/show/{id}', 'eleves\disciplineController@create');
-        Route::get('/eleves/discipline/show/precision/{id}', 'eleves\disciplineController@show');
-        Route::post('/eleves/discipline/justify/', 'eleves\disciplineController@justify');
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_STUDENT_DISCIPLINE], function () {
+            Route::get('/eleves/discipline/', 'eleves\disciplineController@index');
+            Route::get('/eleves/discipline/search', 'eleves\disciplineController@search');
+            Route::get('/eleves/discipline/show/{id}', 'eleves\disciplineController@create');
+            Route::get('/eleves/discipline/show/precision/{id}', 'eleves\disciplineController@show');
+            Route::any('/eleves/discipline/state/', ['as'=>'etat_disciplinaire','uses'=>'eleves\disciplineController@state']);
 
-        Route::post('/eleves/discipline/update/', ['as'=>'update_discipline','uses'=>'eleves\disciplineController@update']);
-        Route::any('/eleves/discipline/state/', ['as'=>'etat_disciplinaire','uses'=>'eleves\disciplineController@state']);
+        });
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_STUDENT_DISCIPLINE_CU], function () {
+            Route::post('/eleves/discipline/justify/', 'eleves\disciplineController@justify');
+            Route::post('/eleves/discipline/update/', ['as'=>'update_discipline','uses'=>'eleves\disciplineController@update']);
+
+        });
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_STUDENT_REPORT_NOTE], function () {
+            Route::get('/eleves/bulletins/','eleves\bulletinController@index');
+            Route::get('/eleves/bulletins/search/','eleves\bulletinController@index2');
+            Route::get('/eleves/bulletins/find/','eleves\bulletinController@search');
+            Route::post('/eleves/bulletins/print-single-seq','eleves\bulletinController@print_single_seq');
+
+            Route::get('/eleves/releves/','eleves\relevesController@index');
+            Route::get('/eleves/releves/print/','eleves\relevesController@create');
+            Route::get('/eleves/releves/get/',['uses'=>'eleves\relevesController@get','as'=>'get_releves']);
 
 
+        });
 
-        Route::get('/eleves/bulletins/','eleves\bulletinController@index');
-        Route::get('/eleves/bulletins/search/','eleves\bulletinController@index2');
-        Route::get('/eleves/bulletins/find/','eleves\bulletinController@search');
-        Route::post('/eleves/bulletins/print-single-seq','eleves\bulletinController@print_single_seq');
 
-        Route::get('/eleves/releves/','eleves\relevesController@index');
-        Route::get('/eleves/releves/print/','eleves\relevesController@create');
-        Route::get('/eleves/releves/get/',['uses'=>'eleves\relevesController@get','as'=>'get_releves']);
 
 
     });
     Route::group(['middleware'=>'lvl18.5'],function (){
-        Route::get('/eleves/', 'eleves\eleveController@index');
-        Route::get('/eleves/notes/','eleves\noteController@index2');
+        Route::get('/eleves/', ['middleware' => 'action', 'action' => Action::ACTION_STUDENT, 'uses' => 'eleves\eleveController@index']);
 
-        Route::get('/eleves/notes/edit','eleves\noteController@index');
-        Route::get('/eleves/notes/show','eleves\noteController@show');
-        Route::any('/eleves/notes/print_note/{id}','eleves\noteController@print_note');
-        Route::get('/eleves/notes/matieres/','eleves\noteController@matiere');
-        Route::get('/eleves/notes/matieres/show/','eleves\noteController@matiere_show');
-        Route::post('/eleves/notes/create/{id}','eleves\noteController@create');
-        Route::post('/eleves/notes/store/','eleves\noteController@store');
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_STUDENT_NOTE], function () {
+            Route::get('/eleves/notes/','eleves\noteController@index2');
+            Route::get('/eleves/notes/show','eleves\noteController@show');
+            Route::get('/eleves/notes/matieres/show/','eleves\noteController@matiere_show');
+            Route::any('/eleves/notes/print_note/{id}','eleves\noteController@print_note');
+
+        });
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_STUDENT_NOTE_CU], function () {
+            Route::get('/eleves/notes/edit','eleves\noteController@index');
+            Route::get('/eleves/notes/matieres/','eleves\noteController@matiere');
+            Route::post('/eleves/notes/create/{id}','eleves\noteController@create');
+            Route::post('/eleves/notes/store/','eleves\noteController@store');
+
+        });
+
+
 
     });
 
     Route::group(['middleware'=>'lvl17'],function (){
         //routes pour les personnels
 
-        Route::get('/personnel/', 'personnel\personnelController@index');
-        Route::get('/personnel/search', 'personnel\personnelController@show');
-        Route::get('/personnel/list', 'personnel\personnelController@index_personnel');
-        Route::get('/personnel/edit/{id}', 'personnel\personnelController@edit');
-        Route::post('/personnel/store/', 'personnel\personnelController@store');
-        Route::post('/personnel/update/{id}', 'personnel\personnelController@update');
-        Route::get('/personnel/destroy/{id}', 'personnel\personnelController@destroy');
+        Route::get('/personnel/', ['middleware' => 'action', 'action' => Action::ACTION_STAFF, 'uses' => 'personnel\personnelController@index']);
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_STAFF_WORKER], function () {
+            Route::get('/personnel/search', 'personnel\personnelController@show');
+            Route::get('/personnel/list', 'personnel\personnelController@index_personnel');
+            Route::get('/personnel/edit/{id}', 'personnel\personnelController@edit');
+            Route::get('/personnel/fonction/pers/', 'personnel\fonction_personnelController@index2');
+            Route::get('/personnel/fonction/{id}', 'personnel\fonction_personnelController@index');
+
+        });
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_STAFF_WORKER_CU], function () {
+            Route::post('/personnel/store/', 'personnel\personnelController@store');
+            Route::post('/personnel/update/{id}', 'personnel\personnelController@update');
+            Route::post('/personnel/fonction/store', 'personnel\fonction_personnelController@store');
+            Route::post('/personnel/fonction/update', 'personnel\fonction_personnelController@update');
+        });
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_STAFF_WORKER_DELETE], function () {
+            Route::get('/personnel/destroy/{id}', 'personnel\personnelController@destroy');
+            Route::get('/personnel/fonction/destroy/{id}', 'personnel\fonction_personnelController@destroy');
+        });
 
 
 
-////routes pour les fonctions_personnel
-        Route::get('/personnel/fonction/pers/', 'personnel\fonction_personnelController@index2');
-        Route::get('/personnel/fonction/{id}', 'personnel\fonction_personnelController@index');
-        Route::get('/personnel/fonction/destroy/{id}', 'personnel\fonction_personnelController@destroy');
-        Route::post('/personnel/fonction/store', 'personnel\fonction_personnelController@store');
-        Route::post('/personnel/fonction/update', 'personnel\fonction_personnelController@update');
+
+
 
 
 ////routes pour les enseignements
+///
 
-        Route::post('/personnel/dispense/create', 'personnel\dispenseController@create');
-        Route::get('/personnel/find/', 'personnel\dispenseController@find');
-        Route::get('/personnel/dispense/destroy/{id}', 'personnel\dispenseController@destroy');
-        Route::get('/personnel/dispense/store', 'personnel\dispenseController@store');
-        Route::any('/personnel/dispense/edit', 'personnel\dispenseController@edit');
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_STAFF_TIMETABLE], function () {
+            Route::get('/personnel/find/', 'personnel\dispenseController@find');
+            Route::get('/personnel/dispenses/', 'personnel\dispenseController@index1');
+            Route::get('/personnel/dispense/{id}', 'personnel\dispenseController@index');
+            Route::any('/personnel/heures-prevues/show/', 'personnel\presenceController@show_heure_prevue');
+            Route::get('/personnel/emploi-temps/show/', 'personnel\dispenseController@show');
 
-        Route::post('/personnel/dispense/update', 'personnel\dispenseController@update');
-        Route::get('/personnel/dispenses/', 'personnel\dispenseController@index1');
-        Route::get('/personnel/dispense/{id}', 'personnel\dispenseController@index');
-        ////
-        /// routes pour les emplois du temps
-        Route::get('/personnel/emploi-temps/show/', 'personnel\dispenseController@show');
-        Route::any('/personnel/emploi-temps/edit/{id}', 'personnel\dispenseController@edit_timetable');
+        });
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_STAFF_TIMETABLE_CU], function () {
+            Route::get('/personnel/dispense/store', 'personnel\dispenseController@store');
+            Route::any('/personnel/dispense/edit', 'personnel\dispenseController@edit');
+            Route::post('/personnel/dispense/create', 'personnel\dispenseController@create');
+            Route::post('/personnel/dispense/update', 'personnel\dispenseController@update');
+            Route::any('/personnel/heures-prevues/update/', 'personnel\presenceController@update_heure_prevue');////
+            Route::any('/personnel/emploi-temps/edit/{id}', 'personnel\dispenseController@edit_timetable');
+        });
+        Route::get('/personnel/dispense/destroy/{id}', ['middleware' => 'action', 'action' => Action::ACTION_STAFF_TIMETABLE_DELETE, 'uses' => 'personnel\dispenseController@destroy']);
+
+
+
 
 
 ////routes pour les titulaires
@@ -283,47 +403,68 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/personnel/titulaire/store', 'personnel\titulaireController@store');
         Route::post('/personnel/titulaire/update', 'personnel\titulaireController@update');
 
+
 //pour les  abscences et retards
-        Route::get('/personnel/discipline/', 'personnel\disciplineController@index');
 
-        Route::get('/personnel/discipline/show/{id}', 'personnel\disciplineController@create');
-        Route::get('/personnel/discipline/show/precision/{id}', 'personnel\disciplineController@show');
-        Route::post('/personnel/discipline/justify/', 'personnel\disciplineController@justify');
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_STAFF_DISCIPLINE], function () {
+            Route::get('/personnel/discipline/', 'personnel\disciplineController@index');
+            Route::get('/personnel/discipline/show/{id}', 'personnel\disciplineController@create');
+            Route::get('/personnel/discipline/show/precision/{id}', 'personnel\disciplineController@show');
+            Route::any('/personnel/discipline/state/', ['as'=>'etat_disciplinaire_personnel','uses'=>'personnel\disciplineController@state']);
 
-        Route::post('/personnel/discipline/update/', ['as'=>'update_discipline_personnel','uses'=>'personnel\disciplineController@update']);
-        Route::any('/personnel/discipline/state/', ['as'=>'etat_disciplinaire_personnel','uses'=>'personnel\disciplineController@state']);
+        });
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_STAFF_DISCIPLINE_CU], function () {
+            Route::post('/personnel/discipline/justify/', 'personnel\disciplineController@justify');
+            Route::post('/personnel/discipline/update/', ['as'=>'update_discipline_personnel','uses'=>'personnel\disciplineController@update']);
+        });
 
 
+
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_STAFF_HOUR_COUNT], function () {
+            Route::get('/personnel/heures-effectuees/', 'personnel\presenceController@index');
+            Route::get('/personnel/heures-effectuees/{id}', 'personnel\presenceController@create');
+
+        });
         //pour les présences
-        Route::get('/personnel/heures-effectuees/', 'personnel\presenceController@index');
-        Route::get('/personnel/heures-effectuees/{id}', 'personnel\presenceController@create');
-        Route::get('/personnel/heures-effectuees/destroy/{id}', 'personnel\presenceController@destroy');
-        Route::post('/personnel/heures-effectuees/update/{id}', 'personnel\presenceController@update');
+        Route::get('/personnel/heures-effectuees/destroy/{id}', ['middleware' => 'action', 'action' => Action::ACTION_STAFF_HOUR_COUNT_DELETE, 'uses' => 'personnel\presenceController@destroy']);
+        Route::post('/personnel/heures-effectuees/update/{id}', ['middleware' => 'action', 'action' => Action::ACTION_STAFF_HOUR_COUNT_CU, 'uses' => 'personnel\presenceController@update']);
 
-        Route::any('/personnel/heures-prevues/show/', 'personnel\presenceController@show_heure_prevue');
 
-        Route::any('/personnel/heures-prevues/update/', 'personnel\presenceController@update_heure_prevue');
 
     });
 
     Route::group(['middleware'=>'lvl16'],function (){
         //pour la comptabilite
-        Route::get('/comptabilite/', 'comptabilite\comptabiliteController@index');
+        Route::get('/comptabilite/', ['middleware' => 'action', 'action' => Action::ACTION_ACCOUNTING, 'uses' => 'comptabilite\comptabiliteController@index']);
         // les décaissements
-        Route::get('/admin/retrait/','admin\decaissementController@index');
-        //pour les recherches
-        Route::get('/search/retrait', 'searchController@retrait');
 
-        Route::post('/admin/retrait/store','admin\decaissementController@store');
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_ACCOUNTING_WITHDRAWAL], function () {
+            Route::get('/admin/retrait/','admin\decaissementController@index');
+            Route::get('/search/retrait', 'searchController@retrait');
+        });
+
+
+        Route::post('/admin/retrait/store',['middleware' => 'action', 'action' => Action::ACTION_ACCOUNTING_WITHDRAWAL_CREATE, 'uses' => 'admin\decaissementController@store']);
         // le payement des salaires
-        Route::get('/comptabilite/payement-salaire/','comptabilite\payementController@index');
-        Route::get('/comptabilite/payement-salaire/show/{id}','comptabilite\payementController@show');
-        Route::get('/comptabilite/payement-salaire/print/{id}','comptabilite\payementController@print_bulletin');
-        Route::get('/comptabilite/payement-salaire/create/{id}','comptabilite\payementController@create');
-        Route::post('/comptabilite/payement-salaire/store/','comptabilite\payementController@store');
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_ACCOUNTING_STAFF_PAYMENT], function () {
+            Route::get('/comptabilite/payement-salaire/','comptabilite\payementController@index');
+            Route::get('/comptabilite/payement-salaire/show/{id}','comptabilite\payementController@show');
+
+        });
+
+       Route::get('/comptabilite/payement-salaire/print/{id}',['middleware' => 'action', 'action' => Action::ACTION_ACCOUNTING_STAFF_PAYMENT_PRINT_RECEIPT, 'uses' => 'comptabilite\payementController@print_bulletin']);
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_ACCOUNTING_STAFF_PAYMENT_CU], function () {
+            Route::get('/comptabilite/payement-salaire/create/{id}','comptabilite\payementController@create');
+            Route::post('/comptabilite/payement-salaire/store/','comptabilite\payementController@store');
+        });
+
         //Bilan
-        Route::any('/comptabilite/bilan/entrees','comptabilite\bilanComptaController@index');
-        Route::any('/comptabilite/bilan/sorties','comptabilite\bilanComptaController@indexSorties');
+        Route::any('/comptabilite/bilan/entrees',['middleware' => 'action', 'action' => Action::ACTION_ACCOUNTING_ENTRY_BALANCE, 'uses' => 'comptabilite\bilanComptaController@index']);
+        Route::any('/comptabilite/bilan/sorties',['middleware' => 'action', 'action' => Action::ACTION_ACCOUNTING_OUTPUT_BALANCE, 'uses' => 'comptabilite\bilanComptaController@indexSorties']);
 
     });
 
@@ -332,19 +473,7 @@ Route::group(['middleware'=>'auth'],function (){
 
 
 
-    //pour les recherches
 
-    Route::get('/search/personnel', 'searchController@personnel');
-    Route::get('/search/eleve', 'searchController@eleve');
-    Route::any('/select/classe', 'searchController@select_classe');
-    Route::post('/update-school-year/', 'WelcomeController@editYear');
-
-    //Pour la langue
-    Route::any('/language/french', 'WelcomeController@fr_locale');
-    Route::any('/language/english','WelcomeController@en_locale');
-
-    //modifier le mot de passe utilisateur
-    Route::any('/user-profile/edit-password','WelcomeController@change_password');
 });
 });
 Route::group(['middleware'=>'start'],function () {

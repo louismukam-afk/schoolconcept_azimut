@@ -58,6 +58,51 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 	 */
 	protected $hidden = ['password', 'remember_token'];
 
+	public function canDoAction($actionAgainst) {
+
+        if($this->isAdmin()) {
+            return true;
+        }
+        $a = Action::where('action_name', 'like', $actionAgainst.'%')
+            ->where('id_user', '=', $this->id)->first();
+        if($a != null) {
+            return true;
+        }
+	    return false;
+    }
+
+    public function isAdmin() {
+
+        $a = Action::whereRaw('(action_name = ? OR action_name = ?) AND id_user = ?',[Action::ACTION_ALL, Action::ACTION_ALMOST_ALL, $this->id])->first();
+        if($a != null) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function isCreator() {
+	    return $this->hasSpecificAction(Action::ACTION_ALL);
+    }
+    public function isTeacher() {
+	    return $this->hasSpecificAction(Action::ACTION_TEACHER);
+    }
+
+
+
+    public function hasSpecificAction($actionAgainst) {
+	    $a = Action::where('action_name', '=', $actionAgainst)
+            ->where('id_user', '=', $this->id)->first();
+        if($a != null) {
+            return true;
+        }
+        return false;
+    }
+
+    public function actions() {
+        return  $this->hasMany(Action::class,'id_user');
+
+    }
     public function roles()
     {
         return  $this->hasMany(Role::class,'id_user');

@@ -369,6 +369,24 @@ return [
     "status_edited" => "Les accès ont été modifiés avec succès",
     "error_occured" => "Une erreur s'est produite",
     "info" => "Information",
+    "create_update" => "Créer/Modifier",
+    "create" => "Créer",
+    "read" => "Voir",
+    "action" => "Action|Actions",
+    "payment" => "Paiement",
+    "settings" => "Paramètres",
+    "listes" => "Listes",
+    'print_receipt'=>'Imprimer Recu',
+    'photo'=>'Photo',
+
+    'discipline'=>'Discipline',
+    'notes'=>'Notes',
+    'retrait'=>'Retrait',
+    'pay_salaire'=>'Payement salaire',
+    'pay_bull'=>'Bulletin de paie',
+
+
+
 
 
 

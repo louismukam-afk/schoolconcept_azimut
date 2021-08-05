@@ -7,6 +7,7 @@ use gesecole\parametres;
 use gesecole\personnel;
 use gesecole\Role;
 use gesecole\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
@@ -39,14 +40,15 @@ class userController extends Controller {
 	public function index()
 	{
         $values=array('titre'=>trans('admin.liste_utilisateurs'));
+        $current_user = Auth::user();
         if(!Functions::contain(\Auth::user()->roles->fetch('value')->toArray(),0)){
             $u_array=Role::where('value','<=',1)->get()->fetch('id_user')->toArray();
+            array_push($u_array, $current_user->id);
             $u=User::whereNotIn('id',$u_array)->orderBy('created_at','desc')->paginate(30);
-
-
         }
         else{
             $u_array=Role::where('value','<=',0)->get()->fetch('id_user')->toArray();
+            array_push($u_array, $current_user->id);
             $u=User::whereNotIn('id',$u_array)->orderBy('created_at','desc')->paginate(30);
 
         }
