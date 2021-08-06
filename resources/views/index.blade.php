@@ -671,6 +671,7 @@ if(session('nom_etab')==null){
 
                 error: function (xhr) {
                     console.error(xhr);
+                    hideLoader();
                 }
 
             })
