@@ -2,33 +2,51 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c5522a3f-f74c-474c-87f2-901ced8f473f" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/app/Action.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/actionController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Http/Middleware/ActionMiddleware.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/database/migrations/2021_08_04_183912_create_actions_table.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/views/admin/actions.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Controller.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/WelcomeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/WelcomeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/FraisController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/FraisController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/adminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/adminController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/classeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/classeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/cycleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/cycleController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/decaissementController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/decaissementController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/fonctionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/fonctionController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/groupeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/groupeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/horaireController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/horaireController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/matiereController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/matiereController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/niveauController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/niveauController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/nniveauController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/nniveauController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/programmeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/programmeController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/salaireController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/salaireController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/salleController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/salleController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/scolariteController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/scolariteController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/tauxController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/tauxController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/verrou_noteController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/verrou_noteController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/comptabilite/bilanComptaController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/comptabilite/bilanComptaController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/comptabilite/comptabiliteController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/comptabilite/comptabiliteController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/comptabilite/payementController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/comptabilite/payementController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/eleves/bulletinController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/eleves/bulletinController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/eleves/disciplineController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/eleves/disciplineController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/eleves/eleveController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/eleves/eleveController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/eleves/note2Controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/eleves/note2Controller.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/eleves/noteController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/eleves/noteController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/eleves/noteController2.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/eleves/noteController2.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/eleves/relevesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/eleves/relevesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/eleves/relevesController2.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/eleves/relevesController2.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/enregistrementController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/enregistrementController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/inscriptionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/inscriptionController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/listesController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/listesController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/payementController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/payementController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/photosController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/inscriptions/photosController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/personnel/disciplineController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/personnel/disciplineController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/personnel/disciplineController_old.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/personnel/disciplineController_old.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/personnel/dispenseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/personnel/dispenseController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/personnel/fonction_personnelController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/personnel/fonction_personnelController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/personnel/personnelController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/personnel/personnelController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/personnel/presenceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/personnel/presenceController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/personnel/titulaireController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/personnel/titulaireController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/searchController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/searchController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/user/userController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/user/userController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Kernel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/privileges/g_admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/privileges/g_admin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/privileges/g_comptabilite.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/privileges/g_comptabilite.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/privileges/g_editeur.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/privileges/g_editeur.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/privileges/g_enseignants.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/privileges/g_enseignants.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/privileges/g_inscriptions.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/privileges/g_inscriptions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/privileges/g_king.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/privileges/g_king.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/privileges/g_notes.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/privileges/g_notes.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Middleware/privileges/g_personnel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Middleware/privileges/g_personnel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/routes.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/routes.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Services/Registrar.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/Registrar.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/en/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/admin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/lang/fr/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/fr/admin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/utilisateurs.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/utilisateurs.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/home.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/home.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/inscriptions/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/inscriptions/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_classmap.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/composer/autoload_static.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/composer/autoload_static.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -628,7 +646,7 @@
       <workItem from="1627590571269" duration="470000" />
       <workItem from="1627621336475" duration="24805000" />
       <workItem from="1627724051234" duration="69378000" />
-      <workItem from="1627973456477" duration="102633000" />
+      <workItem from="1627973456477" duration="106337000" />
     </task>
     <servers />
   </component>
@@ -695,7 +713,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/app/Http/Controllers/admin/niveauController.php</url>
-          <line>73</line>
+          <line>60</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">

@@ -1,5 +1,6 @@
 <?php namespace gesecole\Http\Controllers\user;
 
+use gesecole\Action;
 use gesecole\Functions;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
@@ -21,27 +22,25 @@ class userController extends Controller {
     public function __construct()
     {
         session(['big_title'=>trans('admin.dashboard')]);
-        $year=session('year');
-        if($year==null){
-            $p=parametres::whereNom('annee_scolaire')->get()->first();
-
-            if(count($p)<=0){
-                $p=new parametres();
-                $p->nom='annee_scolaire';
-                $p->valeur='2017-2018';
-                $p->save();
-                session(['year'=>$p->valeur]);
-            }else{
-                session(['year'=>$p->valeur]);
-            }
-        }
+        $this->renewSchoolYear();
     }
 
 	public function index()
 	{
         $values=array('titre'=>trans('admin.liste_utilisateurs'));
         $current_user = Auth::user();
-        if(!Functions::contain(\Auth::user()->roles->fetch('value')->toArray(),0)){
+        if(!$current_user->isCreator()) {
+            $u_array=Action::whereRaw('action_name = ? OR action_name = ?', [Action::ACTION_ALL, Action::ACTION_ALMOST_ALL])->get(['id_user'])->fetch('id_user')->toArray();
+            array_push($u_array, $current_user->id);
+            $u=User::whereNotIn('id',$u_array)->orderBy('created_at','desc')->paginate(30);
+        }
+        else {
+            $u_array=Action::whereRaw('action_name = ?', [Action::ACTION_ALL])->get(['id_user'])->fetch('id_user')->toArray();
+            array_push($u_array, $current_user->id);
+            $u=User::whereNotIn('id',$u_array)->orderBy('created_at','desc')->paginate(30);
+
+        }
+        /*if(!Functions::contain(\Auth::user()->roles->fetch('value')->toArray(),0)){
             $u_array=Role::where('value','<=',1)->get()->fetch('id_user')->toArray();
             array_push($u_array, $current_user->id);
             $u=User::whereNotIn('id',$u_array)->orderBy('created_at','desc')->paginate(30);
@@ -51,7 +50,7 @@ class userController extends Controller {
             array_push($u_array, $current_user->id);
             $u=User::whereNotIn('id',$u_array)->orderBy('created_at','desc')->paginate(30);
 
-        }
+        }*/
 
         $p=personnel::orderBy('nom')->get();
 

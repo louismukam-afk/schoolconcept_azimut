@@ -26,20 +26,7 @@ class bulletinController extends Controller {
     public function __construct()
     {
         session(['big_title'=>trans('eleve.big_title')]);
-        $year=session('year');
-        if($year==null){
-            $p=parametres::whereNom('annee_scolaire')->get()->first();
-
-            if(count($p)<=0){
-                $p=new parametres();
-                $p->nom='annee_scolaire';
-                $p->valeur='2017-2018';
-                $p->save();
-                session(['year'=>$p->valeur]);
-            }else{
-                session(['year'=>$p->valeur]);
-            }
-        }
+        $this->renewSchoolYear();
     }
 
 	public function index()

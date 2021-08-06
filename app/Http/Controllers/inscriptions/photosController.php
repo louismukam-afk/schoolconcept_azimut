@@ -28,20 +28,7 @@ class photosController extends Controller {
     {
 
         session(['big_title'=>trans('menu.gestion_inscriptions')]);
-        $year=session('year');
-        if($year==null){
-            $p=parametres::whereNom('annee_scolaire')->get()->first();
-
-            if(count($p)<=0){
-                $p=new parametres();
-                $p->nom='annee_scolaire';
-                $p->valeur='2017-2018';
-                $p->save();
-                session(['year'=>$p->valeur]);
-            }else{
-                session(['year'=>$p->valeur]);
-            }
-        }
+        $this->renewSchoolYear();
     }
 
 

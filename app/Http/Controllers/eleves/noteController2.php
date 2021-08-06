@@ -33,20 +33,7 @@ class noteController extends Controller {
     public function __construct()
     {
         session(['big_title'=>trans('eleve.big_title')]);
-        $year=session('year');
-        if($year==null){
-            $p=parametres::whereNom('annee_scolaire')->get()->first();
-
-            if(count($p)<=0){
-                $p=new parametres();
-                $p->nom='annee_scolaire';
-                $p->valeur='2017-2018';
-                $p->save();
-                session(['year'=>$p->valeur]);
-            }else{
-                session(['year'=>$p->valeur]);
-            }
-        }
+        $this->renewSchoolYear();
     }
 
 	public function index()
@@ -156,8 +143,8 @@ class noteController extends Controller {
         }
 
         $user=Auth::user();
-        $r=$user->roles->fetch('value')->toArray();
-        if(Functions::contain($r,18.5)){
+        //$r=$user->roles->fetch('value')->toArray();
+        if($user->isTeacher()) {
             $d=dispense::whereAnneeScolaire(\session('year'))
                 ->where('id_personnel','=',$user->id_personnel)
                 ->where('id_matiere','=',$id_m)
@@ -170,6 +157,19 @@ class noteController extends Controller {
                 return redirect()->to('/eleves/notes/matieres?id='.$id.'&cycle='.$id_cycle.'&nniveau='.$nniveau);
             }
         }
+            /*if(Functions::contain($r,18.5)){
+            $d=dispense::whereAnneeScolaire(\session('year'))
+                ->where('id_personnel','=',$user->id_personnel)
+                ->where('id_matiere','=',$id_m)
+                ->where('id_classe','=',$id)
+                ->where('id_nniveau','=',$nniveau)
+                ->first();
+            if($d==null){
+                $mat=matiere::find($id_m);
+                session(['erreur'=>trans('admin.no_modification',['matiere'=>$mat->nom.'('.$mat->nom_anglais.')'])]);
+                return redirect()->to('/eleves/notes/matieres?id='.$id.'&cycle='.$id_cycle.'&nniveau='.$nniveau);
+            }
+        }*/
 
         $mat=matiere::find($id_m);
         $cm=classeMatiere::whereIdClasse($id)->where('id_matiere','=',$id_m)->where('id_cycle','=',$id_cycle)->where('id_nniveau','=',$nniveau)->first();
