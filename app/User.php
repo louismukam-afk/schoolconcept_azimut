@@ -108,4 +108,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return  $this->hasMany(Role::class,'id_user');
     }
 
+    public function personnel() {
+	    return $this->belongsTo(personnel::class, 'id_personnel');
+    }
+
 }

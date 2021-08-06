@@ -27,6 +27,10 @@ class decaissement extends Model {
 
     public $fillable=['id_personnel','motif','montant','date','annee_scoaire'];
 
+    public function personnel() {
+        return $this->belongsTo(personnel::class, 'id_personnel');
+    }
+
 
 
 }

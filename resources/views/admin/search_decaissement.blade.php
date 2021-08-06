@@ -19,10 +19,7 @@
 
 
     <div class="col-md-8">
-        <form class="form-horizontal" id="add_inscription_form" method="get" action="{{URL::to('/search/retrait/')}}">
-            <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-            <input type="hidden" name="view" value="admin\search_decaissement">
-            <input type="hidden" name="titre" value="{{trans('inscription.recherche')}}">
+        <form class="form-horizontal" id="search_form" method="get" action="{{URL::to('/admin/retrait/')}}">
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="search">{{  trans('inscription.recherche')  }} : </label>
@@ -43,10 +40,8 @@
     </div>
 
     <div class="col-md-8">
-        @if(session('search_result'))
             <table class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 15px;">
                 <thead>
-                <caption style="font-size: 22px">{{  trans('inscription.search_result')  }}</caption>
                 <th>#</th>
                 <th>{{  trans('admin.nom')  }}</th>
                 <th>{{  trans('inscription.motif')  }}</th>
@@ -60,25 +55,18 @@
                     <tr>
                         <td>{{$i++}}</td>
                         <td>
-                                @foreach($personnel as $p)
-                                    @if($p->id==$d->id_personnel)
-                                        <strong>{{$p->nom}}</strong>
-                                        <?php break; ?>
-                                    @endif
-                                @endforeach
+                            {{$d->nom_personnel}}
                         <td>{{$d->motif}}</td>
-                        <td>{{$d->montant}}</td>
+                        <td><a href="#edit_payement" data-toggle="modal" onclick="editer_payement({{$d->id}},{{$d->montant}})"><strong><span class="glyphicon glyphicon-edit"></span> {{$d->montant}}</strong></a> </td>
                         <td>{{$d->date}}</td>
 
                     </tr>
                 @endforeach
                 </tbody>
             </table>
-            {{Session::forget('search_result')}}
 
             <div class="paginate" style="text-align: center;"> <?php echo(str_replace('/?', '?', $decaissement->render()) ); ?></div>
 
-        @endif
     </div>
 
     <div class="modal fade" id="add_retrait">
@@ -107,7 +95,7 @@
 
                             <div class="form-group" >
                                 <label >{{  trans('inscription.montant')  }} : <span class="required">*</span></label>
-                                <input class="form-control" name="montant" type="text"  value="{{ old('montant') }}"  required>
+                                <input class="form-control" name="montant" type="number"  value="{{ old('montant') }}" min="0" required>
 
                             </div>
                             <div class="form-group">
@@ -133,6 +121,40 @@
 
         </div>
     </div>
+
+    <div class="modal fade" id="edit_payement">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">x</button>
+                    <h4 class="modal-title">{{  trans('admin.remplir_champs')  }}</h4>
+                </div>
+                <div class="modal-body">
+                    <form accept-charset="UTF-8" role="form" method="POST" id="edit_payement_form" action="{{ route('update_retrait_amount') }}">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="id" id="edit_id" value=""/>
+                        <fieldset>
+                            <div class="form-group">
+                                <label >{{  trans('inscription.montant')  }} : <span class="required">*</span></label>
+                                <input class="form-control" id="edit_montant" name="montant" type="number"  value="{{ old('montant') }}" required min="0">
+                            </div>
+                            <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function editer_payement(id,montant)
+        {
+
+            document.getElementById("edit_id").value = id;
+            document.getElementById("edit_montant").value = montant;
+
+        }
+    </script>
+@endsection
 @endsection
 @section('breadcrumb')
     <li><strong><a href="{{url('comptabilite')}}">@lang('admin.comptabilite')</a></strong></li>

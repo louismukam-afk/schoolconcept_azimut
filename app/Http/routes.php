@@ -54,7 +54,7 @@ Route::group(['middleware'=>'auth'],function (){
         //pour les utilisateurs
         Route::get('/utilisateurs', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN_USER, 'uses' => 'user\userController@index']);
         Route::post('/utilisateurs/activer', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN_USER_ACTIVATE_DEACTIVATE, 'uses' => 'user\userController@activate']);
-        Route::get('/utilisateurs/desactiver/{id}', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN_USER_ACTIVATE_DEACTIVATE,'user\userController@deactivate']);
+        Route::get('/utilisateurs/desactiver/{id}', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN_USER_ACTIVATE_DEACTIVATE,'uses' =>'user\userController@deactivate']);
 
         //routes pour les roles
         Route::get('admin/roles/{id}',['middleware' => 'action', 'action' => Action::ACTION_ADMIN_USER_ACTION,'uses'=>'admin\RoleController@index','as'=>'role_management']);
@@ -447,6 +447,7 @@ Route::group(['middleware'=>'auth'],function (){
 
 
         Route::post('/admin/retrait/store',['middleware' => 'action', 'action' => Action::ACTION_ACCOUNTING_WITHDRAWAL_CREATE, 'uses' => 'admin\decaissementController@store']);
+        Route::post('/admin/retrait/update-montant',['middleware' => 'action', 'action' => Action::ACTION_ADMIN_STUDENT_PAYMENT_UPDATE, 'as' => 'update_retrait_amount', 'uses' => 'admin\decaissementController@update_amount']);
         // le payement des salaires
 
         Route::group(['middleware' => 'action', 'action' => Action::ACTION_ACCOUNTING_STAFF_PAYMENT], function () {

@@ -1,5 +1,23 @@
 @extends('skeleton')
 @section('sub-content')
+    <div class="row">
+        <div class="col-md-8">
+            <form class="form-horizontal" id="search_user_form" method="get" action="{{URL::to('/utilisateurs')}}">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="search">{{  trans('inscription.recherche')  }} : </label>
+                        <div class="input-group">
+                            <input id="search" type="search" name="search" placeholder="{{trans('inscription.nom')}}" class="form-control" autofocus>
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-primary" ><span class="fa fa-search"> </span>{{trans('inscription.search')}}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
     <div class="col-md-10">
         @if(isset($success))
 
@@ -27,12 +45,9 @@
                     <td><strong >{{$u->name}}</strong></td>
                     <td> <strong>{{$u->fullname}}</strong></td>
                     <td>
-                        @foreach($personnels as $p)
-                            @if($p->id==$u->id_personnel)
-                                {{$p->nom}}
-                                <?php break; ?>
-                            @endif
-                        @endforeach
+                        @if($u->personnel)
+                            {{$u->personnel->nom}}
+                        @endif
                     </td>
                     <td><a href="{{route('action_management',$u->id)}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-lock"></span> {{trans_choice('admin.action',1)}}</a></td>
 

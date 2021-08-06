@@ -8,6 +8,7 @@ use gesecole\parametres;
 use gesecole\personnel;
 use gesecole\Role;
 use gesecole\User;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
@@ -25,21 +26,39 @@ class userController extends Controller {
         $this->renewSchoolYear();
     }
 
-	public function index()
+	public function index(Request $request)
 	{
         $values=array('titre'=>trans('admin.liste_utilisateurs'));
         $current_user = Auth::user();
+        $search_term = $request->input('search');
+
         if(!$current_user->isCreator()) {
             $u_array=Action::whereRaw('action_name = ? OR action_name = ?', [Action::ACTION_ALL, Action::ACTION_ALMOST_ALL])->get(['id_user'])->fetch('id_user')->toArray();
-            array_push($u_array, $current_user->id);
-            $u=User::whereNotIn('id',$u_array)->orderBy('created_at','desc')->paginate(30);
         }
         else {
             $u_array=Action::whereRaw('action_name = ?', [Action::ACTION_ALL])->get(['id_user'])->fetch('id_user')->toArray();
-            array_push($u_array, $current_user->id);
-            $u=User::whereNotIn('id',$u_array)->orderBy('created_at','desc')->paginate(30);
-
         }
+        array_push($u_array, $current_user->id);
+
+        if($search_term) {
+            $values['search_term']=$search_term;
+            $search_term = strtolower($search_term);
+            $u=User::with('personnel')
+                ->leftJoin('personnel', 'users.id_personnel', '=', 'personnel.id')
+                ->whereRaw('lower(name) LIKE ? OR lower(fullname) LIKE ? OR lower(nom) LIKE ?', ['%' . $search_term . '%', '%' . $search_term . '%', '%' . $search_term . '%'])
+                ->whereNotIn('users.id',$u_array)
+                ->select(['users.*'])
+                ->orderBy('created_at','desc')
+                ->paginate(30);
+        } else {
+            $u=User::with('personnel')
+                ->whereNotIn('id',$u_array)
+                ->orderBy('created_at','desc')
+                ->paginate(30);
+        }
+
+
+
         /*if(!Functions::contain(\Auth::user()->roles->fetch('value')->toArray(),0)){
             $u_array=Role::where('value','<=',1)->get()->fetch('id_user')->toArray();
             array_push($u_array, $current_user->id);

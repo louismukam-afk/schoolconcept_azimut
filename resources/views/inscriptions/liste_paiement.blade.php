@@ -39,18 +39,14 @@
 </div>
 
 
-  <div class="modal fade" id="edit_payement">
+            <div class="modal fade" id="edit_payement">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">x</button>
                             <h4 class="modal-title">{{  trans('admin.remplir_champs')  }}</h4>
                         </div>
-                        <div
-                                class="modal-body">
-
-
-
+                        <div class="modal-body">
                             <form accept-charset="UTF-8" role="form" method="POST" id="edit_payement_form" action="{{ route('update_payement') }}">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <input type="hidden" name="id" id="edit_id" value=""/>
@@ -58,27 +54,12 @@
                                     <div class="form-group">
                                         <label >{{  trans('inscription.montant')  }} : <span class="required">*</span></label>
                                         <input class="form-control" id="edit_montant" name="montant" type="number"  value="{{ old('montant') }}" required autofocus>
-
                                     </div>
-
-                                
                                     <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
-
-
                                 </fieldset>
                             </form>
-
-
-
                         </div>
-
-
-
-
-
                     </div>
-
-
                 </div>
             </div>
 

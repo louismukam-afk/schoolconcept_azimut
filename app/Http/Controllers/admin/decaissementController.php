@@ -8,6 +8,8 @@ use gesecole\personnel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use gesecole\parametres;
+use Illuminate\Support\Facades\URL;
+
 class decaissementController extends Controller {
 
 	/**
@@ -21,16 +23,29 @@ class decaissementController extends Controller {
         $this->renewSchoolYear();
     }
 
-	public function index()
+	public function index(Request $req)
 	{
-        $values= array('titre'=>trans('inscription.recherche'));
-        $p=personnel::orderBy('nom')->get();
-        $values['personnel']=$p;
+        $values= array('titre'=>trans('admin.sortie_caisse'));
+
         if(session('success')){
 
             $values['success']=session('success');
             Session::forget('success');
         }
+        $pattern=$req->input('search');
+            $d=decaissement::with('personnel')
+                ->join('personnel', 'id_personnel', '=', 'personnel.id')
+                ->whereRaw(' lower(nom) LIKE ?', ['%' . strtolower($pattern) . '%'])
+                ->where('annee_scolaire','=',\session('year'))
+                ->select(['decaissement.*', 'personnel.nom as nom_personnel'])
+                ->orderBy('created_at','desc')
+                ->paginate(30);
+
+
+
+        $p=personnel::orderBy('nom')->get();
+        $values['personnel']=$p;
+        $values['decaissement']=$d;
 
         return view('admin/search_decaissement',$values);
 	}
@@ -101,10 +116,24 @@ class decaissementController extends Controller {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update_amount(Request $request)
 	{
-		//
-	}
+		$this->validate($request, [
+		    'id' => 'required|numeric',
+		    'montant' => 'required|numeric',
+        ]);
+		$id = $request->input('id');
+		$montant = $request->input('montant');
+		$d = decaissement::find($id);
+		if($d) {
+		    $d->montant = $montant;
+            $current_user = \Auth::user();
+            $d->id_last_editor = $current_user->id;
+		    $d->save();
+        }
+        session(['success'=>true]);
+		return redirect()->to(URL::previous());
+    }
 
 	/**
 	 * Remove the specified resource from storage.

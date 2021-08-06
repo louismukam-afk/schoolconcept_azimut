@@ -364,6 +364,12 @@ return [
     "listes" => "Lists",
     'print_receipt'=>'Print receipt',
     'photo'=>'Photo',
+    'discipline' => 'Discipline',
+    'notes' => 'Notes',
+    'retrait' => 'Withdrawal',
+    'pay_salaire' => 'Salary payment',
+    'pay_bull' => 'Pay slip',
+    'sortie_caisse'=>'Cash out',
 
 
 

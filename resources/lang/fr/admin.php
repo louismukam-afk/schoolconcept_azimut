@@ -384,6 +384,8 @@ return [
     'retrait'=>'Retrait',
     'pay_salaire'=>'Payement salaire',
     'pay_bull'=>'Bulletin de paie',
+    'sortie_caisse'=>'Sortie de caisse',
+
 
 
 
