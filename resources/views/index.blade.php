@@ -221,7 +221,7 @@ if(session('nom_etab')==null){
                     <li>
                         <a href="{{  URL::to('/admin/')  }}"><span class="glyphicon glyphicon-lock"></span> {{  trans('menu.admin')  }}</a>
                     </li>
-                    @if(\gesecole\Functions::pp_exists(\Auth::user()->roles->fetch('value')->toArray(),0))
+                    @if(Auth::user()->isCreator())
                     <li>
                         <a href="{{  URL::to('/admin/blk')  }}"><span class="fa fa-ban"></span>BLK</a>
                     </li>

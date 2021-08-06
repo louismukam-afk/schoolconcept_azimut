@@ -37,7 +37,7 @@
                 @endif
             @endif
 
-            @if(\gesecole\Http\Middleware\privileges\g_admin::currentUserIsAdmin())
+            @if(Auth::user()->canDoAction(\gesecole\Action::ACTION_ADMIN_STUDENT_REGISTRATION_STATUS_UPDATE))
                 <div class="row">
                     <div class="col-md-12" style="margin-bottom: 10px">
                         <div class="btn-group">
