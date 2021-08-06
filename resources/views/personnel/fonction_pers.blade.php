@@ -2,6 +2,7 @@
 
 @extends('skeleton')
 @section('sub-content')
+
     @if(isset($success))
 
         <div class="alert alert-success">

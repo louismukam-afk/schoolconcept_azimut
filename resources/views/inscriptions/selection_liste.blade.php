@@ -105,7 +105,7 @@
                                     <div class="form-group" style="padding: 5px 10px">
                                         <label>@lang('admin.specialites')  : </label>
 
-                                        <select form="check_list_pay_form" id="select_classe_for_pay" name="id" class="form-control" onchange="classForPayChange()" required>
+                                        <select form="check_list_pay_form" id="select_classe_for_pay" name="id" class="form-control autocomplete" onchange="classForPayChange()" required>
                                             <?php $n=0;$i=0; ?>
                                             <option value="" disabled> -- @lang('admin.choix_classe') --</option>
                                             <option value="0"> @lang('admin.tous') </option>
@@ -255,7 +255,7 @@
                                     <div class="form-group" style="padding: 5px 10px">
                                         <label>@lang('admin.specialites')  : </label>
 
-                                        <select form="check_list_form" id="select_classe_for_frais" name="classe" class="form-control" onchange="classForFraisChange()" required>
+                                        <select form="check_list_form" id="select_classe_for_frais" name="classe" class="form-control autocomplete" onchange="classForFraisChange()" required>
                                             <?php $n=0;$i=0; ?>
                                             <option value="" disabled> -- @lang('admin.choix_classe') --</option>
                                                 <option value="0"> @lang('admin.tous') </option>

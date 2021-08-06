@@ -88,7 +88,7 @@
 
                                 <div class="form-group">
                                     <label >@lang('admin.personnel') : </label>
-                                    <select  name="personnel" form="activate_user_form" class="form-control">
+                                    <select  name="personnel" form="activate_user_form" class="form-control autocomplete">
                                         <option value="0">{{trans('admin.aucun')}}</option>
                                         @foreach($personnels as $p)
                                             <option value="{{$p->id}}">{{$p->nom}}</option>

@@ -86,7 +86,7 @@
                         <fieldset>
                             <div class="form-group">
                                 <label >{{  trans('admin.choix_personnel')  }} : </label>
-                                <select name="personnel" form="add_retrait_form" class="form-control" autocomplete="true">
+                                <select name="personnel" form="add_retrait_form" class="form-control autocomplete" autocomplete="true" >
                                     @foreach($personnel as $p)
                                         <option value="{{  $p->id  }}" @if($p->id == old('personnel')) selected @endif>{{  $p->nom  }}</option>
                                     @endforeach

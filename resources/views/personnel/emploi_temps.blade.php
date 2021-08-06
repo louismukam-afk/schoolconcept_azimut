@@ -42,35 +42,23 @@
                     @foreach($dispenses as $d)
                         @if($d->jour==1 && $d->id_horaire==$h->id)
                             <strong>
-                                @foreach($matieres as $m)
-                                    @if($m->id==$d->id_matiere)
-                                        {{((App::getLocale()=='en')?$m->nom_anglais:$m->nom)}}
-                                        <?php break; ?>
-
+                                    @if($d->matiere)
+                                        {{$d->matiere->getNom()}}
                                     @endif
 
-                                @endforeach
                             </strong>
                                 <div class="traduction">
-                                    @foreach($personnels as $p)
-                                        @if($p->id==$d->id_personnel)
-                                            {{$p->nom}}
-                                            <?php break; ?>
-
-                                        @endif
-
-                                    @endforeach
+                                    @if($d->personnel)
+                                        {{$d->personnel->nom}}
+                                    @endif
                                 </div>
                             <div class="traduction">
-                                @foreach($salles as $s)
-                                    @if($s->id==$d->id_salle)
-                                       <strong style="color: grey !important;">{{$s->nom}}</strong>
-                                        <?php break; ?>
+                                @if($d->salle)
+                                    <strong style="color: grey !important;">{{$d->salle->nom}}</strong>
+                                @endif
 
-                                    @endif
-
-                                @endforeach
                             </div>
+
                             <?php break; ?>
                         @endif
                     @endforeach
@@ -78,37 +66,25 @@
                         <strong class="pause"  style="font-size: 12px;color: gray;" >Pause</strong>
                     @endif
                 </td>
-                <td class="item-emploi timetable-col" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},2)" @endif> @foreach($dispenses as $d)
+                <td class="item-emploi timetable-col" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},2)" @endif>
+                    @foreach($dispenses as $d)
                         @if($d->jour==2 && $d->id_horaire==$h->id)
                             <strong>
-                                @foreach($matieres as $m)
-                                    @if($m->id==$d->id_matiere)
-                                        {{((App::getLocale()=='en')?$m->nom_anglais:$m->nom)}}
-                                        <?php break; ?>
+                                @if($d->matiere)
+                                    {{$d->matiere->getNom()}}
+                                @endif
 
-                                    @endif
-
-                                @endforeach
                             </strong>
                             <div class="traduction">
-                                @foreach($personnels as $p)
-                                    @if($p->id==$d->id_personnel)
-                                        {{$p->nom}}
-                                        <?php break; ?>
-
-                                    @endif
-
-                                @endforeach
+                                @if($d->personnel)
+                                    {{$d->personnel->nom}}
+                                @endif
                             </div>
                             <div class="traduction">
-                                @foreach($salles as $s)
-                                    @if($s->id==$d->id_salle)
-                                        <strong style="color: grey !important;">{{$s->nom}}</strong>
-                                        <?php break; ?>
+                                @if($d->salle)
+                                    <strong style="color: grey !important;">{{$d->salle->nom}}</strong>
+                                @endif
 
-                                    @endif
-
-                                @endforeach
                             </div>
                             <?php break; ?>
                         @endif
@@ -117,37 +93,25 @@
                         <strong class="pause" style="font-size: 12px;color: gray;" >Pause</strong>
                     @endif
                 </td>
-                <td class="item-emploi timetable-col" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},3)" @endif> @foreach($dispenses as $d)
+                <td class="item-emploi timetable-col" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},3)" @endif>
+                    @foreach($dispenses as $d)
                         @if($d->jour==3 && $d->id_horaire==$h->id)
                             <strong>
-                                @foreach($matieres as $m)
-                                    @if($m->id==$d->id_matiere)
-                                        {{((App::getLocale()=='en')?$m->nom_anglais:$m->nom)}}
-                                        <?php break; ?>
+                                @if($d->matiere)
+                                    {{$d->matiere->getNom()}}
+                                @endif
 
-                                    @endif
-
-                                @endforeach
                             </strong>
                             <div class="traduction">
-                                @foreach($personnels as $p)
-                                    @if($p->id==$d->id_personnel)
-                                        {{$p->nom}}
-                                        <?php break; ?>
-
-                                    @endif
-
-                                @endforeach
+                                @if($d->personnel)
+                                    {{$d->personnel->nom}}
+                                @endif
                             </div>
                             <div class="traduction">
-                                @foreach($salles as $s)
-                                    @if($s->id==$d->id_salle)
-                                        <strong style="color: grey !important;">{{$s->nom}}</strong>
-                                        <?php break; ?>
+                                @if($d->salle)
+                                    <strong style="color: grey !important;">{{$d->salle->nom}}</strong>
+                                @endif
 
-                                    @endif
-
-                                @endforeach
                             </div>
                             <?php break; ?>
                         @endif
@@ -156,37 +120,25 @@
                         <strong class="pause" style="font-size: 12px;color: gray;" >Pause</strong>
                     @endif
                 </td>
-                <td class="item-emploi timetable-col" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},4)" @endif> @foreach($dispenses as $d)
+                <td class="item-emploi timetable-col" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},4)" @endif>
+                    @foreach($dispenses as $d)
                         @if($d->jour==4 && $d->id_horaire==$h->id)
                             <strong>
-                                @foreach($matieres as $m)
-                                    @if($m->id==$d->id_matiere)
-                                        {{((App::getLocale()=='en')?$m->nom_anglais:$m->nom)}}
-                                        <?php break; ?>
+                                @if($d->matiere)
+                                    {{$d->matiere->getNom()}}
+                                @endif
 
-                                    @endif
-
-                                @endforeach
                             </strong>
                             <div class="traduction">
-                                @foreach($personnels as $p)
-                                    @if($p->id==$d->id_personnel)
-                                        {{$p->nom}}
-                                        <?php break; ?>
-
-                                    @endif
-
-                                @endforeach
+                                @if($d->personnel)
+                                    {{$d->personnel->nom}}
+                                @endif
                             </div>
                             <div class="traduction">
-                                @foreach($salles as $s)
-                                    @if($s->id==$d->id_salle)
-                                        <strong style="color: grey !important;">{{$s->nom}}</strong>
-                                        <?php break; ?>
+                                @if($d->salle)
+                                    <strong style="color: grey !important;">{{$d->salle->nom}}</strong>
+                                @endif
 
-                                    @endif
-
-                                @endforeach
                             </div>
                             <?php break; ?>
                         @endif
@@ -195,37 +147,25 @@
                         <strong class="pause" style="font-size: 12px;color: gray;" >Pause</strong>
                     @endif
                 </td>
-                <td class="item-emploi timetable-col" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},5)" @endif> @foreach($dispenses as $d)
+                <td class="item-emploi timetable-col" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},5)" @endif>
+                    @foreach($dispenses as $d)
                         @if($d->jour==5 && $d->id_horaire==$h->id)
                             <strong>
-                                @foreach($matieres as $m)
-                                    @if($m->id==$d->id_matiere)
-                                        {{((App::getLocale()=='en')?$m->nom_anglais:$m->nom)}}
-                                        <?php break; ?>
+                                @if($d->matiere)
+                                    {{$d->matiere->getNom()}}
+                                @endif
 
-                                    @endif
-
-                                @endforeach
                             </strong>
                             <div class="traduction">
-                                @foreach($personnels as $p)
-                                    @if($p->id==$d->id_personnel)
-                                        {{$p->nom}}
-                                        <?php break; ?>
-
-                                    @endif
-
-                                @endforeach
+                                @if($d->personnel)
+                                    {{$d->personnel->nom}}
+                                @endif
                             </div>
                             <div class="traduction">
-                                @foreach($salles as $s)
-                                    @if($s->id==$d->id_salle)
-                                        <strong style="color: grey !important;">{{$s->nom}}</strong>
-                                        <?php break; ?>
+                                @if($d->salle)
+                                    <strong style="color: grey !important;">{{$d->salle->nom}}</strong>
+                                @endif
 
-                                    @endif
-
-                                @endforeach
                             </div>
                             <?php break; ?>
                         @endif
@@ -234,37 +174,25 @@
                         <strong  class="pause" style="font-size: 12px;color: gray;" >Pause</strong>
                     @endif
                 </td>
-                <td class="item-emploi timetable-col" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},6)" @endif> @foreach($dispenses as $d)
+                <td class="item-emploi timetable-col" @if($h->type!=1)onclick="editer_emplois_temps({{$h->id}},6)" @endif>
+                    @foreach($dispenses as $d)
                         @if($d->jour==6 && $d->id_horaire==$h->id)
                             <strong>
-                                @foreach($matieres as $m)
-                                    @if($m->id==$d->id_matiere)
-                                        {{((App::getLocale()=='en')?$m->nom_anglais:$m->nom)}}
-                                        <?php break; ?>
+                                @if($d->matiere)
+                                    {{$d->matiere->getNom()}}
+                                @endif
 
-                                    @endif
-
-                                @endforeach
                             </strong>
                             <div class="traduction">
-                                @foreach($personnels as $p)
-                                    @if($p->id==$d->id_personnel)
-                                        {{$p->nom}}
-                                        <?php break; ?>
-
-                                    @endif
-
-                                @endforeach
+                                @if($d->personnel)
+                                    {{$d->personnel->nom}}
+                                @endif
                             </div>
                             <div class="traduction">
-                                @foreach($salles as $s)
-                                    @if($s->id==$d->id_salle)
-                                        <strong style="color: grey !important;">{{$s->nom}}</strong>
-                                        <?php break; ?>
+                                @if($d->salle)
+                                    <strong style="color: grey !important;">{{$d->salle->nom}}</strong>
+                                @endif
 
-                                    @endif
-
-                                @endforeach
                             </div>
                             <?php break; ?>
                         @endif
@@ -302,7 +230,7 @@
 
                             <div class="form-group">
                                 <label for="personnel">{{trans('admin.personnel')}} : </label>
-                                <select id="personnel" name="personnel" form="edit_horaire_form" class="form-control">
+                                <select id="personnel" name="personnel" form="edit_horaire_form" class="form-control autocomplete">
                                     @foreach($personnels as $p)
                                         <option value="{{  $p->id  }}" @if($p->id == old('personnel')) selected @endif>{{$p->nom}}</option>
                                     @endforeach
@@ -310,7 +238,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="matiere">{{trans('admin.matiere')}} :</label>
-                                <select id="matiere" name="matiere" form="edit_horaire_form" class="form-control">
+                                <select id="matiere" name="matiere" form="edit_horaire_form" class="form-control autocomplete">
                                     @foreach($matieres as $m)
                                         <option value="{{  $m->id  }}" @if($m->id == old('matiere')) selected @endif>{{(App::getLocale()=='en')?$m->nom_anglais:$m->nom}}</option>
                                     @endforeach
@@ -319,11 +247,21 @@
 
                             <div class="form-group">
                                 <label for="salle">{{trans('admin.salle')}} :</label>
-                                <select id="salle" name="salle" form="edit_horaire_form" class="form-control">
+                                <select id="salle" name="salle" form="edit_horaire_form" class="form-control autocomplete">
                                     <option value="0">@lang('admin.aucun')</option>
                                     @foreach($salles as $s)
                                         <option value="{{  $s->id  }}" >{{$s->nom}}</option>
                                     @endforeach
+                                </select>
+                            </div>
+
+                            <h3>@lang('admin.ou')</h3>
+
+                            <div class="form-group">
+                                <label class="text-danger">@lang('admin.q_del_entry')</label>
+                                <select name="must_delete" form="edit_horaire_form">
+                                    <option value="no" selected>@lang('inscription.non')</option>
+                                    <option value="yes">@lang('inscription.oui')</option>
                                 </select>
                             </div>
 

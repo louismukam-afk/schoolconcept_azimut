@@ -138,7 +138,7 @@
                             <fieldset>
                                 <div class="form-group col-md-6">
                                     <label for="classe">{{  trans('admin.choix_classe')  }} : <span class="required">*</span></label>
-                                    <select  name="id_classe" form="edit_manger_form" class="form-control">
+                                    <select  name="id_classe" form="edit_manger_form" class="form-control autocomplete">
                                         <?php $n=0;$i=0; ?>
 
                                         @foreach($classes as $c)
@@ -168,7 +168,7 @@
                                 <input type="hidden" name="id_personnel" value="{{$personnel->id}}">
                                 <div class="form-group col-md-6">
                                     <label for="id_matiere">@lang('admin.titre_matiere')</label>
-                                    <select  name="id_matiere" id="id_matiere" form="edit_manger_form" class="form-control">
+                                    <select  name="id_matiere" id="id_matiere" form="edit_manger_form" class="form-control autocomplete">
                                         @foreach($matieres as $e)
                                             <option value="{{  $e->id  }}" @if($e->id == old('id_matiere')) selected @endif>{{  (App::getLocale()=='en')?$e->nom_anglais:$e->nom  }}</option>
                                         @endforeach
@@ -190,7 +190,7 @@
 
                                 <div class="form-group col-md-6">
                                     <label for="id_salle">@lang('admin.salle')</label>
-                                    <select  name="id_salle" id="id_salle" form="edit_manger_form" class="form-control">
+                                    <select  name="id_salle" id="id_salle" form="edit_manger_form" class="form-control autocomplete">
                                         <option value="0">@lang('admin.aucun')</option>
                                         @foreach($salles as $s)
                                             <option value="{{  $s->id  }}" @if($s->id == old('id_salle')) selected @endif>{{ $s->nom  }}</option>

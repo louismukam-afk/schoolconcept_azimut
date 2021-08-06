@@ -31,5 +31,29 @@ class dispense extends Model {
     public $fillable=['id_personnel','id_classe','id_nniveau','id_matiere','jour','id_horaire','annee_scolaire'];
 
 
+    public function personnel() {
+        return $this->belongsTo(personnel::class, 'id_personnel');
+    }
+
+    public function matiere() {
+        return $this->belongsTo(matiere::class, 'id_matiere');
+    }
+
+
+    public function classe() {
+        return $this->belongsTo(classe::class, 'id_classe');
+    }
+
+    public function horaire() {
+        return $this->belongsTo(horaire::class, 'id_horaire');
+    }
+
+    public function nniveau() {
+        return $this->belongsTo(NNiveau::class, 'id_nniveau');
+    }
+
+    public function salle() {
+        return $this->belongsTo(salle::class, 'id_salle');
+    }
 
 }

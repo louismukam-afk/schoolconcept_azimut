@@ -370,6 +370,8 @@ return [
     'pay_salaire' => 'Salary payment',
     'pay_bull' => 'Pay slip',
     'sortie_caisse'=>'Cash out',
+    'q_del_entry' => 'Do you want to delete this entry?'
+
 
 
 

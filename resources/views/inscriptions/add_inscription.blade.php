@@ -33,7 +33,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>  Cycle: </label>
-                        <select form="edit_inscription_form" id="edit_cycle"  name="cycle" class="form-control">
+                        <select required form="edit_inscription_form" id="edit_cycle"  name="cycle" class="form-control">
                             @foreach($cycles as $c)
                                 <option value="{{$c->id}}" @if($inscription->id_cycle==$c->id) selected @endif>{{$c->nom}}</option>
                             @endforeach
@@ -43,7 +43,7 @@
                     <div class="form-group">
                         <label>@lang('admin.specialites')  : </label>
 
-                        <select form="edit_inscription_form" id="edit_classe" name="classe" class="form-control">
+                        <select required form="edit_inscription_form" id="edit_classe" name="classe" class="form-control autocomplete">
                             <?php $n=0;$i=0; ?>
 
                             @foreach($classes as $c)
@@ -65,7 +65,7 @@
                     </div>
                     <div class="form-group">
                         <label>  @lang('admin.nniveau') </label>
-                        <select form="edit_inscription_form"  name="nniveau" class="form-control">
+                        <select form="edit_inscription_form"  name="nniveau" class="form-control" required>
                             @foreach($nniveaux as $nn)
                                 <option value="{{$nn->id}}" @if($inscription->id_nniveau==$nn->id) selected @endif>{{$nn->nom}}</option>
                             @endforeach
@@ -96,7 +96,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>  Cycle: </label>
-                        <select form="add_inscription_form" id="cycle" name="cycle" class="form-control" onchange="getScolarite()">
+                        <select form="add_inscription_form" id="cycle" name="cycle" class="form-control" onchange="getScolarite()" required>
                             <option value=""> -- @lang('admin.choose_cycle') --</option>
 
                         @foreach($cycles as $c)
@@ -108,7 +108,7 @@
                     <div class="form-group">
                         <label>@lang('admin.specialites')  : </label>
 
-                        <select form="add_inscription_form" id="classe" name="classe" class="form-control" onchange="getScolarite()">
+                        <select form="add_inscription_form" id="classe" name="classe" class="form-control autocomplete" onchange="getScolarite()" required>
                             <?php $n=0;$i=0; ?>
                                 <option value=""> -- @lang('admin.choix_classe') --</option>
                             @foreach($classes as $c)
@@ -129,7 +129,7 @@
                     </div>
                     <div class="form-group">
                         <label>  @lang('admin.nniveau') </label>
-                        <select form="add_inscription_form"  name="nniveau" class="form-control">
+                        <select form="add_inscription_form"  name="nniveau" class="form-control" required>
                             @foreach($nniveaux as $nn)
                                 <option value="{{$nn->id}}"  @if(old('nniveau')==$nn->id) selected @endif>{{$nn->nom}}</option>
                             @endforeach

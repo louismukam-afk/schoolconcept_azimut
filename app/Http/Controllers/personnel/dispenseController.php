@@ -19,6 +19,7 @@ use gesecole\personnel;
 use gesecole\matiere;
 use gesecole\parametres;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 
 class dispenseController extends Controller {
 
@@ -243,9 +244,10 @@ class dispenseController extends Controller {
 	    $nniveau=$request->input('nniveau');
 	    $nn=NNiveau::find($nniveau);
         $titre=trans('admin.emploi_temps_classe');
-        $d=dispense::whereAnneeScolaire(\session('year'))
+        $d=dispense::with('personnel', 'matiere', 'salle')
+        ->whereAnneeScolaire(\session('year'))
         ->where('id_classe','=',$id)
-            ->where('id_nniveau','=',$nniveau)
+        ->where('id_nniveau','=',$nniveau)
         ->get();
         $c=classe::find($id);
         $s=salle::orderBy('nom')->get();
@@ -288,6 +290,7 @@ class dispenseController extends Controller {
             'salle'=>'numeric'
 
         ]);
+
         $disp=dispense::whereAnneeScolaire(\session('year'))
             ->where('id_classe','=',$id)
             ->where('jour','=',$req->input('jour'))
@@ -297,14 +300,22 @@ class dispenseController extends Controller {
         if($disp!=null){
             $disp->delete();
         }
-        $disp=dispense::whereAnneeScolaire(\session('year'))
+
+        $mustDelete = $req->input('must_delete');
+        if($mustDelete == 'yes') {
+            session(['success'=>true]);
+            return redirect()->to(URL::previous());
+
+        }
+
+        /*$disp=dispense::whereAnneeScolaire(\session('year'))
             ->where('jour','=',$req->input('jour'))
             ->where('id_personnel','=',$req->input('personnel'))
             ->where('id_horaire','=',$req->input('id_horaire'))
             ->first();
         if($disp!=null){
             $disp->delete();
-        }
+        }*/
 
         $c=new dispense();
         $c->annee_scolaire=session('year');
@@ -392,6 +403,7 @@ class dispenseController extends Controller {
 	 */
 	public function update(Request $req,$id)
 	{
+
         $this->validate($req, [
             'id_matiere' => 'required|numeric',
             'id_personnel' => 'required|numeric',

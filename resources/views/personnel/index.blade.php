@@ -9,7 +9,7 @@
             <div class="div-square">
                 <a href="{{  URL::to('personnel/list/')  }}" >
                     <i class="fa fa-user fa-5x"></i>
-                    <h4>{{trans('admin.ajouter_personnel')}}</h4>
+                    <h4>{{trans('admin.read')}} / {{trans('admin.create')}} / {{trans('admin.edit')}} / {{trans('admin.del')}}  {{trans('admin.personnel')}}</h4>
                 </a>
             </div>
 
@@ -62,7 +62,7 @@
 
     </div>
     <div class="row text-center pad-top">
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6 hidden">
             <div class="div-square">
                 <a href="{{URL::to('/personnel/search/')}}" >
                     <i class="fa fa-5x fa-search"></i>

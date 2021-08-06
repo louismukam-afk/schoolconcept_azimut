@@ -180,7 +180,7 @@
 
         $('#table-personnel').dataTable( {
             dom: 'Bfrtip',
-            pageLength:500,
+            pageLength:50,
             buttons: [
                 //'copy', 'csv', 'excel', 'pdf', 'print'
                 {

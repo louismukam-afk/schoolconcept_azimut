@@ -4,7 +4,7 @@
       <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{  isset($page_title) ? $page_title : (isset($titre) ? $titre : session('big_title'))  }}</title>
-    <link rel="shortcut icon" href="{{URL::asset('favicon.ico')}}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{URL::asset('img/log.png')}}" type="image/x-icon">
 	<!-- BOOTSTRAP STYLES-->
     <link href="{{ URL::asset('dist/css/bootstrap.min.css')  }}" rel="stylesheet" />
      <!-- FONTAWESOME STYLES-->
@@ -13,20 +13,22 @@
     <link href="{{ URL::asset('css/custom.css')  }}" rel="stylesheet" media="screen"/>
     <link href="{{ URL::asset('js/jquery-ui-1.12.1/jquery-ui.css')  }}" rel="stylesheet" media="screen"/>
     <link href="{{ URL::asset('js/datatables/datatables.min.css')  }}" rel="stylesheet"/>
+    <link href="{{ URL::asset('js/chosen_v1.8.7/chosen.min.css')  }}" rel="stylesheet"/>
 
 
     <!-- GOOGLE FONTS-->
-    <!--<script src="{{ URL::asset('js/jquery-ui-1.12.1/external/jquery/jquery.js')  }}"></script>-->
 
     <script src="{{ URL::asset('js/jquery.min.js')  }}"></script>
 
     <script src="{{ URL::asset('js/jquery-ui-1.12.1/jquery-ui.js')  }}"></script>
+    <script src="{{ URL::asset('js/chosen_v1.8.7/chosen.jquery.min.js')}}"></script>
     <!-- BOOTSTRAP SCRIPTS -->
     <script src="{{ URL::asset('dist/js/bootstrap.min.js')  }}"></script>
     <!-- CUSTOM SCRIPTS -->
     <script src="{{ URL::asset('js/custom.js')  }}"></script>
 
     <script src="{{ URL::asset('js/datatables/datatables.min.js')  }}"></script>
+
 
 <script>
     function startLoading() {
@@ -677,6 +679,7 @@ if(session('nom_etab')==null){
         $('#qrcode-input').on('focusout', function (e){
             e.target.focus();
         })
+        $('.autocomplete').chosen({width : '100%'});
     })
 </script>
 </html>

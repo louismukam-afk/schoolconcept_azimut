@@ -2,19 +2,44 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c5522a3f-f74c-474c-87f2-901ced8f473f" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/public/js/chosen_v1.8.7/LICENSE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/chosen_v1.8.7/chosen-sprite.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/chosen_v1.8.7/chosen-sprite@2x.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/chosen_v1.8.7/chosen.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/chosen_v1.8.7/chosen.jquery.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/chosen_v1.8.7/chosen.jquery.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/chosen_v1.8.7/chosen.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/chosen_v1.8.7/chosen.proto.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/chosen_v1.8.7/chosen.proto.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/chosen_v1.8.7/composer.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/chosen_v1.8.7/docsupport/chosen.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/chosen_v1.8.7/docsupport/init.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/chosen_v1.8.7/docsupport/init.proto.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/chosen_v1.8.7/docsupport/jquery-1.12.4.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/chosen_v1.8.7/docsupport/jquery-3.2.1.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/chosen_v1.8.7/docsupport/oss-credit.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/chosen_v1.8.7/docsupport/prism.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/chosen_v1.8.7/docsupport/prism.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/chosen_v1.8.7/docsupport/prototype-1.7.0.0.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/chosen_v1.8.7/docsupport/style.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/chosen_v1.8.7/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/chosen_v1.8.7/index.proto.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/js/chosen_v1.8.7/options.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/admin/decaissementController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/admin/decaissementController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/user/userController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/user/userController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/routes.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/routes.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/decaissement.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/decaissement.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/personnel/dispenseController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/personnel/dispenseController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/dispense.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/dispense.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/lang/en/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/en/admin.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/lang/fr/admin.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lang/fr/admin.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/admin/actions.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/actions.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/admin/search_decaissement.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/search_decaissement.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/admin/utilisateurs.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/admin/utilisateurs.blade.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/views/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/index.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/inscriptions/liste_paiement.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/inscriptions/liste_paiement.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/inscriptions/add_inscription.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/inscriptions/add_inscription.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/inscriptions/selection_liste.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/inscriptions/selection_liste.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/personnel/dispense.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/personnel/dispense.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/personnel/emploi_temps.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/personnel/emploi_temps.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/personnel/fonction_pers.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/personnel/fonction_pers.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/personnel/index.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/personnel/index.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/personnel/personne.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/personnel/personne.blade.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -464,18 +489,18 @@
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SearchEverywhereHistoryKey" value="731c1e3c969f2da68d400b7240b6a3c9&#9;FILE&#9;file://C:/Users/Joel/Desktop/projects/SchoolConcept/storage/framework/views/731c1e3c969f2da68d400b7240b6a3c9&#10;p&#9;null&#9;null" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/views/admin" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/public/js" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.General" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\projects\SchoolConcept\public\js" />
       <recent name="D:\projects\SchoolConcept\resources\views\admin" />
       <recent name="D:\projects\SchoolConcept\public\css" />
       <recent name="D:\projects\SchoolConcept\resources\views\inscriptions" />
       <recent name="D:\projects\SchoolConcept\public\img" />
-      <recent name="D:\projects\SchoolConcept\database\migrations" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\Joel\Desktop\test\gesecole\app" />
@@ -615,7 +640,7 @@
       <workItem from="1627621336475" duration="24805000" />
       <workItem from="1627724051234" duration="69378000" />
       <workItem from="1627973456477" duration="106337000" />
-      <workItem from="1628241277283" duration="6515000" />
+      <workItem from="1628241277283" duration="14940000" />
     </task>
     <servers />
   </component>
