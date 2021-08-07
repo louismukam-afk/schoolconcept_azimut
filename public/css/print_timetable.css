@@ -26,6 +26,8 @@
 }
 @page  {
     size: A4 landscape;
+    margin-left: 2mm!important;
+    margin-right: 2mm!important;
 }
 
 .caption
