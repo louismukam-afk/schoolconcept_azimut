@@ -189,6 +189,8 @@ class noteController extends Controller {
             'nniveau'=>'required|numeric',
         ]);
 
+        $id_eleves = [];
+        $proces_v = [];
         $values= array('titre'=>'Notes');
         $sequence=$request->input('sequence');
         $id_m=$request->input('id');
