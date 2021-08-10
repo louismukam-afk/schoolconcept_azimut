@@ -385,7 +385,9 @@ return [
     'pay_salaire'=>'Payement salaire',
     'pay_bull'=>'Bulletin de paie',
     'sortie_caisse'=>'Sortie de caisse',
-    'q_del_entry' => 'Souhaitez vous supprimer cette entrée?'
+    'q_del_entry' => 'Souhaitez vous supprimer cette entrée?',
+    'liste_ins'=>'Listes des années académiques dans lesquelles vous avez été inscrites'
+
 
 
 

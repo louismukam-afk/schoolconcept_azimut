@@ -88,5 +88,9 @@ class eleve extends Model {
     public function disciplines(){
         return $this->hasMany(discipline::class,'id_eleve');
     }
+    public function Etudiant_users()
+    {
+        return $this->belongsTo(Etudiant_user::class,'id_eleve');
+    }
 }
 
