@@ -20,6 +20,8 @@
     =============================================*/
 @page  {
     size: A4 landscape;
+    margin-left: 2mm!important;
+    margin-right: 2mm!important;
 }
 
 .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.navbar,.navbar-header,.modal,.copy,.back-button,.copy,.dt-buttons,.dataTables_filter,.dataTables_info,.dataTables_paginate,.breadcrumb

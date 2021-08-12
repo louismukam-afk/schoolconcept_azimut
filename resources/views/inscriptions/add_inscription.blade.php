@@ -84,7 +84,7 @@
 
         </div>
 
-    @else
+    @elseif(isset($e))
         <p style="font-size: 18px"> <strong>Matricule : {{$e->matricule}} </strong></p>
         <p style="font-size: 18px"> <strong>{{trans('admin.nom')}} : {{$e->nom.' '.$e->prenom}} </strong></p>
 

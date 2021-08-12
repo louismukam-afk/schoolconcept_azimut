@@ -171,9 +171,11 @@ class enregistrementController extends Controller {
                 }
             $photo=$req->file('photo');
             if($photo!=null){
+                $ext=$photo->getClientOriginalExtension();
+                $savePath = photosController::getPhotosSaveDirPath() . '/' .$e->id.'-'.session('year').'.'.$ext;
+                //Image::make($photo->getRealPath())->encode('jpg',80)->resize(300,300)->save($savePath);
+                Image::make($photo->getRealPath())->resize(300,300)->save($savePath);
 
-                $savePath = photosController::getPhotosSaveDirPath() . '/' .$e->id.'-'.session('year').'.jpg';
-                Image::make($photo->getRealPath())->encode('jpg',80)->resize(300,300)->save($savePath);
                 $ph=new Photo();
                 $ph->eleve_id=$e->id;
                 $ph->annee_scolaire=\session('year');
@@ -281,9 +283,11 @@ class enregistrementController extends Controller {
         $photo=$req->file('photo');
         if($photo!=null){
 
+            $ext=$photo->getClientOriginalExtension();
+            $savePath = photosController::getPhotosSaveDirPath() . '/' .$e->id.'-'.session('year').'.'.$ext;
+            //Image::make($photo->getRealPath())->encode('jpg',80)->resize(300,300)->save($savePath);
+            Image::make($photo->getRealPath())->resize(300,300)->save($savePath);
 
-            $savePath = photosController::getPhotosSaveDirPath() . '/' .$e->id.'-'.session('year').'.jpg';
-            Image::make($photo->getRealPath())->encode('jpg',80)->resize(300,300)->save($savePath);
             $ph=Photo::firstOrNew(['eleve_id'=>$id,'annee_scolaire'=>\session('year')]);
             $ph->url = $savePath;
             $ph->save();
