@@ -75,7 +75,7 @@ class EtudiantcontrollerCon extends Controller {
                 ->where('etudiant_users.username','=',$username)
 
 
-                ->select('inscription.annee_scolaire')
+                ->select('inscription.annee_scolaire','etudiant_users.username')
                 ->get();
 
 
@@ -127,8 +127,20 @@ class EtudiantcontrollerCon extends Controller {
      * @param  int  $id
      * @return Response
      */
-    public function liste_inscrip($username)
+    public function liste_inscription($username)
     {
+        $ins=inscription::join('etudiant_users', 'etudiant_users.id_inscription', '=', 'inscription.id')
+            ->where('etudiant_users.username','=',$username)
+            ->join('note', 'etudiant_users.id_eleve', '=', 'note.id_eleve')
+            ->join('matiere', 'matiere.id', '=', 'note.id_matiere')
+
+            ->select('inscription.annee_scolaire', 'matiere.nom','inscription.id_cycle', 'inscription.id_classe', 'inscription.id_nniveau','note.note','note.sequence')
+            ->get();
+
+        $this->values['inscriptions']=$ins;
+
+        return view('gestion.note',$this->values);
+
 
     }
 

@@ -470,7 +470,7 @@ Route::group(['middleware'=>'auth'],function (){
 
 Route::get('/gestion/login/','gestion\EtudiantcontrollerCon@index');
 Route::post('/gestion/login/etudiant','gestion\EtudiantcontrollerCon@store');
-Route::get('/gestion/login/etudiant/liste/{username}','gestion\EtudiantcontrollerCon@liste_inscription');
+Route::post('/gestion/login/etudiant/liste/{username}','gestion\EtudiantcontrollerCon@liste_inscription');
 
 
 Route::group(['middleware'=>'start'],function () {

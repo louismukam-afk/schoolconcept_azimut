@@ -173,7 +173,13 @@ if(session('nom_etab')==null){
 
             <div class="form-group">
                 <h3 style="text-align: center;"><strong>{{trans('admin.liste_ins')}}</strong></h3>
-                <select id="annee" name="annee" form="" class="form-control">
+                @foreach($annee as $inss)
+                <form accept-charset="UTF-8" role="form" method="POST" id="add_level_form" action="{{ URL::to('/gestion/login/etudiant/liste').'/'.$inss->username }}">
+                    @endforeach
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+                    <fieldset>
+                <select id="annee" name="annee" form="add_level_form" class="form-control">
 
                     <option value="0">Choix de l'annee </option>
                     @foreach($annee as $ins)
@@ -181,7 +187,17 @@ if(session('nom_etab')==null){
                     @endforeach
 
                 </select>
+                        <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
+                    </fieldset>
+                </form>
+
             </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+
 
             <div class="row" >
                 <div class="col-md-12">
