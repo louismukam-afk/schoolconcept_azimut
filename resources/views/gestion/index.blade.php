@@ -232,7 +232,7 @@ if(session('nom_etab')==null){
 </div>
 
 
-<div class="modal fade" id="edit_pass">
+{{--<div class="modal fade" id="edit_pass">
     <div class="modal-dialog">
         <div class="modal-content col-md-6">
             <div class="modal-header">
@@ -280,7 +280,7 @@ if(session('nom_etab')==null){
 
 
     </div>
-</div>
+</div>--}}
 <div class="footer">
 
 
@@ -297,6 +297,7 @@ if(session('nom_etab')==null){
 <!-- JQUERY SCRIPTS -->
 
 
+{{--
 <div class="modal fade" id="choose_level">
     <div class="modal-dialog" style="width: 20%">
         <div class="modal-content">
@@ -339,6 +340,7 @@ if(session('nom_etab')==null){
     </div>
 </div>
 
+--}}
 
 
 </body>
