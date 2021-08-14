@@ -3,6 +3,7 @@
 use gesecole\classe;
 use gesecole\cycle;
 use gesecole\eleve;
+use gesecole\Etudiant_user;
 use gesecole\Http\Controllers\startController;
 use gesecole\inscription;
 use gesecole\niveau;
@@ -195,6 +196,17 @@ class inscriptionController extends Controller {
                    $number = sprintf('%04d', $e->id);
                    $e->matricule = $front . $pa->valeur . '-' . $c->code . $number;
                    $e->save();
+                }
+
+                if ($i->save())
+                {
+                    $es=eleve::where('id','=',$id_eleve)->first();
+                    $et = new Etudiant_user();
+                    $et->username =$es->matricule;
+                    $et->password = '000000';
+                    $et->id_inscription =$i->id;
+                    $et->id_eleve = $id_eleve;
+                    $et->save();
                 }
               
            }

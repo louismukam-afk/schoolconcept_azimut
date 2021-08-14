@@ -467,11 +467,18 @@ Route::group(['middleware'=>'auth'],function (){
 
     });
 });
+
+Route::get('/gestion/login/','gestion\EtudiantcontrollerCon@index');
+Route::post('/gestion/login/etudiant','gestion\EtudiantcontrollerCon@store');
+Route::post('/gestion/login/etudiant/liste/{username}','gestion\EtudiantcontrollerCon@liste_inscription');
+
+
 Route::group(['middleware'=>'start'],function () {
 
     Route::get('/start/', 'startController@index');
     Route::post('/start/store', 'startController@store');
     Route::post('/start/store/admin', 'startController@storeAdmin');
+
 });
 
 

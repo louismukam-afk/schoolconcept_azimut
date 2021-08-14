@@ -43,4 +43,9 @@ class inscription extends Model {
        return $this->belongsTo(eleve::class,'id_eleve');
     }
 
+    public function Etudiant_users()
+    {
+        return $this->belongsTo(Etudiant_user::class,'id_inscription');
+    }
+
 }
