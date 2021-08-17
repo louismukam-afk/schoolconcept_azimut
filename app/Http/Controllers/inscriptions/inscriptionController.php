@@ -373,7 +373,7 @@ class inscriptionController extends Controller {
                 $e->matricule=$m;
                 $e->save();
             } else{
-                $e = eleve::find($id_eleve);
+                /*$e = eleve::find($id_eleve);
                 $c = classe::find($id_classe);
                 $param = parametres::all();
                 $pa = $param->where('nom', 'initiales_etablissement', false)->first();
@@ -382,7 +382,7 @@ class inscriptionController extends Controller {
                 $front = substr($front, 2, 2);
                 $number = sprintf('%04d', $e->id);
                 $e->matricule = $front . $pa->valeur . '-' . $c->code . $number;
-                $e->save();
+                $e->save();*/
             }
 
 

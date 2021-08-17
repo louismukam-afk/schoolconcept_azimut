@@ -259,7 +259,7 @@ if(session('nom_etab')==null){
 </div>
 
 
-<div class="modal fade" id="edit_pass">
+{{--<div class="modal fade" id="edit_pass">
     <div class="modal-dialog">
         <div class="modal-content col-md-6">
             <div class="modal-header">
@@ -307,7 +307,7 @@ if(session('nom_etab')==null){
 
 
     </div>
-</div>
+</div>--}}
 <div class="footer">
 
 
@@ -324,6 +324,18 @@ if(session('nom_etab')==null){
 <!-- JQUERY SCRIPTS -->
 
 
+<<<<<<< HEAD
+=======
+{{--
+<div class="modal fade" id="choose_level">
+    <div class="modal-dialog" style="width: 20%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">x</button>
+                <h4 class="modal-title">{{  trans('admin.remplir_champs')  }}</h4>
+            </div>
+            <div class="modal-body">
+>>>>>>> ISSBA
 
 </body>
 
@@ -367,8 +379,12 @@ if(session('nom_etab')==null){
     }
     function printSuccessMsg (msg) {
 
+<<<<<<< HEAD
         if(msg)
             $(".print-success-msg").css('display', 'block');
+=======
+--}}
+>>>>>>> ISSBA
 
         $.each(msg, function (key, value) {
             $(".print-success-msg").find("ul").append('<li>' + value + '</li>');
