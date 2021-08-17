@@ -171,8 +171,12 @@
         @endif
         <form class="form-signin" method="post" action="{{ url('/gestion/login/etudiant') }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-            @if($erreur!='')
-                <p style="color: red">{{$erreur}}</p>
+
+            @if(session('eleve_login_error'))
+                <div class="alert alert-danger">
+                    {{session('eleve_login_error')}}
+                </div>
+                {{Session::forget('eleve_login_error')}}
             @endif
             <span id="reauth-email" class="reauth-email"></span>
             <div class="form-group">

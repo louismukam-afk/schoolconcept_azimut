@@ -200,13 +200,16 @@ class inscriptionController extends Controller {
 
                 if ($i->save())
                 {
-                    $es=eleve::where('id','=',$id_eleve)->first();
-                    $et = new Etudiant_user();
-                    $et->username =$es->matricule;
-                    $et->password = '000000';
-                    $et->id_inscription =$i->id;
-                    $et->id_eleve = $id_eleve;
-                    $et->save();
+                    $es=Etudiant_user::where('id_eleve','=',$e->id)->first();
+                    if ($es==null){
+                        $et = new Etudiant_user();
+                        $et->username =$e->matricule;
+                        $et->password =$e->matricule;
+                        $et->id_inscription =$i->id;
+                        $et->id_eleve = $id_eleve;
+                        $et->save();
+                    }
+
                 }
               
            }

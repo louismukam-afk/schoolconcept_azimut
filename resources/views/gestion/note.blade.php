@@ -127,9 +127,9 @@ if(session('nom_etab')==null){
 
             <span class="logout-spn" >
 
-                    <a href="{{ url('/auth/logout') }}">{{  trans('admin.logout')  }}</a>
+                    <a href="{{ url('/gestion/login/etudiant/disconnect_user') }}">{{  trans('admin.logout')  }}</a>
                 </span>
-            <div ><span class="annee">{{  trans('admin.year')  }} <span>{{  session('year') }}</span></span></div>
+            <div ><span class="annee">{{  trans('admin.year')  }} <span>{{  $selected_inscription->annee_scolaire }}</span></span></div>
             <div class="langage ">
                 <div class="lang dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><strong style="color: white">@lang('admin.langage') :</strong> @if(App::getLocale()=='fr')Francais @else English @endif <span class="caret"></span></a>
                     <ul class="dropdown-menu navbar-inverse">
@@ -145,8 +145,6 @@ if(session('nom_etab')==null){
 
 
 
-{{--
-    <!-- /. NAV SIDE  -->
     <div id="page-wrapper" >
         <div id="page-inner">
             <div class="row hidden">
@@ -155,6 +153,9 @@ if(session('nom_etab')==null){
                     <h2 class="big-title">{{  session('big_title')  }}</h2>
                 </div>
             </div>
+            <a  class="btn btn-warning col-md-12" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> Imprimer</a>
+            <link rel="stylesheet" href="{{URL::asset('css/certificat.css')}}">
+
             <!-- /. ROW  -->
             <hr style="margin-top: 0;margin-bottom: 0" />
             <div class="row-fluid">
@@ -162,47 +163,131 @@ if(session('nom_etab')==null){
 
                     @yield('breadcrumb')
                 </ul>
-                <div style="height: 10px; background: #214761" class="action"></div>
-                <div class="col-lg-12 ">
-                    <strong>{{trans('admin.bienvenue')}} {{$utilisateur['nom']}} ! </strong>
-                    <br>
-                    <br>
+                <strong><h3 style="text-align:center;"> <caption style="font-size: 22px; text-align: center">{{  trans('admin.notess')  }}  {{$eleve->nom}}</h3> </strong> <br>
+                <h3 style="text-align: center;">   {{  trans('admin.cycle')  }} : {{$selected_inscription->cycle->nom}} </h3>
+                <h3 style="text-align: center;">  {{  trans('admin.special')  }} : {{$selected_inscription->classe->getNom()}} </h3>
+                <h3 style="text-align: center;">{{  trans('admin.niveauss')  }}  : {{$selected_inscription->nniveau->nom }} </h3>
+
+                <table class="table"  border="2"  style="margin-top: 15px; border: 2">
+                    <thead>
+
+                   <tr>
+                       <th rowspan="2">#</th>
+                       <th rowspan="2">{{  trans('admin.matiere')  }}</th>
+                       <td colspan="4">{{  trans('admin.semestre')  }} 1</td>
+                       <td colspan="4">{{  trans('admin.semestre')  }} 2</td>
+
+                   </tr>
+                   <tr>
+                       <th>{{  trans('admin.note_cc1')  }}</th>
+                       <th>{{  trans('admin.note_sn1')  }}</th>
+                       <th>{{  trans('admin.note_moyenne')  }}</th>
+                       <th>{{  trans('admin.note_Rattrapage1')  }}</th>
+                       <th>{{  trans('admin.note_cc2')  }}</th>
+                       <th>{{  trans('admin.note_sn2')  }}</th>
+                       <th>{{  trans('admin.note_moyenne')  }}</th>
+                       <th>{{  trans('admin.note_Rattrapage2')  }}</th>
+                   </tr>
+                    </thead>
+                    <tbody>
+                    <?php $i=1; ?>
+                    @foreach($matieres as $m)
+
+
+                        <tr>
+                            <td>{{$i++}}</td>
+                            <td>{{$m->getNom()}}</td>
+                            <td>
+                                @foreach($notes as $n)
+                                    @if($n->id_matiere == $m->id && $n->sequence == 1)
+                                        {{round($n->note / 1.5, 2)}}
+                                    @endif
+                                @endforeach
+                            </td>
+                            <td>
+                                @foreach($notes as $n)
+                                    @if($n->id_matiere == $m->id && $n->sequence == 3)
+                                        {{round($n->note / 3.5, 2)}}
+                                    @endif
+                                @endforeach
+                            </td>
+                            <td>
+
+                                    {{ $som_sn1}}
+
+
+                            </td>
+                            <td>
+                                @foreach($notes as $n)
+                                    @if($n->id_matiere == $m->id && $n->sequence == 5)
+                                        {{round($n->note / 3.5, 2)}}
+                                    @endif
+                                @endforeach
+                            </td>
+                            <td>
+                                @foreach($notes as $n)
+                                    @if($n->id_matiere == $m->id && $n->sequence == 2)
+                                        {{round($n->note / 1.5, 2)}}
+                                    @endif
+                                @endforeach
+                            </td>
+                            <td>
+                                @foreach($notes as $n)
+                                    @if($n->id_matiere == $m->id && $n->sequence == 4)
+                                        {{round($n->note / 3.5, 2)}}
+                                    @endif
+                                @endforeach
+                            </td>
+                            <td>
+                                        {{$som_sn2}}
+                            </td>
+                            <td>
+                                @foreach($notes as $n)
+                                    @if($n->id_matiere == $m->id && $n->sequence == 6)
+                                        {{round($n->note / 3.5, 2)}}
+                                    @endif
+                                @endforeach
+                            </td>
+                        </tr>
+
+                        @endforeach
+
+                    </tbody>
+                </table>
+
+            </div>
+
+
+            <div class="row" >
+                <div class="col-md-12">
+                    <div class="alert alert-danger print-error-msg" style="display: none">
+                        <ul> </ul>
+                    </div>
+                    <div class="alert alert-success print-success-msg" style="display: none">
+                        <ul> </ul>
+                    </div>
+                    @if (count($errors) > 0)
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                 </div>
 
-
             </div>
---}}
+            <!-- /. ROW  -->
 
-<div class="row" >
-    <div class="col-md-12">
-        <div class="alert alert-danger print-error-msg" style="display: none">
-            <ul> </ul>
+        @yield('content')
+        <!-- /. ROW  -->
+
+            <!-- /. ROW  -->
         </div>
-        <div class="alert alert-success print-success-msg" style="display: none">
-            <ul> </ul>
-        </div>
-        @if (count($errors) > 0)
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        <!-- /. PAGE INNER  -->
     </div>
-
-</div>
-<!-- /. ROW  -->
-
-@yield('content')
-<!-- /. ROW  -->
-
-<!-- /. ROW  -->
-</div>
-<!-- /. PAGE INNER  -->
-</div>
-<!-- /. PAGE WRAPPER  -->
+    <!-- /. PAGE WRAPPER  -->
 </div>
 
 

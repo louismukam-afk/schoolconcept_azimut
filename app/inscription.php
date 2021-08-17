@@ -39,6 +39,10 @@ class inscription extends Model {
             return $this->belongsTo(NNiveau::class,'id_nniveau');
     }
 
+    public function cycle(){
+        return $this->belongsTo(cycle::class,'id_cycle');
+    }
+
     public function eleve(){
        return $this->belongsTo(eleve::class,'id_eleve');
     }

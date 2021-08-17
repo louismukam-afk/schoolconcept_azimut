@@ -127,9 +127,11 @@ if(session('nom_etab')==null){
 
             <span class="logout-spn" >
 
-                    <a href="{{ url('/auth/logout') }}">{{  trans('admin.logout')  }}</a>
+                    <a href="{{ url('/gestion/login/etudiant/disconnect_user') }}">{{  trans('admin.logout')  }}</a>
                 </span>
-            <div ><span class="annee">{{  trans('admin.year')  }} <span>{{  session('year') }}</span></span></div>
+{{--
+            <div ><span class="annee">{{  trans('admin.year')  }} <span>{{  $selected_inscription->annee_scolaire }}</span></span></div>
+--}}
             <div class="langage ">
                 <div class="lang dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><strong style="color: white">@lang('admin.langage') :</strong> @if(App::getLocale()=='fr')Francais @else English @endif <span class="caret"></span></a>
                     <ul class="dropdown-menu navbar-inverse">
@@ -165,29 +167,54 @@ if(session('nom_etab')==null){
                 <div class="col-lg-12 ">
                                 <strong>{{trans('admin.bienvenue')}} {{$utilisateur['nom']}} ! </strong>
                     <br>
+                    <a data-toggle="modal" data-backdrop="false" href="#edit_pass" class="pull-right" style="color: #BE5C00"><span class="fa fa-lock"></span> @lang('admin.modifier_pass')</a>
+
                     <br>
+                </div>
+                <div class="row" >
+                    <div class="col-md-12">
+                        <div class="alert alert-danger print-error-msg" style="display: none">
+                            <ul> </ul>
+                        </div>
+                        <div class="alert alert-success print-success-msg" style="display: none">
+                            <ul> </ul>
+                        </div>
+                        @if (count($errors) > 0)
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                    </div>
+
                 </div>
 
 
             </div>
-
+{{--//{{ URL::to('/gestion/login/etudiant/liste').'/'.$inss->username }}--}}
             <div class="form-group">
                 <h3 style="text-align: center;"><strong>{{trans('admin.liste_ins')}}</strong></h3>
-                @foreach($annee as $inss)
-                <form accept-charset="UTF-8" role="form" method="POST" id="add_level_form" action="{{ URL::to('/gestion/login/etudiant/liste').'/'.$inss->username }}">
-                    @endforeach
+                <form accept-charset="UTF-8" role="form" method="POST" id="add_level_form" action="{{ url('/gestion/login/etudiant/liste') }}">
+
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                     <fieldset>
-                <select id="annee" name="annee" form="add_level_form" class="form-control">
+                <select id="annee" name="id_inscription" form="add_level_form" class="form-control">
 
-                    <option value="0">Choix de l'annee </option>
-                    @foreach($annee as $ins)
-                        <option value="{{$ins->annee_scolaire   }}" @if($ins->annee_scolaire == old('annee')) selected @endif>{{$ins->annee_scolaire}}</option>
+                    <option value="0" disabled>Choix de l'annee </option>
+                    @foreach($inscriptions as $ins)
+                        <option value="{{$ins->id}}" @if($ins->id == old('id_inscription')) selected @endif>{{$ins->annee_scolaire}}</option>
                     @endforeach
 
                 </select>
-                        <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
+                        <input type="hidden" name="username" value="{{$utilisateur['matricule']}}">
+                        <input type="hidden" name="id" value="{{$utilisateur['id']}}">
+                        <br>
+                        <br>
+                       <center> <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}"> </center>
                     </fieldset>
                 </form>
 
@@ -232,7 +259,7 @@ if(session('nom_etab')==null){
 </div>
 
 
-{{--<div class="modal fade" id="edit_pass">
+<div class="modal fade" id="edit_pass">
     <div class="modal-dialog">
         <div class="modal-content col-md-6">
             <div class="modal-header">
@@ -244,7 +271,7 @@ if(session('nom_etab')==null){
 
 
 
-                <form accept-charset="UTF-8" role="form" method="POST" action="#">
+                <form accept-charset="UTF-8" role="form" method="POST" action="#" id="edit_pass_form">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <fieldset>
 
@@ -280,7 +307,7 @@ if(session('nom_etab')==null){
 
 
     </div>
-</div>--}}
+</div>
 <div class="footer">
 
 
@@ -297,55 +324,60 @@ if(session('nom_etab')==null){
 <!-- JQUERY SCRIPTS -->
 
 
-{{--
-<div class="modal fade" id="choose_level">
-    <div class="modal-dialog" style="width: 20%">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">x</button>
-                <h4 class="modal-title">{{  trans('admin.remplir_champs')  }}</h4>
-            </div>
-            <div class="modal-body">
-
-
-
-                <form accept-charset="UTF-8" role="form" method="GET" id="choix_level_form" action="">
-                    <input type="hidden" name="id" id="id_select_classe" value=""/>
-                    <input type="hidden" name="option" id="option_select_classe" value=""/>
-
-                    <fieldset>
-                        <div class="form-group">
-                            <label for="cycle">{{  trans('admin.cycle')  }} : </label>
-                            <select  name="cycle" id="cycle_select_classe" form="choix_level_form" class="form-control" required>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="nniveau">{{  trans('admin.nniveau')  }} : </label>
-                            <select  name="nniveau" id="nniveau_select_classe" form="choix_level_form" class="form-control" required>
-                                <option value="" disabled>@lang('admin.select_item')</option>
-                            </select>
-                        </div>
-
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-                        <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}" autofocus>
-
-
-                    </fieldset>
-
-                </form>
-
-
-            </div>
-        </div>
-    </div>
-</div>
-
---}}
-
 
 </body>
 
 
+<script>
+    $(function () {
+        $('#submit_new_pass').click(function () {
+            //$('#edit_pass').modal('hide');
+            $.post('{{url('/user-profile/edit-password1')}}', {
+                _token: '{{ csrf_token() }}',
+                ancien_mot_de_passe: $("#ancien_mot_de_passe").val(),
+                nouveau_mot_de_passe: $("#nouveau_mot_de_passe").val(),
+                password_again: $("#password_again").val()
+            }, function (data) {
+                $(".print-success-msg").find("ul").html('');
+                $(".print-error-msg").find("ul").html('');
+                $(".print-success-msg").css('display', 'none');
+                $(".print-error-msg").css('display', 'none');
+                if (data.success)
+                    printSuccessMsg(data);
+                else {
+                    console.log(data);
+                    printErrorMsg(data);
+                }
 
+
+            });
+        });
+    })
+
+    function printErrorMsg (msg) {
+
+
+        if(msg)
+            $(".print-error-msg").css('display', 'block');
+
+        $.each(msg, function (key, value) {
+            $(".print-error-msg").find("ul").append('<li>' + value + '</li>');
+        });
+
+    }
+    function printSuccessMsg (msg) {
+
+        if(msg)
+            $(".print-success-msg").css('display', 'block');
+
+        $.each(msg, function (key, value) {
+            $(".print-success-msg").find("ul").append('<li>' + value + '</li>');
+        });
+
+    }
+
+
+
+</script>
 
 </html>

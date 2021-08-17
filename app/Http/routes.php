@@ -470,7 +470,10 @@ Route::group(['middleware'=>'auth'],function (){
 
 Route::get('/gestion/login/','gestion\EtudiantcontrollerCon@index');
 Route::post('/gestion/login/etudiant','gestion\EtudiantcontrollerCon@store');
-Route::post('/gestion/login/etudiant/liste/{username}','gestion\EtudiantcontrollerCon@liste_inscription');
+Route::get('/gestion/login/etudiant/annees','gestion\EtudiantcontrollerCon@liste_annee');
+Route::post('/gestion/login/etudiant/liste','gestion\EtudiantcontrollerCon@liste_inscription');
+Route::any('/user-profile/edit-password1','gestion\EtudiantcontrollerCon@change_password');
+Route::get('/gestion/login/etudiant/disconnect_user','gestion\EtudiantcontrollerCon@disconnect_user');
 
 
 Route::group(['middleware'=>'start'],function () {

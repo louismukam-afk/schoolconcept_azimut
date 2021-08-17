@@ -386,7 +386,24 @@ return [
     'pay_bull'=>'Bulletin de paie',
     'sortie_caisse'=>'Sortie de caisse',
     'q_del_entry' => 'Souhaitez vous supprimer cette entrée?',
-    'liste_ins'=>'Listes des années académiques dans lesquelles vous avez été inscrites'
+    'liste_ins'=>'Listes des années académiques dans lesquelles vous avez été inscrites',
+    'note_cc1'=>'Notes CC1/20',
+    'note_sn1'=>'Notes SN1/20',
+    'note_cc2'=>'Notes CC2/20',
+    'note_sn2' =>'Notes SN2/20',
+    'note_Rattrapage1'=>'rattrapage 1/20',
+    'note_Rattrapage2'=>'rattrapage 2/20',
+    'note_moyenne'=>'Moyenne/20',
+    'mgp'=>'MGP',
+   'matiere'=>'Matières',
+    'notess'=>'Listes des notes de l\'étudiant',
+    'special'=>'Spécialité',
+    "niveauss" => "Niveau",
+    "erreur_ecrit"=>'Vous devez vous connecter!!!',
+    "errorr"=>'Vous devez vous connecter!!!',
+    "invalide"=>'Le mot de passe et la confirmation doivent etre identiques',
+    "identifiant"=>'Veuillez entrer les identifiants correctes'
+
 
 
 

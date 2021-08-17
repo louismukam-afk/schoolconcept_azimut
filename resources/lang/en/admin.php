@@ -354,7 +354,6 @@ return [
     "status_edited" => "The accesses have been modified successfully",
     "error_occured" => "An error has occurred",
     "info" => "Information",
-
     "create_update" => "Create/Update",
     "create" => "Create",
     "read" => "Read",
@@ -370,7 +369,37 @@ return [
     'pay_salaire' => 'Salary payment',
     'pay_bull' => 'Pay slip',
     'sortie_caisse'=>'Cash out',
-    'q_del_entry' => 'Do you want to delete this entry?'
+    'q_del_entry' => 'Do you want to delete this entry?',
+    'note_cc1'=>'CC1 / 20 Notes',
+    'note_sn1'=>'SN1 / 20 Notes',
+    'note_cc2'=>'CC2 / 20 Notes',
+    'note_sn2' =>'SN2 / 20 Notes',
+    'note_Rattrapage1'=>'catch-up 1/20',
+    'note_Rattrapage2'=>'catch-up 2/20 ',
+    'note_moyenne'=>'Average / 20',
+    'mgp'=>'MGP',
+    'matiere'=>'Materials',
+    'notess'=>'Student grade lists',
+    'special'=>'Speciality',
+    "niveauss" => "Level",
+    'liste_ins'=>'Lists of academic years in which you have been enrolled',
+    "erreur_ecrit"=>'You must log in !!!',
+    "errorr"=>'You must log in !!!',
+    "invalide"=>'Password and confirmation must be identical',
+    "identifiant"=>'Please enter the correct credentials'
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
