@@ -12,8 +12,9 @@
          */
         body, html {
             height: auto;
-            background-repeat: no-repeat;
-            background-image:;
+        }
+        body {
+            background-color: lightgray;
         }
 
         .card-container.card {
@@ -171,7 +172,7 @@
         @endif
         <form class="form-signin" method="post" action="{{ url('/gestion/login/etudiant') }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
+            <h3 class="text-center"> @lang('admin.eleve_login')</h3>
             @if(session('eleve_login_error'))
                 <div class="alert alert-danger">
                     {{session('eleve_login_error')}}
@@ -208,7 +209,7 @@
 
             <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">{{trans('admin.login')}}</button>
         </form><!-- /form -->
-        <a href="{{url('/auth/register')}}" class="pull-right">{{trans('admin.register')}}</a>
+        <a href="{{url('/auth/login')}}" class="pull-right">{{trans('admin.staff_login')}}</a>
 
     </div><!-- /card-container -->
 </div><!-- /container -->

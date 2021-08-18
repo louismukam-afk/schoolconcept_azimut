@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInita8e744cd6ac8bb0715dcab13ed5037a3
+class ComposerStaticInit6f28543a7eaef875e2231886f7b79225
 {
     public static $files = array (
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
@@ -347,6 +347,7 @@ class ComposerStaticInita8e744cd6ac8bb0715dcab13ed5037a3
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'CreateAccesElevesTable' => __DIR__ . '/../..' . '/database/migrations/2021_07_31_170518_create_acces_eleves_table.php',
         'CreateActionsTable' => __DIR__ . '/../..' . '/database/migrations/2021_08_04_183912_create_actions_table.php',
+        'CreateEtudiantUsersTable' => __DIR__ . '/../..' . '/database/migrations/2021_08_09_195617_create_etudiant_users_table.php',
         'CreateFraisTable' => __DIR__ . '/../..' . '/database/migrations/2019_08_17_193950_create_frais_table.php',
         'CreateGroupeMatieresTable' => __DIR__ . '/../..' . '/database/migrations/2018_05_04_153612_create_groupe_matieres_table.php',
         'CreateHeureRealisesTable' => __DIR__ . '/../..' . '/database/migrations/2017_09_27_155005_create_heure_realises_table.php',
@@ -362,6 +363,7 @@ class ComposerStaticInita8e744cd6ac8bb0715dcab13ed5037a3
         'CreateSallesTable' => __DIR__ . '/../..' . '/database/migrations/2018_07_17_123019_create_salles_table.php',
         'CreateScolarite' => __DIR__ . '/../..' . '/database/migrations/2017_10_28_050011_create_scolarite.php',
         'CreateSessionTable' => __DIR__ . '/../..' . '/database/migrations/2021_07_28_200547_create_session_table.php',
+        'CreateUserForEtudiant' => __DIR__ . '/../..' . '/database/migrations/2021_08_15_124454_create_User_for_etudiant.php',
         'CreateVerrouNotesTable' => __DIR__ . '/../..' . '/database/migrations/2017_10_19_152912_create_verrou_notes_table.php',
         'Cycle' => __DIR__ . '/../..' . '/database/migrations/2017_09_26_120204_cycle.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',
@@ -854,11 +856,11 @@ class ComposerStaticInita8e744cd6ac8bb0715dcab13ed5037a3
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInita8e744cd6ac8bb0715dcab13ed5037a3::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInita8e744cd6ac8bb0715dcab13ed5037a3::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInita8e744cd6ac8bb0715dcab13ed5037a3::$fallbackDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInita8e744cd6ac8bb0715dcab13ed5037a3::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInita8e744cd6ac8bb0715dcab13ed5037a3::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit6f28543a7eaef875e2231886f7b79225::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit6f28543a7eaef875e2231886f7b79225::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInit6f28543a7eaef875e2231886f7b79225::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit6f28543a7eaef875e2231886f7b79225::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInit6f28543a7eaef875e2231886f7b79225::$classMap;
 
         }, null, ClassLoader::class);
     }

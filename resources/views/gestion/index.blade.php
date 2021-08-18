@@ -129,9 +129,8 @@ if(session('nom_etab')==null){
 
                     <a href="{{ url('/gestion/login/etudiant/disconnect_user') }}">{{  trans('admin.logout')  }}</a>
                 </span>
-{{--
-            <div ><span class="annee">{{  trans('admin.year')  }} <span>{{  $selected_inscription->annee_scolaire }}</span></span></div>
---}}
+
+
             <div class="langage ">
                 <div class="lang dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle"><strong style="color: white">@lang('admin.langage') :</strong> @if(App::getLocale()=='fr')Francais @else English @endif <span class="caret"></span></a>
                     <ul class="dropdown-menu navbar-inverse">
@@ -165,7 +164,9 @@ if(session('nom_etab')==null){
                 </ul>
                 <div style="height: 10px; background: #214761" class="action"></div>
                 <div class="col-lg-12 ">
-                                <strong>{{trans('admin.bienvenue')}} {{$utilisateur['nom']}} ! </strong>
+                                <div style="margin-top: 10px" class="alert alert-info">
+                                    <h3>{{trans('admin.bienvenue')}}<strong> {{$utilisateur['nom']}} </strong>! </h3>
+                                </div>
                     <br>
                     <a data-toggle="modal" data-backdrop="false" href="#edit_pass" class="pull-right" style="color: #BE5C00"><span class="fa fa-lock"></span> @lang('admin.modifier_pass')</a>
 
@@ -194,29 +195,29 @@ if(session('nom_etab')==null){
 
 
             </div>
-{{--//{{ URL::to('/gestion/login/etudiant/liste').'/'.$inss->username }}--}}
-            <div class="form-group">
-                <h3 style="text-align: center;"><strong>{{trans('admin.liste_ins')}}</strong></h3>
-                <form accept-charset="UTF-8" role="form" method="POST" id="add_level_form" action="{{ url('/gestion/login/etudiant/liste') }}">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <h3 style="text-align: center;"><strong>{{trans('admin.liste_ins')}}</strong></h3>
+                        <form accept-charset="UTF-8" role="form" method="POST" id="add_level_form" action="{{ url('/gestion/login/etudiant/liste') }}">
 
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-                    <fieldset>
-                <select id="annee" name="id_inscription" form="add_level_form" class="form-control">
+                            <fieldset>
+                                <select id="annee" name="id_inscription" form="add_level_form" class="form-control">
+                                    @foreach($inscriptions as $ins)
+                                        <option value="{{$ins->id}}" @if($ins->id == old('id_inscription')) selected @endif>{{$ins->annee_scolaire}} : {{$ins->classe->getNom() . ' - ' . $ins->nniveau->nom }}</option>
+                                    @endforeach
 
-                    <option value="0" disabled>Choix de l'annee </option>
-                    @foreach($inscriptions as $ins)
-                        <option value="{{$ins->id}}" @if($ins->id == old('id_inscription')) selected @endif>{{$ins->annee_scolaire}}</option>
-                    @endforeach
-
-                </select>
-                        <input type="hidden" name="username" value="{{$utilisateur['matricule']}}">
-                        <input type="hidden" name="id" value="{{$utilisateur['id']}}">
-                        <br>
-                        <br>
-                       <center> <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}"> </center>
-                    </fieldset>
-                </form>
+                                </select>
+                                <input type="hidden" name="username" value="{{$utilisateur['matricule']}}">
+                                <input type="hidden" name="id" value="{{$utilisateur['id']}}">
+                                <br>
+                                <center> <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}"> </center>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -259,7 +260,7 @@ if(session('nom_etab')==null){
 </div>
 
 
-{{--<div class="modal fade" id="edit_pass">
+<div class="modal fade" id="edit_pass">
     <div class="modal-dialog">
         <div class="modal-content col-md-6">
             <div class="modal-header">
@@ -307,7 +308,7 @@ if(session('nom_etab')==null){
 
 
     </div>
-</div>--}}
+</div>
 <div class="footer">
 
 
@@ -319,23 +320,9 @@ if(session('nom_etab')==null){
 </div>
 
 
-<!-- /. WRAPPER  -->
-<!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
-<!-- JQUERY SCRIPTS -->
 
 
-<<<<<<< HEAD
-=======
-{{--
-<div class="modal fade" id="choose_level">
-    <div class="modal-dialog" style="width: 20%">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">x</button>
-                <h4 class="modal-title">{{  trans('admin.remplir_champs')  }}</h4>
-            </div>
-            <div class="modal-body">
->>>>>>> ISSBA
+
 
 </body>
 
@@ -379,12 +366,9 @@ if(session('nom_etab')==null){
     }
     function printSuccessMsg (msg) {
 
-<<<<<<< HEAD
         if(msg)
             $(".print-success-msg").css('display', 'block');
-=======
---}}
->>>>>>> ISSBA
+
 
         $.each(msg, function (key, value) {
             $(".print-success-msg").find("ul").append('<li>' + value + '</li>');

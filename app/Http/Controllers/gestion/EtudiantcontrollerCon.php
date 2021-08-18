@@ -85,18 +85,20 @@ class EtudiantcontrollerCon extends Controller
             return redirect('/gestion/login');
 
         }
+
         $user = Etudiant_user::find(session(EtudiantcontrollerCon::ELEVE_USER_CONNECTED));
         $eleve = eleve::find($user->id_eleve);
 
-        $ins = inscription::join('etudiant_users', 'etudiant_users.id_eleve', '=', 'inscription.id_eleve')
+        $ins = inscription::with('classe', 'nniveau')->join('etudiant_users', 'etudiant_users.id_eleve', '=', 'inscription.id_eleve')
             ->where('etudiant_users.id', '=', $user->id)
             ->select('inscription.*')
             ->get();
 
+
         $this->values['inscriptions'] = $ins;
         $this->values['utilisateur'] = $eleve;
-//            dump($ins[0],$annee);
-//            die();
+        $this->values['page_title'] = trans('admin.year');
+
         return view('gestion.index', $this->values);
     }
 
@@ -126,38 +128,6 @@ class EtudiantcontrollerCon extends Controller
         $eleve = eleve::find($selected_inscription->id_eleve);
 
 
-        /*$specialite=inscription::join('etudiant_users', 'etudiant_users.id_eleve', '=', 'inscription.id_eleve')
-            ->where('etudiant_users.username','=',$username)
-           ->join('classe','classe.id','=','inscription.id_classe')
-            ->join('n_niveaus','n_niveaus.id','=','inscription.id_nniveau')
-            ->join('cycle','cycle.id','=','inscription.id_cycle')
-           ->select('n_niveaus.nom AS nom_niveau','cycle.nom AS nom_cycle','inscription.annee_scolaire','inscription.id_cycle', 'inscription.id_classe', 'inscription.id_nniveau','classe.nom')
-          ->where('inscription.id','=',$id_inscription)
-            ->get();*/
-
-        /*        $niveau=NNiveau::join('inscription','inscription.id_nniveau','=','n_niveaus.id')
-                    ->where('inscription.annee_scolaire','=',$annee)
-                    ->where('etudiant_users','etudiant_users.username','=',$username)
-                    ->select('n_niveaus.nom')
-                    ->get();
-                dump($niveau);
-                die();
-        */
-
-        /*
-                $ins2=inscription::join('note', 'inscription.id_eleve', '=', 'note.id_eleve')
-                    ->join('matiere', 'matiere.id', '=', 'note.id_matiere')
-
-                    ->join('classe_matiere','classe_matiere.id_matiere','=','matiere.id')
-                    ->where('inscription.id','=',$id_inscription)
-                    //->where('classe_matiere.id_cycle','=','inscription.id_cycle')
-                    //->where('classe_matiere.id_classe','=','inscription.id_classe')
-                    //->where('classe_matiere.id_nniveau','=','inscription.id_nniveau')
-
-                    ->select('inscription.annee_scolaire','matiere.nom','inscription.id_cycle', 'inscription.id_classe', 'inscription.id_nniveau','note.note','note.sequence')
-                    //->where('etudiant_users.annee_scolaire','=',$annee)
-                    ->where('note.annee_scolaire','=',$selected_inscription->annee_scolaire)
-                    ->get();*/
         $matieres = matiere::join('classe_matiere', 'matiere.id', '=', 'classe_matiere.id_matiere')
             ->where('classe_matiere.id_classe', '=', $selected_inscription->id_classe)
             ->where('classe_matiere.id_nniveau', '=', $selected_inscription->id_nniveau)
@@ -224,23 +194,6 @@ $som_sn1=0;
 
 
 
-       /* dump($som_sn1,$som_sn2);
-        die();*/
-
-
-
-
-
-        /*$notes_seq[]= array();
-
-
-            foreach ($ins2 as $i)
-            {
-                $notes_seq[$i->nom][$i->sequence] = $i->note;
-            }
-        unset($notes_seq[0]);
-        dump($m,$ins2,$ins2[1],$notes_seq);
-        die();*/
 
         $this->values['selected_inscription']=$selected_inscription;
         $this->values['eleve']=$eleve;
@@ -248,6 +201,7 @@ $som_sn1=0;
         $this->values['som_sn2']=$som_sn2;
         $this->values['matieres']=$matieres;
         $this->values['notes']=$notes;
+        $this->values['page_title']=trans('admin.notess');
 
 
         return view('gestion.note',$this->values);

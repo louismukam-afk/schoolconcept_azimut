@@ -203,6 +203,7 @@
 			<button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">{{trans('admin.login')}}</button>
 		</form><!-- /form -->
 		<a href="{{url('/auth/register')}}" class="pull-right">{{trans('admin.register')}}</a>
+			<a href="{{url('/gestion/login')}}" class="pull-left">{{trans('admin.eleve_login')}}</a>
 
 	</div><!-- /card-container -->
 </div><!-- /container -->

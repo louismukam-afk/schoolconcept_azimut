@@ -153,7 +153,10 @@ if(session('nom_etab')==null){
                     <h2 class="big-title">{{  session('big_title')  }}</h2>
                 </div>
             </div>
-            <a  class="btn btn-warning col-md-12" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> Imprimer</a>
+            <div class="col-md-12">
+                <a  class="btn btn-warning btn-lg" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> Imprimer</a>
+
+            </div>
             <link rel="stylesheet" href="{{URL::asset('css/certificat.css')}}">
 
             <!-- /. ROW  -->
@@ -163,10 +166,10 @@ if(session('nom_etab')==null){
 
                     @yield('breadcrumb')
                 </ul>
-                <strong><h3 style="text-align:center;"> <caption style="font-size: 22px; text-align: center">{{  trans('admin.notess')  }}  {{$eleve->nom}}</h3> </strong> <br>
-                <h3 style="text-align: center;">   {{  trans('admin.cycle')  }} : {{$selected_inscription->cycle->nom}} </h3>
-                <h3 style="text-align: center;">  {{  trans('admin.special')  }} : {{$selected_inscription->classe->getNom()}} </h3>
-                <h3 style="text-align: center;">{{  trans('admin.niveauss')  }}  : {{$selected_inscription->nniveau->nom }} </h3>
+                <h3 style="text-align:center;" > {{  trans('admin.notess')  }}  <strong> {{$eleve->nom}} </strong></h3>
+                <h4 >   <strong>{{  trans('admin.cycle')  }}</strong> : {{$selected_inscription->cycle->nom}} </h4>
+                <h4 >  <strong> {{  trans('admin.special')  }}</strong> : {{$selected_inscription->classe->getNom()}} </h4>
+                <h4 ><strong>{{  trans('admin.niveauss')  }}</strong>  : {{$selected_inscription->nniveau->nom }} </h4>
 
                 <table class="table"  border="2"  style="margin-top: 15px; border: 2">
                     <thead>
@@ -174,18 +177,16 @@ if(session('nom_etab')==null){
                    <tr>
                        <th rowspan="2">#</th>
                        <th rowspan="2">{{  trans('admin.matiere')  }}</th>
-                       <td colspan="4">{{  trans('admin.semestre')  }} 1</td>
-                       <td colspan="4">{{  trans('admin.semestre')  }} 2</td>
+                       <td colspan="3">{{  trans('admin.semestre')  }} 1</td>
+                       <td colspan="3">{{  trans('admin.semestre')  }} 2</td>
 
                    </tr>
                    <tr>
                        <th>{{  trans('admin.note_cc1')  }}</th>
                        <th>{{  trans('admin.note_sn1')  }}</th>
-                       <th>{{  trans('admin.note_moyenne')  }}</th>
                        <th>{{  trans('admin.note_Rattrapage1')  }}</th>
                        <th>{{  trans('admin.note_cc2')  }}</th>
                        <th>{{  trans('admin.note_sn2')  }}</th>
-                       <th>{{  trans('admin.note_moyenne')  }}</th>
                        <th>{{  trans('admin.note_Rattrapage2')  }}</th>
                    </tr>
                     </thead>
@@ -211,12 +212,7 @@ if(session('nom_etab')==null){
                                     @endif
                                 @endforeach
                             </td>
-                            <td>
 
-                                    {{ $som_sn1}}
-
-
-                            </td>
                             <td>
                                 @foreach($notes as $n)
                                     @if($n->id_matiere == $m->id && $n->sequence == 5)
@@ -238,9 +234,7 @@ if(session('nom_etab')==null){
                                     @endif
                                 @endforeach
                             </td>
-                            <td>
-                                        {{$som_sn2}}
-                            </td>
+
                             <td>
                                 @foreach($notes as $n)
                                     @if($n->id_matiere == $m->id && $n->sequence == 6)

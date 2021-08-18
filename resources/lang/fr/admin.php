@@ -402,7 +402,9 @@ return [
     "erreur_ecrit"=>'Vous devez vous connecter!!!',
     "errorr"=>'Vous devez vous connecter!!!',
     "invalide"=>'Le mot de passe et la confirmation doivent etre identiques',
-    "identifiant"=>'Veuillez entrer les identifiants correctes'
+    "identifiant"=>'Veuillez entrer les identifiants correctes',
+    "eleve_login"=>'Connexion étudiant',
+    "staff_login"=>'Connexion personnel',
 
 
 

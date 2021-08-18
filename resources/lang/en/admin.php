@@ -386,7 +386,11 @@ return [
     "erreur_ecrit"=>'You must log in !!!',
     "errorr"=>'You must log in !!!',
     "invalide"=>'Password and confirmation must be identical',
-    "identifiant"=>'Please enter the correct credentials'
+    "identifiant"=>'Please enter the correct credentials',
+    "eleve_login"=>'Student login',
+    "staff_login"=>'Staff login',
+
+
 
 
 
