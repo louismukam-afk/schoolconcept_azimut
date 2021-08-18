@@ -217,6 +217,13 @@ class enregistrementController extends Controller {
 	{
 		$e=eleve::find($id);
 		$p=$e->parents;
+        $ins = inscription::with('classe', 'nniveau')
+            ->where('id_eleve', '=', $e->id)
+            ->orderBy('annee_scolaire')
+            ->get();
+        $current_inscription = inscription::where('id_eleve', '=', $e->id)
+            ->where('annee_scolaire', '=', \session('year'))
+            ->first();
 		$photo=Photo::whereEleveId($id)->where('annee_scolaire','=',session('year'))->first();
         $values= array('titre'=>trans('inscription.edit_eleve'));
         if($photo!=null)
@@ -226,11 +233,15 @@ class enregistrementController extends Controller {
         }
         $values['eleve']=$e;
         $values['parents']=$p;
+        $values['inscription']=$current_inscription;
+        $values['inscriptions']=$ins;
 
         if(session('success')){
             Session::forget('success');
             $values['success']=true;
         }
+
+
         return view('inscriptions/edit_eleve',$values);
 	}
 

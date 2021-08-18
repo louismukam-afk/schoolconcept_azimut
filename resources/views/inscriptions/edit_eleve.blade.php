@@ -233,11 +233,29 @@
             <input  style="display: none;" id="submit"  class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
 
         </form>
+
     </div>
     <div class="col-md-1">
         <div id="change_eleve_editable" class="btn btn-primary btn-xs"> <span class="glyphicon glyphicon-edit"></span> @lang('admin.modifier')</div>
     </div>
 <div class="parent col-md-offset-1 col-md-5">
+
+    @if($inscription == null)
+        <h3 class="alert alert-danger">
+            @lang('inscription.pas_inscrit')
+        </h3>
+    @endif
+    @if(count($inscriptions) > 0)
+        <h3>@lang('admin.inscriptions')</h3>
+        @foreach($inscriptions as $i)
+            <ul style="list-style-type: circle">
+                <li><h4><span class="text-primary"> {{$i->annee_scolaire}} </span> : {{ $i->classe->getNom() . ' - ' . $i->nniveau->nom}}</h4></li>
+            </ul>
+        @endforeach
+
+    @endif
+
+
         <h3>{{trans('inscription.parent')}}</h3>
     @foreach($parents as $p)
         <div class="panel panel-info">
@@ -324,6 +342,6 @@
 
 @section('breadcrumb')
     <li><strong><a href="{{url('inscriptions')}}">@lang('menu.gestion_inscriptions')</a></strong></li>
-    <li><strong><a href="{{url('inscriptions/eleves/search')}}">@lang('inscription.title_search')</a></strong></li>
+    <li><strong><a href="{{url('inscriptions/find ')}}">@lang('inscription.title_search')</a></strong></li>
     <li class="active"><strong>{{$titre}}</strong></li>
 @endsection

@@ -64,13 +64,27 @@
                                     <a href="#" class=" btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></a>
                                     <ul class="dropdown-menu">
                                         <li><a style="" href="{{ URL::to('/inscriptions/eleve/status').'?id='.$e->id }}"   class="btn-default"><span class="glyphicon glyphicon-cloud-upload"></span> {{  trans('admin.status_eleve')  }}</a></li>
-                                        <li><a style="color: white" href="{{ URL::to('/inscriptions/create/').'/'.$e->id }}"   class="btn-success"><span class="glyphicon glyphicon-cloud-upload"></span> {{  trans('inscription.inscrire')  }}</a></li>
-                                        <li><a style="color: white" class="btn-primary"   href="{{ URL::to('/inscriptions/print-certificate/').'/'.$e->id }}"><span class="fa fa-file-text-o"></span> {{  trans('admin.certificat_scolarite')  }}</a></li>
-                                        <li><a href="{{URL::to('/inscriptions/payement/create/'.$e->id)}}" style="color: white" class="btn-success" ><span class="fa fa-money"></span> {{trans('inscription.add_payement')}}</a></li>
-                                        <li><a href="{{URL::to('/inscriptions/payement/create-frais/'.$e->id)}}" style="color: white" class="btn-primary" ><span class="fa fa-money"></span> {{trans('admin.paiement_frais')}}</a></li>
-                                        <li><a href="{{ URL::to('/inscriptions/payement/list/'.$e->id)}}"  style="color: white" class="btn-warning"><span class="glyphicon glyphicon-list"></span> {{  trans('inscription.liste_paiement')  }}</a></li>
+                                        @if(Auth::user()->canDoAction(\gesecole\Action::ACTION_REGISTRATION_SUBSCRIPTION_CREATE))
+                                            <li><a style="color: white" href="{{ URL::to('/inscriptions/create/').'/'.$e->id }}"   class="btn-success"><span class="glyphicon glyphicon-cloud-upload"></span> {{  trans('inscription.inscrire')  }}</a></li>
+                                        @endif
+                                        @if(Auth::user()->canDoAction(\gesecole\Action::ACTION_REGISTRATION_SUBSCRIPTION_CERTIFICATE))
+                                            <li><a style="color: white" class="btn-primary"   href="{{ URL::to('/inscriptions/print-certificate/').'/'.$e->id }}"><span class="fa fa-file-text-o"></span> {{  trans('admin.certificat_scolarite')  }}</a></li>
+                                        @endif
+
+
+                                        @if(Auth::user()->canDoAction(\gesecole\Action::ACTION_REGISTRATION_SUBSCRIPTION_PAYMENT_CREATE))
+                                            <li><a href="{{URL::to('/inscriptions/payement/create/'.$e->id)}}" style="color: white" class="btn-success" ><span class="fa fa-money"></span> {{trans('inscription.add_payement')}}</a></li>
+                                            <li><a href="{{URL::to('/inscriptions/payement/create-frais/'.$e->id)}}" style="color: white" class="btn-primary" ><span class="fa fa-money"></span> {{trans('admin.paiement_frais')}}</a></li>
+                                        @endif
+
+                                        @if(Auth::user()->canDoAction(\gesecole\Action::ACTION_REGISTRATION_SUBSCRIPTION_PAYMENT))
+                                            <li><a href="{{ URL::to('/inscriptions/payement/list/'.$e->id)}}"  style="color: white" class="btn-warning"><span class="glyphicon glyphicon-list"></span> {{  trans('inscription.liste_paiement')  }}</a></li>
+                                        @endif
+
                                         <li><a style="color: white" class="btn-primary"  data-toggle="modal" data-backdrop="false" href="{{URL::to('/inscriptions/enregistrement/edit/'.$e->id)}}"><span class="glyphicon glyphicon-pencil"  ></span> {{  trans('admin.see_edit')  }}</a></li>
-                                        <li><a style="color: white" class="btn-danger"   href="#" onclick="fill_delete_modal({{$e->id}}, '{{ route('destroy_eleve',$e->id) }}', null, '@lang('admin.confirm_delete_student')')"><span class="glyphicon glyphicon-trash"></span> {{  trans('admin.del')  }}</a></li>
+                                        @if(Auth::user()->canDoAction(\gesecole\Action::ACTION_ADMIN_STUDENT_DELETE))
+                                            <li><a style="color: white" class="btn-danger"   href="#" onclick="fill_delete_modal({{$e->id}}, '{{ route('destroy_eleve',$e->id) }}', null, '@lang('admin.confirm_delete_student')')"><span class="glyphicon glyphicon-trash"></span> {{  trans('admin.del')  }}</a></li>
+                                        @endif
                                     </ul>
                                 </div>
                         </tr>
