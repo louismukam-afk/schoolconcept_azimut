@@ -81,6 +81,24 @@ class inscriptionController extends Controller {
         return view('inscriptions/eleve_operations',$values);
     }
 
+    public function find_inscription(Request $req)
+    {
+        $pattern=$req->input('search');
+        $e=DB::table('eleve')->whereRaw('lower(nom) LIKE ?',['%'.strtolower($pattern).'%'] )
+
+            ->orWhereRaw('lower(prenom) LIKE ?',['%'.strtolower($pattern).'%'])
+            ->orWhereRaw('lower(matricule) LIKE ?',['%'.strtolower($pattern).'%'])
+            ->orderBy('nom')->orderBy('prenom')
+            ->paginate(30);
+        //$e=DB::table('eleve')->whereRaw("nom LIKE '%?%' or prenom LIKE '%?%' or matricule LIKE '%?%'",[$pattern,$pattern,$pattern])->get();
+        //$e=eleve::whereRaw("nom LIKE '%?%' or prenom LIKE '%?%' or matricule LIKE '%?%'",[$pattern,$pattern,$pattern]);
+        $values= array('titre'=>trans('inscription.title_search_register'));
+        $values['eleves']=$e;
+        //session(['search_result'=>true]);
+
+        return view('inscriptions/search_inscription',$values);
+    }
+
 
 	public function create($id_eleve)
 	{

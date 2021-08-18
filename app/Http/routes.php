@@ -207,6 +207,7 @@ Route::group(['middleware'=>'auth'],function (){
                 Route::get('/inscriptions/new', 'inscriptions\inscriptionController@search');
                 Route::get('/inscriptions/eleves/search', 'inscriptions\enregistrementController@index');
                 Route::get('/inscriptions/find', 'inscriptions\inscriptionController@find');
+                Route::get('/inscriptions/find-inscription', 'inscriptions\inscriptionController@find_inscription');
                 Route::get('/inscriptions/payement/', 'inscriptions\payementController@index');
                 Route::get('/inscriptions/payement/search', 'inscriptions\payementController@search');
                 Route::get('/inscriptions/enregistrement/edit/{id}', 'inscriptions\enregistrementController@edit');

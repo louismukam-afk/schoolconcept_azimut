@@ -18,6 +18,28 @@
 
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
             <div class="div-square">
+                <a href="{{URL::to('/inscriptions/find-inscription')}}" >
+                    <i class="fa fa-user fa-5x"></i>
+                    <h4 style="overflow-wrap: anywhere">{{trans('inscription.title_inscription')}}</h4>
+                </a>
+            </div>
+
+
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+            <div class="div-square">
+                <a href="{{URL::to('/inscriptions/payement/')}}" >
+                    <i class="fa fa-money fa-5x"></i>
+                    <h4>{{trans('inscription.title_paiement')}}</h4>
+                </a>
+            </div>
+
+
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+            <div class="div-square">
                 <a href="{{URL::to('/inscriptions/find')}}" >
                     <i class="fa fa-user fa-5x"></i>
                     <h4 style="overflow-wrap: anywhere">{{trans('admin.op_eleve')}}</h4>
@@ -37,27 +59,7 @@
 
 
         </div>-->
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-            <div class="div-square">
-                <a href="{{URL::to('/inscriptions/selection-listes/')}}" >
-                    <i class="fa fa-list-alt fa-5x"></i>
-                    <h4>{{trans('inscription.listes')}}</h4>
-                </a>
-            </div>
 
-
-        </div>
-
-        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
-            <div class="div-square">
-                <a href="{{URL::to('/select/classe').'?url='.URL::to('/inscriptions/photos')}}" >
-                    <i class="fa fa-image fa-5x"></i>
-                    <h4>{{trans('admin.add_photo_to').' '.trans('inscription.eleve')}}</h4>
-                </a>
-            </div>
-
-
-        </div>
 
 
 
@@ -75,7 +77,27 @@
 
         </div>-->
 
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                <div class="div-square">
+                    <a href="{{URL::to('/inscriptions/selection-listes/')}}" >
+                        <i class="fa fa-list-alt fa-5x"></i>
+                        <h4>{{trans('inscription.listes')}}</h4>
+                    </a>
+                </div>
 
+
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+                <div class="div-square">
+                    <a href="{{URL::to('/select/classe').'?url='.URL::to('/inscriptions/photos')}}" >
+                        <i class="fa fa-image fa-5x"></i>
+                        <h4>{{trans('admin.add_photo_to').' '.trans('inscription.eleve')}}</h4>
+                    </a>
+                </div>
+
+
+            </div>
 
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
             <div class="div-square">
@@ -112,13 +134,7 @@
                         <li><strong><a href="{{URL::to('/select/classe').'?url='.route('show_carte')}}">@lang('admin.selectionner_classe')</a></strong></li>
                         <li><strong><a href="{{route('show_carte_eleve')}}">@lang('admin.selectionner_eleve')</a></strong></li>
                     </ul>
-
                 </div>
-
-
-
-
-
             </div>
 
 

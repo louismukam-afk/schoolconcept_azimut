@@ -54,9 +54,14 @@
                             <div class="btn-group">
                                 <a href="#" class=" btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="{{URL::to('/inscriptions/payement/create/'.$e->id)}}" style="color: white" class=" btn btn-success" ><span class="fa fa-money"></span> {{trans('inscription.add_payement')}}</a></li>
-                                    <li><a href="{{URL::to('/inscriptions/payement/create-frais/'.$e->id)}}" style="color: white" class=" btn btn-primary" ><span class="fa fa-money"></span> {{trans('admin.paiement_frais')}}</a></li>
-                                    <li><a href="{{ URL::to('/inscriptions/payement/list/'.$e->id)}}"  style="color: white" class="btn btn-warning"><span class="glyphicon glyphicon-list"></span> {{  trans('inscription.liste_paiement')  }}</a></li>
+                                    @if(Auth::user()->canDoAction(\gesecole\Action::ACTION_REGISTRATION_SUBSCRIPTION_PAYMENT_CREATE))
+                                        <li><a href="{{URL::to('/inscriptions/payement/create/'.$e->id)}}" style="color: white" class="btn-success" ><span class="fa fa-money"></span> {{trans('inscription.add_payement')}}</a></li>
+                                        <li><a href="{{URL::to('/inscriptions/payement/create-frais/'.$e->id)}}" style="color: white" class="btn-primary" ><span class="fa fa-money"></span> {{trans('admin.paiement_frais')}}</a></li>
+                                    @endif
+
+                                    @if(Auth::user()->canDoAction(\gesecole\Action::ACTION_REGISTRATION_SUBSCRIPTION_PAYMENT))
+                                        <li><a href="{{ URL::to('/inscriptions/payement/list/'.$e->id)}}"  style="color: white" class="btn-warning"><span class="glyphicon glyphicon-list"></span> {{  trans('inscription.liste_paiement')  }}</a></li>
+                                    @endif
                                 </ul>
                             </div>
 
