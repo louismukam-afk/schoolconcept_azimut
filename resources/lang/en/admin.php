@@ -389,47 +389,10 @@ return [
     "identifiant"=>'Please enter the correct credentials',
     "eleve_login"=>'Student login',
     "staff_login"=>'Staff login',
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    "abb_name"=>'Abbreviated name',
+    "nee_a" => "Born at",
+    "le" => "The",
+    "filiere" => "Sector",
 
 
 

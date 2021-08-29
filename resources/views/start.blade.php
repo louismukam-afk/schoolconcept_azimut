@@ -50,6 +50,12 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label>{{  trans('admin.abb_name')  }} : </label>
+                                    <input class="form-control"  name="nom_abb" type="text"  value="{{ old('nom_abb') }}">
+
+                                </div>
+
+                                <div class="form-group">
                                     <label>{{  trans('admin.nom_directeur')  }} : <span class="required">*</span></label>
                                     <input class="form-control"  name="nom_directeur" type="text"  value="{{ old('nom_directeur') }}"   required>
 

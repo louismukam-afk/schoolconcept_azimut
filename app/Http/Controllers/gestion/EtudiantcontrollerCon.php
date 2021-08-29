@@ -132,7 +132,7 @@ class EtudiantcontrollerCon extends Controller
             ->where('classe_matiere.id_classe', '=', $selected_inscription->id_classe)
             ->where('classe_matiere.id_nniveau', '=', $selected_inscription->id_nniveau)
             ->where('classe_matiere.id_cycle', '=', $selected_inscription->id_cycle)
-            ->select('matiere.*')
+            ->select('matiere.*', 'classe_matiere.coef')
             ->orderBy(App::getLocale() == 'en' ? 'matiere.nom_anglais' : 'matiere.nom')
             ->get();
 
@@ -143,62 +143,12 @@ class EtudiantcontrollerCon extends Controller
             ->get();
 
 
-       $s1=0;
-       $s2=0;
-       $s3=0;
-       $s4=0;
-$som_sn2=0;
-$som_sn1=0;
-
-       foreach ($matieres as $matiere) {
-           $i = 0;
-           $i1=0;
-           $i2=0;
-           $i3=0; $i4=0;
-
-           foreach ($notes as $note) {
-
-               if ($matiere->id == $note->id_matiere) {
-                   if ($note->sequence == 1) {
-                       $s1 = $note->note;
-                       $i++;
-                   }
-
-               if ($matiere->id == $note->id_matiere) {
-                   if ($note->sequence == 3) {
-                       $s2 = $note->note;
-                       $i1++;
-                   }
-
-               if ($matiere->id == $note->id_matiere) {
-                   if ($note->sequence == 2) {
-                       $s3 = $note->note;
-                       $i2++;
-                   }
-
-               if ($matiere->id == $note->id_matiere) {
-                   if ($note->sequence == 4) {
-                       $s4 = $note->note;
-                       $i3++;
-                   }
-               }
-           }}}
-                $som_sn1 = round($s1 + $s2)/5;
-                $som_sn2 = round($s3 + $s4)/5;
-              $i4++;
-
-            }
-
-
-        }
-
 
 
 
         $this->values['selected_inscription']=$selected_inscription;
         $this->values['eleve']=$eleve;
-        $this->values['som_sn1']=$som_sn1;
-        $this->values['som_sn2']=$som_sn2;
+
         $this->values['matieres']=$matieres;
         $this->values['notes']=$notes;
         $this->values['page_title']=trans('admin.notess');

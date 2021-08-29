@@ -53,6 +53,7 @@ class startController extends Controller {
         ]);
 
 		$nom_e=parametres::firstOrNew(['nom'=>'nom_etablissement']);
+		$nom_abb=parametres::firstOrNew(['nom'=>'nom_abbrege']);
 		$nom_d=parametres::firstOrNew(['nom'=>'nom_directeur']);
         $annee=parametres::firstOrNew(['nom'=>'annee_scolaire']);
         $initiales=parametres::firstOrNew(['nom'=>'initiales_etablissement']);
@@ -61,6 +62,9 @@ class startController extends Controller {
 
         $nom_e->valeur=$request->input('nom');
         $nom_e->save();
+
+        $nom_abb->valeur=$request->input('nom_abb');
+        $nom_abb->save();
 
         $nom_d->valeur=$request->input('nom_directeur');
         $nom_d->save();

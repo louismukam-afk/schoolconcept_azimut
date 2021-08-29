@@ -405,6 +405,9 @@ return [
     "identifiant"=>'Veuillez entrer les identifiants correctes',
     "eleve_login"=>'Connexion étudiant',
     "staff_login"=>'Connexion personnel',
+    "abb_name"=>'Nom abbrégé',
+    "nee_a" => "Né(e) à",
+    "le" => "Le",
 
 
 

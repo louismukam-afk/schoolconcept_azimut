@@ -157,6 +157,9 @@ class photosController extends Controller {
         $divisor=10;
         $values= array('titre'=>trans_choice('admin.carte_e',2));
 
+        $nom_e=parametres::where('nom','=','nom_etablissement')->first()->valeur;
+        $nom_abb=parametres::where('nom','=','nom_abbrege')->first()->valeur;
+
         if($eleve!=null)
         {
             $i=inscription::whereAnneeScolaire(session('year'))->where('id_eleve','=',$eleve)->first();
@@ -188,9 +191,7 @@ class photosController extends Controller {
                 ->whereIn('eleve_id',$id_e)
                 ->get()
             ;
-            $pa=parametres::all();
-            $nom_e=$pa->where('nom','nom_etablissement',false)->first()->valeur;
-            $n=0;
+           $n=0;
             $div=($e->count()/$divisor);
             if($div>intval($div))
             {
@@ -204,6 +205,7 @@ class photosController extends Controller {
 
             $values['eleves']=$e;
             $values['nom_e']=$nom_e;
+            $values['nom_abb']=$nom_abb;
             $values['n']=$n;
             $values['photos']=$po;
             $values['classe']=$classe;
@@ -239,8 +241,6 @@ class photosController extends Controller {
                 ->whereIn('eleve_id',$id_e)
                 ->get()
             ;
-            $pa=parametres::all();
-            $nom_e=$pa->where('nom','nom_etablissement',false)->first()->valeur;
             $n=0;
             $div=($e->count()/$divisor);
             if($div>intval($div))
@@ -255,6 +255,7 @@ class photosController extends Controller {
 
             $values['eleves']=$e;
             $values['nom_e']=$nom_e;
+            $values['nom_abb']=$nom_abb;
             $values['n']=$n;
             $values['photos']=$po;
             $values['classe']=$classe;

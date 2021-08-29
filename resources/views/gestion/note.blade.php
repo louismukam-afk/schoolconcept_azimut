@@ -177,7 +177,7 @@ if(session('nom_etab')==null){
                    <tr>
                        <th rowspan="2">#</th>
                        <th rowspan="2">{{  trans('admin.matiere')  }}</th>
-                       <td colspan="3">{{  trans('admin.semestre')  }} 1</td>
+                       <td colspan="3">{{  trans('admin.semestre')  }} </td>
                        <td colspan="3">{{  trans('admin.semestre')  }} 2</td>
 
                    </tr>
@@ -197,7 +197,7 @@ if(session('nom_etab')==null){
 
                         <tr>
                             <td>{{$i++}}</td>
-                            <td>{{$m->getNom()}}</td>
+                            <td><strong>{{$m->getNom()}}</strong></td>
                             <td>
                                 @foreach($notes as $n)
                                     @if($n->id_matiere == $m->id && $n->sequence == 1)
@@ -243,6 +243,7 @@ if(session('nom_etab')==null){
                                 @endforeach
                             </td>
                         </tr>
+
 
                         @endforeach
 

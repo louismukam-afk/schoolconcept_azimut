@@ -53,7 +53,7 @@
     background-color: white;
     position: absolute;
     bottom: 2mm;
-    left: 2mm;
+    right: 4mm;
 
 }
 .qrcode-container img {
@@ -96,7 +96,7 @@
 }
 
 
-.card-header .school span
+.card-header .school .element
 {
     color: white !important;
 }
@@ -175,7 +175,7 @@
 }
 .fait-le .field-title
 {
-    color: #2c3e50 !important;
+    color: black !important;
     font-weight: 600;
     font-size: 8px;
 
@@ -331,7 +331,7 @@
         position: absolute;
         bottom: 2mm;
         padding: 0;
-        left: 2mm;
+        right: 4mm;
 
     }
     .qrcode-container img {
@@ -371,7 +371,7 @@
         align-items: center;
     }
 
-    .card-header .school span
+    .card-header .school .element
     {
         color: white !important;
     }

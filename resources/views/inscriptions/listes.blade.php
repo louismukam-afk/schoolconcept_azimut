@@ -8,7 +8,7 @@
     </div>
     <link rel="stylesheet" media="print" href="{{URL::asset('css/print_table.css')}}">
 
-    @if(Auth::user()->canDoAction(\gesecole\Action::ACTION_ADMIN_STUDENT_REGISTRATION_STATUS_UPDATE))
+    @if(\Auth::user()->canDoAction(\gesecole\Action::ACTION_ADMIN_STUDENT_REGISTRATION_STATUS_UPDATE))
         <div class="row hide-in-print">
             <div class="col-md-12" style="margin-top: 10px">
                 <div class="btn-group">

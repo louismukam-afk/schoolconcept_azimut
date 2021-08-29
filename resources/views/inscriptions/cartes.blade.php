@@ -30,7 +30,10 @@
                                         <div class="logo">
                                         </div>
                                         <div class="school text-uppercase">
-                                            <span>{{$nom_e}}</span>
+                                            <span>
+                                                <div class="element">{{$nom_abb}}</div>
+                                                <div class="element" style="font-size: 8px">{{trans('admin.year'). ' ' . session('year')}}</div>
+                                            </span>
                                         </div>
                                     </div>
 
@@ -41,23 +44,23 @@
                                         <div class="filigrane"></div>
                                         <div class="card-infos">
                                             <div class="infos-group text-uppercase">
-                                                <div class="field-title">Matricule</div>
+                                                <div class="field-title">{{trans('admin.matricule')}}</div>
                                                 <div>{{$e->matricule}}</div>
                                             </div>
                                             <div class="infos-group text-uppercase">
-                                                <div class="field-title ">Nom</div>
+                                                <div class="field-title ">{{trans('inscription.nom')}}</div>
                                                 <div>{{$e->nom.' '.$e->prenom}}</div>
                                             </div>
                                             <div class="infos-group text-uppercase">
-                                                <div class="field-title ">Né(e) à</div>
-                                                <div>{{$e->lieu_naiss.', le '.(new DateTime($e->date_naiss))->format('d/m/Y')}}</div>
+                                                <div class="field-title ">{{trans('admin.nee_a')}}</div>
+                                                <div>{{$e->lieu_naiss.', ' . trans('admin.le') . ' ' .(new DateTime($e->date_naiss))->format('d/m/Y')}}</div>
                                             </div>
                                             <div class="infos-group text-uppercase">
-                                                <div class="field-title">Filiere</div>
+                                                <div class="field-title">{{trans('admin.filiere')}}</div>
                                                 <div>{{$niveau->nom}}</div>
                                             </div>
                                             <div class="infos-group text-uppercase">
-                                                <div class="field-title">Option</div>
+                                                <div class="field-title">{{trans('admin.classe')}}</div>
                                                 <div>{{$classe->nom}} - {{$nniveau->nom}}</div>
                                             </div>
 
@@ -89,7 +92,7 @@
 
                                         </div>
                                         <div class="text-uppercase fait-le">
-                                            <div class="field-title ">Fait le {{date('d/m/Y')}}</div>
+                                            <div class="field-title "><span class="fa fa-facebook-square"></span> Institut Supérieur Issba</div>
                                         </div>
                                     </div>
                                 </div>
@@ -110,7 +113,10 @@
                                         <div class="logo">
                                         </div>
                                         <div class="school text-uppercase">
-                                            <span>{{$nom_e}}</span>
+                                             <span>
+                                                <div class="element">{{$nom_abb}}</div>
+                                                <div class="element" style="font-size: 8px">{{trans('admin.year'). ' ' . session('year')}}</div>
+                                            </span>
                                         </div>
                                     </div>
 
@@ -121,23 +127,23 @@
                                         <div class="filigrane"></div>
                                         <div class="card-infos">
                                             <div class="infos-group text-uppercase">
-                                                <div class="field-title">Matricule</div>
+                                                <div class="field-title">{{trans('admin.matricule')}}</div>
                                                 <div>{{$e->matricule}}</div>
                                             </div>
                                             <div class="infos-group text-uppercase">
-                                                <div class="field-title ">Nom</div>
+                                                <div class="field-title ">{{trans('admin.nom')}}</div>
                                                 <div>{{$e->nom.' '.$e->prenom}}</div>
                                             </div>
                                             <div class="infos-group text-uppercase">
-                                                <div class="field-title ">Né(e) à</div>
-                                                <div>{{$e->lieu_naiss.', le '.(new DateTime($e->date_naiss))->format('d/m/Y')}}</div>
+                                                <div class="field-title ">{{trans('admin.nee_a')}}</div>
+                                                <div>{{$e->lieu_naiss.', ' . trans('admin.le') . ' ' .(new DateTime($e->date_naiss))->format('d/m/Y')}}</div>
                                             </div>
                                             <div class="infos-group text-uppercase">
-                                                <div class="field-title">Filiere</div>
+                                                <div class="field-title">{{trans('admin.filiere')}}</div>
                                                 <div>{{$niveau->nom}}</div>
                                             </div>
                                             <div class="infos-group text-uppercase">
-                                                <div class="field-title">Option</div>
+                                                <div class="field-title">{{trans('admin.classe')}}</div>
                                                 <div>{{$classe->nom}} - {{$nniveau->nom}}</div>
                                             </div>
 
@@ -167,7 +173,7 @@
                                             </div>
                                         </div>
                                         <div class="text-uppercase fait-le">
-                                            <div class="field-title ">Fait le {{date('d/m/Y')}}</div>
+                                            <div class="field-title "><span class="fa fa-facebook-square"></span> Institut Supérieur Issba</div>
                                         </div>
                                     </div>
                                 </div>
