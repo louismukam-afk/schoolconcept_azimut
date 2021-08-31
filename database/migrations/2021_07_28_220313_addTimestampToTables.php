@@ -12,7 +12,7 @@ class AddTimestampToTables extends Migration {
 	 */
 	public function up()
 	{
-        Schema::table('classe', function(Blueprint $table)
+       /* Schema::table('classe', function(Blueprint $table)
         {
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
@@ -129,6 +129,7 @@ class AddTimestampToTables extends Migration {
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
+       */
 
         Schema::table('payement', function(Blueprint $table)
         {

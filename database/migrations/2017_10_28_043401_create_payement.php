@@ -21,6 +21,12 @@ class CreatePayement extends Migration {
 			$table->float('montant');
 			$table->string('motif',1000);
 			$table->string('numero',20)->nullable();
+            $table->string('mode_paye');
+            $table->string('ref_versement');
+            $table->integer('id_inscription')->default(0);
+            $table->string('motif1',1000);
+            $table->string('lettre');
+            $table->integer('type')->default(0);
 		});
 	}
 

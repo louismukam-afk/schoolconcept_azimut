@@ -1,0 +1,177 @@
+
+/*=============================================================
+    Authour URI: www.binarycart.com
+    License: Commons Attribution 3.0
+
+    http://creativecommons.org/licenses/by/3.0/
+
+    100% To use For Personal And Commercial Use.
+    IN EXCHANGE JUST GIVE US CREDITS AND TELL YOUR FRIENDS ABOUT US
+   
+    ========================================================  */
+
+/* cyrillic-ext */
+@font-face { font-family: open-sans;
+    font-weight: 400;
+    font-style: normal;
+    src: url('../fonts/open-sans.regular.ttf'); }
+/*==============================================
+    GENERAL  STYLES    
+    =============================================*/
+
+@page  {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+p
+{
+    margin: 0;
+}
+
+
+
+.traduction
+{
+    -webkit-print-color-adjust:exact;
+    font-size: 10px !important;
+    color: grey !important;
+    margin-left: 5px;
+}
+
+.titre
+{
+    margin-top: 30px;
+    text-align: center;
+}
+
+table{
+    font-size: 10px;
+}
+.classe{
+    margin-top: 10px;
+    position: relative;
+}
+.filiere
+{
+    position: absolute;
+    right:0;
+}
+
+.specialite
+{
+    position: absolute;
+}
+.table{
+    position: relative;
+    margin-top: 70px;
+    width: 100%;
+    height: auto;
+    border-collapse: collapse;
+}
+.table tbody tr,.table tbody td{
+    padding: 0;
+    height: 12px;
+    line-height: 12px;
+}
+
+.mat-column{
+    width: 100px;
+}
+.note-column
+{
+    width: 80px;
+    text-align: right;
+}
+.number-column{
+    width: 30px;
+}
+
+
+@media print {
+    @page  {
+        margin-top: 2%;
+        margin-bottom: 2%;
+        margin-left: 2%;
+        margin-right: 2%;
+    }
+
+    .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.copy
+    {
+        display: none;
+    }
+
+
+    .traduction
+    {
+        -webkit-print-color-adjust:exact;
+        font-size: 10px !important;
+        color: grey !important;
+        margin-left: 5px;
+
+    }
+
+    p
+    {
+        padding: 0;
+        margin: 0;
+    }
+
+
+    .titre
+    {
+        margin-top: 10mm;
+        text-align: center;
+    }
+
+    .classe{
+        margin-top: 10px;
+        position: relative;
+    }
+
+    .specialite
+    {
+        position: absolute;
+    }
+
+    .filiere
+    {
+        position: absolute;
+        right:0;
+    }
+
+    .table{
+        position: relative;
+    }
+
+
+    table{
+        font-size: 10px;
+        width: 100%;
+        border-collapse: collapse;
+        height: auto;
+    }
+    .mat-column{
+        width: 100px;
+    }
+    .note-column
+    {
+        width: 80px;
+        text-align: right;
+    }
+    .number-column{
+        width: 30px;
+    }
+
+    .table tbody tr,.table tbody tr td{
+        padding-top: 0;
+        padding-bottom: 0;
+        height: 12px;
+
+    }
+
+
+
+}
+

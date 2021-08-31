@@ -22,6 +22,9 @@ class Inscription extends Migration {
 			$table->integer('id_cycle');
 			$table->float('montant');
 			$table->integer('id_nniveau')->default(0);
+            $table->string('mode_paye');
+            $table->string('ref_versement');
+            $table->string('lettre');
 
         });
 	}
