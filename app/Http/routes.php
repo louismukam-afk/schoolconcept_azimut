@@ -14,7 +14,7 @@
 use \gesecole\Action;
 
 
-
+//allo
 
 Route::group(['middleware'=>'auth'],function (){
     Route::group(['middleware'=>'dc'],function (){
