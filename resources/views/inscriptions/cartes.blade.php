@@ -29,9 +29,9 @@
                                     <div class="card-header">
                                         <div class="logo">
                                         </div>
-                                        <div class="school text-uppercase">
+                                        <div class="school text-uppercase" style="text-align: center !important; margin-left: 10%;">
                                             <span>
-                                                <div class="element">{{$nom_abb}}</div>
+                                                <div class="element">{{$nom_e}}</div>
                                                 <div class="element" style="font-size: 8px">{{trans('admin.year'). ' ' . session('year')}}</div>
                                             </span>
                                         </div>
@@ -80,10 +80,10 @@
                                                 <img src="{{asset($url)}}" alt="">
                                             </div>
                                             <div class="card-sign text-uppercase">
-                                                @lang('admin.ledirect')
+                                                La Direction
                                             </div>
                                             <div class="sign">
-                                                <img src="{{asset('/img/signature.png')}}" alt="">
+                                              <!--  <img src="{{asset('/img/signature.png')}}" alt="">-->
 
                                             </div>
                                             <div class="cachet">
@@ -92,7 +92,7 @@
 
                                         </div>
                                         <div class="text-uppercase fait-le">
-                                            <div class="field-title "><span class="fa fa-facebook-square"></span> Institut Supérieur Issba</div>
+                                            <div class="field-title "><span class="fa fa-facebook-square"></span>Institut Supérieur hintel</div>
                                         </div>
                                     </div>
                                 </div>
@@ -112,9 +112,9 @@
                                     <div class="card-header">
                                         <div class="logo">
                                         </div>
-                                        <div class="school text-uppercase">
+                                        <div class="school text-uppercase"  style="text-align: center !important; margin-left: 10%;">
                                              <span>
-                                                <div class="element">{{$nom_abb}}</div>
+                                                <div class="element">{{$nom_e}}</div>
                                                 <div class="element" style="font-size: 8px">{{trans('admin.year'). ' ' . session('year')}}</div>
                                             </span>
                                         </div>
@@ -163,17 +163,17 @@
                                                 <img src="{{asset($url)}}" alt="">
                                             </div>
                                             <div class="card-sign text-uppercase">
-                                                @lang('admin.ledirect')
+                                                La Direction
                                             </div>
                                              <div class="sign">
-                                                <img src="{{asset('/img/signature.png')}}" alt="">
+                                             <!-- <img src="{{asset('/img/signature.png')}}" alt=""> -->
                                             </div>
                                             <div class="cachet">
                                                  <img src="{{asset('/img/cachet.png')}}" alt="">
                                             </div>
                                         </div>
                                         <div class="text-uppercase fait-le">
-                                            <div class="field-title "><span class="fa fa-facebook-square"></span> Institut Supérieur Issba</div>
+                                            <div class="field-title "><span class="fa fa-facebook-square"></span> Institut Supérieur hintel</div>
                                         </div>
                                     </div>
                                 </div>
@@ -195,22 +195,23 @@
                 @for($j=0; $j<5; $j++)
 
                     <div class="row card-row">
+					   @if(isset($eleves[$k1]))
+                                <?php $e=$eleves[$k1] ?>
 
-                        @if(isset($eleves[$k1]))
-                            <?php $e=$eleves[$k1] ?>
-                            <div class="card-e card-back left">
+                            <div class="card-e card-back right">
                                     <div class="qrcode-container">
                                         <img class="qrcode" src="data:image/png;base64, {!! base64_encode(\QrCode::format('png')->errorCorrection('H')->size(200)->generate($e->id)) !!}" />
                                     </div>
                             </div>
                         @endif
 
+                      
+
                         <?php $k1++ ?>
 
-                        @if(isset($eleves[$k1]))
-                                <?php $e=$eleves[$k1] ?>
-
-                            <div class="card-e card-back right">
+                       @if(isset($eleves[$k1]))
+                            <?php $e=$eleves[$k1] ?>
+                            <div class="card-e card-back left">
                                     <div class="qrcode-container">
                                         <img class="qrcode" src="data:image/png;base64, {!! base64_encode(\QrCode::format('png')->errorCorrection('H')->size(200)->generate($e->id)) !!}" />
                                     </div>

@@ -59,7 +59,8 @@
                 <th class="center-cell back-green" rowspan="3">{{  trans('admin.nom_prenom')  }}</th>
                 <th class="center-cell back-green text-uppercase" colspan="{{count($frais) + 1}}">{{trans('admin.modalite_inscription')}}</th>
                 <th class="center-cell back-green text-uppercase border-left-bold   " colspan="{{$maxNbVersements + 1}}">{{trans('admin.schoolfees')}}</th>
-                <th class="center-cell back-green" rowspan="3">@lang('admin.observations')</th>
+                <th class="center-cell back-green" rowspan="3">@lang('admin.total')</th>
+                <th class="center-cell back-green" rowspan="3">@lang('admin.reste')</th>
             </tr>
             <tr>
                 <th class="center-cell">INS</th>
@@ -70,14 +71,14 @@
 
                     @for ($i = 0; $i < $maxNbVersements; $i++)
                         <th class="center-cell" rowspan="2"> <div>{{($i + 1).getIeme(($i + 1))}}</div><div>@lang('admin.versement')</div></th>
-
                     @endfor
 
             </tr>
             <tr>
-                <th class="center-cell">{{$scolarite->inscription}}</th>
+
+                <th class="center-cell">{{$scolarite_ancien->inscription . ($scolarite_nouveau ? '/'.$scolarite_nouveau->inscription : '')}}</th>
                 @foreach($frais as $f)
-                    <th class="center-cell"> {{$f->montant}} </th>
+                    <th class="center-cell"> @if($f->isKind()) ----  @else {{$f->montant}} @endif </th>
                 @endforeach
             </tr>
 
@@ -97,12 +98,15 @@
                     <td class="center-cell" rowspan="2">
                     @foreach($e->payements_frais as $p)
                         @if($p->type == $f->id)
-
-                             {{$p->montant}}
-                            @if(isset($sumFrais[$m]))
-                                    <?php $sumFrais[$m] += $p->montant ?>
+                            @if ($f->isKind())
+                                <div style="font-size: 13px; font-weight: 600"> X </div>
                             @else
-                                    <?php $sumFrais[$m] = $p->montant ?>
+                                {{$p->montant}}
+                            @endif
+                            @if(isset($sumFrais[$m]))
+                                <?php $sumFrais[$m] += $p->montant ?>
+                            @else
+                                <?php $sumFrais[$m] = $p->montant ?>
                             @endif
                             <?php break ?>
                         @endif
@@ -110,7 +114,7 @@
                     </td>
                     <?php $m++ ?>
                 @endforeach
-                <td class="center-cell border-left-bold" rowspan="2">{{$scolarite->total}}</td>
+                <td class="center-cell border-left-bold" rowspan="2">{{$e->scolarite->total}}</td>
                 @for($j = 0; $j < $maxNbVersements; $j++)
                     <td class="center-cell" >
                             @if(isset($e->payements[$j]))
@@ -123,7 +127,9 @@
                             @endif
                     </td>
                 @endfor
-                <td rowspan="2"></td>
+                <td rowspan="2">{{ $e->payements->sum('montant') + ($e->montant_bourse ? $e->montant_bourse : 0) }} <div style="color: green; font-weight: 600"> {{ $e->montant_bourse ? '(+' . $e->montant_bourse . ')' : '' }} </div></td>
+                <td rowspan="2">{{ $e->scolarite->total - $e->payements->sum('montant') - ($e->montant_bourse ? $e->montant_bourse : 0) }}</td>
+
             </tr>
             <tr>
                 @for($k = 0; $k < $maxNbVersements; $k++)
@@ -154,10 +160,12 @@
                 </td>
             @endfor
                 <td class="back-black"></td>
+                <td class="back-black"></td>
+
         </tr>
         </tbody>
     </table>
-        
+
 </div>
 
     <script>

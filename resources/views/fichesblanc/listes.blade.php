@@ -28,7 +28,7 @@
         <th>#</th>
         <th>@lang('admin.matricule')</th>
         <th>{{  trans('admin.nom')  }}</th>
-        <th>Notes Obtenue par étudiant /100</th>
+        <th>Notes Obtenue par étudiant /20</th>
         </thead>
         <tbody
          
@@ -52,7 +52,7 @@
         <br>
         <br>
          <strong class="col-md-12">Conformément au LMD, les notes d'examen sont reportés sur 100 par étudiant</strong>
-          <strong  class="col-md-12">(Exemple: note sur 100= note sur 20*5)</strong>
+         <!--  <strong  class="col-md-12">(Exemple: note sur 100= note sur 20*5)</strong> -->
 
 </div>
 

@@ -14,6 +14,7 @@
             <thead>
             <caption style="font-size: 22px">{{  trans('admin.titre_table_programme').' '.$classe->nom.' '.trans('admin.nniveau').' '.\gesecole\NNiveau::find($id_nniveau)->nom  }}</caption>
             <th>#</th>
+            <th>Code matière</th>
             <th>{{  trans('admin.titre_matiere')  }}</th>
             <th>Type</th>
             <th>{{  trans('admin.coef')  }}</th>
@@ -26,6 +27,7 @@
             @foreach($programmes as $p)
                 <tr>
                     <td>{{$i++}}</td>
+                    <td>{{$p->id_code}} </td>
                     <td><strong >{{(App::getLocale()=='en')?$p->nom_anglais:$p->nom_matiere}}</strong></td>
                     <td>@if($p->type==0)@lang('admin.fondamental')@elseif($p->type==1) @lang('admin.transversal') @elseif($p->type==2) @lang('admin.professionnel') @endif</td>
                     <td>{{$p->coef}} </td>
@@ -35,9 +37,17 @@
                         <div class="btn-group">
                             <a href="#" class=" btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><a style="color: white"  class="btn-primary"  data-toggle="modal" data-backdrop="false" href="#edit_programme" onclick="editer_programme({{$p->id}},{{$p->id_cycle}},{{$p->coef}},{{$p->max}},{{$p->semestre}},{{$p->type}})"><span class="glyphicon glyphicon-pencil"  ></span> {{  trans('admin.edit')  }}</a></li>
+                                <li><a style="color: white"  class="btn-primary"  data-toggle="modal" data-backdrop="false" href="#edit_programme" onclick="editer_programme({{$p->id}},{{$p->id_cycle}},{{$p->coef}},{{$p->max}},{{$p->semestre}},{{$p->type}},'{{$p->id_code}}')"><span class="glyphicon glyphicon-pencil"  ></span> {{  trans('admin.edit')  }}</a></li>
                                 <li><a style="color: white" href="{{URL::to('/admin/programmes/destroy/'.$p->id.'?id='.$classe->id.'&cycle='.$id_cycle.'&nniveau='.$id_nniveau)}}"   class="btn-danger"><span class="glyphicon glyphicon-trash"></span> {{  trans('admin.del')  }}</a></li>
                                 <li><a style="color: white" href="{{URL::to('/admin/programmes/groupe/'.$p->id)}}"   class="btn-warning"><span class="glyphicon glyphicon-folder-open"></span> {{  trans('admin.groupe')  }}</a></li>
+                                <li>
+                                    <a style="color: white"
+                                       href="{{ URL::to('/admin/sessions/'.$p->id.'?id_classe='.$classe->id.'&id_matiere='.$p->id_matiere.'&id_classe_matiere='.$p->id) }}"
+                                       class="btn-info">
+                                        <span class="glyphicon glyphicon-time"></span> {{ trans('admin.sessions') }}
+                                    </a>
+                                </li>
+
                             </ul>
                         </div>
 
@@ -82,6 +92,11 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
+                                        <label for="id_code">Code : </label>
+                                        <input class="form-control" id="edit_id_code" name="id_code" type="text"  value="{{ old('id_code') }}"  >
+
+                                    </div>
+                                    <div class="form-group">
                                         <label>Coef : </label>
                                         <input class="form-control" id="edit_coef" name="coef" type="text"  value="{{ old('coef') }}"  autofocus>
 
@@ -97,6 +112,10 @@
                                             <option value="1">{{getSemestre(1)}}</option>
                                             <option value="2">{{getSemestre(2)}}</option>
                                             <option value="0">{{getSemestre(0)}}</option>
+                                             <option value="3">{{getSemestre(3)}}</option>
+                                              <option value="4">{{getSemestre(4)}}</option>
+                                               <option value="5">{{getSemestre(5)}}</option>
+                                                <option value="6">{{getSemestre(6)}}</option>
                                         </select>
                                     </div>
 
@@ -191,10 +210,10 @@
                                 <div class="row" col-md-12>
 
                                     <div class="form-group col-md-3">
-                                        <input type="checkbox" name="matiere[]" value="{{$m->id}}" onchange="onCheckedChange(this,'coef{{$i}}','max{{$i}}','semestre{{$i}}','type{{$i}}')">
+                                        <input type="checkbox" name="matiere[]" value="{{$m->id}}" onchange="onCheckedChange(this,'coef{{$i}}','max{{$i}}','semestre{{$i}}','type{{$i}}','id_code{{$i}}')">
                                         <label >{{(App::getLocale()=='en')?$m->nom_anglais:$m->nom}} : </label>
                                     </div>
-                                    <div class="form-group col-md-3">
+                                    <div class="form-group col-md-2">
                                         <label >Type : </label>
                                         <select name="type[]" id="type{{$i}}" class="form-control" disabled>
                                             <option value="0">@lang('admin.fondamental')</option>
@@ -202,6 +221,11 @@
                                             <option value="2">@lang('admin.professionnel')</option>
 
                                         </select>
+                                    </div>
+                                    <div class="form-group col-md-2">
+                                        <label for="id_code">Code : </label>
+                                        <input class="form-control" id="id_code" name="id_code[]" PLACEHOLDER="CGE000" type="text"  value="{{ old('id_code') }}">
+
                                     </div>
                                     <div class="form-group col-md-2">
                                         <label for="coef{{$i}}">Coef : </label>
@@ -239,15 +263,17 @@
         </form>
     </div>
     <script>
-        function onCheckedChange(checkElt,input1,input2,input3,input4) {
+        function onCheckedChange(checkElt,input1,input2,input3,input4,input5) {
             if(checkElt.checked){
 
                document.getElementById(input1).disabled=false;
                 document.getElementById(input2).disabled=false;
                 document.getElementById(input3).disabled=false;
                 document.getElementById(input4).disabled=false;
+                document.getElementById(input5).disabled=false;
                 document.getElementById(input1).value=1;
                 document.getElementById(input2).value=100;
+//                document.getElementById(input5).value="CGE000";
             }else{
                 document.getElementById(input1).value="";
                 document.getElementById(input2).value="";
@@ -255,9 +281,10 @@
                 document.getElementById(input2).disabled=true;
                 document.getElementById(input3).disabled=true;
                 document.getElementById(input4).disabled=true;
+                document.getElementById(input5).disabled="";
             }
         }
-        function editer_programme(id,id_cycle,coef,max,semestre,type)
+        function editer_programme(id,id_cycle,coef,max,semestre,type,id_code)
         {
 
             document.getElementById("edit_id_programme").value = id;
@@ -266,6 +293,7 @@
             document.getElementById("edit_max").value = max;
             document.getElementById("edit_semestre").value = semestre;
             document.getElementById("edit_type").value = type;
+            document.getElementById("edit_id_code").value = id_code;
 
         }
 

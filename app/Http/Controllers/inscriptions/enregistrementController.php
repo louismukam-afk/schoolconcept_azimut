@@ -1,6 +1,7 @@
 <?php namespace gesecole\Http\Controllers\inscriptions;
 
 use gesecole\acces_eleve;
+use gesecole\bourse;
 use gesecole\eleve;
 use gesecole\Http\Controllers\Controller;
 use gesecole\inscription;
@@ -13,6 +14,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use gesecole\parents;
+use gesecole\Services\EnregistrementService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Intervention\Image\Facades\Image;
@@ -41,7 +43,7 @@ class enregistrementController extends Controller {
 
         }
 
-        return view('inscriptions/search_edit_eleve',$values);
+        return view('inscriptions.search_edit_eleve',$values);
 	}
 
 	/**
@@ -66,7 +68,7 @@ class enregistrementController extends Controller {
             Session::forget('error_eleve');
             $values['error_parent']=trans('inscription.deja_enreg');
         }
-        return view('inscriptions/add_eleve',$values);
+        return view('inscriptions.add_eleve',$values);
 	}
 
 	/**
@@ -109,12 +111,37 @@ class enregistrementController extends Controller {
         $e->annee_obtention=$req->input('annee_obtention');
         $e->pays_obtention=$req->input('pays_obtention');
         $e->dernier_etablissement=$req->input('dernier_etablissement');
+        $e->status_matrimonial=$req->input('status_matrimonial');
         $e->annee_sortie=$req->input('annee_sortie');
         $e->diplome_obtenu=$req->input('diplome_obtenu');
         $e->premiere_langue=$req->input('premiere_langue');
         $e->deuxieme_langue=$req->input('deuxieme_langue');
         $e->autre_langue=$req->input('autre_langue');
         $e->profession=$req->input('profession');
+        $e->telephone_wathsapp_eleve=$req->input('telephone_wathsapp_eleve');
+        $e->moyenne_generale=$req->input('moyenne_generale');
+        $e->serie=$req->input('serie');
+        $e->localisation_ecole=$req->input('localisation_ecole');
+        $e->source_financement=$req->input('source_financement');
+        $e->canal_decouvert=$req->input('canal_decouvert');
+        $e->site_internet=$req->input('site_internet');
+        $e->abonnement=$req->input('abonnement');
+        $tp=$req->input('tel1_pere');
+        $tm=$req->input('tel1_mere');
+        $tt=$req->input('tel1_tuteur');
+       // $ta=$request->input('max');
+         $e->telephone_wathsapp_pere=$tp;
+         $e->telephone_wathsapp_mere=$tm;
+         $e->telephone_wathsapp_tuteur=$tt;
+
+        // $e->telephone_wathsapp_pere=$req->input('tel1_pere');
+        // $e->telephone_wathsapp_mere=$req->input('tel1_mere');
+        // $e->telephone_wathsapp_tuteur=$req->input('tel1_tuteur');
+        $e->tel=$req->input('tel');
+
+        $e->abonnement_valide=$req->input('abonnement_valide');
+        $e->chaine=$req->input('chaine');
+        $e->numero_conseille=$req->input('numero_conseille');
         $eTest=eleve::whereNom($e->nom)->where('prenom','=',$e->prenom)->where('date_naiss','=',$e->date_naiss)->where('sexe','=',$e->sexe)->get()->first();
         //père//////////////////////////
         $p1->nom=$req->input('nom_pere');
@@ -143,7 +170,7 @@ class enregistrementController extends Controller {
 
         if(($p0->nom==null) && ($p1->nom==null) && ($p2->nom==null) ){
             session(['error_parent'=>true]);
-            Input::flash();
+            //Input::flash();
             return redirect()->action('inscriptions\enregistrementController@create')->withInput();
 
 
@@ -242,7 +269,7 @@ class enregistrementController extends Controller {
         }
 
 
-        return view('inscriptions/edit_eleve',$values);
+        return view('inscriptions.edit_eleve',$values);
 	}
 
 	/**
@@ -287,6 +314,22 @@ class enregistrementController extends Controller {
         $e->autre_langue=$req->input('autre_langue');
         $e->profession=$req->input('profession');
 
+        $e->telephone_wathsapp_eleve=$req->input('telephone_wathsapp_eleve');
+        $e->moyenne_generale=$req->input('moyenne_generale');
+        $e->serie=$req->input('serie');
+        $e->localisation_ecole=$req->input('localisation_ecole');
+        $e->source_financement=$req->input('source_financement');
+        $e->canal_decouvert=$req->input('canal_decouvert');
+        $e->site_internet=$req->input('site_internet');
+        $e->abonnement=$req->input('abonnement');
+        $e->telephone_wathsapp_pere=$req->input('telephone_wathsapp_pere');
+        $e->telephone_wathsapp_mere=$req->input('telephone_wathsapp_mere');
+        $e->telephone_wathsapp_tuteur=$req->input('telephone_wathsapp_tuteur');
+       // $e->telephone_wathsapp_autre=$req->input('telephone_wathsapp_autre');
+        $e->abonnement_valide=$req->input('abonnement_valide');
+        $e->chaine=$req->input('chaine');
+        $e->numero_conseille=$req->input('numero_conseille');
+
         $current_user = \Auth::user();
         $e->id_last_editor = $current_user->id;
         $e->save();
@@ -326,13 +369,15 @@ class enregistrementController extends Controller {
                 ->first();
             $values['eleve'] = $eleve;
             $values['acces'] = $acces;
+            $values['access_decision'] = EnregistrementService::getStudentAccessStatus($id);
+
 
             $inscription = inscription::with('classe.niveau', 'nniveau.cycle')
                 ->where('id_eleve', '=', $id)
                 ->where('annee_scolaire', '=', \session('year'))
                 ->first();
 
-	        if($inscription) {
+	        if ($inscription) {
 	            $values['inscription'] = $inscription;
                 $solde = payement::where('id_eleve', '=', $id)
                     ->where('type', '=', 0)
@@ -345,11 +390,16 @@ class enregistrementController extends Controller {
 
                 $scolarite = scolarite::where('id_cycle', '=', $inscription->nniveau->cycle->id)
                     ->where('id_niveau', '=', $inscription->classe->niveau->id)
+                    ->where('type_scolarite','=',$inscription->type_scolarite)
                     ->first();
+                $bourse = bourse::where('id_eleve', '=', $id)
+                    ->where('annee_scolaire', '=', session('year'))
+                    ->first();
+                if ($bourse) {
+                    $values['montant_bourse'] = $bourse->montant;
+                }
 
                 $values['scolarite'] = $scolarite;
-
-
             }
         }
 
@@ -360,7 +410,12 @@ class enregistrementController extends Controller {
     public function set_status(Request $request) {
 	    $status = $request->input('status');
 	    $id = $request->input('id');
+	    $date_debut = $request->input('date_debut');
+
+	    $date_fin = $request->input('date_fin');
+	    $montant = $request->input('montant');
 	    $eleve = eleve::find($id);
+
 	    if($eleve) {
 
             $current_user = \Auth::user();
@@ -374,15 +429,25 @@ class enregistrementController extends Controller {
                 $acces->annee_scolaire = \session('year');
                 $acces->id_eleve = $id;
                 $acces->id_creator = $current_user->id;
+
                 if($status == 1) {
                     $acces->edition_details = 'decision = '. Vars::DECISION_ALLOW;
                 } else {
                     $acces->edition_details = 'decision = '. Vars::DECISION_DENY;
-
                 }
-
             }
             $acces->id_last_editor = $current_user->id;
+
+            if ($date_debut) {
+                $acces->date_debut = $date_debut;
+            }
+            if ($date_fin) {
+                $acces->date_fin = $date_fin;
+            }
+
+            if ($montant) {
+                $acces->montant = $montant;
+            }
 
             if($status == 1) {
                 $acces->decision = Vars::DECISION_ALLOW;
@@ -401,6 +466,9 @@ class enregistrementController extends Controller {
         $status = $request->input('status');
         $ids = $request->input('ids');
         $current_user = \Auth::user();
+        $date_debut = $request->input('date_debut');
+	    $date_fin = $request->input('date_fin');
+	    $montant = $request->input('montant');
 
         foreach ($ids as $id) {
             $eleve = eleve::find($id);
@@ -424,6 +492,15 @@ class enregistrementController extends Controller {
 
                 }
                 $acces->id_last_editor = $current_user->id;
+                if ($date_debut) {
+                    $acces->date_debut = $date_debut;
+                }
+                if ($date_fin) {
+                    $acces->date_fin = $date_fin;
+                }
+                if ($montant) {
+                    $acces->montant = $montant;
+                }
 
                 if($status == 1) {
                     $acces->decision = Vars::DECISION_ALLOW;

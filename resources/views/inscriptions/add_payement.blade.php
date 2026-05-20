@@ -32,14 +32,33 @@
                             <span class="input-group-addon"> {{trans('inscription.devise')}}</span>
                         </div>
                     </div>
-
-                    <div class="form-group">
+                     <div class="form-group">
                         <label for="motif">{{trans('inscription.motif')}} : </label>
                             <input type="text" name="motif" id="motif" placeholder="EX: 1ère tranche" class="form-control" required value="{{old('motif')}}">
 
                     </div>
-                    <input type="submit" class="btn btn-success form-control" value="{{trans('admin.confirmer')}}" >
-                </div>
+                    <div class="form-group">
+                        <label>Montant en lettre</label>
+                        <input type="text" name="lettre"  class="form-control"  value="{{old('lettre')}}">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="mode_paye">{{trans('inscription.detail')}} : </label>
+                        <select form="add_inscription_form" id="mode_paye" name="mode_paye" class="form-control">
+                            <option value="bancaire">{{trans('inscription.bancaire') }}</option>
+                            <option value="orange money">{{trans('inscription.om')}}</option>
+                            <option value="espece">{{trans('inscription.espece')}}</option>
+
+                        </select>
+
+                    </div>
+                    <div class="form-group">
+                        <label>{{trans('inscription.ref')}} </label>
+                        <input type="text" name="ref_versement"  class="form-control"  value="{{old('ref_versement')}}">
+
+                    </div>
+                                        <input type="submit" class="btn btn-success form-control" value="{{trans('admin.confirmer')}}" >
+
             </form>
 
         </div>

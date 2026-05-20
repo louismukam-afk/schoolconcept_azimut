@@ -42,7 +42,7 @@
 }
 
 .card-e.card-back {
-    background: url("../img/school-concept-carte-back.jpg");
+    background: url("../img/school-concept-carte-back.png");
     background-size: 100% 100%;
 }
 
@@ -72,7 +72,9 @@
     position: absolute;
     width: 11mm;
     height: 11mm;
+    /*
     background: url("../img/logo.png") !important;
+    */
     background-size: contain !important;
     background-repeat: no-repeat !important;
     background-position: center !important;
@@ -125,11 +127,14 @@
     width: 100%;
     padding: 0;
     margin: 0;
-    background-image: url("../img/logo.png") !important;
+
+    background-image: url("../img/logo.jpg") !important;
+
     background-position: center !important;
-    background-size: 45mm!important;
+    background-size: 25mm!important;
     background-repeat: no-repeat !important;
     opacity: 0.1;
+    top: 5%;
 }
 .card-infos
 {
@@ -304,7 +309,7 @@
     }
 
     .card-e.card-back {
-        background: url("../img/school-concept-carte-back.jpg")!important;
+        background: url("../img/school-concept-carte-back.png")!important;
         background-size: 100% 100%!important;
     }
 
@@ -346,7 +351,7 @@
         width: 11mm;
         height: 10mm;
         top: 0.5mm;
-        background: url("../img/logo.png") !important;
+        /*background: url("../img/logo.jpg") !important;*/
         background-size: contain !important;
         background-repeat: no-repeat !important;
         background-position: center !important;
@@ -369,11 +374,17 @@
         left: 15mm;
         display: flex;
         align-items: center;
+        text-align: center !important;
+        margin-left: 10%;
+
     }
 
     .card-header .school .element
     {
         color: white !important;
+        text-align: center !important;
+        margin-left: 10%;
+
     }
 
     .card-e-box .card-body
@@ -414,7 +425,7 @@
 
     .card-sign
 {
-    color: black !important;
+    color: white !important;
     font-weight: 600;
     font-size: 8px;
     text-align: center;

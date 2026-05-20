@@ -58,6 +58,21 @@ class verrou_noteController extends Controller {
         return redirect()->action('admin\verrou_noteController@index');
     }
 
+    public function deliberer($sequence)
+    {
+        $v= verrouNote::whereAnneeScolaire(\session('year'))
+            ->where('sequence','=',$sequence)
+            ->get();
+        foreach ($v as $verrous){
+            $verrous->delete();
+        }
+        \session(['success'=>true]);
+        return redirect()->action('admin\verrou_noteController@index');
+
+    }
+
+
+
 	/**
 	 * Show the form for creating a new resource.
 	 *

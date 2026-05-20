@@ -177,7 +177,7 @@
 
     .custom-header .soa {
         -webkit-print-color-adjust: exact;
-        top: 80%;
+        top: 90%;
         left: 3%;
         width: 30mm;
         height: 20mm;
@@ -207,7 +207,7 @@
 
     .div-bar {
         -webkit-print-color-adjust: exact;
-        margin-top: 25px;
+        margin-top: 15px;
         margin-bottom: auto;
         height: 1mm;
         border-top: solid 1px;
@@ -216,7 +216,7 @@
 
     }
     .titre-ecole{
-        margin-top: 5% !important;
+        margin-top: 2% !important;
         text-align: center !important;
         font-size: large;
     }
@@ -227,7 +227,7 @@
 
     }
     .footer{
-        margin-top: 875px;
+        margin-top: 950px;
         text-align: center !important;
         position: absolute !important;
     }

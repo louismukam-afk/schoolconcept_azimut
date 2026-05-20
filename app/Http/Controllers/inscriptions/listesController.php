@@ -1,5 +1,7 @@
 <?php namespace gesecole\Http\Controllers\inscriptions;
 
+use Doctrine\Common\Collections\Expr\Value;
+use gesecole\bourse;
 use gesecole\cycle;
 use gesecole\eleve;
 use gesecole\Frais;
@@ -8,15 +10,20 @@ use gesecole\Http\Controllers\Controller;
 use gesecole\classe;
 use gesecole\niveau;
 use gesecole\NNiveau;
+use gesecole\parents;
 use gesecole\payement;
 use gesecole\scolarite;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use gesecole\inscription;
 use gesecole\parametres;
+use gesecole\Values;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 class listesController extends Controller {
+    const OP_TYPE_PAID = 1;
+    const OP_TYPE_UNPAID = 0;
 
 	/**
 	 * Display a listing of the resource.
@@ -49,7 +56,7 @@ class listesController extends Controller {
         $values['nniveaux']=$nn;
 
 
-        return view('inscriptions/selection_liste',$values);
+        return view('inscriptions.selection_liste',$values);
 	}
 
 	/**
@@ -102,150 +109,85 @@ class listesController extends Controller {
             if ($id == 0) {
                 $values['titre'] = trans('inscription.listes');
 
-                $e = DB::select('SELECT e.matricule,e.id, e.nom ,e.prenom,e.date_naiss,e.lieu_naiss,e.sexe,c.nom as nom_classe,c.code as code_classe,nn.nom as nniveau FROM eleve e,inscription,classe c,n_niveaus nn WHERE e.id=inscription.id_eleve and annee_scolaire=? and inscription.id_classe=c.id and inscription.id_nniveau=nn.id ORDER BY code_classe,nom,prenom ', [session('year')]);
+                $e = DB::select('SELECT e.*,e.telephone_wathsapp_eleve,e.telephone_wathsapp_pere,e.telephone_wathsapp_mere,e.telephone_wathsapp_tuteur,e.matricule,e.id, e.nom ,e.prenom,e.date_naiss,e.diplome_preinscription,e.lieu_naiss,e.sexe,inscription.date_inscription,c.nom as nom_classe,c.code as code_classe,nn.nom as nniveau FROM eleve e,inscription,classe c,n_niveaus nn WHERE e.id=inscription.id_eleve and annee_scolaire=? and inscription.id_classe=c.id  and inscription.desinscrire=0 and inscription.id_nniveau=nn.id ORDER BY code_classe,nom,prenom ', [session('year')]);
+                $p=parents::all();
+                $values['parents']=$p;
                 $values['eleves'] = $e;
                 $values['show_classe'] = true;
                 $values['titre_liste'] = trans('inscription.all_eleves');
-                return view('inscriptions/listes', $values);
+                return view('inscriptions.listes', $values);
             } else {
                 $values['titre'] = trans('inscription.listes');
                 $classe = classe::find($id);
                 $classe_name = $classe->getNom();
-                $e = DB::select('SELECT e.matricule,e.id, e.nom ,e.prenom,e.date_naiss,e.lieu_naiss,e.sexe,c.nom as nom_classe  FROM eleve e,inscription,classe c WHERE e.id=inscription.id_eleve and annee_scolaire=? and inscription.id_classe=c.id and c.id=? AND inscription.id_cycle=? AND inscription.id_nniveau=? ORDER BY nom,prenom ', [session('year'), $id,$cycle,$nniveau]);
+                $e = DB::select('SELECT e.*,e.telephone_wathsapp_eleve,e.telephone_wathsapp_pere,e.telephone_wathsapp_mere,e.telephone_wathsapp_tuteur,e.matricule,e.id, e.nom ,e.prenom,e.date_naiss,e.diplome_preinscription,e.lieu_naiss,e.sexe,inscription.date_inscription,c.nom as nom_classe  FROM eleve e,inscription,classe c WHERE e.id=inscription.id_eleve and annee_scolaire=? and inscription.id_classe=c.id and c.id=? AND inscription.id_cycle=?   AND inscription.desinscrire=0 AND inscription.id_nniveau=? ORDER BY nom,prenom ', [session('year'), $id,$cycle,$nniveau]);
+               $p=parents::all();
+                $values['parents']=$p;
                 $values['eleves'] = $e;
                 @$values['titre_liste'] = trans('inscription.eleves_de') . ' ' . ($classe_name).' '.NNiveau::find($nniveau)->nom;
-                return view('inscriptions/listes', $values);
+                return view('inscriptions.listes', $values);
             }
         }else
         {
+            $boursesQueryPart = '';
             if($option==1){
                 $tranches = "s.tranche1";
                 $tranche = "s.tranche1";
                 $motif=trans('admin.tranche1');
-                /*
-                if ($id == 0) {
-                    $values['titre'] = trans('inscription.listes');
-
-                    $e = DB::select('SELECT e.matricule,e.id, e.nom ,e.prenom,e.date_naiss,e.lieu_naiss,e.sexe,c.nom as nom_classe,c.code as code_classe,sol.solde,s.tranche1 AS tranche ,(sol.solde-s.tranche1) AS reste,nn.nom as nniveau   FROM n_niveaus nn,eleve e,inscription,classe c,niveau n,scolarite s, (SELECT SUM(CASE WHEN p.type = 0 AND p.id_inscription=0  THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=?  GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and annee_scolaire=? and inscription.id_classe=c.id AND sol.id=e.id AND c.id_niveau=n.id AND s.id_niveau=n.id AND s.id_cycle=inscription.id_cycle AND inscription.id_nniveau=nn.id AND (sol.solde-s.tranche1)<0 ORDER BY code_classe,nom,prenom', [session('year'),session('year')]);
-                    $values['eleves'] = $e;
-                    $values['show_classe'] = true;
-                    $values['titre_liste'] = trans('inscription.all_eleves');
-                    $values['tranche']=true;
-                    return view('inscriptions/listes', $values);
-                } else {
-                    $values['titre'] = trans('inscription.listes');
-                    $classe_name = classe::find($id)->nom;
-                    $e = DB::select('SELECT e.matricule,e.id, e.nom ,e.prenom,e.date_naiss,e.lieu_naiss,e.sexe,c.nom as nom_classe,sol.solde,s.tranche1 AS tranche ,(sol.solde-s.tranche1) AS reste   FROM eleve e,inscription,classe c,niveau n,scolarite s, (SELECT SUM(CASE WHEN p.type = 0 AND p.id_inscription=0 THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and annee_scolaire=? and inscription.id_classe=c.id AND sol.id=e.id AND c.id_niveau=n.id AND s.id_niveau=n.id AND s.id_cycle=inscription.id_cycle AND (sol.solde-s.tranche1)<0 AND c.id=? AND inscription.id_cycle=? AND inscription.id_nniveau=? ORDER BY nom_classe,nom,prenom', [session('year'),session('year'),$id,$cycle,$nniveau]);
-                    $values['eleves'] = $e;
-                    $values['titre_liste'] = trans('inscription.eleves_de') . ' ' . $classe_name.' '.NNiveau::find($nniveau)->nom;
-                    $values['tranche']=true;
-                    return view('inscriptions/listes', $values);
-                }*/
+                if (Values::SCHOOLFEES_SLICE_NUMBER <= 1) {
+                    $boursesQueryPart = '+ COALESCE(b.montant, 0)';
+                    $values['last_installment'] = true;
+                }
             }else if($option==2){
                 $tranches = "(s.tranche1+s.tranche2)";
                 $tranche = "s.tranche2";
                 $motif=trans('admin.tranche2');
-                /*
-                if ($id == 0) {
-                    $values['titre'] = trans('inscription.listes');
-                    $values['show_classe'] = true;
-                    $e = DB::select('SELECT e.matricule,e.id, e.nom ,e.prenom,e.date_naiss,e.lieu_naiss,e.sexe,c.nom as nom_classe,c.code as code_classe,sol.solde,(s.tranche1+s.tranche2) AS tranche ,(sol.solde-(s.tranche1+s.tranche2)) AS reste,nn.nom as nniveau  FROM n_niveaus nn, eleve e,inscription,classe c,niveau n,scolarite s, (SELECT SUM(CASE WHEN p.type = 0 AND p.id_inscription=0 THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and annee_scolaire=? and inscription.id_classe=c.id AND sol.id=e.id AND c.id_niveau=n.id AND s.id_niveau=n.id AND s.id_cycle=inscription.id_cycle AND (sol.solde-(s.tranche1+s.tranche2))<0 AND inscription.id_nniveau=nn.id ORDER BY code_classe,nom,prenom', [session('year'),session('year')]);
-                    $values['eleves'] = $e;
-                    $values['titre_liste'] = trans('inscription.all_eleves');
-                    $values['tranche']=true;
-                    return view('inscriptions/listes', $values);
-                } else {
-                    $values['titre'] = trans('inscription.listes');
-                    $classe_name = classe::find($id)->nom;
-                    $e = DB::select('SELECT e.matricule,e.id, e.nom ,e.prenom,e.date_naiss,e.lieu_naiss,e.sexe,c.nom as nom_classe,sol.solde,(s.tranche1+s.tranche2) AS tranche ,(sol.solde-(s.tranche1+s.tranche2)) AS reste   FROM eleve e,inscription,classe c,niveau n,scolarite s, (SELECT SUM(CASE WHEN p.type = 0 AND p.id_inscription=0 THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and annee_scolaire=? and inscription.id_classe=c.id AND sol.id=e.id AND c.id_niveau=n.id AND s.id_niveau=n.id AND s.id_cycle=inscription.id_cycle AND (sol.solde-(s.tranche1+s.tranche2))<0 AND c.id=? AND inscription.id_cycle=? AND inscription.id_nniveau=? ORDER BY nom_classe,nom,prenom', [session('year'),session('year'),$id,$cycle,$nniveau]);
-                    $values['eleves'] = $e;
-                    $values['titre_liste'] = trans('inscription.eleves_de') . ' ' . $classe_name.' '.NNiveau::find($nniveau)->nom;
-                    $values['tranche']=true;
-                    return view('inscriptions/listes', $values);
-                }*/
+
+                if (Values::SCHOOLFEES_SLICE_NUMBER <= 2) {
+                    $boursesQueryPart = '+ COALESCE(b.montant, 0)';
+                    $values['last_installment'] = true;
+                }
             }else if($option==3){
                 $tranches = "(s.tranche1+s.tranche2+s.tranche3)";
                 $tranche = "s.tranche3";
                 $motif=trans('admin.tranche3');
-                /*
-                if ($id == 0) {
-                    $values['titre'] = trans('inscription.listes');
 
-                    $e = DB::select('SELECT e.matricule,e.id, e.nom ,e.prenom,e.date_naiss,e.lieu_naiss,e.sexe,c.nom as nom_classe,c.code as code_classe,sol.solde,(s.tranche1+s.tranche2+s.tranche3) AS tranche ,(sol.solde-(s.tranche1+s.tranche2+s.tranche3)) AS reste,nn.nom as nniveau   FROM n_niveaus nn, eleve e,inscription,classe c,niveau n,scolarite s, (SELECT SUM(CASE WHEN p.type = 0 AND p.id_inscription=0 THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and annee_scolaire=? and inscription.id_classe=c.id AND sol.id=e.id AND c.id_niveau=n.id  AND s.id_niveau=n.id AND s.id_cycle=inscription.id_cycle AND (sol.solde-(s.tranche1+s.tranche2+s.tranche3))<0 AND inscription.id_nniveau=nn.id ORDER BY code_classe,nom,prenom ', [session('year'),session('year')]);
-                    $values['eleves'] = $e;
-                    $values['titre_liste'] = trans('inscription.all_eleves');
-                    $values['tranche']=true;
-                    $values['show_classe'] = true;
-                    return view('inscriptions/listes', $values);
-                } else {
-                    $values['titre'] = trans('inscription.listes');
-                    $classe_name = classe::find($id)->nom;
-                    $e = DB::select('SELECT e.matricule,e.id, e.nom ,e.prenom,e.date_naiss,e.lieu_naiss,e.sexe,c.nom as nom_classe,sol.solde,(s.tranche1+s.tranche2+s.tranche3) AS tranche ,(sol.solde-(s.tranche1+s.tranche2+s.tranche3)) AS reste   FROM eleve e,inscription,classe c,niveau n,scolarite s, (SELECT SUM(CASE WHEN p.type = 0 AND p.id_inscription=0 THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and annee_scolaire=? and inscription.id_classe=c.id AND sol.id=e.id AND c.id_niveau=n.id AND s.id_niveau=n.id AND s.id_cycle=inscription.id_cycle AND (sol.solde-(s.tranche1+s.tranche2+s.tranche3))<0 AND c.id=? AND inscription.id_cycle=? AND inscription.id_nniveau=? ORDER BY nom_classe,nom,prenom', [session('year'),session('year'),$id,$cycle,$nniveau]);
-                    $values['eleves'] = $e;
-                    $values['titre_liste'] = trans('inscription.eleves_de') . ' ' . $classe_name.' '.NNiveau::find($nniveau)->nom;
-                    $values['tranche']=true;
-                    return view('inscriptions/listes', $values);
-                }*/
+                if (Values::SCHOOLFEES_SLICE_NUMBER <= 3) {
+                    $boursesQueryPart = '+ COALESCE(b.montant, 0)';
+                    $values['last_installment'] = true;
+                }
             }else if($option==4){
                 $tranches = "(s.tranche1+s.tranche2+s.tranche3+s.tranche4)";
                 $tranche = "s.tranche4";
                 $motif=trans('admin.tranche4');
-                /*
-                if ($id == 0) {
-                    $values['titre'] = trans('inscription.listes');
 
-                    $e = DB::select('SELECT e.matricule,e.id, e.nom ,e.prenom,e.date_naiss,e.lieu_naiss,e.sexe,c.nom as nom_classe,c.code as code_classe,sol.solde,(s.tranche1+s.tranche2+s.tranche3+s.tranche4) AS tranche ,(sol.solde-(s.tranche1+s.tranche2+s.tranche3+s.tranche4)) AS reste  ,nn.nom as nniveau FROM n_niveaus nn, eleve e,inscription,classe c,niveau n,scolarite s, (SELECT SUM(CASE WHEN p.type = 0 AND p.id_inscription=0 THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and annee_scolaire=? and inscription.id_classe=c.id AND sol.id=e.id AND c.id_niveau=n.id AND s.id_niveau=n.id AND s.id_cycle=inscription.id_cycle AND (sol.solde-(s.tranche1+s.tranche2+s.tranche3+s.tranche4))<0 AND inscription.id_nniveau=nn.id ORDER BY code_classe,nom,prenom', [session('year'),session('year')]);
-                    $values['eleves'] = $e;
-                    $values['titre_liste'] = trans('inscription.all_eleves');
-                    $values['tranche']=true;
-                    $values['show_classe'] = true;
-                    return view('inscriptions/listes', $values);
-                } else {
-                    $values['titre'] = trans('inscription.listes');
-                    $classe_name = classe::find($id)->nom;
-                    $e = DB::select('SELECT e.matricule,e.id, e.nom ,e.prenom,e.date_naiss,e.lieu_naiss,e.sexe,c.nom as nom_classe,sol.solde,(s.tranche1+s.tranche2+s.tranche3+s.tranche4) AS tranche ,(sol.solde-(s.tranche1+s.tranche2+s.tranche3+s.tranche4)) AS reste   FROM eleve e,inscription,classe c,niveau n,scolarite s, (SELECT SUM(CASE WHEN p.type = 0 AND p.id_inscription=0 THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and annee_scolaire=? and inscription.id_classe=c.id AND sol.id=e.id AND c.id_niveau=n.id AND s.id_niveau=n.id AND s.id_cycle=inscription.id_cycle AND (sol.solde-(s.tranche1+s.tranche2+s.tranche3+s.tranche4))<0 AND c.id=? AND inscription.id_cycle=? AND inscription.id_nniveau=? ORDER BY nom_classe,nom,prenom', [session('year'),session('year'),$id,$cycle,$nniveau]);
-                    $values['eleves'] = $e;
-                    $values['titre_liste'] = trans('inscription.eleves_de') . ' ' . $classe_name.' '.NNiveau::find($nniveau)->nom;
-                    $values['tranche']=true;
-                    return view('inscriptions/listes', $values);
-                }*/
+                if (Values::SCHOOLFEES_SLICE_NUMBER <= 4) {
+                    $boursesQueryPart = '+ COALESCE(b.montant, 0)';
+                    $values['last_installment'] = true;
+                }
             }else if($option==5){
                 $tranches = "(s.tranche1+s.tranche2+s.tranche3+s.tranche4+s.tranche5)";
                 $tranche = "(s.tranche1+s.tranche2+s.tranche3+s.tranche4+s.tranche5)";
 
                 $motif=trans('admin.tranche5');
-                /*
-                if ($id == 0) {
-                    $values['titre'] = trans('inscription.listes');
 
-                    $e = DB::select('SELECT e.matricule,e.id, e.nom ,e.prenom,e.date_naiss,e.lieu_naiss,e.sexe,c.nom as nom_classe,c.code as code_classe,sol.solde,(s.tranche1+s.tranche2+s.tranche3+s.tranche4+s.tranche5) AS tranche ,(sol.solde-(s.tranche1+s.tranche2+s.tranche3+s.tranche4+s.tranche5)) AS reste ,nn.nom as nniveau  FROM n_niveaus nn, eleve e,inscription,classe c,niveau n,scolarite s, (SELECT SUM(CASE WHEN p.type = 0 AND p.id_inscription=0 THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and annee_scolaire=? and inscription.id_classe=c.id AND sol.id=e.id AND c.id_niveau=n.id AND s.id_niveau=n.id AND s.id_cycle=inscription.id_cycle AND  (sol.solde-(s.tranche1+s.tranche2+s.tranche3+s.tranche4+s.tranche5))<0 AND inscription.id_nniveau=nn.id ORDER BY code_classe,nom,prenom', [session('year'),session('year')]);
-                    $values['eleves'] = $e;
-                    $values['titre_liste'] = trans('inscription.all_eleves');
-                    $values['tranche']=true;
-                    $values['show_classe'] = true;
-                    return view('inscriptions/listes', $values);
-                } else {
-                    $values['titre'] = trans('inscription.listes');
-                    $classe_name = classe::find($id)->nom;
-                    $e = DB::select('SELECT e.matricule,e.id, e.nom ,e.prenom,e.date_naiss,e.lieu_naiss,e.sexe,c.nom as nom_classe,sol.solde,(s.tranche1+s.tranche2+s.tranche3+s.tranche4+s.tranche5) AS tranche ,(sol.solde-(s.tranche1+s.tranche2+s.tranche3+s.tranche4+s.tranche5)) AS reste   FROM eleve e,inscription,classe c,niveau n,scolarite s, (SELECT SUM(CASE WHEN p.type = 0 AND p.id_inscription=0 THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and annee_scolaire=? and inscription.id_classe=c.id AND sol.id=e.id AND c.id_niveau=n.id AND s.id_niveau=n.id AND s.id_cycle=inscription.id_cycle AND (sol.solde-(s.tranche1+s.tranche2+s.tranche3+s.tranche4+s.tranche5))<0 AND c.id=? AND inscription.id_cycle=? AND inscription.id_nniveau=? ORDER BY nom_classe,nom,prenom', [session('year'),session('year'),$id,$cycle,$nniveau]);
-                    $values['eleves'] = $e;
-                    $values['titre_liste'] = trans('inscription.eleves_de') . ' ' . $classe_name.' '.NNiveau::find($nniveau)->nom;
-                    $values['tranche']=true;
-                    return view('inscriptions/listes', $values);
-                }*/
+                if (Values::SCHOOLFEES_SLICE_NUMBER <= 5) {
+                    $boursesQueryPart = '+ COALESCE(b.montant, 0)';
+                    $values['last_installment'] = true;
+                }
             }
             else
             {
                 $tranches = "(s.tranche1+s.tranche2+s.tranche3+s.tranche4+s.tranche5)";
                 $tranche = "(s.tranche1+s.tranche2+s.tranche3+s.tranche4+s.tranche5)";
-
-                $motif=trans('admin.scolarite');
-
-
+                $boursesQueryPart = '+ COALESCE(b.montant, 0)';
+                $values['last_installment'] = true;
+                $motif=trans('admin.schoolfees');
             }
 
 
-            if($type==1)
+
+            if($type == static::OP_TYPE_PAID)
             {
                 $opComp='>=';
                 $values['paid'] = true;
@@ -256,32 +198,188 @@ class listesController extends Controller {
             {
                 $opComp='<';
                 $t0=trans('admin.unpaid_eleve').' : '.$motif;
-
-
             }
 
             if ($id == 0) {
                 $values['titre'] = trans('inscription.listes');
 
-                $e = DB::select('SELECT e.matricule,e.id, e.nom ,e.prenom,e.date_naiss,e.lieu_naiss,e.sexe,c.nom as nom_classe,c.code as code_classe,sol.solde,' . $tranche . ' AS tranche ,(' . $tranches . ' - sol.solde) AS reste  ,nn.nom as nniveau FROM n_niveaus nn, eleve e,inscription,classe c,niveau n,scolarite s, (SELECT SUM(CASE WHEN p.type = 0 AND p.id_inscription=0 THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and annee_scolaire=? and inscription.id_classe=c.id AND sol.id=e.id AND c.id_niveau=n.id AND s.id_niveau=n.id AND s.id_cycle=inscription.id_cycle AND (sol.solde-' . $tranches . ')'.$opComp.'0 AND inscription.id_nniveau=nn.id ORDER BY code_classe,nom,prenom', [session('year'),session('year')]);
+                $e = DB::select('SELECT e.*,e.telephone_wathsapp_eleve,e.telephone_wathsapp_pere,e.telephone_wathsapp_mere,e.telephone_wathsapp_tuteur,e.matricule,inscription.type_scolarite,inscription.date_inscription,e.id, e.nom ,e.prenom,e.date_naiss,e.lieu_naiss,e.diplome_preinscription,e.sexe,c.nom as nom_classe,c.code as code_classe,sol.solde,' . $tranche . ' AS tranche ,(' . $tranches . ' - sol.solde) AS reste, nn.nom as nniveau, b.montant as montant_bourse FROM n_niveaus nn, eleve e LEFT JOIN bourses as b ON (e.id = b.id_eleve AND b.annee_scolaire = ?),inscription,classe c,niveau n,scolarite s, (SELECT SUM(CASE WHEN p.type = 0 AND p.id_inscription=0 THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id  WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve   and inscription.desinscrire=0 and inscription.annee_scolaire=? and inscription.id_classe=c.id AND sol.id=e.id AND c.id_niveau=n.id AND  s.id_niveau=n.id AND s.id_cycle=inscription.id_cycle AND inscription.type_scolarite=s.type_scolarite AND (sol.solde ' . $boursesQueryPart . ' - ' . $tranches . ')'.$opComp.'0 AND inscription.id_nniveau=nn.id ORDER BY code_classe,nom,prenom', [session('year'), session('year'), session('year')]);
+                $p=parents::all();
+                $values['parents']=$p;
                 $values['eleves'] = $e;
                 $values['titre_liste'] = $t0.' - '.trans('inscription.all_eleves');
                 if($type != null) {
                     $values['type']=$type;
                 }
                 $values['show_classe'] = true;
-                return view('inscriptions/listes', $values);
+                return view('inscriptions.listes', $values);
             } else {
                 $values['titre'] = trans('inscription.listes');
                 $classe = classe::find($id);
                 $classe_name = $classe->getNom();
-                $e = DB::select('SELECT e.matricule,e.id, e.nom ,e.prenom,e.date_naiss,e.lieu_naiss,e.sexe,c.nom as nom_classe,sol.solde,' . $tranche . ' AS tranche ,(' . $tranches . ' - sol.solde) AS reste   FROM eleve e,inscription,classe c,niveau n,scolarite s, (SELECT SUM(CASE WHEN p.type = 0 AND p.id_inscription=0 THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and annee_scolaire=? and inscription.id_classe=c.id AND sol.id=e.id AND c.id_niveau=n.id AND s.id_niveau=n.id AND s.id_cycle=inscription.id_cycle AND (sol.solde-' . $tranches . ')'.$opComp.'0 AND c.id=? AND inscription.id_cycle=? AND inscription.id_nniveau=? ORDER BY nom_classe,nom,prenom', [session('year'),session('year'),$id,$cycle,$nniveau]);
+                $e = DB::select('SELECT e.*,e.telephone_wathsapp_eleve,e.telephone_wathsapp_pere,e.telephone_wathsapp_mere,e.telephone_wathsapp_tuteur,e.matricule,e.id, inscription.type_scolarite,inscription.date_inscription, e.nom ,e.prenom,e.date_naiss,e.lieu_naiss,e.diplome_preinscription,e.sexe,c.nom as nom_classe,sol.solde,' . $tranche . ' AS tranche ,(' . $tranches . ' - sol.solde) AS reste, b.montant as montant_bourse  FROM eleve e LEFT JOIN bourses as b ON (e.id = b.id_eleve AND b.annee_scolaire = ?),inscription,classe c,niveau n,scolarite s, (SELECT SUM(CASE WHEN p.type = 0 AND p.id_inscription=0 THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and inscription.annee_scolaire=? and inscription.id_classe=c.id  AND inscription.desinscrire=0  AND sol.id=e.id AND c.id_niveau=n.id AND s.id_niveau=n.id AND s.id_cycle=inscription.id_cycle AND inscription.type_scolarite=s.type_scolarite  AND (sol.solde + ' . $boursesQueryPart . ' - ' . $tranches . ')'.$opComp.'0 AND c.id=? AND inscription.id_cycle=? AND inscription.id_nniveau=? ORDER BY nom_classe,nom,prenom', [session('year'), session('year'), session('year'), $id, $cycle, $nniveau]);
+                $p=parents::all();
+                $values['parents']=$p;
                 $values['eleves'] = $e;
                 $values['titre_liste'] = $t0.' - '. $classe_name.' '.NNiveau::find($nniveau)->nom;
                 if($type != null) {
                     $values['type']=$type;
                 }
-                return view('inscriptions/listes', $values);
+                return view('inscriptions.listes', $values);
+            }
+
+
+        }
+
+	}
+
+
+
+
+    //les listes des parents
+
+
+    public function showParents(Request $request)
+	{
+        $this->validate($request,[
+            'id'=>'required',
+        ]);
+
+	    $id=$request->input('id');
+        $type=$request->input('type');
+        $option=$request->input('option');
+
+	    $nniveau=$request->input('nniveau');
+	    $p=parametres::whereNom('nom_etablissement')->first();
+	    $e_name=$p->valeur;
+	    $values['e_name']=$e_name;
+	    $cycle=$request->input('cycle');
+	    if($nniveau) {
+	        $cycle = NNiveau::find($nniveau)->id_cycle;
+        }
+
+
+	    if($option==null) {
+            if ($id == 0) {
+                $values['titre'] = trans('inscription.listes');
+
+                $e = DB::select('SELECT e.*,e.telephone_wathsapp_eleve,e.moyenne_generale,e.serie,e.localisation_ecole,e.source_financement,e.canal_decouvert,e.site_internet,e.abonnement,e.telephone_wathsapp_pere,e.telephone_wathsapp_mere,e.telephone_wathsapp_tuteur,e.matricule,e.id, e.nom ,e.prenom,e.date_naiss,e.diplome_preinscription,e.lieu_naiss,e.sexe,inscription.date_inscription,c.nom as nom_classe,c.code as code_classe,nn.nom as nniveau FROM eleve e,inscription,classe c,n_niveaus nn WHERE e.id=inscription.id_eleve and annee_scolaire=? and inscription.desinscrire=0 and inscription.id_classe=c.id and inscription.id_nniveau=nn.id ORDER BY code_classe,nom,prenom ', [session('year')]);
+                $p=parents::all();
+                $values['parents']=$p;
+                $values['eleves'] = $e;
+                $values['show_classe'] = true;
+                $values['titre_liste'] = trans('inscription.all_eleves');
+                return view('inscriptions.listes_parents', $values);
+            } else {
+                $values['titre'] = trans('inscription.listes');
+                $classe = classe::find($id);
+                $classe_name = $classe->getNom();
+                $e = DB::select('SELECT e.*,e.telephone_wathsapp_eleve,e.moyenne_generale,e.serie,e.localisation_ecole,e.source_financement,e.canal_decouvert,e.site_internet,e.abonnement,e.telephone_wathsapp_pere,e.telephone_wathsapp_mere,e.telephone_wathsapp_tuteur,e.matricule,e.id, e.nom ,e.prenom,e.date_naiss,e.diplome_preinscription,e.lieu_naiss,e.sexe,inscription.date_inscription,c.nom as nom_classe  FROM eleve e,inscription,classe c WHERE e.id=inscription.id_eleve and annee_scolaire=?  and inscription.desinscrire=0 and inscription.id_classe=c.id and c.id=? AND inscription.id_cycle=? AND inscription.id_nniveau=? ORDER BY nom,prenom ', [session('year'), $id,$cycle,$nniveau]);
+               $p=parents::all();
+                $values['parents']=$p;
+                $values['eleves'] = $e;
+                @$values['titre_liste'] = trans('inscription.eleves_de') . ' ' . ($classe_name).' '.NNiveau::find($nniveau)->nom;
+                return view('inscriptions.listes_parents', $values);
+            }
+        }else
+        {
+            $boursesQueryPart = '';
+            if($option==1){
+                $tranches = "s.tranche1";
+                $tranche = "s.tranche1";
+                $motif=trans('admin.tranche1');
+                if (Values::SCHOOLFEES_SLICE_NUMBER <= 1) {
+                    $boursesQueryPart = '+ COALESCE(b.montant, 0)';
+                    $values['last_installment'] = true;
+                }
+            }else if($option==2){
+                $tranches = "(s.tranche1+s.tranche2)";
+                $tranche = "s.tranche2";
+                $motif=trans('admin.tranche2');
+
+                if (Values::SCHOOLFEES_SLICE_NUMBER <= 2) {
+                    $boursesQueryPart = '+ COALESCE(b.montant, 0)';
+                    $values['last_installment'] = true;
+                }
+            }else if($option==3){
+                $tranches = "(s.tranche1+s.tranche2+s.tranche3)";
+                $tranche = "s.tranche3";
+                $motif=trans('admin.tranche3');
+
+                if (Values::SCHOOLFEES_SLICE_NUMBER <= 3) {
+                    $boursesQueryPart = '+ COALESCE(b.montant, 0)';
+                    $values['last_installment'] = true;
+                }
+            }else if($option==4){
+                $tranches = "(s.tranche1+s.tranche2+s.tranche3+s.tranche4)";
+                $tranche = "s.tranche4";
+                $motif=trans('admin.tranche4');
+
+                if (Values::SCHOOLFEES_SLICE_NUMBER <= 4) {
+                    $boursesQueryPart = '+ COALESCE(b.montant, 0)';
+                    $values['last_installment'] = true;
+                }
+            }else if($option==5){
+                $tranches = "(s.tranche1+s.tranche2+s.tranche3+s.tranche4+s.tranche5)";
+                $tranche = "(s.tranche1+s.tranche2+s.tranche3+s.tranche4+s.tranche5)";
+
+                $motif=trans('admin.tranche5');
+
+                if (Values::SCHOOLFEES_SLICE_NUMBER <= 5) {
+                    $boursesQueryPart = '+ COALESCE(b.montant, 0)';
+                    $values['last_installment'] = true;
+                }
+            }
+            else
+            {
+                $tranches = "(s.tranche1+s.tranche2+s.tranche3+s.tranche4+s.tranche5)";
+                $tranche = "(s.tranche1+s.tranche2+s.tranche3+s.tranche4+s.tranche5)";
+                $boursesQueryPart = '+ COALESCE(b.montant, 0)';
+                $values['last_installment'] = true;
+                $motif=trans('admin.schoolfees');
+            }
+
+
+
+            if($type == static::OP_TYPE_PAID)
+            {
+                $opComp='>=';
+                $values['paid'] = true;
+
+                $t0=trans('admin.paid_eleve').' : '.$motif;
+            }
+            else
+            {
+                $opComp='<';
+                $t0=trans('admin.unpaid_eleve').' : '.$motif;
+            }
+
+            if ($id == 0) {
+                $values['titre'] = trans('inscription.listes');
+
+                $e = DB::select('SELECT e.*,e.telephone_wathsapp_eleve,e.moyenne_generale,e.serie,e.localisation_ecole,e.source_financement,e.canal_decouvert,e.site_internet,e.abonnement,e.telephone_wathsapp_pere,e.telephone_wathsapp_mere,e.telephone_wathsapp_tuteur,e.matricule,inscription.type_scolarite,inscription.date_inscription,e.id, e.nom ,e.prenom,e.date_naiss,e.lieu_naiss,e.diplome_preinscription,e.sexe,c.nom as nom_classe,c.code as code_classe,sol.solde,' . $tranche . ' AS tranche ,(' . $tranches . ' - sol.solde) AS reste, nn.nom as nniveau, b.montant as montant_bourse FROM n_niveaus nn, eleve e LEFT JOIN bourses as b ON (e.id = b.id_eleve AND b.annee_scolaire = ?),inscription,classe c,niveau n,scolarite s, (SELECT SUM(CASE WHEN p.type = 0 AND p.id_inscription=0 THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id  WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and inscripton.desinscrire=0 and inscription.annee_scolaire=? and inscription.id_classe=c.id AND sol.id=e.id AND c.id_niveau=n.id AND  s.id_niveau=n.id AND s.id_cycle=inscription.id_cycle AND inscription.type_scolarite=s.type_scolarite AND (sol.solde ' . $boursesQueryPart . ' - ' . $tranches . ')'.$opComp.'0 AND inscription.id_nniveau=nn.id ORDER BY code_classe,nom,prenom', [session('year'), session('year'), session('year')]);
+                $p=parents::all();
+                $values['parents']=$p;
+                $values['eleves'] = $e;
+                $values['titre_liste'] = $t0.' - '.trans('inscription.all_eleves');
+                if($type != null) {
+                    $values['type']=$type;
+                }
+                $values['show_classe'] = true;
+                return view('inscriptions.listes_parents', $values);
+            } else {
+                $values['titre'] = trans('inscription.listes');
+                $classe = classe::find($id);
+                $classe_name = $classe->getNom();
+                $e = DB::select('SELECT e.*,e.telephone_wathsapp_eleve,e.moyenne_generale,e.serie,e.localisation_ecole,e.source_financement,e.canal_decouvert,e.site_internet,e.abonnement,e.telephone_wathsapp_pere,e.telephone_wathsapp_mere,e.telephone_wathsapp_tuteur,e.matricule,e.id, inscription.type_scolarite,inscription.date_inscription, e.nom ,e.prenom,e.date_naiss,e.lieu_naiss,e.diplome_preinscription,e.sexe,c.nom as nom_classe,sol.solde,' . $tranche . ' AS tranche ,(' . $tranches . ' - sol.solde) AS reste, b.montant as montant_bourse  FROM eleve e LEFT JOIN bourses as b ON (e.id = b.id_eleve AND b.annee_scolaire = ?),inscription,classe c,niveau n,scolarite s, (SELECT SUM(CASE WHEN p.type = 0 AND p.id_inscription=0 THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and inscription.annee_scolaire=? and inscripton.desinscrire=0 and inscription.id_classe=c.id AND sol.id=e.id AND c.id_niveau=n.id AND s.id_niveau=n.id AND s.id_cycle=inscription.id_cycle AND inscription.type_scolarite=s.type_scolarite  AND (sol.solde + ' . $boursesQueryPart . ' - ' . $tranches . ')'.$opComp.'0 AND c.id=? AND inscription.id_cycle=? AND inscription.id_nniveau=? ORDER BY nom_classe,nom,prenom', [session('year'), session('year'), session('year'), $id, $cycle, $nniveau]);
+                $p=parents::all();
+                $values['parents']=$p;
+                $values['eleves'] = $e;
+                $values['titre_liste'] = $t0.' - '. $classe_name.' '.NNiveau::find($nniveau)->nom;
+                if($type != null) {
+                    $values['type']=$type;
+                }
+                return view('inscriptions.listes_parents', $values);
             }
 
 
@@ -316,79 +414,331 @@ class listesController extends Controller {
         $values['titre'] = trans('inscription.listes');
 
         $added='';
-        if($type==1){
-            if ($classe==0)
-            {
-                if($frais != 0)
 
-                    $e = DB::select('SELECT e.*, nn.nom as nniveau,c.nom as nom_classe, c.code AS code_classe,f.montant as total, sol.solde as tranche,(f.montant-sol.solde) as reste  FROM eleve e,inscription,classe c,frais f, n_niveaus nn, (SELECT SUM(CASE WHEN (p.type=?) THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and inscription.annee_scolaire=? AND sol.id=e.id and inscription.id_classe=c.id AND inscription.id_nniveau = nn.id   AND f.id=? AND (f.montant-sol.solde)<=0 ORDER BY nom_classe,nom,prenom ', [$frais,session('year'),session('year'),$frais]);
-                else
-                    $e = DB::select('SELECT e.*, nn.nom as nniveau, c.nom as nom_classe, c.code AS code_classe, s.inscription as total, sol.solde as tranche,(s.inscription-sol.solde) as reste  FROM eleve e,inscription,classe c,niveau n,scolarite s, (SELECT SUM(CASE WHEN (p.id_inscription<>0) THEN p.montant ELSE 0 END) as solde,e.id FROM n_niveaus nn, eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve  AND sol.id=e.id and inscription.id_classe=c.id and inscription.annee_scolaire=? and s.annee_scolaire=? AND c.id_niveau=n.id AND s.id_niveau=n.id AND inscription.id_nniveau = nn.id  AND (s.inscription-sol.solde)<=0  ORDER BY nom_classe,nom,prenom ', [session('year'),session('year'),session('year')]);
-
-
-
-            }
-            else
-            {
-                if($frais!=0)
-
-                    $e = DB::select('SELECT e.*, nn.nom as nniveau, c.nom as nom_classe, c.code AS code_classe, f.montant as total, sol.solde as tranche,(f.montant-sol.solde) as reste  FROM eleve e,inscription,classe c,frais f, n_niveaus nn, (SELECT SUM(CASE WHEN (p.type=?) THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and inscription.annee_scolaire=? AND sol.id=e.id and inscription.id_classe=c.id AND inscription.id_nniveau = nn.id AND nn.id = ?  AND f.id=? AND (f.montant-sol.solde)<=0 AND c.id=? ORDER BY nom_classe,nom,prenom ', [$frais,session('year'),session('year'), $nniveau,$frais,$classe]);
-                else
-                    $e = DB::select('SELECT e.*, nn.nom as nniveau, c.nom as nom_classe, c.code AS code_classe, s.inscription as total, sol.solde as tranche,(s.inscription-sol.solde) as reste  FROM eleve e,inscription,classe c,niveau n,scolarite s, n_niveaus nn, (SELECT SUM(CASE WHEN (p.id_inscription<>0) THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and inscription.annee_scolaire=? and s.annee_scolaire=? AND sol.id=e.id and inscription.id_classe=c.id AND c.id=? AND c.id_niveau=n.id AND s.id_niveau=n.id AND inscription.id_nniveau = nn.id AND nn.id = ? AND (s.inscription-sol.solde)<=0  ORDER BY nom_classe,nom,prenom ', [session('year'),session('year'),session('year'),$classe, $nniveau]);
-
-                $added=classe::find($classe)->nom;
-            }
-
+        if ($type == static::OP_TYPE_PAID) {
+            $opComp = '<=';
             $values['paid'] = true;
+            $typeString = 'paid_eleve';
+        } else {
+            $opComp = '>';
+            $typeString = 'unpaid_eleve';
+        }
 
-            if($frais!=0)
-                $values['titre_liste'] = trans('admin.paid_eleve').' : '.$f->nom.' - '.$added;
-            else
-                $values['titre_liste'] = trans('admin.paid_eleve').' : '.trans('admin.inscription').' - '.$added;
-
-        }else
+        if ($classe==0)
         {
-            if ($classe==0)
-            {
-                if($frais!=0)
+            $added = trans('inscription.all_eleves');
 
-                    $e = DB::select('SELECT e.*, nn.nom as nniveau,c.nom as nom_classe, c.code AS code_classe, f.montant as total, sol.solde as tranche,(f.montant-sol.solde) as reste  FROM eleve e,inscription,classe c,frais f, n_niveaus nn, (SELECT SUM(CASE WHEN (p.type=?) THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and inscription.annee_scolaire=? AND sol.id=e.id and inscription.id_classe=c.id AND inscription.id_nniveau = nn.id   AND f.id=? AND (f.montant-sol.solde) > 0 ORDER BY nom_classe,nom,prenom ', [$frais,session('year'),session('year'),$frais]);
-                else
-                    $e = DB::select('SELECT e.*, nn.nom as nniveau, c.nom as nom_classe, c.code AS code_classe, s.inscription as total, sol.solde as tranche,(s.inscription-sol.solde) as reste  FROM eleve e,inscription,classe c,niveau n,scolarite s, (SELECT SUM(CASE WHEN (p.id_inscription<>0) THEN p.montant ELSE 0 END) as solde,e.id FROM n_niveaus nn, eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve  AND sol.id=e.id and inscription.id_classe=c.id and inscription.annee_scolaire=? and s.annee_scolaire=? AND c.id_niveau=n.id AND s.id_niveau=n.id AND inscription.id_nniveau = nn.id  AND (s.inscription-sol.solde) > 0  ORDER BY nom_classe,nom,prenom ', [session('year'),session('year'),session('year')]);
+            if($frais != 0)
 
-
-            }
+                $e = DB::select('SELECT e.*, nn.nom as nniveau,c.nom as nom_classe, c.code AS code_classe,f.montant as total, sol.solde as tranche,(f.montant-sol.solde) as reste, sol.nb_payement  FROM eleve e,inscription,classe c,frais f, n_niveaus nn, (SELECT SUM(CASE WHEN (p.type=?) THEN p.montant ELSE 0 END) as solde, e.id, COUNT(CASE WHEN (p.type=?) THEN 1 ELSE null END) as nb_payement FROM eleve e LEFT JOIN payement p ON (p.id_eleve=e.id) WHERE p.annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and inscription.annee_scolaire=?  AND inscripton.desinscrire=0 AND sol.id = e.id and inscription.id_classe=c.id AND inscription.id_nniveau = nn.id AND f.id=? AND (((f.montant-sol.solde) ' . $opComp . ' 0 AND sol.nb_payement > 0) OR (sol.nb_payement <= 0 AND ' . $type . ' = 0))  ORDER BY nom_classe,nom,prenom ', [$frais, $frais, session('year'), session('year'), $frais]);
             else
-            {
-                if($frais!=0)
-
-                    $e = DB::select('SELECT e.*, nn.nom as nniveau, c.nom as nom_classe, c.code AS code_classe, f.montant as total, sol.solde as tranche,(f.montant-sol.solde) as reste  FROM eleve e,inscription,classe c,frais f, n_niveaus nn, (SELECT SUM(CASE WHEN (p.type=?) THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and inscription.annee_scolaire=? AND sol.id=e.id and inscription.id_classe=c.id AND inscription.id_nniveau = nn.id AND nn.id = ?  AND f.id=? AND (f.montant-sol.solde) > 0 AND c.id=? ORDER BY nom_classe,nom,prenom ', [$frais,session('year'),session('year'), $nniveau,$frais,$classe]);
-                else
-                    $e = DB::select('SELECT e.*, nn.nom as nniveau, c.nom as nom_classe, c.code AS code_classe, s.inscription as total, sol.solde as tranche,(s.inscription-sol.solde) as reste  FROM eleve e,inscription,classe c,niveau n,scolarite s, n_niveaus nn, (SELECT SUM(CASE WHEN (p.id_inscription<>0) THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and inscription.annee_scolaire=? and s.annee_scolaire=? AND sol.id=e.id and inscription.id_classe=c.id AND c.id=? AND c.id_niveau=n.id AND s.id_niveau=n.id AND inscription.id_nniveau = nn.id AND nn.id = ? AND (s.inscription-sol.solde) > 0  ORDER BY nom_classe,nom,prenom ', [session('year'),session('year'),session('year'),$classe, $nniveau]);
-
-                $added=classe::find($classe)->nom;
-
-
-            }
+                $e = DB::select('SELECT e.*, nn.nom as nniveau, c.nom as nom_classe, c.code AS code_classe, s.inscription as total, sol.solde as tranche,(s.inscription-sol.solde) as reste  FROM eleve e,inscription,classe c,niveau n,scolarite s, (SELECT SUM(CASE WHEN (p.id_inscription<>0) THEN p.montant ELSE 0 END) as solde,e.id FROM n_niveaus nn, eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve  AND sol.id=e.id and inscription.id_classe=c.id and inscription.annee_scolaire=?  AND inscripton.desinscrire=0 and s.annee_scolaire=? AND c.id_niveau=n.id AND s.id_niveau=n.id AND inscription.id_nniveau = nn.id  AND (s.inscription - sol.solde) ' . $opComp . ' 0  ORDER BY nom_classe,nom,prenom ', [session('year'),session('year'),session('year')]);
+        }
+        else
+        {
+            $added = classe::find($classe)->getNom() . ' - ' . NNiveau::find($nniveau)->nom;
 
             if($frais!=0)
-                $values['titre_liste'] = trans('admin.unpaid_eleve').' : '.$f->nom.' - '.$added;
+
+                $e = DB::select('SELECT e.*, nn.nom as nniveau, c.nom as nom_classe, c.code AS code_classe, f.montant as total, sol.solde as tranche,(f.montant-sol.solde) as reste, sol.nb_payement  FROM eleve e,inscription,classe c,frais f, n_niveaus nn, (SELECT SUM(CASE WHEN (p.type=?) THEN p.montant ELSE 0 END) as solde, e.id, COUNT(CASE WHEN (p.type=?) THEN 1 ELSE null END) as nb_payement FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and inscription.annee_scolaire=?   AND inscripton.desinscrire=0 AND sol.id=e.id and inscription.id_classe=c.id AND inscription.id_nniveau = nn.id AND nn.id = ?  AND f.id=? AND (((f.montant-sol.solde) ' . $opComp . ' 0 AND sol.nb_payement > 0) OR (sol.nb_payement <= 0 AND ' . $type . ' = 0)) AND c.id=? ORDER BY nom_classe,nom,prenom ', [$frais, $frais, session('year'),session('year'), $nniveau,$frais,$classe]);
             else
-                $values['titre_liste'] = trans('admin.unpaid_eleve').' : '.trans('admin.inscription').' - '.$added;
+                $e = DB::select('SELECT e.*, nn.nom as nniveau, c.nom as nom_classe, c.code AS code_classe, s.inscription as total, sol.solde as tranche,(s.inscription-sol.solde) as reste  FROM eleve e,inscription,classe c,niveau n,scolarite s, n_niveaus nn, (SELECT SUM(CASE WHEN (p.id_inscription<>0) THEN p.montant ELSE 0 END) as solde,e.id FROM eleve e LEFT JOIN payement p ON p.id_eleve=e.id WHERE  annee_scolaire=? GROUP BY e.id) AS sol WHERE e.id=inscription.id_eleve and inscription.annee_scolaire=? and s.annee_scolaire=? AND sol.id=e.id    AND inscripton.desinscrire=0 and inscription.id_classe=c.id AND c.id=? AND c.id_niveau=n.id AND s.id_niveau=n.id AND inscription.id_nniveau = nn.id AND nn.id = ? AND (s.inscription-sol.solde) ' . $opComp . ' 0  ORDER BY nom_classe,nom,prenom ', [session('year'),session('year'),session('year'),$classe, $nniveau]);
 
         }
+
+        if($frais != 0)
+            $values['titre_liste'] = trans('admin.' . $typeString).' : '.$f->nom.' - '.$added;
+        else
+            $values['titre_liste'] = trans('admin.' . $typeString).' : '.trans('admin.inscription').' - '.$added;
+
 
         if($type != null) {
             $values['type']=$type;
         }
+        $p=parents::all();
+        $values['parents']=$p;
         $values['show_classe'] = true;
         $values['eleves'] = $e;
         return view('inscriptions.listes', $values);
+    }
+
+
+    public function liste_acces(Request $request)
+    {
+        $this->validate($request,[
+            'classe'=>'required'
+        ]);
+
+
+        $classe = $request->input('classe');
+        $nniveau = $request->input('nniveau');
+
+        if($classe != 0) {
+            if($nniveau == null || strlen($nniveau) <= 0) {
+                return redirect()->to(\URL::previous())->withErrors(['no_nniveau' => trans('admin.must_specify', ['value' => trans('admin.nniveau')])]);
+            }
+        }
+
+        $values['titre'] = trans('inscription.listes');
+
+        $added='';
+        $today=date('Y-m-d');
+
+        if ($classe==0)
+        {
+            $added = trans('inscription.all_eleves');
+            $e = eleve::join('acces_eleves', 'eleve.id', '=', 'acces_eleves.id_eleve')
+                ->join('inscription', 'eleve.id', '=', 'inscription.id_eleve')
+                ->join('n_niveaus', 'n_niveaus.id', '=', 'inscription.id_nniveau')
+                ->join('classe', 'classe.id', '=', 'inscription.id_classe')
+                ->where('acces_eleves.annee_scolaire', '=', session('year'))
+               // ->where('acces_eleves.decision', '=', 2)
+                ->where('acces_eleves.date_fin','>', $today)
+
+                ->where('inscription.annee_scolaire', '=', session('year'))
+                ->where('desinscrire','=',0)
+                ->select(['eleve.*','acces_eleves.*', 'classe.code as code_classe', 'n_niveaus.nom as nniveau'])
+                ->orderBy('code_classe')
+                ->orderBy('nom')
+                ->orderBy('prenom')
+                ->get();
+        } else
+        {
+            $added = classe::find($classe)->getNom() . ' - ' . NNiveau::find($nniveau)->nom;
+            $e = eleve::join('acces_eleves', 'eleve.id', '=', 'acces_eleves.id_eleve')
+                ->join('inscription', 'eleve.id', '=', 'inscription.id_eleve')
+                ->join('n_niveaus', 'n_niveaus.id', '=', 'inscription.id_nniveau')
+                ->join('classe', 'classe.id', '=', 'inscription.id_classe')
+                ->where('acces_eleves.annee_scolaire', '=', session('year'))
+                ->where('desinscrire','=',0)
+               // ->where('acces_eleves.decision', '=', 2)
+               ->where('acces_eleves.date_fin','>', $today)
+
+                ->where('inscription.annee_scolaire', '=', session('year'))
+                ->where('n_niveaus.id', '=', $nniveau)
+                ->where('classe.id', '=', $classe)
+                ->select(['eleve.*','acces_eleves.*', 'classe.code as code_classe', 'n_niveaus.nom as nniveau'])
+                ->orderBy('code_classe')
+                ->orderBy('nom')
+                ->orderBy('prenom')
+                ->get();
+        }
+
+
+        $values['titre_liste'] = trans('admin.liste_acces') . ' : '. $added;
+
+        $p=parents::all();
+        $values['parents']=$p;
+        $values['show_classe'] = true;
+        $values['show_montant'] = true;
+        $values['eleves'] = $e;
+        return view('inscriptions.listes_acces', $values);
+    }
+
+
+    public function liste_acces_autirise(Request $request)
+    {
+        $this->validate($request,[
+            'classe'=>'required'
+        ]);
+
+
+        $classe = $request->input('classe');
+        $nniveau = $request->input('nniveau');
+
+        if($classe != 0) {
+            if($nniveau == null || strlen($nniveau) <= 0) {
+                return redirect()->to(\URL::previous())->withErrors(['no_nniveau' => trans('admin.must_specify', ['value' => trans('admin.nniveau')])]);
+            }
+        }
+
+        $values['titre'] = trans('inscription.listes');
+
+        $added='';
+        $today=date('Y-m-d');
+
+        if ($classe==0)
+        {
+            $added = trans('inscription.all_eleves');
+            $e = eleve::join('acces_eleves', 'eleve.id', '=', 'acces_eleves.id_eleve')
+                ->join('inscription', 'eleve.id', '=', 'inscription.id_eleve')
+                ->join('n_niveaus', 'n_niveaus.id', '=', 'inscription.id_nniveau')
+                ->join('classe', 'classe.id', '=', 'inscription.id_classe')
+                ->where('acces_eleves.annee_scolaire', '=', session('year'))
+               // ->where('acces_eleves.decision', '=', 1)
+               ->where('acces_eleves.date_fin','>', $today)
+
+                ->where('inscription.annee_scolaire', '=', session('year'))
+                ->where('desinscrire','=',0)
+                ->select(['eleve.*','acces_eleves.*', 'classe.code as code_classe', 'n_niveaus.nom as nniveau'])
+                ->orderBy('code_classe')
+                ->orderBy('nom')
+                ->orderBy('prenom')
+                ->get();
+        } else
+        {
+            $added = classe::find($classe)->getNom() . ' - ' . NNiveau::find($nniveau)->nom;
+            
+            $e = eleve::join('acces_eleves', 'eleve.id', '=', 'acces_eleves.id_eleve')
+                ->join('inscription', 'eleve.id', '=', 'inscription.id_eleve')
+                ->join('n_niveaus', 'n_niveaus.id', '=', 'inscription.id_nniveau')
+                ->join('classe', 'classe.id', '=', 'inscription.id_classe')
+                ->where('acces_eleves.annee_scolaire', '=', session('year'))
+               // ->where('acces_eleves.decision', '=', 1)
+               ->where('acces_eleves.date_fin','>', $today)
+                ->where('inscription.annee_scolaire', '=', session('year'))
+                ->where('desinscrire','=',0)
+                ->where('n_niveaus.id', '=', $nniveau)
+                ->where('classe.id', '=', $classe)
+                ->select(['eleve.*','acces_eleves.*', 'classe.code as code_classe', 'n_niveaus.nom as nniveau'])
+                ->orderBy('code_classe')
+                ->orderBy('nom')
+                ->orderBy('prenom')
+                ->get();
+        }
+
+
+        $values['titre_liste'] = trans('admin.liste_accesok') . ' : '. $added;
+
+        $p=parents::all();
+        $values['parents']=$p;
+        $values['show_classe'] = true;
+        $values['show_montant'] = true;
+        $values['eleves'] = $e;
+        return view('inscriptions.listes_accesok', $values);
+    }
+
+
+    public function demissionaire(Request $request)
+    {
+        $this->validate($request,[
+            'classe'=>'required'
+        ]);
+
+
+        $classe = $request->input('classe');
+        $nniveau = $request->input('nniveau');
+
+        if($classe != 0) {
+            if($nniveau == null || strlen($nniveau) <= 0) {
+                return redirect()->to(\URL::previous())->withErrors(['no_nniveau' => trans('admin.must_specify', ['value' => trans('admin.nniveau')])]);
+            }
+        }
+
+        $values['titre'] = trans('inscription.listes');
+
+        $added='';
+
+        if ($classe==0)
+        {
+            $added = trans('inscription.all_eleves');
+            $e = eleve::join('inscription', 'eleve.id', '=', 'inscription.id_eleve')
+                ->join('n_niveaus', 'n_niveaus.id', '=', 'inscription.id_nniveau')
+                ->join('classe', 'classe.id', '=', 'inscription.id_classe')
+                ->where('inscription.annee_scolaire', '=', session('year'))
+                ->where('acces_eleves.decision', '=', 1)
+                ->where('inscription.annee_scolaire', '=', session('year'))
+                ->where('desinscrire','=',0)
+                ->select(['eleve.*','acces_eleves.*', 'classe.code as code_classe', 'n_niveaus.nom as nniveau'])
+                ->orderBy('code_classe')
+                ->orderBy('nom')
+                ->orderBy('prenom')
+                ->get();
+        } else
+        {
+            $added = classe::find($classe)->getNom() . ' - ' . NNiveau::find($nniveau)->nom;
+            $e = eleve::join('acces_eleves', 'eleve.id', '=', 'acces_eleves.id_eleve')
+                ->join('inscription', 'eleve.id', '=', 'inscription.id_eleve')
+                ->join('n_niveaus', 'n_niveaus.id', '=', 'inscription.id_nniveau')
+                ->join('classe', 'classe.id', '=', 'inscription.id_classe')
+                ->where('acces_eleves.annee_scolaire', '=', session('year'))
+                ->where('acces_eleves.decision', '=', 1)
+                ->where('inscription.annee_scolaire', '=', session('year'))
+                ->where('desinscrire','=',0)
+                ->where('n_niveaus.id', '=', $nniveau)
+                ->where('classe.id', '=', $classe)
+                ->select(['eleve.*','acces_eleves.*', 'classe.code as code_classe', 'n_niveaus.nom as nniveau'])
+                ->orderBy('code_classe')
+                ->orderBy('nom')
+                ->orderBy('prenom')
+                ->get();
+        }
+
+
+        $values['titre_liste'] = trans('admin.liste_acces') . ' : '. $added;
+
+        $p=parents::all();
+        $values['parents']=$p;
+        $values['show_classe'] = true;
+        $values['show_montant'] = true;
+        $values['eleves'] = $e;
+        return view('inscriptions.listes_accesok', $values);
+    }
 
 
 
+    public function showBourses(Request $request)
+    {
+        $this->validate($request,[
+            'classe'=>'required'
+        ]);
 
 
+        $classe = $request->input('classe');
+        $nniveau = $request->input('nniveau');
+
+        if($classe != 0) {
+            if($nniveau == null || strlen($nniveau) <= 0) {
+                return redirect()->to(\URL::previous())->withErrors(['no_nniveau' => trans('admin.must_specify', ['value' => trans('admin.nniveau')])]);
+            }
+        }
+
+        $values['titre'] = trans('inscription.listes');
+
+        $added='';
+
+        if ($classe==0)
+        {
+            $added = trans('inscription.all_eleves');
+            $e = eleve::join('bourses', 'eleve.id', '=', 'bourses.id_eleve')
+                ->join('inscription', 'eleve.id', '=', 'inscription.id_eleve')
+                ->join('n_niveaus', 'n_niveaus.id', '=', 'inscription.id_nniveau')
+                ->join('classe', 'classe.id', '=', 'inscription.id_classe')
+                ->where('bourses.annee_scolaire', '=', session('year'))
+                ->where('inscription.annee_scolaire', '=', session('year'))
+                ->where('desinscrire','=',0)
+                ->select(['eleve.*', 'classe.code as code_classe', 'n_niveaus.nom as nniveau', 'bourses.montant'])
+                ->orderBy('code_classe')
+                ->orderBy('nom')
+                ->orderBy('prenom')
+                ->get();
+        } else
+        {
+            $added = classe::find($classe)->getNom() . ' - ' . NNiveau::find($nniveau)->nom;
+            $e = eleve::join('bourses', 'eleve.id', '=', 'bourses.id_eleve')
+                ->join('inscription', 'eleve.id', '=', 'inscription.id_eleve')
+                ->join('n_niveaus', 'n_niveaus.id', '=', 'inscription.id_nniveau')
+                ->join('classe', 'classe.id', '=', 'inscription.id_classe')
+                ->where('bourses.annee_scolaire', '=', session('year'))
+                ->where('inscription.annee_scolaire', '=', session('year'))
+                ->where('desinscrire','=',0)
+                ->where('n_niveaus.id', '=', $nniveau)
+                ->where('classe.id', '=', $classe)
+                ->select(['eleve.*', 'classe.code as code_classe', 'n_niveaus.nom as nniveau', 'bourses.montant'])
+                ->orderBy('code_classe')
+                ->orderBy('nom')
+                ->orderBy('prenom')
+                ->get();
+        }
+
+        $values['titre_liste'] = trans('admin.boursiers') . ' : '. $added;
+
+        $p=parents::all();
+        $values['parents']=$p;
+        $values['show_classe'] = true;
+        $values['show_montant'] = true;
+        $values['eleves'] = $e;
+        return view('inscriptions.listes', $values);
     }
 
     public function fiche_scolarite(Request $request){
@@ -405,16 +755,23 @@ class listesController extends Controller {
             ->orderBy('ordre')
             ->get();
         $frais_array = $frais_report->fetch('id')->toArray();
-        $scolarite = scolarite::where('id_cycle', '=', $id_cycle)
+
+        $scolarite_ancien = scolarite::where('id_cycle', '=', $id_cycle)
+                ->where('id_niveau', '=', $classe->id_niveau)
+                ->where('type_scolarite', '=', 0)
+                ->first();
+        $scolarite_nouveau = scolarite::where('id_cycle', '=', $id_cycle)
             ->where('id_niveau', '=', $classe->id_niveau)
+            ->where('type_scolarite', '=', 1)
             ->first();
+
 
             $eleves_inscrits = eleve::join('inscription', 'inscription.id_eleve', '=', 'eleve.id')
                 ->where('annee_scolaire', '=', session('year'))
                 ->where('id_cycle', '=', $id_cycle)
                 ->where('id_classe', '=', $id_classe)
                 ->where('id_nniveau', '=', $id_nniveau)
-                ->select(['eleve.id', 'matricule', 'nom', 'prenom', 'inscription.id as id_inscription'])
+                ->select(['eleve.id', 'matricule', 'nom', 'prenom','inscription.type_scolarite', 'inscription.id as id_inscription'])
                 ->orderBy('nom')
                 ->orderBy('prenom')
                 ->get();
@@ -422,8 +779,10 @@ class listesController extends Controller {
         foreach ($eleves_inscrits as $e) {
             $inscription = payement::where('id_eleve', '=', $e->id)
                 ->where('id_inscription', '=', $e->id_inscription)
+                ->where('desinscrire','=',0)
                 ->where('annee_scolaire', '=', session('year'))
                 ->first();
+
             $frais = payement::where('id_eleve', '=', $e->id)
                 ->where('annee_scolaire', '=', session('year'))
                 ->whereIn('type', $frais_array)
@@ -431,12 +790,24 @@ class listesController extends Controller {
             $payements = payement::where('id_eleve', '=', $e->id)
                 ->where('annee_scolaire', '=', session('year'))
                 ->where('type', '=', 0)
-                ->orderBy('date_payement', 'desc')
+                ->orderBy('date_payement')
                 ->get();
+            $scolarite_eleve=scolarite::where('id_cycle','=',$id_cycle)
+                ->where('id_niveau','=',$classe->niveau->id)
+                ->where('type_scolarite','=',$e->type_scolarite)
+                ->first();
+
+            $bourse = bourse::where('id_eleve', '=', $e->id)
+                ->where('annee_scolaire', '=', session('year'))
+                ->first();
+            if ($bourse) {
+                $e->montant_bourse = $bourse->montant;
+            }
 
             $e->montant_inscription = $inscription->montant;
             $e->payements_frais = $frais;
             $e->payements = $payements;
+            $e->scolarite=$scolarite_eleve;
 
         }
 
@@ -444,7 +815,8 @@ class listesController extends Controller {
             ->with('eleves', $eleves_inscrits)
             ->with('titre_liste', trans('admin.fiche_scolarite_eleve') . ' / ' . trans('admin.year') . ' ' . session('year')  . ' / ' . trans('admin.classe') . ' ' . $classe->code . ' - ' . $nniveau->nom)
             ->with('frais', $frais_report)
-            ->with('scolarite', $scolarite)
+            ->with('scolarite_ancien', $scolarite_ancien)
+            ->with('scolarite_nouveau', $scolarite_nouveau)
             ->with('titre', trans('admin.fiche_scolarite_eleve'))
             ->with('page_title', trans('admin.fiche_scolarite_eleve'));
     }

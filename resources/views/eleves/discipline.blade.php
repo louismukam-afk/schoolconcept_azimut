@@ -13,6 +13,7 @@
 
 
 
+
             <div class="etat-disc">
                 <h4>{{trans('eleve.etat_discipline').' '.$pers->nom.' '.$pers->prenom}}</h4>
                 @if(isset($exclus_def))
@@ -101,7 +102,15 @@
                                     <div class="col-md-6 gpe_heures">
                                         <div class="form-group">
                                             <label for="nb_heures">@lang('admin.nombre_heure_abscence') :</label>
-                                            <input id="nb_heures" name="nb_heures" type="number" class="form-control">
+                                            <input id="nb_heures" step="0.0005" name="nb_heures" type="number" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="heure_debut">Heure de début :</label>
+                                            <input id="heure_debut" name="heure_debut" type="text" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="heure_fin">Heure de fin :</label>
+                                            <input id="heure_fin" name="heure_fin" type="text" class="form-control">
                                         </div>
                                     </div>
 
@@ -163,8 +172,11 @@
                                 <table id="table_abs_inj" class=" table  table-striped table-condensed table-inverse" style="margin-top: 15px;">
                                     <thead>
                                     <th style="width:150px">@lang('admin.nombre_heure_abscence')</th>
+                                    <th style="width:150px">Heure(s) de début</th>
+                                    <th style="width:150px">heure(s) de fin</th>
                                     <th >Details</th>
                                     <th style="width: 100px">Date</th>
+                                    <th style="width: 25px"></th>
                                     <th style="width: 25px"></th>
 
                                     </thead>
@@ -190,12 +202,17 @@
                         <div class="modal-body">
 
 
+                            <a href="#" class="btn btn-lg btn-warning" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> @lang('inscription.imprimer')</a>
 
                                 <table id="table_abs_just" class=" table  table-striped table-condensed table-inverse" style="margin-top: 15px;">
                                     <thead>
                                     <th style="width:150px">@lang('admin.nombre_heure_abscence')</th>
+                                    <th style="width:150px">Heure(s) de début</th>
+                                    <th style="width:150px">heure(s) de fin</th>
+                                    <th style="width:150px">Motifs</th>
                                     <th >Details</th>
                                     <th style="width: 100px">Date</th>
+
 
                                     </thead>
                                     <tbody>
@@ -298,7 +315,7 @@
                     var abs_arr=JSON.parse(res.responseText);
                     var i=1;
                     $.each(abs_arr,function (key,val) {
-                        $('#table_abs_inj').find('tbody').append('<tr>  <td>'+ val.nb_heures +'</td> <td>'+ val.description +'</td> <td>'+ val.ddate +'</td> <td><input type="checkbox" value="'+ val.id +'" name="justify[]" ></td> </tr>');
+                        $('#table_abs_inj').find('tbody').append('<tr>  <td>'+ val.nb_heures +'</td><td>'+ val.heure_debut +'</td><td>'+ val.heure_fin +'</td>  <td>'+ val.description +'</td> <td>'+ val.ddate +'</td> <td><input type="checkbox" value="'+ val.id +'" name="justify[]" ></td></tr>');
                         i++;
                     });
 
@@ -321,7 +338,7 @@
                     var abs_arr=JSON.parse(res.responseText);
                     var i=1;
                     $.each(abs_arr,function (key,val) {
-                        $('#table_abs_just').find('tbody').append('<tr>  <td>'+ val.nb_heures +'</td> <td>'+ val.description +'</td> <td>'+ val.ddate +'</td>  </tr>');
+                        $('#table_abs_just').find('tbody').append('<tr>  <td>'+ val.nb_heures +'</td> <td>'+ val.heure_debut +'</td><td>'+ val.heure_fin +'</td>  <td>'+ val.motif_justification +'</td> <td>'+ val.description +'</td> <td>'+ val.ddate +'</td>  </tr>');
                         i++;
                     });
 
@@ -334,7 +351,7 @@
 
         function loadJoursEx() {
             startLoading();
-            $('#table_exclusion').find('tbody').html('');
+            $('#show_abscence_just').find('tbody').html('');
             $.ajax({
                 url:'{{url('/eleves/discipline/show/precision/').'/'.$pers->id}}',
                 type:'GET',
@@ -375,6 +392,50 @@
             })
 
         }
+
+
+        $('#loadAbscenceJust').dataTable( {
+            pageLength : 50,
+            dom: 'Bfrtip',
+            buttons: [
+                //'copy', 'csv', 'excel', 'pdf', 'print'
+                {
+                    extend: 'excelHtml5',
+                    text: '<i class="fa fa-file-excel-o"></i> Excel',
+                    titleAttr: 'Export to Excel',
+                    title: '{{trans('admin.etat_just')}}',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    }
+                }
+                ,
+                {
+                    extend: 'pdfHtml5',
+                    text: '<i class="fa fa-file-pdf-o"></i> PDF',
+                    titleAttr: 'PDF',
+                    title: '{{trans('admin.etat_just')}}',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    }
+                }
+                ,
+                {
+                    extend: 'print',
+                    text: '<i class="fa fa-print"></i> @lang("inscription.imprimer")',
+                    titleAttr: 'Imprimer',
+                    title: '{{trans('admin.etat_just')}}',
+                    exportOptions: {
+                        columns: ':not(:last-child)'
+                    }
+                }
+            ]
+        } );
+        $(function () {
+            //$('#date_debut').datepicker({ dateFormat: 'dd-mm-yy' });
+            //$('#date_fin').datepicker({ dateFormat: 'dd-mm-yy' });
+        });
+
+
 
         function justify() {
             startLoading();

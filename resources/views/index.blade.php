@@ -10,7 +10,7 @@
      <!-- FONTAWESOME STYLES-->
     <link href="{{ URL::asset('css/font-awesome.css')  }}" rel="stylesheet" />
         <!-- CUSTOM STYLES-->
-    <link href="{{ URL::asset('css/custom.css')  }}" rel="stylesheet" media="screen"/>
+    <link href="{{ URL::asset('css/custom.css?202212051300')  }}" rel="stylesheet" media="screen"/>
     <link href="{{ URL::asset('js/jquery-ui-1.12.1/jquery-ui.css')  }}" rel="stylesheet" media="screen"/>
     <link href="{{ URL::asset('js/datatables/datatables.min.css')  }}" rel="stylesheet"/>
     <link href="{{ URL::asset('js/chosen_v1.8.7/chosen.min.css')  }}" rel="stylesheet"/>
@@ -90,7 +90,7 @@
 <?php $u=\Illuminate\Support\Facades\Auth::user();
 if(session('nom_etab')==null){
     $p=\gesecole\parametres::all();
-    $nom_etab=$p->where('nom','nom_etablissement',false)->first();
+    $nom_etab=$p->where('nom','nom_etablissement')->first();
     session(['nom_etab'=>$nom_etab->valeur]);
 }
 ?>
@@ -244,7 +244,7 @@ if(session('nom_etab')==null){
 
                      <h2 class="big-title">{{  session('big_title')  }}</h2>
                     </div>
-                </div>              
+                </div>
                  <!-- /. ROW  -->
                   <hr style="margin-top: 0;margin-bottom: 0" />
                 <div class="row-fluid">
@@ -297,8 +297,15 @@ if(session('nom_etab')==null){
                             <div class="alert alert-danger">
                                 <ul>
                                     @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
+                                        <h5>{{ $error }}</h5>
                                     @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                <ul>
+                                    <h5>{{ session('success') }}</h5>
                                 </ul>
                             </div>
                         @endif
@@ -454,8 +461,70 @@ if(session('nom_etab')==null){
     </div>
 </div>
 
+<div class="modal fade" id="change-status-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" onclick="toggleScanStatus()">x</button>
+                <h4 class="modal-title">{{  trans('admin.remplir_champs')  }}</h4>
+            </div>
+            <div class="modal-body">
+
+                <form id="change-status-form" accept-charset="UTF-8" role="form" method="POST" action="{{ url('/inscriptions/eleve/set-status?status=1&id=') }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+
+
+
+                    <div class="form-group">
+                        <label for="date_debut">{{  trans('admin.date_debut')  }} : <span class="required">*</span></label>
+                        <input class="form-control" id="change_status-date_debut" name="date_debut" type="date"  value="{{ old('date_debut') }}" required autofocus />
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="date_fin">{{  trans('admin.date_fin')  }} : <span class="required">*</span></label>
+                        <input class="form-control" id="change_status-date_fin" name="date_fin" type="date"   value="{{ old('date_fin') }}" required />
+
+                    </div>
+                    <div class="form-group">
+                        <label for="montant">{{  trans('admin.montant')  }} : </label>
+                        <input class="form-control" id="change_status-montant" name="montant" type="number"  value="{{ old('montant') }}" disable>
+
+                    </div>
+
+                    <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
+
+                </form>
+
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
 </body>
 <script>
+    var scanActivated = false;
+    function enableScan() {
+        scanActivated = true;
+
+        console.log('Scan active')
+
+        $('#qrcode-input')[0].addEventListener('focusout', giveFocus)
+    }
+
+    function disableScan() {
+        scanActivated = false;
+        console.log('Scan desactive')
+        $('#qrcode-input')[0].removeEventListener('focusout', giveFocus)
+    }
+
+    function giveFocus(e) {
+        e.target.focus();
+    }
+
     $(function () {
         $('#submit_new_pass').click(function () {
             //$('#edit_pass').modal('hide');
@@ -636,7 +705,6 @@ if(session('nom_etab')==null){
         $('#confirm_delete_modal').modal('show');
     }
 
-
     $(function (){
         $('#qrcode-input').on('change', function (e){
             console.log('scanned', e.target.value);
@@ -677,10 +745,20 @@ if(session('nom_etab')==null){
             })
         })
 
-        $('#qrcode-input').on('focusout', function (e){
-            e.target.focus();
-        })
+
+        enableScan();
         $('.autocomplete').chosen({width : '100%'});
     })
+
+    function openChangeStatusModal(action) {
+        $('#change-status-form')[0].action = action
+        $('#change-status-modal').modal('show');
+    }
+
+    function allowStudentAccess(id) {
+        const action =  `{{ url('/inscriptions/eleve/set-status') }}?status=1&id=${id}`
+        openChangeStatusModal(action)
+    }
+
 </script>
 </html>

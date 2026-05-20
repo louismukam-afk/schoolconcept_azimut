@@ -81,7 +81,77 @@ function getRole($n){
 
     }
 
-    function getDecision($mgp){
+
+function getGrade1($note){
+    if($note>=27){
+        $grade[0]='A+';
+        $grade[1]=4;
+        return $grade;
+    }
+    if($note>=24){
+        $grade[0]='A';
+        $grade[1]=3.7;
+        return $grade;
+    }
+    if($note>=22.5){
+        $grade[0]='A-';
+        $grade[1]=3.3;
+        return $grade;
+    }
+    if($note>=21){
+        $grade[0]='B+';
+        $grade[1]=2.8;
+        return $grade;
+    }
+    if($note>=19.5){
+        $grade[0]='B';
+        $grade[1]=2.6;
+        return $grade;
+    }
+    if($note>=18){
+        $grade[0]='B-';
+        $grade[1]=2.4;
+        return $grade;
+    }
+    if($note>=16.5){
+        $grade[0]='C+';
+        $grade[1]=2.3;
+        return $grade;
+    }
+    if($note>=15){
+        $grade[0]='C';
+        $grade[1]=2;
+        return $grade;
+    }
+
+    if($note>=13.5){
+        $grade[0]='C-';
+        $grade[1]=1.7;
+        return $grade;
+    }
+    if($note>=12){
+        $grade[0]='D+';
+        $grade[1]=1.3;
+        return $grade;
+    }
+    if($note>=10.5){
+        $grade[0]='D';
+        $grade[1]=1;
+        return $grade;
+    }
+    if($note>=9){
+        $grade[0]='E';
+        $grade[1]=0;
+        return $grade;
+    }
+    $grade[0]='F';
+    $grade[1]=0;
+    return $grade;
+
+}
+
+
+function getDecision($mgp){
         if($mgp>=2){
             return trans('admin.admis');
 
@@ -99,6 +169,84 @@ function getSemestre($val){
     if ($val==0){
         return '1 & 2';
     }
+     if ($val==3){
+        return '3';
+    }
+       if ($val==4){
+        return '4';
+    }
+        if ($val==5){
+        return '5';
+    }
+          if ($val==6){
+        return '6';
+    }
+
+}
+
+function getMention1($note,$max){
+    $palier=7.5;
+    if($note<=($max*$palier)/30){
+        $mention= (session('locale')=='en')?  "Almost zero" :  "Presque nul";
+        return $mention;
+    }
+
+    $palier=9;
+    if($note<=($max*$palier)/30){
+        $mention= (session('locale')=='en')?  "Very weak" :  "Très faible";
+        return $mention;
+    }
+    $palier=11.985;
+    if($note<=($max*$palier)/30)
+    {
+        $mention= (session('locale')=='en')?  "Weak" :  "Faible";
+        return $mention;
+    }
+    $palier=13.485;
+    if($note<=($max*$palier)/30)
+    {
+        $mention= (session('locale')=='en')?  "Insufficient" :  "Insuffisant";
+        return $mention;
+    }
+    $palier=14.985;
+    if($note<=($max*$palier)/30)
+    {
+        $mention= (session('locale')=='en')?  "Poor" :  "Médiocre";
+        return $mention;
+    }
+    $palier=17.985;
+    if($note<=($max*$palier)/30)
+    {
+        $mention= (session('locale')=='en')?  "Fair" :  "Passable";
+        return $mention;
+    }
+    $palier=20.985;
+    if($note<=($max*$palier)/30)
+    {
+        $mention= (session('locale')=='en')?  "Pretty good" :  "Assez bien";
+        return $mention;
+    }
+    $palier=23.985;
+    if($note<=($max*$palier)/30)
+    {
+        $mention= (session('locale')=='en')?  "Good" :  "Bien";
+        return $mention;
+    }
+    $palier=26.985;
+    if($note<=($max*$palier)/30)
+    {
+        $mention= (session('locale')=='en')?  "Very good" :  "Très bien";
+        return $mention;
+    }
+    $palier=29.985;
+    if($note<=($max*$palier)/30)
+        return "Excellent";
+
+
+
+    $mention= (session('locale')=='en')?  "Perfect" :  "Parfait";
+    return $mention;
+
 }
 
 
@@ -209,6 +357,21 @@ function purify($str){
     $str=str_replace("\n","",$str);
     $str=str_replace("\r","",$str);
     return $str;
+}
+
+function getSchoolYears($from = 0, $radius = 5) {
+    return \gesecole\Services\Utils::getSchoolYears($from, $radius);
+}
+
+/**
+ * @param \gesecole\eleve $eleve
+ * @return string
+ */
+function getStudentFullName($eleve) {
+    if ($eleve) {
+        return (strlen($eleve->prenom) > 0) ? $eleve->nom . ' ' . $eleve->prenom : $eleve->nom;
+    }
+    return '';
 }
 
 ?>

@@ -70,10 +70,12 @@
 
                 <div class="specialite-annee">
                     <div class="specialite">
-                        <p><strong>Spécialité/ Speciality : </strong> {{$classe->nom}} <strong>- Niveau/ level : </strong>{{$nniveau->nom}}</p>
+                        <p><strong>Spécialité/ Speciality : </strong> {{$classe->nom}} <strong>- Niveau/ level : </strong>{{$nniveau->nom}}   
+                        <strong>Année académique/ Academic Year : </strong> {{session('year')}}</p>
+                      
                     </div>
                     <div class="annee_a">
-                        <p><strong>Année académique/ Academic Year : </strong> {{session('year')}}</p>
+                      
 
                     </div>
                 </div>
@@ -350,8 +352,9 @@
                         <td>/ 100 </td>
                         <td rowspan="2">{{$TMP}}</td>
                         <td rowspan="2">{{$TMV}}</td>
-                        <td>{{round($releve->mgp,3)}}</td>
-                        <td rowspan="2">{{round($releve->mgp/25,3)}}</td>
+						 <td>{{round($moy,6)}}</td>
+                        <td rowspan="2">{{round($moy/25,6)}}</td>
+                       
                         <td rowspan="2">{{getGrade($releve->mgp)[0]}}</td>
                         <td colspan="2">{{getMention($releve->mgp,100)}}</td>
 
@@ -388,16 +391,15 @@
 
 
             <div class="sign-footer">
+                <p><strong>YAOUNDE Le ..........................</strong></p>
                 <div class="jury">
                     <p><strong class="big-traductio"></strong></p>
                     <P></P>
-                    <p><strong><u>La Directrice des Affaires Académiques</u></strong></p>
+                    <p class="pull-left" style="text-align:left;"><strong><u>Le Directeur De L’ISH</u></strong></p>
 
                 </div>
                 <div class="dep">
-                    <p></p>
-                    <p><strong>YAOUNDE Le ..........................</strong></p>
-                    <p class="doyen" style="margin-top: 5%"><u><strong>Le Doyen de la FSEG</strong></u></p>
+                    <p class="doyen" style="margin-top: 1%"><u><strong>Le Doyen de la FSEG</strong></u></p>
                 </div>
             </div>
             <div class="releve-fait-le" style="font-size: 10px;display: none">
@@ -412,4 +414,10 @@
         <?php $ne++; ?>
     @endforeach
 
+@endsection
+@section('breadcrumb')
+    <li><strong><a href="{{url('eleves')}}">@lang('menu.gestion_notes')</a></strong></li>
+    <li><strong><a href="{{url('eleves/releves_soa')}}">@lang('admin.choix_classe')</a></strong></li>
+
+    <li class="active"><strong>{{$titre}}</strong></li>
 @endsection

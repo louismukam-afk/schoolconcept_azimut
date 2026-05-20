@@ -106,3 +106,9 @@
             </div>
         </div>
 @endsection
+@section('breadcrumb')
+    <li><strong><a href="{{url('eleves')}}">@lang('menu.gestion_notes')</a></strong></li>
+    <li><strong><a href="{{url('eleves/diplome_soa')}}">@lang('admin.choix_classe')</a></strong></li>
+
+    <li class="active"><strong>{{$titre}}</strong></li>
+@endsection

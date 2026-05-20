@@ -413,3 +413,9 @@
     @endforeach
 
 @endsection
+@section('breadcrumb')
+    <li><strong><a href="{{url('eleves')}}">@lang('menu.gestion_notes')</a></strong></li>
+    <li><strong><a href="{{url('eleves/releve_estic')}}">@lang('admin.choix_classe')</a></strong></li>
+
+    <li class="active"><strong>{{$titre}}</strong></li>
+@endsection

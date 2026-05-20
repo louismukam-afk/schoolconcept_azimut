@@ -97,9 +97,23 @@
                         <td>{{(session('locale')=='en')?$e->nom_classe_anglais:$e->nom_classe}}</td>
                         <td>
 
-                                    <a href="{{URL::to('/eleves/discipline/show/'.$e->id)}}"  class=" btn btn-success" ><span class="fa fa-bell-o"></span> {{trans('eleve.titre_discipline')}}</a
+                            <div class="btn-group">
+                                <a href="#" class=" btn btn-primary dropdown-toggle" data-toggle="dropdown">Actions <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li> <a href="{{URL::to('/eleves/discipline/show/'.$e->id)}}"  class=" btn btn-success" ><span class="fa fa-bell-o"></span> {{trans('eleve.titre_discipline')}}</a></li>
+                                    <li>  <a href="{{URL::to('/eleves/discipline/index_injustifier/'.$e->id)}}"  class="btn btn-toolbar" ><span class="fa fa-bell-o"></span> Justifié(s) une absence</a>
+                                    <li>  <a href="{{URL::to('/eleves/discipline/index_justifier/'.$e->id)}}"  class="btn btn-group-justified" ><span class="fa fa-bell-o"></span>Absences justifiées</a>
+                                    </li>
+                                </ul>
+                            </div>
 
 
+                           </td>
+
+                        {{-- <td>
+                             <a href="{{URL::to('/eleves/discipline/show_presnce/'.$e->id)}}"  class=" btn btn-success" ><span class="fa fa-bell-o"></span> Justifier une absence</a>
+
+                        </td>--}}
                     </tr>
                 @endforeach
                 </tbody>

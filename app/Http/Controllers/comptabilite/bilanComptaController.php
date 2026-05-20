@@ -120,7 +120,6 @@ class bilanComptaController extends Controller {
             $values['date_debut']=$date_debut;
             $values['date_fin']=$date_fin;
             $values['table_titre'] = $date_debut . ' - ' . $date_fin;
-
         }
         if(session('success')){
             $values['success']=true;

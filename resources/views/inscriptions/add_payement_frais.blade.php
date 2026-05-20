@@ -28,12 +28,12 @@
 
                 <div class="col-md-6">
                     
-                    <div class="form-group">
+                     <div class="form-group">
                         <label for="frais">@lang('admin.fee_type')</label>
                             <select name="type"  class="form-control" id="typeSelect" form="add_inscription_form" onchange="changeTypeAction()" style="font-size:20px; height: 50px; text-align: center; border:solid orange 2px" required="required">
                                 <option value=""> -- @lang('admin.selectionner') -- </option>
                                 @foreach($frais as $f)
-                                    <option value="{{$f->id}}" montant="{{$f->montant}}">{{$f->nom}}</option>
+                                    <option value="{{$f->id}}" montant="{{$f->montant}}" type="{{ $f->type }}">{{$f->nom}}</option>
                                 @endforeach
                             </select>
                     </div>
@@ -43,6 +43,26 @@
                     <div class="form-group">
                         <label for="motif">{{trans('inscription.motif')}} : </label>
                             <input type="text" name="motif" id="motif" placeholder="EX: 1ère tranche" class="form-control" required value="{{old('motif')}}">
+
+                    </div>
+                    <div class="form-group">
+                        <label>Montant en lettre</label>
+                        <input type="text" name="lettre"  class="form-control"  value="{{old('lettre')}}">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="mode_paye">{{trans('inscription.detail')}} : </label>
+                        <select form="add_inscription_form" id="mode_paye" name="mode_paye" class="form-control">
+                            <option value="bancaire">{{trans('inscription.bancaire') }}</option>
+                            <option value="orange money">{{trans('inscription.om')}}</option>
+                            <option value="espece">{{trans('inscription.espece')}}</option>
+
+                        </select>
+
+                    </div>
+                    <div class="form-group">
+                        <label>{{trans('inscription.ref')}} </label>
+                        <input type="text" name="ref_versement"  class="form-control"  value="{{old('ref_versement')}}">
 
                     </div>
                     <input type="submit" class="btn btn-success form-control" value="{{trans('admin.confirmer')}}" >

@@ -168,11 +168,10 @@ table{
         margin-right: 4%;
     }
 
-    .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button
+    .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.breadcrumb
     {
         display: none;
     }
-
     .releve{
         page-break-after: always !important;
         position: relative;

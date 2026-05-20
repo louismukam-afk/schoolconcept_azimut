@@ -1,6 +1,20 @@
 @extends('skeleton')
 @section('sub-content')
     @include('perso.functions')
+    <link rel="stylesheet"  href="{{URL::asset('css/releves.css')}}">
+
+    <?php
+        $printFormat = strtolower(\Input::get('format', 'a4'));
+        if (!in_array($printFormat, array('a4', 'a3'))) {
+            $printFormat = 'a4';
+        }
+        $currentUrl = \Request::url();
+        $query = \Input::all();
+        $queryA4 = array_merge($query, array('format' => 'a4'));
+        $queryA3 = array_merge($query, array('format' => 'a3'));
+        $printUrlA4 = $currentUrl.'?'.http_build_query($queryA4);
+        $printUrlA3 = $currentUrl.'?'.http_build_query($queryA3);
+    ?>
 
     <style>
         .result-table thead,.result-table thead th
@@ -9,10 +23,98 @@
             padding-top: 0 !important;
             padding-bottom: 0 !important;
         }
-    </style>
-    <a href="#" class="btn btn-lg btn-warning" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> @lang('inscription.imprimer')</a>
 
-    <link rel="stylesheet"  href="{{URL::asset('css/releves.css')}}">
+        .print-toolbar {
+            margin-bottom: 15px;
+        }
+
+        .print-toolbar .btn {
+            margin-right: 5px;
+        }
+
+        @media print {
+            .print-toolbar {
+                display: none !important;
+            }
+
+            @page {
+                size: {{ strtoupper($printFormat) }} portrait;
+                margin-top: 2%;
+                margin-bottom: 2%;
+                margin-left: 2%;
+                margin-right: 2%;
+            }
+
+            @if($printFormat == 'a3')
+                .releve {
+                    min-height: 396mm !important;
+                    height: auto !important;
+                    font-size: 14px !important;
+                }
+
+                .content,
+                .sign-footer {
+                    font-size: 14px !important;
+                }
+
+                .titre p {
+                    font-size: 24px !important;
+                }
+
+                p {
+                    font-size: 14px !important;
+                    line-height: 18px !important;
+                }
+
+                table {
+                    font-size: 13px !important;
+                }
+
+                .table tbody tr,
+                .table tbody tr td {
+                    height: 18px !important;
+                    line-height: 18px !important;
+                    padding-top: 2px !important;
+                    padding-bottom: 2px !important;
+                }
+
+                .table thead th {
+                    font-size: 13px !important;
+                    line-height: 17px !important;
+                    padding-top: 3px !important;
+                    padding-bottom: 3px !important;
+                }
+
+                .big-traductio,
+                .big-traduction {
+                    font-size: 13px !important;
+                }
+
+                .titre {
+                    margin-top: 8mm !important;
+                    margin-bottom: 8mm !important;
+                }
+            @else
+                .releve {
+                    min-height: 273mm !important;
+                    height: auto !important;
+                }
+            @endif
+        }
+    </style>
+
+    <div class="print-toolbar">
+        <a href="{{$printUrlA4}}" class="btn btn-lg @if($printFormat == 'a4') btn-primary @else btn-default @endif">
+            Format A4 portrait
+        </a>
+        <a href="{{$printUrlA3}}" class="btn btn-lg @if($printFormat == 'a3') btn-primary @else btn-default @endif">
+            Format A3 portrait
+        </a>
+        <a href="#" class="btn btn-lg btn-warning" onclick="window.print(); return false;">
+            <span class="glyphicon glyphicon-print"></span> @lang('inscription.imprimer')
+        </a>
+    </div>
+
     <?php $ne=0 ?>
     @foreach($PV as $releve)
         <?php
@@ -67,7 +169,8 @@
 
                 <div class="specialite-annee">
                     <div class="specialite">
-                        <p><strong>Spécialité/ Speciality : </strong> {{$classe->nom}} <strong>- Niveau/ level : </strong>{{$nniveau->nom}}</p>
+                        <p><strong>Spécialité/ Speciality : </strong> {{$classe->nom}} </p>
+                        <p><strong>- Niveau/ level : </strong>{{$nniveau->nom}} </p>
                     </div>
                     <div class="annee_a">
                         <p><strong>Année académique/ Academic Year : </strong> {{session('year')}}</p>
@@ -105,7 +208,7 @@
                             <td style="text-align: center">{{getSemestre($matiere->semestre)}}</td>
                             <td style="text-align: center">{{$matiere->credit}}</td>
                             <!--  <td>{{$matiere->note}}</td>-->
-                            <td style="text-align: center">{{round($matiere->note/5,6)}} </td>
+                            <td style="text-align: center">{{round($matiere->note/5,3)}} </td>
                             <td style="text-align: center">{{getGrade($matiere->note)[1]}}</td>
                             <td style="text-align: center">{{getGrade($matiere->note)[0]}}</td>
 
@@ -122,13 +225,13 @@
                         </td>
                         <td style="text-align: center;">{{$subScoef}}</td>
                         <td  style="text-align: center;">
-                            <strong>{{ round(($subSnote/$subScoef)/5,6) }} </strong>
+                            <strong>{{ $subScoef > 0 ? round(($subSnote/$subScoef)/5,3) : 0 }} </strong>
                         </td>
-                        <td style="text-align: center">{{getGrade($subSnote/$subScoef)[1]}}</td>
+                        <td style="text-align: center">{{getGrade($subScoef > 0 ? $subSnote/$subScoef : 0)[1]}}</td>
                         <td  style="text-align: center;">
-                            <strong > {{getGrade(($subSnote/$subScoef))[0]}}  </strong>
+                            <strong > {{getGrade(($subScoef > 0 ? $subSnote/$subScoef : 0))[0]}}  </strong>
                         </td>
-                        <td style="text-align: center">{{getMention($subSnote/$subScoef,100)}}</td>
+                        <td style="text-align: center">{{getMention($subScoef > 0 ? $subSnote/$subScoef : 0,100)}}</td>
 
                     </tr>
 
@@ -154,7 +257,7 @@
                             <td style="text-align: center">{{getSemestre($matiere->semestre)}}</td>
                             <td style="text-align: center">{{$matiere->credit}}</td>
                             <!-- <td>{{$matiere->note}}</td>-->
-                            <td style="text-align: center">{{round($matiere->note/5,6)}} </td>
+                            <td style="text-align: center">{{round($matiere->note/5,3)}} </td>
                             <td style="text-align: center">{{getGrade($matiere->note)[1]}}</td>
                             <td style="text-align: center">{{getGrade($matiere->note)[0]}}</td>
                             <td style="text-align: center">{{getMention($matiere->note,100)}}</td>
@@ -170,13 +273,13 @@
 
                         <td style="text-align: center;">{{$subScoef}}</td>
                         <td  style="text-align: center;">
-                            <strong>{{ round(($subSnote/$subScoef)/5,6) }} </strong>
+                            <strong>{{ $subScoef > 0 ? round(($subSnote/$subScoef)/5,3) : 0 }} </strong>
                         </td>
-                        <td style="text-align: center">{{getGrade($subSnote/$subScoef)[1]}}</td>
+                        <td style="text-align: center">{{getGrade($subScoef > 0 ? $subSnote/$subScoef : 0)[1]}}</td>
                         <td  style="text-align: center;">
-                            <strong > {{getGrade(($subSnote/$subScoef))[0]}}  </strong>
+                            <strong > {{getGrade(($subScoef > 0 ? $subSnote/$subScoef : 0))[0]}}  </strong>
                         </td>
-                        <td style="text-align: center">{{getMention($subSnote/$subScoef,100)}}</td>
+                        <td style="text-align: center">{{getMention($subScoef > 0 ? $subSnote/$subScoef : 0,100)}}</td>
                     </tr>
 
 
@@ -203,7 +306,7 @@
                             <td style="text-align: center">{{getSemestre($matiere->semestre)}}</td>
                             <td style="text-align: center">{{$matiere->credit}}</td>
                             <!-- <td>{{$matiere->note}}</td>-->
-                            <td style="text-align: center">{{round($matiere->note/5,6)}} </td>
+                            <td style="text-align: center">{{round($matiere->note/5,3)}} </td>
                             <td style="text-align: center">{{getGrade($matiere->note)[1]}}</td>
                             <td style="text-align: center">{{getGrade($matiere->note)[0]}}</td>
                             <td style="text-align: center">{{getMention($matiere->note,100)}}</td>
@@ -221,13 +324,13 @@
                         </td>
                         <td style="text-align: center;">{{$subScoef}}</td>
                         <td  style="text-align: center;">
-                            <strong>{{ round(($subSnote/$subScoef)/5,6) }} </strong>
+                            <strong>{{ $subScoef > 0 ? round(($subSnote/$subScoef)/5,3) : 0 }} </strong>
                         </td>
-                        <td style="text-align: center">{{getGrade($subSnote/$subScoef)[1]}}</td>
+                        <td style="text-align: center">{{getGrade($subScoef > 0 ? $subSnote/$subScoef : 0)[1]}}</td>
                         <td  style="text-align: center;">
-                            <strong > {{getGrade(($subSnote/$subScoef))[0]}}  </strong>
+                            <strong > {{getGrade(($subScoef > 0 ? $subSnote/$subScoef : 0))[0]}}  </strong>
                         </td>
-                        <td style="text-align: center">{{getMention($subSnote/$subScoef,100)}}</td>
+                        <td style="text-align: center">{{getMention($subScoef > 0 ? $subSnote/$subScoef : 0,100)}}</td>
                     <tr>
 
                     <tr>
@@ -254,13 +357,13 @@
                     </thead>
                     <tbody style="text-align: center">
                     <tr>
-                        <?php $moy=$sNote/$sCoef ?>
+                        <?php $moy=$sCoef > 0 ? $sNote/$sCoef : 0 ?>
                         <td rowspan="2">Moy.Annuelle/<span class="big-traductio">Annual Av.</span></td>
                         <td>/ 100 </td>
                         <td rowspan="2">{{$TMP}}</td>
                         <td rowspan="2">{{$TMV}}</td>
-                        <td>{{round($moy,6)}}</td>
-                        <td rowspan="2">{{round($moy/25,6)}}</td>
+                        <td>{{round($moy,2)}}</td>
+                        <td rowspan="2">{{round($moy/25,2)}}</td>
                         <td rowspan="2">{{getGrade($moy)[0]}}</td>
                         <td colspan="2">{{getMention($moy,100)}}</td>
 
@@ -268,9 +371,9 @@
                     </tr>
                     <tr>
                         <td>/ 20</td>
-                        <td>{{round($moy/5,6)}}</td>
+                        <td>{{round($moy/5,2)}}</td>
                         <td>Decision :</td>
-                        <td><strong style="font-size: 13px">{{getDecision(round($moy/25,6))}}</strong></td>
+                        <td><strong style="font-size: 13px">{{getDecision(round($moy/25,2))}}</strong></td>
                     </tr>
                     <tr>
                         <td colspan="9">
@@ -296,22 +399,14 @@
 
 
 
-            <div class="sign-footer">
-                <div class="jury">
-                    <p><strong class="big-traductio"></strong></p>
-                    <P></P>
-                    <p><strong><u></u></strong></p>
-
-                </div>
-                <div class="dep">
-                    <p></p>
-                    <p><strong>YAOUNDE Le ..........................</strong></p>
-                    <p class="doyen" style="margin-top: 5%"><u><strong>La Directrice des Affaires Académiques</strong></u></p>
-                </div>
+           <div class="sign-footer">
+                    <p style=""><strong>YAOUNDE Le ..........................</strong></p>
+                  <p><u><strong>Le Directeur de l'ISH</strong></u></p> 
+ 
             </div>
-            <div class="releve-fait-le" style="font-size: 10px;display: none">
+           {{-- <div class="releve-fait-le" style="font-size: 10px;display: none">
                 <p>Fait le {{date('d-m-Y')}}</p>
-            </div>
+            </div>--}}
             @if($ne>0)
                 <div class="copy col-md-12" >
                     &copy;  2017 SchoolConcept | by: <a href="http://youth-concept.com" style="color:#fff;" target="_blank">youth-concept</a>

@@ -21,6 +21,9 @@ class Discipline extends Migration {
             $table->integer('sequence')->default(0);
             $table->integer('type');
             $table->integer('nb_heures')->default(0);
+            $table->string('heure_debut');
+            $table->string('motif_justification');
+            $table->string('heure_fin');
             $table->integer('just')->default(0);
             $table->integer('retard')->default(0);
             $table->integer('nb_jours')->default(0);

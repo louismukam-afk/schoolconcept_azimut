@@ -15,7 +15,7 @@
         <h2 style="font-size: 22px;text-align: center">{{  $titre_liste  }}</h2>
         <h4><strong>Intitulé de l'unité d'enseignement:..........................................................................</h4></strong>
         <h4><strong>Nom de l'enseignant: ......................................................................................</h4></strong>
- <h5><p>Semestre. ............................. ..............................                       <strong>Année académique.........................................................................................</strong> </p>  </h5>
+ <h5><p>Semestre. ...........................                      <strong>Année académique.........................................</strong> </p>  </h5>
 
 
 
@@ -23,9 +23,9 @@
 
         <table  class="table table-bordered   table-condensed table-inverse" id="idTableListe" style="margin-top: 5px;">
         <thead>
-        <th rowspan="1">#</th>
-        <th rowspan="1">@lang('admin.matricule')</th>
-        <th rowspan="1">{{  trans('admin.nom')  }}</th>
+        <th rowspan="1"  class="numero">#</th>
+        <th rowspan="1" class="matricule">@lang('admin.matricule')</th>
+        <th rowspan="1" class="nom">{{  trans('admin.nom')  }}</th>
         <th colspan="4">Notes</th>
         </thead>
          <tr>
@@ -33,10 +33,10 @@
             <td></td>
             <td></td>
             <td></td>
-            <td>CC/</td>
-            <td>TP/</td>
-            <td>TPE/</td>
-            <td>TOTAL /30</td>
+            <td class="cc">CC/</td>
+            <td class="tp">TP/</td>
+            <td class="tpe">TPE/</td>
+            <td class="total">TOTAL /20</td>
 
         </tr>
         <tbody

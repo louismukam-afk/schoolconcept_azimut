@@ -71,17 +71,26 @@ Route::group(['middleware'=>'auth'],function (){
 
 
         //Tableau de bord d'admin
-            Route::get('/inscriptions/eleve/set-status',['middleware' => 'action', 'action' => Action::ACTION_ADMIN_STUDENT_REGISTRATION_STATUS_UPDATE, 'uses' => 'inscriptions\enregistrementController@set_status']);
+        Route::any('/inscriptions/eleve/set-status',['middleware' => 'action', 'action' => Action::ACTION_ADMIN_STUDENT_REGISTRATION_STATUS_UPDATE, 'uses' => 'inscriptions\enregistrementController@set_status']);
+        Route::post('/inscriptions/eleve/set-multi-status',['middleware' => 'action', 'action' => Action::ACTION_ADMIN_STUDENT_REGISTRATION_STATUS_UPDATE, 'uses' => 'inscriptions\enregistrementController@set_multi_status']);
+           /* Route::get('/inscriptions/eleve/set-status',['middleware' => 'action', 'action' => Action::ACTION_ADMIN_STUDENT_REGISTRATION_STATUS_UPDATE, 'uses' => 'inscriptions\enregistrementController@set_status']);
             Route::post('/inscriptions/eleve/set-multi-status',['middleware' => 'action', 'action' => Action::ACTION_ADMIN_STUDENT_REGISTRATION_STATUS_UPDATE, 'uses' => 'inscriptions\enregistrementController@set_multi_status']);
-
+ */
 
             Route::get('/admin/', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN, 'uses' => 'admin\adminController@index']);
             //routes pour le verrou des notes
             Route::get('/admin/verrou-note/', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN_NOTE_LOCK, 'uses' => 'admin\verrou_noteController@index']);
             Route::get('/admin/verrou-note/activate/{sequence}', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN_NOTE_LOCK_UPDATE, 'uses' => 'admin\verrou_noteController@activate']);
             Route::get('/admin/verrou-note/deactivate/{sequence}', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN_NOTE_LOCK_UPDATE, 'uses' => 'admin\verrou_noteController@deactivate']);
+            //deliberer les notes
 
-            Route::group(['middleware' => 'action', 'action' => Action::ACTION_ADMIN_CLASS_SETTINGS], function () {
+        Route::get('/admin/deliber/', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN_NOTE_LOCK, 'uses' => 'admin\verrou_noteController@index']);
+        Route::get('/admin/deliberer/activate/{sequence}', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN_NOTE_LOCK_UPDATE, 'uses' => 'admin\verrou_noteController@deliberer']);
+        Route::get('/admin/deliberer/deactivate/{sequence}', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN_NOTE_LOCK_UPDATE, 'uses' => 'admin\verrou_noteController@deactivate']);
+
+
+
+        Route::group(['middleware' => 'action', 'action' => Action::ACTION_ADMIN_CLASS_SETTINGS], function () {
                 Route::get('/admin/cycles/', 'admin\cycleController@index');
                 Route::get('/admin/nniveaux/', 'admin\nniveauController@index');
                 Route::get('/admin/salles/', 'admin\salleController@index');
@@ -114,6 +123,21 @@ Route::group(['middleware'=>'auth'],function (){
                 Route::post('/admin/programmes/store/', 'admin\programmeController@store');
                 Route::post('/admin/programmes/update/', 'admin\programmeController@update');
                 Route::post('/admin/programmes/groupe/store/', 'admin\groupeController@store');
+
+                // Gestion des sessions d'examen
+                Route::group(['prefix' => 'admin/sessions', 'namespace' => 'admin'], function () {
+
+                    Route::get('/{id_classe_matiere}', 'sessionsController@index');
+
+                    Route::post('/store', 'sessionsController@store');
+
+                    Route::post('/update', 'sessionsController@update');
+
+                    Route::get('/destroy/{id}', 'sessionsController@destroy');
+
+                });
+
+
 
             });
 
@@ -250,7 +274,13 @@ Route::group(['middleware'=>'auth'],function (){
             Route::group(['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION_LIST], function () {
                 Route::get('/inscriptions/selection-listes','inscriptions\listesController@index');
                 Route::get('/inscriptions/listes/show',['as'=>'show_sco_liste','uses'=>'inscriptions\listesController@show']);
+                Route::get('/inscriptions/listes/showParents',['as'=>'show_parents_liste','uses'=>'inscriptions\listesController@showParents']);
                 Route::get('/inscriptions/listes/frais/show', ['as'=>'show_frais_liste','uses'=>'inscriptions\listesController@showFrais']);
+                Route::get('/inscriptions/listes/bourses/show', ['as'=>'show_bourses_liste','uses'=>'inscriptions\listesController@showBourses']);
+                Route::get('/inscriptions/listes/acces/show', ['as'=>'show_acces_liste','uses'=>'inscriptions\listesController@liste_acces']);
+                Route::get('/inscriptions/listes/accesok/show', ['as'=>'show_accesok_liste','uses'=>'inscriptions\listesController@liste_acces_autirise']);
+
+
 
             });
             Route::get('/inscriptions/fiche-scolarite',['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION_LIST_TUITION_SHEET,'uses' => 'inscriptions\listesController@fiche_scolarite']);
@@ -270,25 +300,242 @@ Route::group(['middleware'=>'auth'],function (){
             Route::group(['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION_STUDENT_CARD], function () {
                 Route::any('/inscriptions/cartes/',['as'=>'show_carte','uses'=>'inscriptions\photosController@show_carte']);
                 Route::any('/inscriptions/cartes/eleve/',['as'=>'show_carte_eleve','uses'=>'inscriptions\photosController@search_carte_eleve']);
+            });
+
+            Route::get('inscriptions/fiches/', ['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION_REPORTS, 'uses' => 'fiche\listesController@home']);
+             Route::group(['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION_REPORTS_PRINT], function () {
+
+          //liste des etudiants
+         Route::get('/fiche/selection-listes','fiche\listesController@index');
+         Route::get('/fiche/listes/show',['as'=>'show_ex_liste','uses'=>'fiche\listesController@show']);
+
+          //fiches session normales
+
+            Route::get('/fiches/selection-listes','fiches\listesController@index');
+            Route::get('/fiches/listes/show',['as'=>'show_cc_liste','uses'=>'fiches\listesController@show']);
+
+
+            //fiches rattrapages
+                Route::get('/rattrappages/selection-listes','rattrapages\listesController@index');
+                Route::get('/rattrappages/listes/show',['as'=>'show_rattrap_liste','uses'=>'rattrapages\listesController@show']);
+
+        //fiches bts blanc
+
+
+        Route::get('/fichesblanc/selection-listes','fichesblanc\listesController@index');
+        Route::get('/fichesblanc/listes/show/','fichesblanc\listesController@show');
+        Route::get('/fichesblanc/selection-listes','fichesblanc\listesController@index');
+
+        ///fiche presence d'examen
+
+       // Route::get('/fichepresence/selection-listes','fiche\listeController@index');
+        Route::get('/fichepresence/listes/show/','fichepresence\listesController@show');
+        Route::get('/fichepresence/selection_liste','fichepresence\listesController@index');
+
+});
+                
+      /*  //liste des etudiants
+         Route::get('/fiche/selection-listes','fiche\listesController@index');
+         Route::get('/fiche/listes/show',['as'=>'show_ex_liste','uses'=>'fiche\listesController@show']);
+
+          //fiches session normales
+
+            Route::get('/fiches/selection-listes','fiches\listesController@index');
+            Route::get('/fiches/listes/show',['as'=>'show_cc_liste','uses'=>'fiches\listesController@show']);
+
+
+            //fiches rattrapages
+                Route::get('/rattrappages/selection-listes','rattrapages\listesController@index');
+                Route::get('/rattrappages/listes/show',['as'=>'show_rattrap_liste','uses'=>'rattrapages\listesController@show']);
+
+        //fiches bts blanc
+
+
+        Route::get('/fichesblanc/selection-listes','fichesblanc\listesController@index');
+        Route::get('/fichesblanc/listes/show/','fichesblanc\listesController@show');
+        Route::get('/fichesblanc/selection-listes','fichesblanc\listesController@index');
+
+        ///fiche presence d'examen
+
+       // Route::get('/fichepresence/selection-listes','fiche\listeController@index');
+        Route::get('/fichepresence/listes/show/','fichepresence\listesController@show');
+        Route::get('/fichepresence/selection_liste','fichepresence\listesController@index');
+*/
+
 
             });
 
+    Route::group(['prefix' => 'admin/jours'], function () {
 
+        Route::get('/', 'admin\jourController@index');
+        Route::post('/store', 'admin\jourController@store');
+        Route::post('/update', 'admin\jourController@update');
+        Route::get('/destroy/{id}', 'admin\jourController@destroy');
 
+    });
+
+ Route::get('/inscriptions/bourses',['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION_SCHOLARSHIP_GRANT,'uses' => 'inscriptions\bourseController@index' ,'as'=>'index_bourses']);
+            Route::post('/inscriptions/bourses/store',['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION_SCHOLARSHIP_GRANT_CREATE,'uses' => 'inscriptions\bourseController@store', 'as'=>'store_bourse']);
+            Route::post('/inscriptions/bourses/update',['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION_SCHOLARSHIP_GRANT_UPDATE, 'uses' => 'inscriptions\bourseController@update', 'as'=>'update_bourse']);
+            Route::get('/inscriptions/bourses/delete/{id}',['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION_SCHOLARSHIP_GRANT_DELETE, 'uses' => 'inscriptions\bourseController@destroy', 'as'=>'delete_bourse']);
 
 
             //Les élèves
 
-            Route::group(['middleware' => 'action', 'action' => Action::ACTION_STUDENT_DISCIPLINE], function () {
+           Route::group(['middleware' => 'action', 'action' => Action::ACTION_STUDENT_DISCIPLINE], function () {
                 Route::get('/eleves/discipline/', 'eleves\disciplineController@index');
                 Route::get('/eleves/discipline/search', 'eleves\disciplineController@search');
                 Route::get('/eleves/discipline/show/{id}', 'eleves\disciplineController@create');
                 Route::get('/eleves/discipline/show/precision/{id}', 'eleves\disciplineController@show');
+                Route::any('/eleves/discipline/index_injustifier/{id}', 'eleves\disciplineController@index_injustifier');
+                Route::any('/eleves/discipline/index_justifier/{id}', 'eleves\disciplineController@index_justifier');
                 Route::any('/eleves/discipline/state/', ['as'=>'etat_disciplinaire','uses'=>'eleves\disciplineController@state']);
+                Route::get('/eleves/discipline/show_presnce/{id}', 'eleves\disciplineController@show_presnce');
+                Route::get('/eleves/discipline/justifi_pesence/{id}/{id_eleve}', 'eleves\disciplineController@justifi_pesence');
 
+
+                Route::any('/eleves/discipline/state1/', ['as'=>'etat_disciplinaire','uses'=>'eleves\disciplineController@state']);
+                Route::get('/eleves/appel', ['as' => 'appel.index', 'uses' => 'eleves\disciplineControlleretd@index3']);
+                Route::get('/eleves/appel/specialite/{classe}', ['as' => 'appel.specialite', 'uses' => 'eleves\disciplineControlleretd@choisirCycleNiveau']);
+                Route::get('/eleves/appel/niveaux/{cycle}', ['as' => 'appel.niveaux', 'uses' => 'eleves\disciplineControlleretd@getNiveauxByCycle']);
+
+// Après choix cycle + niveau → liste classes
+                Route::post('/eleves/appel/classes', ['as' => 'appel.classes', 'uses' => 'eleves\disciplineControlleretd@classes']);
+              // Route::get('/eleves/appel/classes', ['as' => 'appel.classesok', 'uses' => 'eleves\disciplineControlleretd@classes']);
+               Route::get(
+                   '/eleves/appel/classesok/{cycle}/{niveau}',
+                   [
+                       'as' => 'appel.classesok',
+                       'uses' => 'eleves\disciplineControlleretd@classesok'
+                   ]
+               );
+// Retour liste des classes (GET sécurisé)
+               Route::get('/eleves/appel/classesokk/{cycle}/{niveau}/{n_niveau}', [
+                   'as' => 'appel.classesok.get',
+                   'uses' => 'eleves\disciplineControlleretd@classesokGet'
+               ]);
+// Sélection jour
+               // Route::get('/eleves/appel/selection/{classe}', ['as' => 'appel.selection', 'uses' => 'eleves\disciplineControlleretd@selectionJour']);
+//             Route::post('/eleves/appel/selection-jour/', ['as' => 'appel.selection.jour', 'uses' => 'eleves\disciplineControlleretd@selectionJour']);
+
+
+// POST depuis le formulaire choix_cycle_niveau
+               Route::post('/eleves/appel/selection-jour', [
+                   'as'   => 'appel.selection.jour',
+                   'uses' => 'eleves\disciplineControlleretd@selectionJourPost'
+               ]);
+
+// GET pour afficher selection_jour
+               Route::get('/eleves/appel/selection/{classe}', [
+                   'as'   => 'appel.selection',
+                   'uses' => 'eleves\disciplineControlleretd@selectionJour'
+               ]);
+               Route::post('/eleves/appel/formulaire', [
+                   'as'   => 'appel.formulaire',
+                   'uses' => 'eleves\disciplineControlleretd@formulaire'
+               ]);
+               Route::post('/eleves/appel/store', [
+                   'as'   => 'appel.store',
+                   'uses' => 'eleves\disciplineControlleretd@storePresence'
+               ]);
+
+              /* Route::post('/eleves/appel/selection-jour', [
+                   'as'   => 'appel.selection.jour',
+                   'uses' => 'eleves\disciplineControlleretd@selectionJourPost'
+               ]);*/
+
+               /*
+                  *
+                               Route::get('/eleves/appel/selection/{classe}', [
+                                   'as' => 'appel.selection',
+                                   'uses' => 'eleves\disciplineControlleretd@selectionJour'
+                               ]);*/
+
+
+
+               Route::get('/eleves/appel/selection/{classe}', [
+                   'as' => 'appel.selection',
+                   'uses' => 'eleves\disciplineControlleretd@selectionJour'
+               ]);
+
+               Route::post('/eleves/appel/formulaire',
+                   'eleves\disciplineControlleretd@formulaire');
+
+               Route::post('/eleves/appel/store', 'eleves\disciplineControlleretd@storePresence');
+
+
+                Route::get('/eleves/disciplineetd/', 'eleves\disciplineControlleretd@index');
+                //Route::get('/eleves/disciplineetd1/', 'eleves\disciplineControlleretd@index1');
+               Route::get('/eleves/disciplineetd1/', [
+                   'as' => 'appel.specialitesok',
+                   'uses' => 'eleves\disciplineControlleretd@index1'
+               ]);
+               //route pour les etats
+               Route::get('/eleves/discipline_etat/', [
+                   'as' => 'appel.specialites_etat',
+                   'uses' => 'eleves\disciplineControlleretd@index_etat'
+               ]);
+               Route::post('/eleves/discipline_etat/generer', [
+                   'as' => 'appel.etat.generer',
+                   'uses' => 'eleves\disciplineControlleretd@genererEtat'
+               ]);
+               Route::get('/eleves/discipline_etat/pdf/{date_debut}/{date_fin}', [
+                   'as' => 'appel.etat.pdf',
+                   'uses' => 'eleves\disciplineControlleretd@exportPdfEtat'
+               ]);
+               Route::get('/eleves/discipline_etat/excel/{date_debut}/{date_fin}', [
+                   'as' => 'appel.etat.excel',
+                   'uses' => 'eleves\disciplineControlleretd@exportExcelEtat'
+               ]);
+               Route::get('/eleves/etat-discipline/generate', [
+                   'as' => 'etat.discipline.generate',
+                   'uses' => 'eleves\disciplineControlleretd@genererEtatFiltre'
+               ]);
+               Route::post('/eleves/discipline_etat/generer_filtre', [
+                   'as' => 'appel.etat.generer.filtre',
+                   'uses' => 'eleves\disciplineControlleretd@genererEtatFiltre'
+               ]);
+
+               Route::get('/eleves/discipline_etat/periode/{classe}', [
+                   'as' => 'appel.etat.periode',
+                   'uses' => 'eleves\disciplineControlleretd@formPeriodeEtat'
+               ]);
+
+               Route::post('/eleves/discipline_etat/generer/{classe}', [
+                   'as' => 'appel.etat.generer.specialite',
+                   'uses' => 'eleves\disciplineControlleretd@genererEtatSpecialite'
+               ]);
+               Route::get('/eleves/discipline_etat/export/{classe}/{date_debut}/{date_fin}', [
+                   'as' => 'appel.etat.export.excel.specialite',
+                   'uses' => 'eleves\disciplineControlleretd@exportExcelEtatSpecialite'
+               ]);
+               Route::get('/eleves/etat/n_niveaux/{cycle_id}', [
+                   'as'   => 'appel.n_niveaux.bycycle',
+                   'uses' => 'eleves\disciplineControlleretd@getNNiveauxByCycle'
+               ]);
+// Formulaire période état détaillé
+               Route::get('/eleves/etat/detaille/{classe}', [
+                   'as' => 'appel.etat.periode.detaille',
+                   'uses' => 'eleves\disciplineControlleretd@formPeriodeEtatDetaille'
+               ]);
+
+// Génération état détaillé
+               Route::post('/eleves/etat/detaille/generer/{classe}', [
+                   'as' => 'appel.etat.generer.detaille',
+                   'uses' => 'eleves\disciplineControlleretd@genererEtatDetaille'
+               ]);
+               Route::get('/eleves/etat/detaille/{classe}', [
+                   'as' => 'appel.etat.periode.detaille',
+                   'uses' => 'eleves\disciplineControlleretd@formPeriodeEtatDetaille'
+               ]);
+
+
+               Route::get('/eleves/disciplineetd/search', 'eleves\disciplineController@search');
+                Route::get('/eleves/disciplineetd/show/{id}', 'eleves\disciplineController@create');
             });
 
-            Route::group(['middleware' => 'action', 'action' => Action::ACTION_STUDENT_DISCIPLINE_CU], function () {
+    Route::group(['middleware' => 'action', 'action' => Action::ACTION_STUDENT_DISCIPLINE_CU], function () {
+                Route::post('/eleves/discipline/justifions/', 'eleves\disciplineController@justifions');
                 Route::post('/eleves/discipline/justify/', 'eleves\disciplineController@justify');
                 Route::post('/eleves/discipline/update/', ['as'=>'update_discipline','uses'=>'eleves\disciplineController@update']);
 
@@ -305,6 +552,35 @@ Route::group(['middleware'=>'auth'],function (){
                 Route::get('/eleves/releves/get/',['uses'=>'eleves\relevesController@get','as'=>'get_releves']);
 
 
+                //releve soa
+
+                Route::get('/eleves/releves_soa/','eleves\soareleveController@index');
+                Route::get('/eleves/releves_soa/print/','eleves\soareleveController@create');
+
+                Route::get('/eleves/diplome_soa/','eleves\diplomeSoaController@index');
+                Route::get('/diplome/soa/print/','eleves\diplomeSoaController@create');
+
+                //ndere releve
+
+                Route::get('/eleves/releves_ndere/','eleves\nderereleveController@index');
+                Route::get('/eleves/releves_ndere/print/','eleves\nderereleveController@create');
+
+                //estic releve
+                Route::get('/eleves/releve_estic/','eleves\esticreleveController@index');
+                Route::get('/eleves/releve_estic/print/','eleves\esticreleveController@create');
+//        Route::get('/eleves/releves/get/',['uses'=>'eleves\soareleveController@get','as'=>'get_releves']);
+
+
+                Route::get('/eleves/releves_bts/','eleves\bts_releveSessionController@index');
+                Route::get('/eleves/releves_bts/print/','eleves\bts_releveSessionController@create');
+                Route::post('/eleves/releves_bts/generate/','eleves\bts_releveSessionController@generate');
+                Route::get('/eleves/releves_bts/generation/{id}/print','eleves\bts_releveSessionController@printSaved');
+ // releve cc1
+
+                Route::get('/eleves/releve_cc','eleves\releve_ccController@index');
+                Route::get('/eleves/releves_cc/print/','eleves\releve_ccController@create');
+
+
             });
 
 
@@ -316,7 +592,11 @@ Route::group(['middleware'=>'auth'],function (){
             Route::group(['middleware' => 'action', 'action' => Action::ACTION_STUDENT_NOTE], function () {
                 Route::get('/eleves/notes/','eleves\noteController@index2');
                 Route::get('/eleves/notes/show','eleves\noteController@show');
+                Route::get('/eleves/notes/fiche','eleves\noteController@show_fiche');
+                Route::get('/eleves/notes/show_deliberer','eleves\noteController@show_deliberer');
                 Route::get('/eleves/notes/matieres/show/','eleves\noteController@matiere_show');
+                Route::get('/eleves/notes/matieres/fiche/','eleves\noteController@matiere_fiche');
+                Route::get('/eleves/notes/matieres_deliberer/show/','eleves\noteController@matiere_deliberer');
                 Route::any('/eleves/notes/print_note/{id}','eleves\noteController@print_note');
 
             });
@@ -325,7 +605,77 @@ Route::group(['middleware'=>'auth'],function (){
                 Route::get('/eleves/notes/edit','eleves\noteController@index');
                 Route::get('/eleves/notes/matieres/','eleves\noteController@matiere');
                 Route::post('/eleves/notes/create/{id}','eleves\noteController@create');
+                Route::post('/eleves/notes/create_deliberer/{id}','eleves\noteController@create_deliberer');
                 Route::post('/eleves/notes/store/','eleves\noteController@store');
+                Route::post('/eleves/notes/deliberer/','eleves\noteController@deliberer');
+
+
+
+               // Route::any('/eleves/notes/print_note_cc/{id}','eleves\noteController@print_note_cc');
+                Route::any('/eleves/notes/print_note_rat/{id}','eleves\noteController@print_note_rat');
+                Route::any('/eleves/notes/print_note_deliberer/{id}','eleves\noteController@deliberer_note');
+                Route::any('/eleves/notes/print_note_deliberer_rattrapage/{id}','eleves\noteController@deliberer_rattrapage');
+                Route::any('/eleves/notes/print_note_esstic/{id}','eleves\esticnoteController@print_note');
+                Route::any('/eleves/notes/print_note_soa/{id}','eleves\soanoteController@print_note');
+                Route::any('/eleves/notes/print_note_ndere/{id}','eleves\nderenoteController@print_note');
+
+
+                // fiche individualisée
+
+                Route::any('/eleves/notes/fiche_note_cc/{id}','eleves\noteController@fiche_note_cc');
+
+
+
+                //proces verbal soa
+
+
+                Route::get('/eleves/', 'eleves\eleveController@index');
+                Route::get('/eleves/soa/','eleves\soanoteController@index2');
+
+                Route::get('/eleves/notes/edit_soa','eleves\soanoteController@index');
+                Route::get('/eleves/notes/show_soa','eleves\soanoteController@show');
+                Route::get('/eleves/notes/matieres_soa/','eleves\soanoteController@matiere');
+                Route::get('/eleves/notes/matieres/show_soa/','eleves\soanoteController@matiere_show');
+                Route::post('/eleves/notes/create_soa/{id}','eleves\soanoteController@create');
+                Route::post('/eleves/notes/store_soa/','eleves\soanoteController@store');
+
+                Route::get('/eleves/bulletins/', 'eleves\bulletinController@index');
+                Route::get('/eleves/bulletins/search/', 'eleves\bulletinController@index2');
+                Route::get('/eleves/bulletins/find/', 'eleves\bulletinController@search');
+                Route::post('/eleves/bulletins/print-single-seq', 'eleves\bulletinController@print_single_seq');
+
+                Route::get('/eleves/bulletins/get-single-seq', 'eleves\bulletinController@get_single_seq');
+
+
+                Route::any('/eleves/bulletins/print-single-trim/', 'eleves\bulletinController@print_single_trim');
+                Route::any('/eleves/bulletins/print-single-year/', 'eleves\bulletinController@print_single_year');
+                Route::any('/eleves/bulletins/regenerate/', 'eleves\bulletinController@regenerate');
+
+
+                //proces verbal ndere
+
+                Route::get('/eleves/', 'eleves\eleveController@index');
+                Route::get('/eleves/ndere/','eleves\nderenoteController@index2');
+
+                Route::get('/eleves/notes/edit_ndere','eleves\nderenoteController@index');
+                Route::get('/eleves/notes/show_ndere','eleves\nderenoteController@show');
+                Route::get('/eleves/notes/matieres_ndere/','eleves\nderenoteController@matiere');
+                Route::get('/eleves/notes/matieres/show_ndere/','eleves\nderenoteController@matiere_show');
+                Route::post('/eleves/notes/create_ndere/{id}','eleves\nderenoteController@create');
+                Route::post('/eleves/notes/store_ndere/','eleves\nderenoteController@store');
+
+
+                //proces verbal estic
+
+                Route::get('/eleves/', 'eleves\eleveController@index');
+                Route::get('/eleves/estic/','eleves\esticnoteController@index2');
+
+                Route::get('/eleves/notes/edit','eleves\esticnoteController@index');
+                Route::get('/eleves/notes/show_esstic','eleves\esticnoteController@show');
+                Route::get('/eleves/notes/matieres/','eleves\esticnoteController@matiere');
+                Route::get('/eleves/notes/matieres/show_esstic/','eleves\esticnoteController@matiere_show');
+                Route::post('/eleves/notes/create1/{id}','eleves\esticnoteController@create');
+                Route::post('/eleves/notes/store_esstic/','eleves\esticnoteController@store');
 
             });
 
@@ -467,7 +817,7 @@ Route::group(['middleware'=>'auth'],function (){
 
 
     });
-});
+//});
 
 Route::get('/gestion/login/','gestion\EtudiantcontrollerCon@index');
 Route::post('/gestion/login/etudiant','gestion\EtudiantcontrollerCon@store');

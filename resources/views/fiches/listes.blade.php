@@ -28,7 +28,7 @@
         <th>#</th>
         <th>@lang('admin.matricule')</th>
         <th>{{  trans('admin.nom')  }}</th>
-        <th>Notes Obtenue par étudiant /70</th>
+        <th>Notes Obtenue par étudiant /20</th>
         </thead>
         <tbody
          
@@ -51,14 +51,14 @@
         <span class="col-md-12"><strong>Total: {{count($eleves)}}</strong></span>
         <br>
         <br>
-         <strong class="col-md-12">Conformément au LMD, les notes d'examen sont reportés sur 70 par étudiant</strong>
-          <strong  class="col-md-12">(Exemple: note sur 70= note sur 20*3.5)</strong>
+       <!--   <strong class="col-md-12">Conformément au LMD, les notes d'examen sont reportés sur 20 par étudiant</strong>
+          <strong  class="col-md-12">(Exemple: note sur 70= note sur 20*3.5)</strong> -->
 
 </div>
 
 <div class="raac pull-left" style="text-align: left; margin-top: 20%;    font-family: "Times New Roman" !important;"> <strong>  Nom et signature de l'Enseignants</strong></div>
 
-<div class="enseignants" style="text-align: right; margin-top: 20%;    font-family: "Times New Roman" !important;"  ><strong>  Directeur  des Affaires Académiques
+<div class="enseignants" style="text-align: right; margin-top: 20%;    font-family: "Times New Roman" !important;"  ><strong>  Directeur  de l'ISH
     
 </strong></div>
 

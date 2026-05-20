@@ -69,7 +69,9 @@
                         <div class="row last">
                             <p class="col-md-6 montant"><strong>Montant : <span style="font-size: 19px"> {{$payement->montant}}</span></strong> {{trans('inscription.devise')}}</p>
                             <div class="col-md-12 traduction">Amount</div>
+
                         </div>
+
                         <div class="row">
                             <div class="col-md-6"><strong>Motif :</strong>@if(isset($frais)) {{$frais->nom}} @else {{$payement->motif}} @endif</div>
                             <div class="col-md-12 traduction">Reason for payment</div>
@@ -82,12 +84,30 @@
                        <div class="details">
                            <div class="col-md-12"><h4 class="grey-text">Details</h4></div>
                            <div class="col-md-6"><span>@if(isset($frais)) Total à payer @else Total pension @endif :</span><strong><span class="{{$total==0?'text-danger':'' }}">{{$total==0?'Le montant n\'est pas défini':$total.' '.trans('inscription.devise')}}</span></strong></div>
+                           
                            <div class="col-md-12 traduction">@if(isset($frais)) Total expected @else Total school fees @endif</div>
+                            @if (isset($montant_bourse))
+                                <div class="col-md-6"><span>Bourse : </span><strong>{{$montant_bourse.' '.trans('inscription.devise')}}</strong></div>
+                                <div class="col-md-12 traduction">Scholarship grant : </div>
+
+                               <div class="col-md-6"><span>Solde en Caisse : </span><strong>{{$solde+$montant_bourse.' '.trans('inscription.devise')}}</strong></div>
+                               <div class="col-md-12 traduction">Cash balance : </div>
+                               <div class="col-md-6"><span>Reste à payer : </span><strong><span class="{{$total==0?'text-danger':'' }}">{{$total==0?'Le montant n\'est pas défini':($total-$solde)-$montant_bourse.' '.trans('inscription.devise')}}</span></strong></div>
+                               <div class="col-md-12 traduction">Left to pay</div>
+
+                           @else
+
                            <div class="col-md-6"><span>Solde en Caisse : </span><strong>{{$solde.' '.trans('inscription.devise')}}</strong></div>
                            <div class="col-md-12 traduction">Cash balance : </div>
                            <div class="col-md-6"><span>Reste à payer : </span><strong><span class="{{$total==0?'text-danger':'' }}">{{$total==0?'Le montant n\'est pas défini':$total-$solde.' '.trans('inscription.devise')}}</span></strong></div>
                            <div class="col-md-12 traduction">Left to pay</div>
+                           @endif
                        </div>
+                        <br>
+                        <div class="col-md-6">
+                            <p> Montant en Lettre: <strong>{{$payement->lettre}}</strong></p>
+                            <p>Mode de paiement: <strong>{{$payement->mode_paye}}</strong></p>
+                        </div>
 
                     </div>
 
@@ -96,8 +116,9 @@
                     <p class="col-md-6"><strong>DATE :</strong> {{$payement->date_payement}}</p>
                 </div>
                 <div class="row" style="padding-left:20mm">
-                    <p class="col-md-6" style="padding-top:5mm"><strong>SIGNATURE</strong></p>
-                    <p class="col-md-6 visa"><strong>Caissier <span class="traduction"> Cashier</span></strong></p>
+                    <p class="col-md-4" style="padding-top:5mm"><strong>SIGNATURE</strong></p>
+                    <p class="col-md-4 visa"><strong>Caissier <span class="traduction"> Cashier</span></strong></p>
+                    <p class="col-md-4 visa"><strong>Nom de la caissier(e)  <span class="traduction"> {{$user}}</strong></p>
                 </div>
 
 
@@ -152,7 +173,8 @@
 
                         </div>
                         <div class="row last">
-                            <p class="col-md-6 montant"><strong>Montant : <span style="font-size: 19px"> {{$payement->montant}}</span></strong> {{trans('inscription.devise')}}</p>
+                            <p class="col-md-6 montant"><strong>Montant : <span style="font-size: 19px"> {{$payement->montant}}</span></strong> {{trans('inscription.devise')}}
+                               </p>
                             <div class="col-md-12 traduction">Amount</div>
                         </div>
                         <div class="row">
@@ -167,14 +189,32 @@
                         <div class="details">
                             <div class="col-md-12"><h4 class="grey-text">Details</h4></div>
                             <div class="col-md-6"><span>@if(isset($frais)) Total à payer @else Total pension @endif :</span><strong><span class="{{$total==0?'text-danger':'' }}">{{$total==0?'Le montant n\'est pas défini':$total.' '.trans('inscription.devise')}}</span></strong></div>
-                            <div class="col-md-12 traduction">@if(isset($frais)) Total expected @else Total school fees @endif</div>
-                            <div class="col-md-6"><span>Solde en Caisse : </span><strong>{{$solde.' '.trans('inscription.devise')}}</strong></div>
-                            <div class="col-md-12 traduction">Cash balance : </div>
-                            <div class="col-md-6"><span>Reste à payer : </span><strong><span class="{{$total==0?'text-danger':'' }}">{{$total==0?'Le montant n\'est pas défini':$total-$solde.' '.trans('inscription.devise')}}</span></strong></div>
-                            <div class="col-md-12 traduction">Left to pay</div>
-                        </div>
 
+                            <div class="col-md-12 traduction">@if(isset($frais)) Total expected @else Total school fees @endif</div>
+                            @if (isset($montant_bourse))
+                                <div class="col-md-6"><span>Bourse : </span><strong>{{$montant_bourse.' '.trans('inscription.devise')}}</strong></div>
+                                <div class="col-md-12 traduction">Scholarship grant : </div>
+
+                                <div class="col-md-6"><span>Solde en Caisse : </span><strong>{{$solde+$montant_bourse.' '.trans('inscription.devise')}}</strong></div>
+                                <div class="col-md-12 traduction">Cash balance : </div>
+                                <div class="col-md-6"><span>Reste à payer : </span><strong><span class="{{$total==0?'text-danger':'' }}">{{$total==0?'Le montant n\'est pas défini':($total-$solde)-$montant_bourse.' '.trans('inscription.devise')}}</span></strong></div>
+                                <div class="col-md-12 traduction">Left to pay</div>
+
+                            @else
+
+                                <div class="col-md-6"><span>Solde en Caisse : </span><strong>{{$solde.' '.trans('inscription.devise')}}</strong></div>
+                                <div class="col-md-12 traduction">Cash balance : </div>
+                                <div class="col-md-6"><span>Reste à payer : </span><strong><span class="{{$total==0?'text-danger':'' }}">{{$total==0?'Le montant n\'est pas défini':$total-$solde.' '.trans('inscription.devise')}}</span></strong></div>
+                                <div class="col-md-12 traduction">Left to pay</div>
+                            @endif
+                        </div>
+                        <br>
+                        <div class="col-md-6">
+                            <p> Montant en Lettre: <strong>{{$payement->lettre}}</strong></p>
+                            <p>Mode de paiement: <strong>{{$payement->mode_paye}}</strong></p>
+                        </div>
                     </div>
+
 
                 </div>
                 <div class="row" style="padding-top:5mm">

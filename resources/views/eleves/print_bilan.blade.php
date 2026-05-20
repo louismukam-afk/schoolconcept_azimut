@@ -1,497 +1,573 @@
 @extends('skeleton')
+
 @section('sub-content')
     @include('perso.functions')
-    <?php $standartLimite=5;
-            $current_matiere=0;
-    $current_note=0;
-    ?>
-    <style media="screen">
-        .table-note
-        {
-            display: none;
-        }
-        div.table
-        {
-            overflow-x: scroll;
-        }
+
+    <style>
+        .note-column { text-align:center; }
+        .gris { background:#e0e0e0; color:#666; }
     </style>
+
     <style media="print">
-        #note-excel,.dt-buttons,#note-excel_filter,#note-excel_info,#note-excel_paginate
-        {
-            display: none;
-        }
-        .tabletoprint
-        {
-            page-break-after: always;
-        }
-
+        #note-excel, .dt-buttons,
+        #note-excel_filter,
+        #note-excel_info,
+        #note-excel_paginate { display:none; }
     </style>
-    <a href="#" class="btn btn-lg btn-warning" onclick="window.print()"><span class="glyphicon glyphicon-print"></span> @lang('inscription.imprimer')</a>
-    <link rel="stylesheet"  href="{{URL::asset('css/pv.css')}}">
-     <div class="titre">
-        <p style="font-size: 19px"><strong>Bilan annuel </strong></p>
-        <strong class="traduction">Annual review</strong>
+    <style>
+        .table-ecran { display:block; }
+        .table-print { display:block; }
+        .note-column { text-align:center; }
+        .gris { background:#e0e0e0; color:#777; }
+    </style>
+
+    <style media="print">
+        body * { visibility:hidden; }
+
+        .table-print,
+        .table-print * {
+            visibility:visible;
+        }
+
+
+        .table-print {
+            position:absolute;
+            top:0;
+            left:0;
+            width:100%;
+        }
+
+        .table-ecran { display:none; }
+        .btn, .dt-buttons { display:none !important; }
+    </style>
+
+    <a href="#" class="btn btn-warning" onclick="window.print()">
+        <i class="glyphicon glyphicon-print"></i> Imprimer
+    </a>
+<center>
+    <div class="titre">
+        <strong>PROCÈS VERBAL Annuel</strong><br>
+        Année académique : {{ $annee }}
     </div>
+
     <div class="classe">
-        <div class="specialite">
-            <p><strong>Spécialité : {{$classe->nom}} - Niveau  {{$nniveau->nom}}</strong></p>
-            <strong class="traduction">Speciality : {{$classe->nom_anglais}} - Level  {{$nniveau->nom}}</strong>
-        </div>
-
-        <div class="filiere">
-            <p ><strong>Filière: {{\gesecole\niveau::find($classe->id_niveau)->nom}}</strong></p>
-            <strong class="traduction">Path : {{\gesecole\niveau::find($classe->id_niveau)->nom_anglais}}</strong>
-        </div>
-
+        Spécialité : {{ $classe->nom }} — Niveau {{ $nniveau->nom }}
     </div>
+</center>
+    <?php
+    /* ================= PRÉPARATION ================= */
 
-    <div class="table">
-        <table id="note-excel" class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 5px;">
+    // Total des crédits prévus
+    $creditPrevuTotal = 0;
+    foreach ($matieres as $m) {
+        $creditPrevuTotal += $m->credit;
+    }
+
+    // Détection des semestres par matière
+    $matiereSemestres = array();
+    foreach ($matieres as $m) {
+        $hasS1 = false;
+        $hasS2 = false;
+
+        foreach ($PV_s1_map as $pv) {
+            foreach ($pv->matieres as $x) {
+                if ($x->id_matiere == $m->id) {
+                    $hasS1 = true;
+                    break 2;
+                }
+            }
+        }
+
+        foreach ($PV_s2_map as $pv) {
+            foreach ($pv->matieres as $x) {
+                if ($x->id_matiere == $m->id) {
+                    $hasS2 = true;
+                    break 2;
+                }
+            }
+        }
+
+        $matiereSemestres[$m->id] = array('s1'=>$hasS1,'s2'=>$hasS2);
+    }
+
+    // Tableaux pour le classement
+    $classementS1 = array();
+    $classementS2 = array();
+    $classementAnnuel = array();
+
+    // Fonction de calcul des rangs
+    function calculRang($tab) {
+        $tab = array_filter($tab, function($v){ return $v !== null; });
+        arsort($tab);
+        $r = array(); $rang = 0; $pos = 0; $prev = null;
+        foreach($tab as $id=>$v) {
+            $pos++;
+            if($prev === null || $v < $prev) { $rang = $pos; }
+            $r[$id] = $rang;
+            $prev = $v;
+        }
+        return $r;
+    }
+
+    // ================= CALCUL DES MOYENNES =================
+    foreach($eleves as $e){
+        $pvS1 = isset($PV_s1_map[$e->id]) ? $PV_s1_map[$e->id] : null;
+        $pvS2 = isset($PV_s2_map[$e->id]) ? $PV_s2_map[$e->id] : null;
+
+        $sumS1 = $countS1 = $creditS1 = 0;
+        $sumS2 = $countS2 = $creditS2 = 0;
+
+        foreach($matieres as $m){
+            // S1
+            $totalS1 = 0;
+            if ($matiereSemestres[$m->id]['s1']) {
+                $trouve = false;
+                if ($pvS1) {
+                    foreach($pvS1->matieres as $x){
+                        if($x->id_matiere == $m->id){
+                            $trouve = true;
+                            $s = $c = 0;
+                            if($x->cc !== null){$s += $x->cc; $c++;}
+                            if($x->sn !== null){$s += $x->sn; $c++;}
+                            if($x->tpe !== null){$s += $x->tpe; $c++;}
+                            $totalS1 = $c>0 ? round($s/$c,2) : 0;
+                        }
+                    }
+                }
+                if(!$trouve) $totalS1 = 0;
+                $sumS1 += $totalS1; $countS1++;
+                if($totalS1 >= 10) $creditS1 += $m->credit;
+            }
+
+            // S2
+            $totalS2 = 0;
+            if ($matiereSemestres[$m->id]['s2']) {
+                $trouve = false;
+                if ($pvS2) {
+                    foreach($pvS2->matieres as $x){
+                        if($x->id_matiere == $m->id){
+                            $trouve = true;
+                            $s = $c = 0;
+                            if($x->cc !== null){$s += $x->cc; $c++;}
+                            if($x->sn !== null){$s += $x->sn; $c++;}
+                            if($x->tpe !== null){$s += $x->tpe; $c++;}
+                            $totalS2 = $c>0 ? round($s/$c,2) : 0;
+                        }
+                    }
+                }
+                if(!$trouve) $totalS2 = 0;
+                $sumS2 += $totalS2; $countS2++;
+                if($totalS2 >= 10) $creditS2 += $m->credit;
+            }
+        }
+
+        $moyS1 = $countS1 ? round($sumS1/$countS1,2) : null;
+        $moyS2 = $countS2 ? round($sumS2/$countS2,2) : null;
+
+        $creditTotal = $creditS1 + $creditS2;
+        $moyAnn = ($creditTotal == $creditPrevuTotal) ? round(($moyS1 + $moyS2)/2,2) : null;
+
+        $classementS1[$e->id] = $moyS1;
+        $classementS2[$e->id] = $moyS2;
+        $classementAnnuel[$e->id] = $moyAnn;
+    }
+
+    // Calcul des rangs avant le rendu
+    $rS1 = calculRang($classementS1);
+    $rS2 = calculRang($classementS2);
+    $rAnn = calculRang($classementAnnuel);
+    ?>
+
+    <div class="table table-excel">
+        <table class="table table-bordered table-striped" id="note-excel">
+
             <thead>
-            <th class="number-column">#</th>
-            <th class="spec-column">Matricule/Matricle</th>
-            <th class="nom-column">Nom/Name</th>
-            @foreach($matieres as $m)
+            <tr>
+                <th>#</th>
+                <th>Matricule</th>
+                <th>Nom & Prénom</th>
 
-                <th class="matiere-column"><p>{{(App::getLocale()=='en')?$m->nom_anglais:$m->nom}}</p></th>
+                @foreach($matieres as $m)
+                    @if($matiereSemestres[$m->id]['s1'])<th>{{ $m->nom }} S1</th>@endif
+                    @if($matiereSemestres[$m->id]['s2'])<th>{{ $m->nom }} S2</th>@endif
+                @endforeach
 
-            @endforeach
-            <th class="note-column">Moy/20</th>
-            <th class="note-column">MGP</th>
+                <th>Moy S1</th>
+                <th>Rang S1</th>
+                <th>Cr S1</th>
 
+                <th>Moy S2</th>
+                <th>Rang S2</th>
+                <th>Cr S2</th>
+
+                <th>Moy Annuelle</th>
+                <th>Cr validés</th>
+                <th>Cr prévus</th>
+                <th>Décision</th>
+                <th>Matières non validées</th>
+                <th>Rang Annuel</th>
+            </tr>
             </thead>
+
             <tbody>
             <?php $i=1; ?>
             @foreach($eleves as $e)
-                <?php $total=0; ?>
-                <tr>
-                    <td class="number-column">{{$i++}}</td>
-                    <td class="mat-column">{{$e->matricule}}</td>
-                    <td>{{$e->nom.' '.$e->prenom}}</td>
 
-                    @foreach($matieres as $m)
+                <?php
+                $pvS1 = isset($PV_s1_map[$e->id]) ? $PV_s1_map[$e->id] : null;
+                $pvS2 = isset($PV_s2_map[$e->id]) ? $PV_s2_map[$e->id] : null;
 
-                        <td class="note-column">
-                            <?php $finded=false; ?>
-                            @foreach($PV as $pv)
-                                @if($pv->id_eleve==$e->id)
-                                    <?php $finded=true; ?>
-                                    @foreach($pv->matieres as $mat)
-                                        @if($mat->id_matiere==$m->id )
-                                            {{$mat->note}}
-                                            <?php break; ?>
-                                        @endif
-                                    @endforeach
-                                @endif
-                                @if($finded)
-                                    <?php break; ?>
-                                @endif
-                            @endforeach
-
-                        </td>
-
-                    @endforeach
-
-                    <?php $mgp=0;?>
-                    <td class="note-column">
-                        @foreach($PV as $pv)
-                            @if($pv->id_eleve==$e->id)
-                                {{round(($pv->mgp)/5,2)}}
-                                <?php $mgp=round(($pv->mgp)/25,2);
-
-                                break; ?>
-                            @endif
-
-                        @endforeach
-
-                    </td>
-
-                    <td class="note-column">{{$mgp}}</td>
-
-
-
-
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
-    </div>
-
-
-
-
-
-
-<div class="tabletoprint">
-    <table class="table table-note table-bordered table-striped table-condensed table-inverse" style="margin-top: 5px;">
-        <thead>
-        <tr>
-             <th rowspan="3" class="number-column">#</th>
-        <th rowspan="3" class="mat-column">Matricule/Matricle</th>
-        <th rowspan="3" class="nom-column">Nom/Name</th>
-        <?php $j=0; ?>
-        @foreach($matieres as $m)
-                @if($j>=$standartLimite)
-                    <?php break; ?>
-                @endif
-                <th class="matiere-column" colspan="3"><p>{{(App::getLocale()=='en')?$m->nom_anglais:$m->nom}}</p></th>
-                <?php $j++;
-                    $current_matiere=$j;
+                $sumS1=$countS1=$creditS1=0;
+                $sumS2=$countS2=$creditS2=0;
+                $nonValide=array();
                 ?>
-        @endforeach
-        @if($current_matiere==$nb_matieres)
-            <th rowspan="3" class="note-column">Moy /20</th>
-            <th rowspan="3" class="note-column">MGP</th>
-        @endif
-        </tr>
-         <tr>
-                <?php $j=0; ?>
 
-                @foreach($matieres as $m)
-                    @if($j>=$standartLimite)
-                        <?php break; ?>
-                    @endif
-                    <th class="matiere-column" colspan="3"><p><strong>Credit: {{$m->credit}}</strong> </p></th>
-                    <?php $j++;
-                        $current_matiere=$j;
-                    ?>
-                @endforeach
-            </tr>
-      <tr>
-                <?php $j=0; ?>
-
-                @foreach($matieres as $m)
-                    @if($j>=$standartLimite)
-                        <?php break; ?>
-                    @endif
-                    <th>CC</th>
-                    <th>SN</th>
-                    <th>Total/20  </th>
-                    <?php $j++;
-                    $current_matiere=$j;
-                    ?>
-
-                @endforeach
-            </tr>
-     
-
-        </thead>
-        <tbody>
-        <?php $i=1; ?>
-        @foreach($eleves as $e)
-            <?php $total=0; ?>
-            <tr>
-                <td class="number-column">{{$i++}}</td>
-                <td class="mat-column">{{$e->matricule}}</td>
-                <td>{{$e->nom.' '.$e->prenom}}</td>
-
-                <?php $j=0; ?>
-                @foreach($matieres as $m)
-                    @if($j>=$standartLimite)
-                        <?php break; ?>
-                    @endif
-
-                        <td class="note-column">
-                            <?php $finded=false; ?>
-                            @foreach($PV as $pv)
-                                @if($pv->id_eleve==$e->id)
-                                    <?php $finded=true; ?>
-                                    @foreach($pv->matieres as $mat)
-                                        @if($mat->id_matiere==$m->id )
-                                             {{$mat->controle}}
-                                            <?php break; ?>
-                                        @endif
-                                    @endforeach
-                                @endif
-                                @if($finded)
-                                    <?php break; ?>
-                                @endif
-                            @endforeach
-
-                        </td>
-                        <td class="note-column">
-                            <?php $finded=false; ?>
-                            @foreach($PV as $pv)
-                                @if($pv->id_eleve==$e->id)
-                                    <?php $finded=true; ?>
-                                    @foreach($pv->matieres as $mat)
-                                        @if($mat->id_matiere==$m->id )
-                                             {{$mat->normal}}
-                                            <?php break; ?>
-                                        @endif
-                                    @endforeach
-                                @endif
-                                @if($finded)
-                                    <?php break; ?>
-                                @endif
-                            @endforeach
-
-                        </td>
-
-                        <td class="note-column">
-                            <?php $finded=false; ?>
-                            @foreach($PV as $pv)
-                                @if($pv->id_eleve==$e->id)
-                                        <?php $finded=true; ?>
-                                    @foreach($pv->matieres as $mat)
-                                        @if($mat->id_matiere==$m->id )
-                                                    {{$mat->note}}
-                                                    <?php break; ?>
-                                                @endif
-                                        @endforeach
-                                @endif
-                                 @if($finded)
-                                        <?php break; ?>
-                                    @endif
-                            @endforeach
-
-                        </td>
-                    <?php $j++;
-                    $current_note=$j;
-                    ?>
-                @endforeach
-                @if($current_matiere==$nb_matieres)
-
-                    <?php $mgp=0;?>
-                    <td class="note-column">
-                        @foreach($PV as $pv)
-                            @if($pv->id_eleve==$e->id)
-                                {{round(($pv->mgp)/5,2)}}
-                                <?php $mgp=round(($pv->mgp)/25,2);
-
-                                break; ?>
-                            @endif
-
-                        @endforeach
-
-                    </td>
-
-                    <td class="note-column">{{$mgp}}</td>
-
-
-
-                @endif
-
-            </tr>
-        @endforeach
-        </tbody>
-    </table>
-</div>
-    <?php $standartLimite=7?>
-@while($current_matiere<$nb_matieres)
-    <div class="tabletoprint table-matiere table-note">
-        <div class="titre">
-            <p style="font-size: 19px"><strong>Bilan annuel </strong></p>
-            <strong class="traduction">Annual review</strong>
-        </div>
-        <div class="classe">
-            <div class="specialite">
-                <p><strong>Spécialité : {{$classe->nom}} - Niveau  {{$nniveau->nom}}</strong></p>
-                <strong class="traduction">Speciality : {{$classe->nom_anglais}} - Level  {{$nniveau->nom}}</strong>
-            </div>
-
-            <div class="filiere">
-                <p ><strong>Filière: {{\gesecole\niveau::find($classe->id_niveau)->nom}}</strong></p>
-                <strong class="traduction">Path : {{\gesecole\niveau::find($classe->id_niveau)->nom_anglais}}</strong>
-            </div>
-
-        </div>
-        <table class="table table-note table-bordered table-striped table-condensed table-inverse" style="">
-            <thead>
-
-            <?php $j=$current_matiere;$limite=$current_matiere+$standartLimite;$k=0; ?>
-            <?php $j0=$j;$current_matiere0=$current_matiere;$k0=$k;$limite0=$limite ?>
-            <?php $j1=$j;$current_matiere1=$current_matiere;$k1=$k;$limite1=$limite ?>
-
-
-            @foreach($matieres as $m)
-                @if($k>=$current_matiere)
-
-                    @if($j>=$limite)
-                        <?php break; ?>
-                    @endif
-                    <th class="matiere-column" colspan="3"><p>{{(App::getLocale()=='en')?$m->nom_anglais:$m->nom}}</p></th>
-                    <?php $j++;
-                    $current_matiere=$j;
-                    ?>
-                @endif
-                <?php $k++; ?>
-
-            @endforeach
-            @if($current_matiere==$nb_matieres)
-                <th class="note-column" rowspan="3">Moy/20</th>
-                <th class="note-column" rowspan="3">MGP</th>
-            @endif
-
-             <tr>
-
-                @foreach($matieres as $m)
-                  @if($k1>=$current_matiere1)
-
-                            @if($j1>=$limite1)
-                                <?php break; ?>
-                            @endif
-                            <th class="matiere-column" colspan="3"><p><strong>Credit: {{$m->credit}}</strong> </p></th>
-
-                            <?php $j1++;
-                            $current_matiere1=$j1;
-                            ?>
-                        @endif
-                        <?php $k1++; ?>
-                  
-                @endforeach
-            </tr>
-
-            <tr>
-
-                    @foreach($matieres as $m)
-                        @if($k0>=$current_matiere0)
-
-                            @if($j0>=$limite0)
-                                <?php break; ?>
-                            @endif
-                            <th>CC</th>
-                            <th>SN</th>
-                            <th>Total/20  </th>
-                            <?php $j0++;
-                            $current_matiere0=$j0;
-                            ?>
-                        @endif
-                        <?php $k0++; ?>
-
-                    @endforeach
-                </tr>
-            </thead>
-            <tbody>
-            <?php $i=1;$t=0; ?>
-            @foreach($eleves as $e)
-                <?php $total=0; ?>
                 <tr>
-                    <?php $j=$current_note;$limite=$current_note+$standartLimite;$k=0;$current_note2=$current_note; ?>
+                    <td>{{ $i++ }}</td>
+                    <td>{{ $e->matricule }}</td>
+                    <td>{{ $e->nom }} {{ $e->prenom }}</td>
+
                     @foreach($matieres as $m)
-                        @if($k>=$current_note)
+                        <?php
+                        $totalS1 = 0; $totalS2 = 0;
 
-                            @if($j>=$limite)
-                                <?php break; ?>
-                            @endif
+                        // S1
+                        if ($matiereSemestres[$m->id]['s1']) {
+                            $trouve = false;
+                            if ($pvS1) {
+                                foreach ($pvS1->matieres as $x){
+                                    if($x->id_matiere==$m->id){
+                                        $trouve=true;
+                                        $s=$c=0;
+                                        if($x->cc!==null){$s+=$x->cc;$c++;}
+                                        if($x->sn!==null){$s+=$x->sn;$c++;}
+                                        if($x->tpe!==null){$s+=$x->tpe;$c++;}
+                                        $totalS1 = $c>0 ? round($s/$c,2) : 0;
+                                    }
+                                }
+                            }
+                            if(!$trouve) $totalS1 = 0;
+                            $sumS1+=$totalS1; $countS1++;
+                            if($totalS1<10) $nonValide[]=$m->nom.' (S1)'; else $creditS1+=$m->credit;
+                        }
 
-                             <td class="note-column">
-                                    <?php $finded=false; ?>
-                                    @foreach($PV as $pv)
-                                        @if($pv->id_eleve==$e->id)
-                                            <?php $finded=true; ?>
-                                            @foreach($pv->matieres as $mat)
-                                                @if($mat->id_matiere==$m->id )
-                                                        {{$mat->controle}}
-                                                    <?php break; ?>
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                        @if($finded)
-                                            <?php break; ?>
-                                        @endif
-                                    @endforeach
-
-                                </td>
-                                <td class="note-column">
-                                    <?php $finded=false; ?>
-                                    @foreach($PV as $pv)
-                                        @if($pv->id_eleve==$e->id)
-                                            <?php $finded=true; ?>
-                                            @foreach($pv->matieres as $mat)
-                                                @if($mat->id_matiere==$m->id )
-                                                        {{$mat->normal}}
-                                                    <?php break; ?>
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                        @if($finded)
-                                            <?php break; ?>
-                                        @endif
-                                    @endforeach
-
-                                </td>
-                                <td class="note-column">
-                                    <?php $finded=false; ?>
-                                    @foreach($PV as $pv)
-                                        @if($pv->id_eleve==$e->id)
-                                            <?php $finded=true; ?>
-                                            @foreach($pv->matieres as $mat)
-                                                @if($mat->id_matiere==$m->id )
-                                                        {{$mat->note}}
-                                                    <?php break; ?>
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                        @if($finded)
-                                            <?php break; ?>
-                                        @endif
-                                    @endforeach
-
-                                </td>
-                            <?php $j++;
-                            $t=$j;
-                            ?>
-                        @endif
-                        <?php $k++; ?>
-
+                        // S2
+                        if ($matiereSemestres[$m->id]['s2']) {
+                            $trouve = false;
+                            if ($pvS2) {
+                                foreach ($pvS2->matieres as $x){
+                                    if($x->id_matiere==$m->id){
+                                        $trouve=true;
+                                        $s=$c=0;
+                                        if($x->cc!==null){$s+=$x->cc;$c++;}
+                                        if($x->sn!==null){$s+=$x->sn;$c++;}
+                                        if($x->tpe!==null){$s+=$x->tpe;$c++;}
+                                        $totalS2 = $c>0 ? round($s/$c,2) : 0;
+                                    }
+                                }
+                            }
+                            if(!$trouve) $totalS2=0;
+                            $sumS2+=$totalS2; $countS2++;
+                            if($totalS2<10) $nonValide[]=$m->nom.' (S2)'; else $creditS2+=$m->credit;
+                        }
+                        ?>
+                        @if($matiereSemestres[$m->id]['s1'])<td>{{ number_format($totalS1,2) }}</td>@endif
+                        @if($matiereSemestres[$m->id]['s2'])<td>{{ number_format($totalS2,2) }}</td>@endif
                     @endforeach
 
-            <?php $j=$current_note; ?>
-                        @if($current_matiere==$nb_matieres)
+                    <?php
+                    $moyS1 = $countS1?round($sumS1/$countS1,2):null;
+                    $moyS2 = $countS2?round($sumS2/$countS2,2):null;
+                    $creditTotal = $creditS1+$creditS2;
+                    $moyAnn = ($creditTotal==$creditPrevuTotal)?round(($moyS1+$moyS2)/2,2):null;
+                    $decision = ($creditTotal==$creditPrevuTotal)?'ADMIS':'AJOURNÉ';
+                    ?>
 
-                            <td class="note-column">
-                                @foreach($PV as $pv)
-                                    @if($pv->id_eleve==$e->id)
-                                        {{round(($pv->mgp)/5,2)}}
-                                        <?php $mgp=round(($pv->mgp)/25,2);
+                    <td>{{ $moyS1!==null?number_format($moyS1,2):'-' }}</td>
+                    <td>{{ isset($rS1[$e->id])?$rS1[$e->id]:'-' }}</td>
+                    <td>{{ $creditS1 }}</td>
 
-                                        break; ?>
-                                    @endif
+                    <td>{{ $moyS2!==null?number_format($moyS2,2):'-' }}</td>
+                    <td>{{ isset($rS2[$e->id])?$rS2[$e->id]:'-' }}</td>
+                    <td>{{ $creditS2 }}</td>
 
-                                @endforeach
+                    <td>{{ $moyAnn!==null?number_format($moyAnn,2):'-' }}</td>
+                    <td>{{ $creditTotal }}</td>
+                    <td>{{ $creditPrevuTotal }}</td>
+                    <td><strong>{{ $decision }}</strong></td>
+                    <td>{{ implode(', ',array_unique($nonValide)) }}</td>
+                    <td>{{ isset($rAnn[$e->id])?$rAnn[$e->id]:'-' }}</td>
 
-                            </td>
-
-                            <td class="note-column">{{$mgp}}</td>
-
-                        @endif
                 </tr>
             @endforeach
-            <?php $current_note=$t; ?>
-
             </tbody>
         </table>
     </div>
-@endwhile
+
+    <?php
+    /* ================= PRÉPARATION ================= */
+    $creditPrevuTotal = 0;
+    foreach ($matieres as $m) {
+        $creditPrevuTotal += $m->credit;
+    }
+
+    // Détection des semestres par matière
+    $matiereSemestres = array();
+    foreach ($matieres as $m) {
+        $hasS1 = false;
+        $hasS2 = false;
+
+        foreach ($PV_s1_map as $pv) {
+            foreach ($pv->matieres as $x) {
+                if ($x->id_matiere == $m->id) {
+                    $hasS1 = true;
+                    break 2;
+                }
+            }
+        }
+
+        foreach ($PV_s2_map as $pv) {
+            foreach ($pv->matieres as $x) {
+                if ($x->id_matiere == $m->id) {
+                    $hasS2 = true;
+                    break 2;
+                }
+            }
+        }
+
+        $matiereSemestres[$m->id] = array('s1'=>$hasS1,'s2'=>$hasS2);
+    }
+
+    // Tableaux pour le classement
+    $classementS1 = array();
+    $classementS2 = array();
+    $classementAnnuel = array();
+
+    // Fonction pour calculer les rangs
+    function calculRang1($tab){
+        $tab = array_filter($tab,function($v){ return $v!==null; });
+        arsort($tab);
+        $r = array(); $rang = 0; $pos = 0; $prev = null;
+        foreach($tab as $id=>$v){
+            $pos++;
+            if($prev===null || $v<$prev) $rang=$pos;
+            $r[$id]=$rang;
+            $prev=$v;
+        }
+        return $r;
+    }
+
+    // ================= CALCUL DES MOYENNES =================
+    foreach($eleves as $e){
+        $pvS1 = isset($PV_s1_map[$e->id]) ? $PV_s1_map[$e->id] : null;
+        $pvS2 = isset($PV_s2_map[$e->id]) ? $PV_s2_map[$e->id] : null;
+
+        $sumS1 = $countS1 = $creditS1 = 0;
+        $sumS2 = $countS2 = $creditS2 = 0;
+
+        foreach($matieres as $m){
+            $totalS1 = 0; $totalS2 = 0;
+
+            // S1
+            $pm = null;
+            if($pvS1) foreach($pvS1->matieres as $x){ if($x->id_matiere==$m->id) $pm=$x; }
+            if(!$pm && $pvS2) foreach($pvS2->matieres as $x){ if($x->id_matiere==$m->id) $pm=$x; }
+
+            if ($pm) {
+                $cc = $pm->cc!==null ? $pm->cc : 0;
+                $sn = $pm->sn!==null ? $pm->sn : 0;
+                $tpe = $pm->tpe!==null ? $pm->tpe : 0;
+
+                $denom = 0;
+                if ($pm->cc!==null) $denom++;
+                if ($pm->sn!==null) $denom++;
+                if ($pm->tpe!==null) $denom++;
+
+                $total = $denom > 0 ? round(($cc+$sn+$tpe)/$denom, 2) : 0;
+            } else {
+                $cc = $sn = $tpe = $total = 0;
+            }
+
+            // Attribution par semestre
+            if($matiereSemestres[$m->id]['s1']){
+                $totalS1 = $total;
+                $sumS1 += $totalS1; $countS1++;
+                if($totalS1>=10) $creditS1 += $m->credit;
+            }
+            if($matiereSemestres[$m->id]['s2']){
+                $totalS2 = $total;
+                $sumS2 += $totalS2; $countS2++;
+                if($totalS2>=10) $creditS2 += $m->credit;
+            }
+        }
+
+        $moyS1 = $countS1?round($sumS1/$countS1,2):null;
+        $moyS2 = $countS2?round($sumS2/$countS2,2):null;
+        $creditTotal = $creditS1+$creditS2;
+        $moyAnn = ($creditTotal==$creditPrevuTotal)?round(($moyS1+$moyS2)/2,2):null;
+
+        $classementS1[$e->id] = $moyS1;
+        $classementS2[$e->id] = $moyS2;
+        $classementAnnuel[$e->id] = $moyAnn;
+    }
+
+    // Calcul des rangs
+    $rS1 = calculRang1($classementS1);
+    $rS2 = calculRang1($classementS2);
+    $rAnn = calculRang1($classementAnnuel);
+    ?>
+
+    <div class="table table-print">
+        <center>
+            <div class="titre">
+                <h2>INSTITUT SUPERIEUR HINTEL</h2>
+                <strong>PROCÈS VERBAL ANNUEL</strong><br>
+                Année académique : {{ $annee }}
+            </div>
+
+            <div class="classe">
+                Spécialité : {{ $classe->nom }} — Niveau {{ $nniveau->nom }}
+            </div>
+        </center>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Matricule</th>
+                <th>Nom</th>
+
+                @foreach($matieres as $m)
+                    <th colspan="4">{{ $m->nom }}<br><small>Cr {{ $m->credit }}</small></th>
+                @endforeach
+
+                <th>Moy S1</th>
+                <th>Rang S1</th>
+                <th>Cr S1</th>
+                <th>Moy S2</th>
+                <th>Rang S2</th>
+                <th>Cr S2</th>
+                <th>Moy Annuelle</th>
+                <th>Cr validés</th>
+                <th>Cr prévus</th>
+                <th>Décision</th>
+                <th>Matières non validées</th>
+                <th>Rang Annuel</th>
+            </tr>
+
+            <tr>
+                <th></th><th></th><th></th>
+                @foreach($matieres as $m)
+                    <th>CC</th><th>SN</th><th>TPE</th><th>Total</th>
+                @endforeach
+                <th></th><th></th><th></th><th></th><th></th><th></th>
+                <th></th><th></th><th></th><th></th><th></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <?php $i=1; ?>
+            @foreach($eleves as $e)
+                <?php
+                $pvS1 = isset($PV_s1_map[$e->id]) ? $PV_s1_map[$e->id] : null;
+                $pvS2 = isset($PV_s2_map[$e->id]) ? $PV_s2_map[$e->id] : null;
+
+                $sumS1=$countS1=$creditS1=0;
+                $sumS2=$countS2=$creditS2=0;
+                $nonValide=array();
+                ?>
+
+                <tr>
+                    <td>{{ $i++ }}</td>
+                    <td>{{ $e->matricule }}</td>
+                    <td>{{ $e->nom }} {{ $e->prenom }}</td>
+
+                    @foreach($matieres as $m)
+                        <?php
+                        $pm = null;
+                        if($pvS1) foreach($pvS1->matieres as $x){ if($x->id_matiere==$m->id) $pm=$x; }
+                        if(!$pm && $pvS2) foreach($pvS2->matieres as $x){ if($x->id_matiere==$m->id) $pm=$x; }
+
+                        if($pm){
+                            $cc = $pm->cc !== null ? $pm->cc : 0;
+                            $sn = $pm->sn !== null ? $pm->sn : 0;
+                            $tpe = $pm->tpe !== null ? $pm->tpe : 0;
+
+                            $denom = ($pm->cc !== null ? 1 : 0) + ($pm->sn !== null ? 1 : 0) + ($pm->tpe !== null ? 1 : 0);
+                            $total = $denom > 0 ? round(($cc + $sn + $tpe) / $denom, 2) : 0;
+                        } else {
+                            $cc = $sn = $tpe = 0;
+                            $total = 0;
+                        }
+
+
+                        // Attribution par semestre
+                        if($matiereSemestres[$m->id]['s1']){
+                            $sumS1+=$total; $countS1++;
+                            if($total>=10) $creditS1+=$m->credit; else $nonValide[]=$m->nom.'(S1)';
+                        }
+                        if($matiereSemestres[$m->id]['s2']){
+                            $sumS2+=$total; $countS2++;
+                            if($total>=10) $creditS2+=$m->credit; else $nonValide[]=$m->nom.'(S2)';
+                        }
+                        ?>
+
+                        <td>{{ number_format($cc,2) }}</td>
+                        <td>{{ number_format($sn,2) }}</td>
+                        <td>{{ number_format($tpe,2) }}</td>
+                        <td>{{ number_format($total,2) }}</td>
+                    @endforeach
+
+                    <?php
+                    $moyS1 = $countS1?round($sumS1/$countS1,2):null;
+                    $moyS2 = $countS2?round($sumS2/$countS2,2):null;
+                    $creditTotal = $creditS1+$creditS2;
+                    $moyAnn = ($creditTotal==$creditPrevuTotal)?round(($moyS1+$moyS2)/2,2):null;
+                    $decision = ($creditTotal==$creditPrevuTotal)?'ADMIS':'AJOURNÉ';
+                    ?>
+
+                    <td>{{ $moyS1!==null?number_format($moyS1,2):'-' }}</td>
+                    <td>{{ isset($rS1[$e->id])?$rS1[$e->id]:'-' }}</td>
+                    <td>{{ $creditS1 }}</td>
+
+                    <td>{{ $moyS2!==null?number_format($moyS2,2):'-' }}</td>
+                    <td>{{ isset($rS2[$e->id])?$rS2[$e->id]:'-' }}</td>
+                    <td>{{ $creditS2 }}</td>
+
+                    <td>{{ $moyAnn!==null?number_format($moyAnn,2):'-' }}</td>
+                    <td>{{ $creditTotal }}</td>
+                    <td>{{ $creditPrevuTotal }}</td>
+                    <td><strong>{{ $decision }}</strong></td>
+                    <td>{{ implode(', ', array_unique($nonValide)) }}</td>
+                    <td>{{ isset($rAnn[$e->id])?$rAnn[$e->id]:'-' }}</td>
+
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
 
     <script>
-
-        $('#note-excel').dataTable( {
+        $('#note-excel').dataTable({
             dom: 'Bfrtip',
-            pageLength:2000,
-            buttons: [
-                //'copy', 'csv', 'excel', 'pdf', 'print'
-                {
-                    extend: 'excelHtml5',
-                    text: '<i class="fa fa-file-excel-o"></i> Excel',
-                    titleAttr: 'Export to Excel',
-                    title: 'Notes {{$classe->nom}}'
-
-                }
-
-            ]
-        } );
+            pageLength: 2000,
+            buttons: [{
+                extend: 'excelHtml5',
+                title: 'Bilan annuel - {{ $classe->nom }} {{ $nniveau->nom }}'
+            }]
+        });
     </script>
-
 @endsection
 
 @section('breadcrumb')
-    <li><strong><a href="{{url('eleves')}}">@lang('menu.gestion_notes')</a></strong></li>
-    <li><strong><a href="{{url('eleves/notes')}}">Notes</a></strong></li>
+    <li><strong><a href="{{ url('eleves') }}">@lang('menu.gestion_notes')</a></strong></li>
+    <li><strong><a href="{{ url('eleves/notes') }}">Notes</a></strong></li>
 
-    <li><a href="{{url('eleves/notes/show')}}"><strong>@lang('admin.choix_classe')</strong></a></li>
-    <li><a href="{{url('eleves/notes/matieres/show').'?id='.$classe->id.'&cycle='.$id_cycle.'&nniveau='.$nniveau->id}}"><strong>@lang('admin.titre_matiere')</strong></a></li>
+    <li><a href="{{ url('eleves/notes/show') }}"><strong>@lang('admin.choix_classe')</strong></a></li>
+    <li>
+        <a href="{{ url('eleves/notes/matieres/show').'?id='.$classe->id.'&nniveau='.$nniveau->id }}">
+            <strong>@lang('admin.titre_matiere')</strong>
+        </a>
+    </li>
+    <li class="active"><strong>{{ isset($titre) ? $titre : '' }}</strong></li>
 
-    <li class="active"><strong>{{$titre}}</strong></li>
 @endsection

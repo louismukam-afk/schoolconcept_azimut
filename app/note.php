@@ -23,9 +23,29 @@ class note extends Model {
 
 	protected  $table='note';
 
-    public $fillable=['id_matiere','id_eleve','note','sequence','annee_scolaire'];
+    public $fillable=['id_matiere','id_eleve','note','sequence','annee_scolaire','id_classe',
+        'id_classe_matiere',
+        'id_session',
+        'id_creator',
+        'id_last_editor',
+        'edition_detail'
 
+        ];
 
+    public function session_exam()
+    {
+        return $this->belongsTo(Session_exam::class, 'id_session');
+    }
+
+    public function classe()
+    {
+        return $this->belongsTo(Classe::class, 'id_classe');
+    }
+
+    public function classeMatiere()
+    {
+        return $this->belongsTo(ClasseMatiere::class, 'id_classe_matiere');
+    }
 
 
 }

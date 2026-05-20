@@ -23,6 +23,17 @@
 
         </div>
 
+     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+            <div class="div-square">
+                <a href="{{URL::to('/eleves/notes/fiche')}}" >
+                    <i class="fa fa-list-alt fa-5x"></i>
+                    <h4>Fiches individualisées</h4>
+                </a>
+            </div>
+
+
+        </div>
+
 
     </div>
 

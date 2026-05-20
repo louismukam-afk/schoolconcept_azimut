@@ -123,6 +123,16 @@
 
 
         </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+            <div class="div-square">
+                <a href="{{url('/admin/jours/')}}" >
+                    <i class="fa fa-delicious fa-5x"></i>
+                    <h4>Jours </h4>
+                </a>
+            </div>
+
+
+        </div>
     </div>
 
     <div class="page-header">

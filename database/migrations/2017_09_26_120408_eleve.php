@@ -40,6 +40,7 @@ class Eleve extends Migration {
             $table->string('deuxieme_langue')->nullable();
             $table->string('autre_langue')->nullable();
             $table->string('profession')->nullable();
+            $table->string('ne_vers')->nullable();
 
 
         });

@@ -85,15 +85,18 @@
                                     <div class="form-group">
                                         <label for="niveau">{{  trans('eleve.choix_seq')  }} : </label>
                                         <select  name="sequence" form="choix_seq_form" class="form-control" >
-                                            <option value="1">Séquence 1</option>
-                                            <option value="2">Séquence 2</option>
-                                            <option value="3">Séquence 3</option>
-                                            <option value="4">Séquence 4</option>
-                                            <option value="5">Séquence 5</option>
-                                            <option value="6">Séquence 6</option>
-                                            <option value="7">{{trans('eleve.trimestre')}} 1</option>
-                                            <option value="8">{{trans('eleve.trimestre')}} 2</option>
-                                            <option value="9">{{trans('eleve.trimestre')}} 3</option>
+                                            <option value="1">Premier mois</option>
+                                            <option value="2">deuxième mois</option>
+                                            <option value="3">troisième mois</option>
+                                            <option value="4">quatrième mois</option>
+                                            <option value="5">cinquième mois</option>
+                                            <option value="6">Sixième mois</option>
+                                            <option value="7">Septième mois </option>
+                                            <option value="8">huitième mois</option>
+                                            <option value="9">{{trans('eleve.trimestre')}} 1</option>
+                                            <option value="10">{{trans('eleve.trimestre')}} 2</option>
+                                            <option value="11">{{trans('eleve.trimestre')}} 3</option>
+                                            <option value="12">@lang('admin.annuel')</option>
                                         </select>
                                     </div>
 

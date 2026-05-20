@@ -158,7 +158,8 @@ class photosController extends Controller {
         $values= array('titre'=>trans_choice('admin.carte_e',2));
 
         $nom_e=parametres::where('nom','=','nom_etablissement')->first()->valeur;
-        $nom_abb=parametres::where('nom','=','nom_abbrege')->first()->valeur;
+
+        //$nom_abb=parametres::where('nom','=','nom_abbrege')->first()->valeur;
 
         if($eleve!=null)
         {
@@ -205,7 +206,7 @@ class photosController extends Controller {
 
             $values['eleves']=$e;
             $values['nom_e']=$nom_e;
-            $values['nom_abb']=$nom_abb;
+          //  $values['nom_abb']=$nom_abb;
             $values['n']=$n;
             $values['photos']=$po;
             $values['classe']=$classe;
@@ -255,7 +256,7 @@ class photosController extends Controller {
 
             $values['eleves']=$e;
             $values['nom_e']=$nom_e;
-            $values['nom_abb']=$nom_abb;
+           // $values['nom_abb']=$nom_abb;
             $values['n']=$n;
             $values['photos']=$po;
             $values['classe']=$classe;

@@ -12,16 +12,13 @@
         <div class="row hide-in-print">
             <div class="col-md-12" style="margin-top: 10px">
                 <div class="btn-group">
-                    <span onclick="editStudentAccess(1)" class="btn btn-success"> @lang('admin.allow_student_access')</span>
+                     <span onclick="openChangeStatusModal('#')" class="btn btn-success"> @lang('admin.allow_student_access')</span>
                     <span onclick="editStudentAccess(0)" class="btn btn-danger"> @lang('admin.deny_student_access')</span>
                 </div>
             </div>
         </div>
     @endif
     @include('perso.header')
-
-
-
     <div class="list-cont">
         <h2 style="font-size: 22px;text-align: center">{{  $titre_liste  }}</h2>
 
@@ -30,14 +27,21 @@
         <th>#</th>
         <th>@lang('admin.matricule')</th>
         <th>{{  trans('admin.nom')  }}</th>
-        <th>{{  trans('inscription.date_naiss')  }}</th>
+        <th>Date de Naissance</th>
         <th>{{  trans('inscription.lieu_naiss') }}</th>
-        <th  class="sexe">{{  trans('inscription.sexe')  }}</th>
+       <th>pays d'origine</th>
+	   <th>région d'origine</th>
+	    <th  class="sexe">{{  trans('inscription.sexe')  }}</th>
+	  <th>Contacts étudiants</th>
+		<th>email</th>
+        <th>Diplome préinscription</th>
+		<th>Annee obtention</td>
+        <th>Numéro téléphone wathsapp de l'étudiant</th>
         @if(isset($show_classe))<th class="classe">@lang('admin.classe')</th>@endif
         @if(isset($show_classe))<th>@lang('admin.nniveau')</th>@endif
+        @if(isset($show_montant))<th>@lang('admin.montant')</th> <?php $sumAmount = 0 ?>@endif
         @if(isset($type) && $type != 1)<th>{{trans('inscription.reste')}}</th>@endif
         <th class="action"></th>
-
         </thead>
         <tbody>
         <?php $i=1; $elevesStringArray = ""; $sumReste = 0?>
@@ -51,15 +55,28 @@
             <tr>
                 <td>{{$i++}}</td>
                 <td>{{$e->matricule}}</td>
-                <td><strong >{{$e->nom.' '.$e->prenom}}</strong></td>
-                <td>{{(new DateTime($e->date_naiss))->format('d-m-Y')}}</td>
+                <td><strong >{{$e->nom.' '.$e->prenom}}</strong>
+                    <div style="color: green">{{ isset($e->montant_bourse) ? ('(' . trans('admin.bourse') . ': ' . $e->montant_bourse . ')') : '' }}</div>
+
+                </td>
+                <td>{{(new DateTime($e->date_naiss))->format('d/m/y')}}</td>
+				{{--<td>{{$e->date_naiss}}</td>--}}
                 <td>{{$e->lieu_naiss}}</td>
-                <td style="width: 25px">{{$e->sexe}}</td>
+				<td>{{$e->nationalite}}</td>
+				<td>{{$e->region_origine}}</td>
+				 <td style="width: 25px">{{$e->sexe}}</td>
+                <td>{{$e->tel}}</td>
+				 <td>{{$e->email}}</td>
+                <td>{{$e->diplome_preinscription}}</td>
+				<td>{{$e->annee_obtention}}</td>
+                <td>{{$e->telephone_wathsapp_eleve}}</td>
                 @if(isset($show_classe))<td>{{$e->code_classe}}</td>@endif
                 @if(isset($show_classe))<td>{{$e->nniveau}}</td>@endif
+                 @if(isset($show_montant))<td>{{$e->montant}}</td> <?php $sumAmount += $e->montant ?>@endif
+
                 @if(isset($type) && $type != 1)<td>
-                    {{$e->reste}}
-                    <?php $sumReste += $e->reste?>
+                    {{ $e->reste - (isset($e->montant_bourse) && isset($last_installment) ? $e->montant_bourse : 0) }}
+                    <?php $sumReste += $e->reste - (isset($e->montant_bourse) && isset($last_installment) ? $e->montant_bourse : 0)?>
                 </td>
                 @endif
                 <td class="action">
@@ -68,6 +85,8 @@
                         <ul class="dropdown-menu">
                             <li><a style="color: white" href="{{ URL::to('/inscriptions/edit/').'/'.$e->id }}"   class="btn-primary"><span class="glyphicon glyphicon-edit"></span> {{  trans('admin.edit_inscription')  }}</a></li>
                             <li><a style="color: white" href="#" onclick="fill_delete_modal({{$e->id}}, '{{ URL::to('/inscriptions/remove/').'/'.$e->id }}', null, null)"   class="btn-danger"><span class="glyphicon glyphicon-trash"></span> {{  trans('admin.desinscrire')  }}</a></li>
+                             <li><a style="color: white" href="#" onclick="allowStudentAccess({{ $e->id }})"   class="btn-success"><span class="glyphicon glyphicon-plus"></span> {{  trans('admin.allow_student_access')  }}</a></li>
+                            <li><a style="color: white" href="{{url('/inscriptions/eleve/set-status?status=0&id='. $e->id)}}"   class="btn-danger"><span class="fa fa-ban"></span> {{  trans('admin.deny_student_access')  }}</a></li>
                         </ul>
                     </div>
 
@@ -83,6 +102,10 @@
             <div class="col-md-12"><strong>@lang('admin.reste') @lang('admin.total'): {{$sumReste}} @lang('inscription.devise')</strong></div>
 
         @endif
+           @if(isset($show_montant))
+        <div class="col-md-12"><strong> @lang('admin.total'): {{$sumAmount}} @lang('inscription.devise')</strong></div>
+        @endif
+
 
         <div id="dialog" title="@lang('admin.info')">
             <h3 id="dialog-text" class="alert"></h3>
@@ -90,16 +113,31 @@
 </div>
 
     <script>
-        var elevesArray = [{{$elevesStringArray}}];
 
-        function editStudentAccess(status) {
+     var elevesArray = [{{$elevesStringArray}}];
+
+        $(function () {
+            $('#change-status-form').on('submit', function(e) {
+                console.log('event', e)
+            e.preventDefault() //disable default submit behavior
+            editStudentAccess(1)
+        })
+        })
+         function editStudentAccess(status) {
             var jDText = $( "#dialog-text" );
+            const date_debut = $('#change_status-date_debut').val()
+            const date_fin = $('#change_status-date_fin').val()
+            const montant = $('#change_status-montant').val()
+
             $.ajax({
                 url : '{{url('inscriptions/eleve/set-multi-status')}}',
                 type: 'POST',
                 data: {
                     ids : elevesArray,
                     status : status,
+                    date_debut,
+                    date_fin,
+                    montant,
                     _token : '{{csrf_token()}}'
                 },
                 beforeSend : function () {
@@ -121,9 +159,11 @@
                 },
                 complete: function () {
                     hideLoader();
+                    $('#change-status-modal').modal('hide');
                 }
             });
         }
+
 
         $('#idTableListe').dataTable( {
             dom: 'Bfrtip',

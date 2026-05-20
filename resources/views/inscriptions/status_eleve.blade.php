@@ -11,38 +11,36 @@
     </div>
     <div id="status-container">
         @if(isset($eleve))
-            @if($acces == null)
+
+            @if($access_decision == \gesecole\Vars::DECISION_ALLOW)
+                <div class="alert alert-success"  style="display: flex;justify-content: center;align-items: center">
+                    <span class="fa fa-check-circle" style="color: green; font-size: 9em"></span>
+                    <h4  style="color: green; font-size: 3em; max-width: 300px; margin-left: 10px"> @lang('admin.allow_access')</h4>
+                </div>
+            @elseif($access_decision == \gesecole\Vars::DECISION_DENY)
+                <div class="alert alert-danger"  style="display: flex;justify-content: center;align-items: center">
+                    <span class="fa fa-ban" style="color: red; font-size: 9em"></span>
+                    <h4  style="color: red; font-size: 3em; max-width: 300px; margin-left: 10px"> @lang('admin.deny_access')</h4>
+
+                </div>
+
+            @else
                 <div class="alert alert-warning"  style="display: flex;justify-content: center;align-items: center">
                     <span class="fa fa-question-circle" style="color: gray; font-size: 9em"></span>
                     <h4  style="color: gray; font-size: 3em; max-width: 300px; margin-left: 10px"> @lang('admin.no_access_status')</h4>
                 </div>
-            @else
-                @if($acces->decision == \gesecole\Vars::DECISION_ALLOW)
-                    <div class="alert alert-success"  style="display: flex;justify-content: center;align-items: center">
-                        <span class="fa fa-check-circle" style="color: green; font-size: 9em"></span>
-                        <h4  style="color: green; font-size: 3em; max-width: 300px; margin-left: 10px"> @lang('admin.allow_access')</h4>
-                    </div>
-                @elseif($acces->decision == \gesecole\Vars::DECISION_DENY)
-                    <div class="alert alert-danger"  style="display: flex;justify-content: center;align-items: center">
-                        <span class="fa fa-ban" style="color: red; font-size: 9em"></span>
-                        <h4  style="color: red; font-size: 3em; max-width: 300px; margin-left: 10px"> @lang('admin.deny_access')</h4>
-
-                    </div>
-
-                @else
-                    <div class="alert alert-warning"  style="display: flex;justify-content: center;align-items: center">
-                        <span class="fa fa-question-circle" style="color: gray; font-size: 9em"></span>
-                        <h4  style="color: gray; font-size: 3em; max-width: 300px; margin-left: 10px"> @lang('admin.no_access_status')</h4>
-                    </div>
-                @endif
             @endif
 
             @if(\Auth::user()->canDoAction(\gesecole\Action::ACTION_ADMIN_STUDENT_REGISTRATION_STATUS_UPDATE))
                 <div class="row">
                     <div class="col-md-12" style="margin-bottom: 10px">
+                        <button class="btn btn-success" onclick="toggleScanStatus(); allowStudentAccess({{ $eleve->id }})"
+                        ><span class="glyphicon glyphicon-plus"></span>@lang('admin.allow_student_access')</button>
+                        <a href="{{url('/inscriptions/eleve/set-status?status=0&id='. $eleve->id)}}" class="btn btn-danger"> @lang('admin.deny_student_access')</a>
+                    </div>
+
                         <div class="btn-group">
-                            <a href="{{url('/inscriptions/eleve/set-status?status=1&id='. $eleve->id)}}" class="btn btn-success"> @lang('admin.allow_student_access')</a>
-                            <a href="{{url('/inscriptions/eleve/set-status?status=0&id='. $eleve->id)}}" class="btn btn-danger"> @lang('admin.deny_student_access')</a>
+                            {{--<a href="{{url('/inscriptions/eleve/set-status?status=1&id='. $eleve->id)}}" class="btn btn-success"> @lang('admin.allow_student_access')</a>--}}
                         </div>
                     </div>
                 </div>
@@ -160,12 +158,23 @@
                                         </td>
                                     </tr>
                                 @endif
+                                @if(isset($montant_bourse))
+                                    <tr>
+                                        <td><strong style="color: green;">@lang('admin.bourse')</strong></td>
+                                        <td></td>
+                                        <td style="color: green;" class="text-center">{{$montant_bourse . ' ' . trans('inscription.devise')}}</td>
+                                        <td class="text-center hidden">
+                                            <span style="color: green; font-size: 22px" class="fa fa-check-circle"></span>
+                                        </td>
+                                    </tr>
+                                @endif
                                 </tbody>
                                 <tfoot>
                                 <tr>
+                                    <?php $scolariteOk = ($scolarite->total - ($solde + (isset($montant_bourse) ? $montant_bourse : 0))) <= 0?>
                                     <td><strong>@lang('admin.total')</strong></td>
-                                    <td>{{ $scolarite->tranche1 + $scolarite->tranche2 + $scolarite->tranche3 + $scolarite->tranche4 + $scolarite->tranche5 }} {{trans('inscription.devise')}}</td>
-                                    <td class="text-center" style="color: orangered">{{ $solde }} {{trans('inscription.devise')}}</td>
+                                    <td>{{ $scolarite->total }} {{trans('inscription.devise')}}</td>
+                                    <td class="text-center" style="color: @if($scolariteOk) green @else orangered @endif">{{ $solde + (isset($montant_bourse) ? $montant_bourse : 0) }} {{trans('inscription.devise')}}</td>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -180,6 +189,16 @@
 
     </div>
 
+    <script>
+        function toggleScanStatus() {
+            if (scanActivated) {
+                disableScan()
+            } else {
+                enableScan()
+            }
+        }
+
+    </script>
 @endsection
 
 @section('breadcrumb')

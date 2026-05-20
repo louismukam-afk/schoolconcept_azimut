@@ -32,7 +32,7 @@
                 <input type="hidden" name="id_eleve" value="{{$e->id}}">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>  Cycle: </label>
+                        <label>  @lang('admin.cycle'): </label>
                         <select required form="edit_inscription_form" id="edit_cycle"  name="cycle" class="form-control">
                             @foreach($cycles as $c)
                                 <option value="{{$c->id}}" @if($inscription->id_cycle==$c->id) selected @endif>{{$c->nom}}</option>
@@ -95,7 +95,7 @@
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>  Cycle: </label>
+                        <label>  @lang('admin.cycle'): </label>
                         <select form="add_inscription_form" id="cycle" name="cycle" class="form-control" onchange="getScolarite()" required>
                             <option value=""> -- @lang('admin.choose_cycle') --</option>
 
@@ -128,6 +128,14 @@
 
                     </div>
                     <div class="form-group">
+                        <label for="type_scolarite">{{  trans('admin.type_scolarite')  }} : </label>
+                        <select form="add_inscription_form" id="type_scolarite" name="type_scolarite" class="form-control" onchange="getScolarite()" >
+                            <option id="0" value="0" @if(strcmp(old('type_scolarite'),'0')==0) selected @endif>{{ trans('admin.ancien') }}</option>
+                            <option id="1" value="1" @if(strcmp(old('type_scolarite'),'1')==0) selected @endif>{{ trans('admin.nouveau') }}</option>
+                        </select>
+                    </div>
+
+                        <div class="form-group">
                         <label>  @lang('admin.nniveau') </label>
                         <select form="add_inscription_form"  name="nniveau" class="form-control" required>
                             @foreach($nniveaux as $nn)
@@ -136,6 +144,8 @@
                         </select>
 
                     </div>
+
+
 
 
                 </div>
@@ -159,13 +169,33 @@
                         <div id="montant-group" class="hidden">
                             <label for="montant">{{trans('inscription.montant')}} : </label>
                             <div class="input-group">
-                                <input type="number" name="montant" id="montant" value=""  class="form-control disabled" required readonly>
+                                <input type="number" name="montant" id="montant" value="{{ old('montant') }}"  class="form-control disabled" required readonly>
                                 <span class="input-group-addon"> {{trans('inscription.devise')}}</span>
                             </div>
                         </div>
 
 
                     </div>
+                        <div class="form-group">
+                            <label>Montant en lettre</label>
+                            <input type="text" name="lettre"  class="form-control"  value="{{old('lettre')}}">
+
+                        </div>
+                        <div class="form-group">
+                            <label for="mode_paye">{{trans('inscription.detail')}} : </label>
+                            <select form="add_inscription_form" id="mode_paye" name="mode_paye" class="form-control">
+                                <option value="bancaire">{{trans('inscription.bancaire') }}</option>
+                                <option value="orange money">{{trans('inscription.om')}}</option>
+                                <option value="espece">{{trans('inscription.espece')}}</option>
+
+                            </select>
+
+                        </div>
+                        <div class="form-group">
+                            <label>{{trans('inscription.ref')}} </label>
+                            <input type="text" name="ref_versement"  class="form-control"  value="{{old('ref_versement')}}">
+
+                        </div>
                 </div>
                 <input type="submit" class="btn btn-success form-control" value="{{trans('inscription.inscrire')}}" >
 
@@ -180,7 +210,10 @@
 
             var cycle=$('#cycle').val();
             var el=$('#classe')[0];
+            var el_type_scolarite=$('#type_scolarite')[0];
+
             var niveau= el.options[el.selectedIndex].id;
+            var type_scolarite= el_type_scolarite.options[el_type_scolarite.selectedIndex].id;
             var token='{{csrf_token()}}';
 
             if(cycle.length>0 && niveau.length>0)
@@ -189,10 +222,10 @@
                     url:'{{route('get_scolarite')}}',
                     type:'POST',
                     dataType:'html',
-                    data:'cycle='+cycle+'&niveau='+niveau+'&_token='+token,
+                    data:'cycle=' + cycle + '&niveau=' + niveau + '&_token=' + token + '&type_scolarite=' + type_scolarite,
                     complete: function (res,stat) {
                         var obj=JSON.parse(res.responseText);
-                        if(obj.inscription<=0)
+                        if(obj.inscription <= 0)
                         {
                             $('#show_montant').addClass('hidden');
                             $('#montant-group').removeClass('hidden');
@@ -201,13 +234,13 @@
                             montant.val('');
 
                         }
+
                         else {
                             $('#show_montant').removeClass('hidden');
                             $('#show_montant_value').html(obj.inscription);
                             $('#montant-group').addClass('hidden');
                             var montant=$('#montant').addClass('disabled');
                             montant.val(obj.inscription);
-
 
 
                         }

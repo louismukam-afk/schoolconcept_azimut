@@ -18,6 +18,8 @@ return [
     'del'=>'Remove',
     'modifier'=>'Edit',
     'level'=>'Courses',
+    'nouveau'=>'Nouveau',
+    'ancien'=>'Ancien',
     'aucun'=>'None',
     'specialites'=>'Specialities',
     'titre_table_classe'=>'Spécialities list',
@@ -393,7 +395,24 @@ return [
     "nee_a" => "Born at",
     "le" => "The",
     "filiere" => "Sector",
+    "type_scolarite"=>"Scholarship kind",
+    "scolarite_not_set"=>"Installment not set",
 
+
+    "item_not_found" => "The item cannot be found",
+    "bad_request" => "A field required in the database is missing in the query",
+    "already_exists" => "A similar item already exists",
+    "db_request_failed" => "Request failed in the database",
+    "scholarship_not_exists" => "A scholarship with that ID doesn't exists",
+    "bourse" => "Scholarship grant",
+    "frais_nature" => "Fees in kind",
+    "type" => "Type",
+    "espece" => "Cash",
+    "nature" => "Kind",
+    "boursiers" => "List of scholarship grant recipients",
+    "fiches" => "Cards",
+    "print_fiches" => "Printing cards",
+    "no_refund_note" => "NB: We don't refund schoolfees",
 
 
 

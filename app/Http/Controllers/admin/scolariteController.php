@@ -38,7 +38,7 @@ class scolariteController extends Controller {
             Session::forget('success');
             $values['success']=true;
         }
-        return view('admin/scolarite',$values);
+        return view('admin.scolarite',$values);
 	}
 
 	/**
@@ -67,7 +67,8 @@ class scolariteController extends Controller {
             'tranche2'=>'required|numeric',
             'tranche3'=>'numeric',
             'tranche4'=>'numeric',
-            'tranche5'=>'numeric'
+            'tranche5'=>'numeric',
+            'type_scolarite'=>'numeric',
         ]);
 
         $classe=$req->input('classe');
@@ -78,11 +79,12 @@ class scolariteController extends Controller {
         $tranche3=$req->input('tranche3');
         $tranche4=$req->input('tranche4');
         $tranche5=$req->input('tranche5');
+        $type_scolarite=$req->input('type_scolarite');
 
         $s0=scolarite::whereIdCycle($cycle)->where('id_niveau','=',$classe)->first();
         $current_user = \Auth::user();
 
-        if($s0!=null)
+        if($s0!=null && $s0->type_scolarite == $type_scolarite)
         {
             $s0->id_niveau=$classe;
             $s0->id_cycle=$cycle;
@@ -92,6 +94,7 @@ class scolariteController extends Controller {
             $s0->tranche3=floatval($tranche3);
             $s0->tranche4=floatval($tranche4);
             $s0->tranche5=floatval($tranche5);
+            $s0->type_scolarite=($type_scolarite);
             $s0->total=$tranche1+$tranche2+$tranche3+$tranche4+$tranche5;
 
             $s0->id_last_editor = $current_user->id;
@@ -107,6 +110,7 @@ class scolariteController extends Controller {
             $s->tranche3=floatval($tranche3);
             $s->tranche4=floatval($tranche4);
             $s->tranche5=floatval($tranche5);
+            $s->type_scolarite=($type_scolarite);
             $s->total=$tranche1+$tranche2+$tranche3+$tranche4+$tranche5;
 
             $s->id_creator = $current_user->id;
@@ -162,6 +166,7 @@ class scolariteController extends Controller {
             'tranche3'=>'numeric',
             'tranche4'=>'numeric',
             'tranche5'=>'numeric',
+            'type_scolarite'=>'numeric',
         ]);
         $id=$req->input('id');
         $classe=$req->input('classes');
@@ -172,10 +177,19 @@ class scolariteController extends Controller {
         $tranche3=$req->input('tranche3');
         $tranche4=$req->input('tranche4');
         $tranche5=$req->input('tranche5');
+        $type_scolarite=$req->input('type_scolarite');
+
+        $s0=scolarite::whereIdCycle($cycle)->where('id_niveau','=',$classe)->where('type_scolarite','=',$type_scolarite)
+            ->first();
+
+
         $s=scolarite::find($id);
         $s->id_niveau=$classe;
         $s->id_cycle=$cycle;
         $s->inscription=$inscription;
+        if($s0 == null || $id == $s0->id) {
+            $s->type_scolarite=$type_scolarite;
+        }
         $s->tranche1=floatval($tranche1);
         $s->tranche2=floatval($tranche2);
         $s->tranche3=floatval($tranche3);
@@ -196,16 +210,27 @@ class scolariteController extends Controller {
     {
         $cycle=$request->input('cycle');
         $niveau=$request->input('niveau');
+        $type_scolarite=$request->input('type_scolarite');
+
+        if($type_scolarite === null) {
+            $type_scolarite = 0;
+        }
+
         if($cycle==null || $niveau==null){
             $s=new scolarite();
             $s->inscription=0;
+            $s->type_scolarite = 0;
             return response()->json($s);
         }
 
-        $s=scolarite::whereIdCycle($cycle)->where('id_niveau','=',$niveau)->first();
+        $s=scolarite::whereIdCycle($cycle)
+            ->where('id_niveau','=',$niveau)
+            ->where('type_scolarite','=',$type_scolarite)
+            ->first();
         if($s==null){
             $s=new scolarite();
             $s->inscription=0;
+            $s->type_scolarite = 0;
             return response()->json($s);
         }
 

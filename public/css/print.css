@@ -134,6 +134,9 @@ html,body {
     {
         position: relative;
     }
+    .lettre{
+        position: relative;
+    }
     .montant
     {
         left: 0;
@@ -203,7 +206,7 @@ html,body {
     height: 135mm;
     -webkit-print-color-adjust:exact;
     color-adjust: exact;
-    background-image: url("../img/logo.png") !important;
+    background-image: url("../img/logo.jpg") !important;
     background-repeat: no-repeat!important;
     background-position: center!important;
     background-size: 110mm!important;

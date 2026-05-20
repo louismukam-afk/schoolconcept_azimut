@@ -7,7 +7,7 @@
         <p class="traductions">********</p>
         <P class="traductions">MINISTERE DE L'ENSEIGNEMENT SUPERIEUR</P>
         <p class="traductions">Cycle: BTS -LICENCES </p>
-        <p class="traductions">Email: contact@hintel.cm. site web: is.hintel.cm </p>
+        <p class="traductions">Email: contact@hintel.cm. </p>
 
     </div>
 
@@ -21,6 +21,7 @@
         <p class="traductions">MINISTRY OF HIGHER EDUCATION</p>
         <p class="traductions"> MASTERS PROFESSIONNELLES </p>
         <p class="traductions"> Telephone: 656 66 54 00 / 690 83 39 30 </p>
+        <p class="traductions">  site web: is.hintel.cm </p>
 
     </div>
 
@@ -29,7 +30,7 @@
     INSTITUT SUPERIEUR HINTEL
 </div>
 
-<div class="footer " style="text-align: center; font-family: 'Arial Black';font-size: large;" >
+<div class="footer " style="text-align-all: center; color: red; font-family: 'Arial Black';font-size: large;" >
     Situé a la fabrique ngousso, a 100m de l'hopital général; Derrière l'école primaire maternelle des alouettes
 </div>
 <div class="div-bar">

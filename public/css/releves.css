@@ -20,7 +20,7 @@
     =============================================*/
 
 @page  {
-    size: A4 portrait;
+    size: A4, A3 portrait;
     margin-top: 2%;
     margin-bottom: 2%;
     margin-left: 2mm!important;
@@ -96,6 +96,7 @@ p
     position: absolute;
     right: 50px;
     top: 0;
+    margin-top: 5%;
 }
 .releve-fait-le{
     position: absolute;
@@ -156,7 +157,7 @@ table{
         margin-bottom: 2%;
         margin-left: 2%;
         margin-right: 2%;
-        size: A4 portrait;
+        size: A4,A3 portrait;
     }
 
     .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.breadcrumb
@@ -204,16 +205,18 @@ table{
 
 
     .sign-footer{
-        position: absolute;
-        width: 100%;
-        padding-right: 50px;
-        padding-left: 50px;
-        bottom: 8mm;
+        text-align: right;
+      /*  top: 970px;*/
+
+        /* padding-right: 50px;
+         padding-left: 50px;
+         bottom: 8mm;*/
     }
     .dep{
-        position: absolute;
+        position: relative;
         right: 50px;
         top: 0;
+        margin-top: 5%;
     }
     .releve-fait-le {
         position: absolute;
@@ -247,8 +250,8 @@ table{
 
     .titre
     {
-        margin-top: 5mm;
-        margin-bottom: 7mm;
+        margin-top: 2mm;
+        margin-bottom: 4mm;
         text-align: center;
     }
 

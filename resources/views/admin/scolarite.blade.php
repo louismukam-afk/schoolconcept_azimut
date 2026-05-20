@@ -25,6 +25,7 @@
             <th>{{  trans('admin.tranche3')  }}</th>
             <th>{{  trans('admin.tranche4')  }}</th>
             <th>{{  trans('admin.tranche5')  }}</th>
+             <th>{{  trans('admin.type_scolarite')  }}</th>
             <th>Total</th>
             </thead>
             <tbody>
@@ -54,6 +55,11 @@
                     <td>{{$s->tranche3}}</td>
                     <td>{{$s->tranche4}}</td>
                     <td>{{$s->tranche5}}</td>
+                      @if($s->type_scolarite==0)
+                        <td>{{ trans('admin.ancien') }}</td>
+                    @else
+                        <td>{{ trans('admin.nouveau') }}</td>
+                    @endif
                     <td>{{$s->total}}</td>
                     <td>
 
@@ -141,6 +147,19 @@
                                     </div>
 
                                 </div>
+                                  <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="scolarite">{{  trans('admin.type_scolarite')  }} : </label>
+                                            <select form="add_level_form" id="type_scolarite" name="type_scolarite" class="form-control">
+                                                <option value="0" @if(strcmp(old('type_scolarite'),'0')==0) selected @endif>{{ trans('admin.ancien') }}</option>
+                                                <option value="1" @if(strcmp(old('type_scolarite'),'1')==0) selected @endif>{{ trans('admin.nouveau') }}</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+
 
                                 <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
 
@@ -230,6 +249,19 @@
                                     </div>
 
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label for="scolarite">{{  trans('admin.type_scolarite')  }} : </label>
+                             <select form="edit_scolarite_form" id="edit_type_scolarite" name="type_scolarite" class="form-control">
+                                                <option value="0" @if(strcmp(old('type_scolarite'),'0')==0) selected @endif>{{ trans('admin.ancien') }}</option>
+                                                <option value="1" @if(strcmp(old('type_scolarite'),'1')==0) selected @endif>{{ trans('admin.nouveau') }}</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+
 
                                 <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}">
 
@@ -254,7 +286,7 @@
     </div>
 
     <script>
-        function editer_scolarite(id,id_classe,id_cycle,inscription,tranche1,tranche2,tranche3,tranche4,tranche5)
+        function editer_scolarite(id,id_classe,id_cycle,inscription,tranche1,tranche2,tranche3,tranche4,tranche5,type_scolarite)
         {
             document.getElementById("id_scolarite").value = id;
             document.getElementById("edit_classes").value = id_classe;
@@ -265,6 +297,8 @@
             document.getElementById("edit_tranche3").value = tranche3;
             document.getElementById("edit_tranche4").value = tranche4;
             document.getElementById("edit_tranche5").value = tranche5;
+            document.getElementById("edit_type_scolarite").value = type_scolarite;
+
 
         }
     </script>

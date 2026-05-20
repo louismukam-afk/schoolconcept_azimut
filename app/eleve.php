@@ -50,6 +50,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string|null $deuxieme_langue
  * @property string|null $autre_langue
  * @property string|null $profession
+ * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\eleve inscrits()
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\eleve whereAnneeObtention($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\eleve whereAnneeSortie($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\gesecole\eleve whereAutreLangue($value)
@@ -91,6 +92,17 @@ class eleve extends Model {
     public function Etudiant_users()
     {
         return $this->belongsTo(Etudiant_user::class,'id_eleve');
+    }
+    
+     /* public function scopeInscrits(Builder $query) {
+        $currentYear = Controller::getSchoolYear();
+        return $query->whereHas('inscriptions', function (Builder $query) use ($currentYear) {
+            $query->where('annee_scolaire', '=', $currentYear);
+        });
+    }
+*/
+    public function getFullName() {
+        return (strlen($this->prenom) > 0) ? $this->nom . ' ' . $this->prenom : $this->nom;
     }
 }
 

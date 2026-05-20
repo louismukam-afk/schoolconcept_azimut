@@ -100,4 +100,13 @@
             document.getElementById("id").value = id;
         }
     </script>
+
+@endsection
+
+@section('breadcrumb')
+    <li><strong><a href="{{url('eleves')}}">@lang('menu.gestion_notes')</a></strong></li>
+    <li><strong><a href="{{url('eleves/notes')}}">Notes</a></strong></li>
+
+    <li><a href="{{url('eleves/notes/edit')}}"><strong>@lang('admin.choix_classe')</strong></a></li>
+    <li class="active"><strong>@lang('admin.matiere')</strong></li>
 @endsection

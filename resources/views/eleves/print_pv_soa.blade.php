@@ -3,12 +3,12 @@
     @include('perso.functions')
     <?php $standartLimite=7;
     $standartLimite1=7;
-    $current_group_matiere=0;
     $current_matiere=0;
     $current_matiere1=0;
     $current_note=0;
     $admis=0;
     $echec=0;
+
     ?>
     <style media="screen">
         .table-note
@@ -32,9 +32,10 @@
     <link rel="stylesheet"  href="{{URL::asset('css/pv.css')}}">
 
     <div class="titre">
-        <p style="font-size: 19px"><strong>Bilan annuels </strong></p>
-        <strong class="traduction">Annual review</strong>
+        <p style="font-size: 19px"><strong>Résultats  des Examens du semestre</strong></p>
+        <strong class="traduction">Semester exam results</strong>
     </div>
+
     <div class="classe">
         <div class="specialite">
             <p><strong>Spécialité : {{$classe->nom}} - Niveau  {{$nniveau->nom}}</strong></p>
@@ -51,9 +52,11 @@
         <table id="note-excel" class="table table-bordered table-striped table-condensed table-inverse" style="margin-top: 5px;">
             <thead>
             <tr>
-                <th class="number-column" rowspan="2">#</th>
-                <th class="spec-column" rowspan="2">Matricule/Matricle</th>
-                <th class="nom-column" rowspan="2">Nom/Name</th>
+                <th class="number-column" rowspan="3">#</th>
+                <th class="spec-column" rowspan="3">Matricule/Matricle</th>
+                {{--
+                                <th class="nom-column" rowspan="3">Nom/Name</th>
+                --}}
                 <?php  $j=0; ?>
                 @foreach($matieres as $m)
                     @if($j>=$standartLimite)
@@ -66,10 +69,14 @@
                     ?>
                 @endforeach
                 @if($current_matiere==$nb_matieres)
-                    <th class="note-column" rowspan="2">Moy/20</th>
-                    <th class="note-column" rowspan="2">MGP</th>
-                    <th class="note-column" rowspan="2">Decision</th>
+                    <th class="note-column" rowspan="3">Moy/20</th>
+                    <th class="note-column" rowspan="3">MGP</th>
+                    <th class="note-column" rowspan="3">Decision</th>
             </tr>
+            {{--   <tr>
+                   <td colspan="3">nom de l'uv</td>
+               </tr>--}}
+
             <tr>
                 @foreach($matieres as $m)
                     <th>CC</th>
@@ -84,14 +91,22 @@
             </thead>
             <tbody>
             <?php $i=1; ?>
+
+
+
             @foreach($eleves as $e)
                 <?php $total=0; ?>
+
+
                 <tr>
+
                     <td class="number-column">{{$i++}}</td>
                     <td class="mat-column">{{$e->matricule}}</td>
                     <td>{{$e->nom.' '.$e->prenom}}</td>
 
+
                     <?php $j=0; ?>
+
                     @foreach($matieres as $m)
                         <td class="note-column">
                             <?php $finded=false; ?>
@@ -99,6 +114,7 @@
                                 @if($pv->id_eleve==$e->id)
                                     <?php $finded=true; ?>
                                     @foreach($pv->matieres as $mat)
+
                                         @if($mat->id_matiere==$m->id )
                                             {{$mat->controle}}
                                             <?php break; ?>
@@ -245,6 +261,7 @@
                 <td></td>
 
             </tr>
+
             </tbody>
         </table>
     </div>
@@ -260,291 +277,265 @@
                 <th class="number-column" rowspan="3">#</th>
                 <th class="spec-column" rowspan="3">Matricule/Matricle</th>
                 <th class="nom-column" rowspan="3">Nom/Name</th>
-                <?php $j=0;$j2=0; $indicesArrayMoyenneModule = []; ?>
-                @foreach($groupe_matieres as $m)
-                    @if($j2>=$standartLimite)
+                <?php $j=0;
+
+
+                ?>
+                @foreach($matieres as $m)
+                    @if($j>=$standartLimite)
                         <?php break; ?>
                     @endif
-                    <th class="matiere-column" colspan="{{$m->nbComposes*3}}"><p>{{$m->nom}}</p></th>
-                    <th class="matiere-column" rowspan="3"><p>Moyenne du modules</p></th>
-                    <?php $j++;$j2+=$m->nbComposes;
-
-
-                    $current_matiere=$j2;
-                    $current_group_matiere=$j;
-
+                    <th class="matiere-column" colspan="3"><p>{{$m->nom}}</p></th>
+                    <?php $j++;
+                    $current_matiere=$j;
                     ?>
-                            <?php
-                                for($ii = 0; $ii < $m->nbComposes; $ii++) {
-                                    array_push($indicesArrayMoyenneModule,false);
-
-                                }
-                        array_push($indicesArrayMoyenneModule,true);
-
-                        ?>
-
                 @endforeach
                 @if($current_matiere==$nb_matieres)
                     <th class="note-column" rowspan="3">Moy/20</th>
                     <th class="note-column" rowspan="3">MGP</th>
                     <th class="note-column" rowspan="3">Decision</th>
                 @endif
+
             </tr>
             <tr>
                 <?php $j=0;
-                $e=0;
-
-                $ii = 0;
-
-                ?>
+                $e=0;?>
 
                 @foreach($matieres as $m)
-                    @if($j>=$j2)
+                    @if($j>=$standartLimite)
+                        (
                         <?php break; ?>
                     @endif
-                    <th colspan="3">{{$m->nom}}</th>
-
+                    {{--  <th colspan="3">nom de l'uv</th>--}}
 
                     <?php $j++;
-                    //$current_matiere=$j;
+                    $current_matiere=$j;
                     ?>
-
-                    @endforeach
-
+                @endforeach
             </tr>
-
             <tr>
                 <?php $j=0; ?>
 
                 @foreach($matieres as $m)
-                    @if($j>=$j2)
+                    @if($j>=$standartLimite)
                         <?php break; ?>
                     @endif
                     <th>CC</th>
                     <th>SN</th>
                     <th>Total/100  </th>
-
                     <?php $j++;
-                    //$current_matiere=$j;
+                    $current_matiere=$j;
                     ?>
+
                 @endforeach
             </tr>
 
 
             </thead>
             <tbody>
-            <?php $i=1; ?>
+            <?php $i=1; $s=1; ?>
             @foreach($eleves as $e)
                 <?php $total=0; ?>
+
+
                 <tr>
                     <td class="number-column">{{$i++}}</td>
                     <td class="mat-column">{{$e->matricule}}</td>
                     <td>{{$e->nom.' '.$e->prenom}}</td>
+                    @foreach($PV as $pv)
+                        @if($pv->id_eleve==$e->id)
 
-                    <?php $j=0; $ii = 0 ?>
+                            @foreach($pv->matieres as $mat)
 
-                    @foreach($matieres as $m)
-                        @if($j>=$j2)
-                            <?php break; ?>
+                                @if($mat->id_matiere==$m->id )
+
+                                    <?php $j=0; ?>
+                                    @foreach($matieres as $m)
+                                        @if($j>=$standartLimite)
+                                            <?php break; ?>
+                                        @endif
+
+                                        <td class="note-column">
+                                            <?php $finded=false; ?>
+                                            @foreach($PV as $pv)
+                                                @if($pv->id_eleve==$e->id)
+                                                    <?php $finded=true; ?>
+                                                    @foreach($pv->matieres as $mat)
+                                                        @if($mat->id_matiere==$m->id )
+                                                            {{$mat->controle}}
+                                                            <?php break; ?>
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+                                                @if($finded)
+                                                    <?php break; ?>
+                                                @endif
+                                            @endforeach
+
+                                        </td>
+                                        <td class="note-column">
+                                            <?php $finded=false; ?>
+                                            @foreach($PV as $pv)
+                                                @if($pv->id_eleve==$e->id)
+                                                    <?php $finded=true; ?>
+                                                    @foreach($pv->matieres as $mat)
+                                                        @if($mat->id_matiere==$m->id )
+                                                            {{$mat->normal}}
+                                                            <?php break; ?>
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+                                                @if($finded)
+                                                    <?php break; ?>
+                                                @endif
+                                            @endforeach
+
+                                        </td>
+
+                                        <td class="note-column">
+                                            <?php $finded=false; ?>
+                                            @foreach($PV as $pv)
+                                                @if($pv->id_eleve==$e->id)
+                                                    <?php $finded=true; ?>
+                                                    @foreach($pv->matieres as $mat)
+                                                        @if($mat->id_matiere==$m->id )
+                                                            {{$mat->note}}
+                                                            <?php break; ?>
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+                                                @if($finded)
+                                                    <?php break; ?>
+                                                @endif
+                                            @endforeach
+
+                                        </td>
+                                        <?php $j++;
+                                        $current_note=$j;
+                                        ?>
+                                    @endforeach
+                                    @if($current_matiere==$nb_matieres)
+                                        <?php $mgp=0;?>
+                                        <td class="note-column">
+                                            @foreach($PV as $pv)
+                                                @if($pv->id_eleve==$e->id)
+                                                    {{round(($pv->mgp)/5,2)}}
+                                                    <?php $mgp=round(($pv->mgp)/25,2);
+                                                    if($mgp>=2)
+                                                    {$admis++;}
+                                                    else{$echec++;}
+                                                    break; ?>
+                                                @endif
+
+                                            @endforeach
+
+                                        </td>
+
+                                        <td class="note-column">{{$mgp}}</td>
+                                        <td class="note-column">
+                                            {{getDecision($mgp)}}
+                                        </td>
+                                    @endif
+                                @endif
+                            @endforeach
                         @endif
-
-
-
-
-                            <td class="note-column">
-                            <?php $finded=false; ?>
-                            @foreach($PV as $pv)
-                                @if($pv->id_eleve==$e->id)
-                                    <?php $finded=true; ?>
-                                    @foreach($pv->matieres as $mat)
-                                        @if($mat->id_matiere==$m->id )
-                                            {{$mat->controle}}
-                                            <?php break; ?>
-                                        @endif
-                                    @endforeach
-                                @endif
-                                @if($finded)
-                                    <?php break; ?>
-                                @endif
-                            @endforeach
-
-                        </td>
-                        <td class="note-column">
-                            <?php $finded=false; ?>
-                            @foreach($PV as $pv)
-                                @if($pv->id_eleve==$e->id)
-                                    <?php $finded=true; ?>
-                                    @foreach($pv->matieres as $mat)
-                                        @if($mat->id_matiere==$m->id )
-                                            {{$mat->normal}}
-                                            <?php break; ?>
-                                        @endif
-                                    @endforeach
-                                @endif
-                                @if($finded)
-                                    <?php break; ?>
-                                @endif
-                            @endforeach
-
-                        </td>
-
-                        <td class="note-column">
-                            <?php $finded=false; ?>
-                            @foreach($PV as $pv)
-                                @if($pv->id_eleve==$e->id)
-                                    <?php $finded=true; ?>
-                                    @foreach($pv->matieres as $mat)
-                                        @if($mat->id_matiere==$m->id )
-                                            {{$mat->note}}
-                                            <?php break; ?>
-                                        @endif
-                                    @endforeach
-                                @endif
-                                @if($finded)
-                                    <?php break; ?>
-                                @endif
-
-                            @endforeach
-
-                        </td>
-
-                        <!-- Pour  les moyennes des modules -->
-                            @if($ii + 1 < sizeof($indicesArrayMoyenneModule))
-                                @if($indicesArrayMoyenneModule[$ii + 1])
-                                    <td>
-                                        je suis bon
-                                    </td>
-                                    <?php                         $ii++; ?>
-                                @endif
-                            @endif
-
-                            <?php                         $ii++; ?>
-
-
-                        <?php
-
-                            $j++;
-                        $current_note=$j;
-                        ?>
-
+                    @endforeach
 
                     @endforeach
-                @if($current_matiere==$nb_matieres)
-                        <?php $mgp=0;?>
-                        <td class="note-column">
-                            @foreach($PV as $pv)
-                                @if($pv->id_eleve==$e->id)
-                                    {{round(($pv->mgp)/5,2)}}
-                                    <?php $mgp=round(($pv->mgp)/25,2);
-                                    if($mgp>=2)
-                                    {$admis++;}
-                                    else{$echec++;}
-                                    break; ?>
-                                @endif
 
-                            @endforeach
-
-                        </td>
-
-                        <td class="note-column">{{$mgp}}</td>
-                        <td class="note-column">
-                            {{getDecision($mgp)}}
-                        </td>
-                    @endif
 
                 </tr>
 
-            @endforeach
-            <tr style="font-size: 13px">
-                <td></td>
-                <td></td>
-                <td><b>%  validation</b></td>
 
-                <?php $j=0;   ?>
-                @foreach($matieres as $m)
-                    @if($j>=$j2)
-                        <?php break; ?>
-                    @endif
-                    <td class="note-column">
-                        <?php  $nbValid=0;$nbNotes=0;  ?>
-                        @foreach($PV as $pv)
+                <tr style="font-size: 13px">
+                    <td></td>
+                    <td></td>
+                    <td><b>%  validation</b></td>
 
-                            @foreach($pv->matieres as $mat)
-                                @if($mat->id_matiere==$m->id )
-                                    <?php $nbNotes++ ?>
-                                    @if(floatval($mat->controle)>=15)
-                                        <?php $nbValid++; ?>
+                    <?php $j=0;   ?>
+                    @foreach($matieres as $m)
+                        @if($j>=$standartLimite)
+                            <?php break; ?>
+                        @endif
+                        <td class="note-column">
+                            <?php  $nbValid=0;$nbNotes=0;  ?>
+                            @foreach($PV as $pv)
+
+                                @foreach($pv->matieres as $mat)
+                                    @if($mat->id_matiere==$m->id )
+                                        <?php $nbNotes++ ?>
+                                        @if(floatval($mat->controle)>=15)
+                                            <?php $nbValid++; ?>
+                                        @endif
+                                        <?php break; ?>
                                     @endif
-                                    <?php break; ?>
-                                @endif
+                                @endforeach
+
                             @endforeach
-
-                        @endforeach
-                        <b>{{round(($nbValid/$nbNotes)*100,2)}} %</b>
+                            <b>{{round(($nbValid/$nbNotes)*100,2)}} %</b>
 
 
-                    </td>
-                    <td class="note-column">
-                        <?php  $nbValid=0;$nbNotes=0;  ?>
-                        @foreach($PV as $pv)
+                        </td>
+                        <td class="note-column">
+                            <?php  $nbValid=0;$nbNotes=0;  ?>
+                            @foreach($PV as $pv)
 
-                            @foreach($pv->matieres as $mat)
-                                @if($mat->id_matiere==$m->id )
-                                    <?php $nbNotes++ ?>
-                                    @if(floatval($mat->normal)>=35)
-                                        <?php $nbValid++; ?>
+                                @foreach($pv->matieres as $mat)
+                                    @if($mat->id_matiere==$m->id )
+                                        <?php $nbNotes++ ?>
+                                        @if(floatval($mat->normal)>=35)
+                                            <?php $nbValid++; ?>
+                                        @endif
+                                        <?php break; ?>
                                     @endif
-                                    <?php break; ?>
-                                @endif
+                                @endforeach
+
                             @endforeach
-
-                        @endforeach
-                        <b>{{round(($nbValid/$nbNotes)*100,2)}} %</b>
+                            <b>{{round(($nbValid/$nbNotes)*100,2)}} %</b>
 
 
-                    </td>
+                        </td>
 
 
-                    <td class="note-column">
-                        <?php  $nbValid=0;$nbNotes=0;  ?>
-                        @foreach($PV as $pv)
+                        <td class="note-column">
+                            <?php  $nbValid=0;$nbNotes=0;  ?>
+                            @foreach($PV as $pv)
 
-                            @foreach($pv->matieres as $mat)
-                                @if($mat->id_matiere==$m->id )
-                                    <?php $nbNotes++ ?>
-                                    @if(floatval($mat->note)>=50)
-                                        <?php $nbValid++; ?>
+                                @foreach($pv->matieres as $mat)
+                                    @if($mat->id_matiere==$m->id )
+                                        <?php $nbNotes++ ?>
+                                        @if(floatval($mat->note)>=50)
+                                            <?php $nbValid++; ?>
+                                        @endif
+                                        <?php break; ?>
                                     @endif
-                                    <?php break; ?>
-                                @endif
+                                @endforeach
+
                             @endforeach
-
-                        @endforeach
-                        <b>{{round(($nbValid/$nbNotes)*100,2)}} %</b>
+                            <b>{{round(($nbValid/$nbNotes)*100,2)}} %</b>
 
 
-                    </td>
-                    <?php $j++;
-                    $current_note=$j;
-                    ?>
-                @endforeach
+                        </td>
+                        <?php $j++;
+                        $current_note=$j;
+                        ?>
+                    @endforeach
 
 
-            </tr>
+                </tr>
             </tbody>
         </table>
     </div>
 
-    <?php $standartLimite=9;$group_limited=$current_group_matiere; ?>
-
+    <?php $standartLimite=9?>
 
     @while($current_matiere<$nb_matieres)
-
         <div class="table-matiere table-note">
             <div class="titre">
-                <p style="font-size: 19px"><strong>Résultats  des Examens du semestre 2</strong></p>
-                <strong class="traduction">Annual review</strong>
+                <p style="font-size: 19px"><strong>Résultats  des Examens du semestre </strong></p>
+                <strong class="traduction">Semester  exam results</strong>
             </div>
+
             <div class="classe">
                 <div class="specialite">
                     <p><strong>Spécialité : {{$classe->nom}} - Niveau  {{$nniveau->nom}}</strong></p>
@@ -562,73 +553,45 @@
                 <thead>
 
                 <?php $j=$current_matiere;$limite=$current_matiere+$standartLimite;$k=0; ?>
-                <?php $j2=$group_limited ;?>
-                <?php $j_matieres=0 ;?>
-
                 <?php $j0=$j;$current_matiere0=$current_matiere;$k0=$k;$limite0=$limite ?>
                 <?php $j1=$j;$current_matiere1=$current_matiere;$k1=$k;$limite1=$limite ?>
-                <?php $current_matiere3=$current_matiere; ?>
 
 
                 <tr>
-
-                    <?php
-                        $indicesArrayMoyenneModule = [];
-                    ?>
-                    @foreach($groupe_matieres as $m)
-
-                        @if($k>=$group_limited)
+                    @foreach($matieres as $m)
+                        @if($k>=$current_matiere)
 
                             @if($j>=$limite)
                                 <?php break; ?>
                             @endif
 
-                            <th class="matiere-column" colspan="{{$m->nbComposes*3}}"><p>{{$m->nom}}</p></th>
-                            <th class="matiere-column" rowspan="3"><p>Moyenne du modules</p></th>
-                            <?php
-                            $j+=$m->nbComposes;
-
-                            $j_matieres=$j;
-                            $j2++;
+                            <th class="matiere-column" colspan="3"><p>{{(App::getLocale()=='en')?$m->nom_anglais:$m->nom}}</p></th>
+                            <?php $j++;
+                            $current_matiere=$j;
                             ?>
-                                <?php
-                                for($ii = 0; $ii < $m->nbComposes; $ii++) {
-                                    array_push($indicesArrayMoyenneModule,false);
-
-                                }
-                                array_push($indicesArrayMoyenneModule,true);
-
-                                ?>
                         @endif
                         <?php $k++; ?>
 
-
                     @endforeach
-                    <?php $group_limited=$j2;
-
-                    ?>
-
-
-                    @if($j_matieres==$nb_matieres)
-                        <th class="note-column" rowspan="3">Moy/20</th>
-                        <th class="note-column" rowspan="3">MGP</th>
-                        <th class="note-column" rowspan="3">Decision</th>
+                    @if($current_matiere==$nb_matieres)
+                    <!--<th class="note-column" rowspan="2">Moy/20</th>
+                    <th class="note-column" rowspan="2">MGP</th>
+                    <th class="note-column" rowspan="2">Decision</th>-->
                     @endif
-
                 </tr>
+
                 <tr>
 
                     @foreach($matieres as $m)
-                        @if($k1>=$current_matiere)
+                        @if($k1>=$current_matiere1)
 
-                            @if($j1>=$j_matieres)
+                            @if($j1>=$limite1)
                                 <?php break; ?>
                             @endif
-                            <th colspan="3">{{$m->nom}}</th>
+                            {{--  <th colspan="3">nom de l'uv</th>--}}
 
                             <?php $j1++;
-                            $current_matiere=$j1;
-
+                            $current_matiere1=$j1;
                             ?>
                         @endif
                         <?php $k1++; ?>
@@ -639,9 +602,9 @@
                 <tr>
 
                     @foreach($matieres as $m)
-                        @if($k0>=$current_matiere3)
+                        @if($k0>=$current_matiere0)
 
-                            @if($j0>=$j_matieres)
+                            @if($j0>=$limite0)
                                 <?php break; ?>
                             @endif
                             <th>CC</th>
@@ -658,126 +621,125 @@
 
                 </thead>
                 <tbody>
-                <?php $i=1;$t=0; ?>
+                <?php $i=1;$t=0; $s=1; ?>
                 @foreach($eleves as $e)
-                    <?php $total=0; $ii = 0?>
+                    <?php $total=0; ?>
+
+                    <td class="number-column">{{$s++}}</td>
+
                     <tr>
-                        <?php $j=$current_matiere3;$limite=$j_matieres;$k=0;$current_note2=$current_matiere3; ?>
-                        @foreach($matieres as $m)
-                            @if($k>=$current_matiere3)
+                        <?php $finded=false; ?>
+                        @foreach($PV as $pv)
+                            @if($pv->id_eleve==$e->id)
 
-                                @if($j>=$limite)
-                                    <?php break; ?>
-                                @endif
+                                <?php $finded=true; ?>
+                                @foreach($pv->matieres as $mat)
 
-                                <td class="note-column">
-                                    <?php $finded=false; ?>
-                                    @foreach($PV as $pv)
-                                        @if($pv->id_eleve==$e->id)
-                                            <?php $finded=true; ?>
-                                            @foreach($pv->matieres as $mat)
-                                                @if($mat->id_matiere==$m->id )
-                                                    {{$mat->controle}}
+                                    @if($mat->id_matiere==$m->id )
+
+                                        <?php $j=$current_note;$limite=$current_note+$standartLimite;$k=0;$current_note2=$current_note; ?>
+                                        @foreach($matieres as $m)
+                                            @if($k>=$current_note)
+
+                                                @if($j>=$limite)
                                                     <?php break; ?>
                                                 @endif
-                                            @endforeach
-                                        @endif
-                                        @if($finded)
-                                            <?php break; ?>
-                                        @endif
-                                    @endforeach
 
-                                </td>
-                                <td class="note-column">
-                                    <?php $finded=false; ?>
-                                    @foreach($PV as $pv)
-                                        @if($pv->id_eleve==$e->id)
-                                            <?php $finded=true; ?>
-                                            @foreach($pv->matieres as $mat)
-                                                @if($mat->id_matiere==$m->id )
-                                                    {{$mat->normal}}
-                                                    <?php break; ?>
+                                                <td class="note-column">
+                                                    <?php $finded=false; ?>
+                                                    @foreach($PV as $pv)
+                                                        @if($pv->id_eleve==$e->id)
+                                                            <?php $finded=true; ?>
+                                                            @foreach($pv->matieres as $mat)
+                                                                @if($mat->id_matiere==$m->id )
+                                                                    {{$mat->controle}}
+                                                                    <?php break; ?>
+                                                                @endif
+                                                            @endforeach
+                                                        @endif
+                                                        @if($finded)
+                                                            <?php break; ?>
+                                                        @endif
+                                                    @endforeach
+
+                                                </td>
+                                                <td class="note-column">
+                                                    <?php $finded=false; ?>
+                                                    @foreach($PV as $pv)
+                                                        @if($pv->id_eleve==$e->id)
+                                                            <?php $finded=true; ?>
+                                                            @foreach($pv->matieres as $mat)
+                                                                @if($mat->id_matiere==$m->id )
+                                                                    {{$mat->normal}}
+                                                                    <?php break; ?>
+                                                                @endif
+                                                            @endforeach
+                                                        @endif
+                                                        @if($finded)
+                                                            <?php break; ?>
+                                                        @endif
+                                                    @endforeach
+
+                                                </td>
+
+
+                                                <td class="note-column">
+                                                    <?php $finded=false; ?>
+                                                    @foreach($PV as $pv)
+                                                        @if($pv->id_eleve==$e->id)
+                                                            <?php $finded=true; ?>
+                                                            @foreach($pv->matieres as $mat)
+                                                                @if($mat->id_matiere==$m->id )
+                                                                    {{$mat->note}}
+                                                                    <?php break; ?>
+                                                                @endif
+                                                            @endforeach
+                                                        @endif
+                                                        @if($finded)
+                                                            <?php break; ?>
+                                                        @endif
+                                                    @endforeach
+
+                                                </td>
+                                                <?php $j++;
+                                                $t=$j;
+                                                ?>
+                                            @endif
+                                            <?php $k++; ?>
+
+                                        @endforeach
+
+                                        <?php $j=$current_note; ?>
+                                        @if($current_matiere==$nb_matieres)
+                                        <!--  <td class="note-column">
+                                <?php $mgp=0 ?>
+                                            @foreach($PV as $pv)
+                                                @if($pv->id_eleve==$e->id)
+                                                    {{round(($pv->mgp)/5,2)}}
+                                                    <?php $mgp=round(($pv->mgp)/25,2);
+                                                    if($mgp>=2)
+                                                    {$admis++;}
+                                                    else{$echec++;}
+                                                    break; ?>
                                                 @endif
+
                                             @endforeach
-                                        @endif
-                                        @if($finded)
-                                            <?php break; ?>
-                                        @endif
-                                    @endforeach
 
-                                </td>
+                                                </td>
 
-
-                                <td class="note-column">
-                                    <?php $finded=false; ?>
-                                    @foreach($PV as $pv)
-                                        @if($pv->id_eleve==$e->id)
-                                            <?php $finded=true; ?>
-                                            @foreach($pv->matieres as $mat)
-                                                @if($mat->id_matiere==$m->id )
-                                                    {{$mat->note}}
-                                                    <?php break; ?>
-                                                @endif
-                                            @endforeach
-                                        @endif
-                                        @if($finded)
-                                            <?php break; ?>
-                                        @endif
-                                    @endforeach
-
-                                </td>
-                                <?php $j++;
-
-                                $t=$j;
-                                ?>
-
-                                <!-- Pour  les moyennes des modules -->
-                                    @if($ii + 1 < sizeof($indicesArrayMoyenneModule))
-                                        @if($indicesArrayMoyenneModule[$ii + 1])
-                                            <td>
-                                                je suis bon
-                                            </td>
-                                            <?php                         $ii++; ?>
+                                                <td class="note-column">{{$mgp}}</td>
+                            <td class="note-column">{{getDecision($mgp)}}</td>-->
                                         @endif
                                     @endif
-
-                                    <?php                         $ii++; ?>
+                                @endforeach
                             @endif
-
-
-
-
-
-                                <?php $k++; ?>
-
                         @endforeach
 
-                        <?php $j=$current_matiere3; ?>
-                        @if($current_matiere==$nb_matieres)
-                            <td class="note-column">
-                                <?php $mgp=0 ?>
-                                @foreach($PV as $pv)
-                                    @if($pv->id_eleve==$e->id)
-                                        {{round(($pv->mgp)/5,2)}}
-                                        <?php $mgp=round(($pv->mgp)/25,2);
-                                        if($mgp>=2)
-                                        {$admis++;}
-                                        else{$echec++;}
-                                        break; ?>
-                                    @endif
-
-                                @endforeach
-
-                            </td>
-
-                            <td class="note-column">{{$mgp}}</td>
-                            <td class="note-column">{{getDecision($mgp)}}</td>
-                        @endif
                     </tr>
 
                 @endforeach
                 <tr>
-                    <?php $j=$current_matiere3;$limite=$j_matieres;$k=0; ?>
+                    <?php $j=$current_note;$limite=$current_note+$standartLimite;$k=0; ?>
                     @foreach($matieres as $m)
                         @if($k>=$current_note)
 
@@ -889,4 +851,13 @@
 
 
     </script>
+@endsection
+@section('breadcrumb')
+    <li><strong><a href="{{url('eleves')}}">@lang('menu.gestion_notes')</a></strong></li>
+    <li><strong><a href="{{url('eleves/notes')}}">Notes</a></strong></li>
+
+    <li><a href="{{url('eleves/notes/show')}}"><strong>@lang('admin.choix_classe')</strong></a></li>
+    <li><a href="{{url('eleves/notes/matieres/show').'?id='.$classe->id.'&cycle='.$id_cycle.'&nniveau='.$nniveau->id}}"><strong>@lang('admin.titre_matiere')</strong></a></li>
+
+    <li class="active"><strong>{{$titre}}</strong></li>
 @endsection

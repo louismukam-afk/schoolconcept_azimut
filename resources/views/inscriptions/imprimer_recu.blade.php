@@ -66,16 +66,20 @@
                     <p class="col-md-12 traduction">Speciality : {{strtoupper($classe->nom_anglais)}} Level: {{$nniveau->nom}}</p>
                 </div>
                 <div class="row last">
-                    <p class="col-md-6 montant"><strong>Montant : <span style="font-size: 17px">{{$payement->montant}}</span> </strong>{{trans('inscription.devise')}}</p>
+                    <p class="col-md-6 montant"><strong>Montant : <span style="font-size: 17px">{{$payement->montant}}</span> </strong>{{trans('inscription.devise')}}
+                        <strong style="margin-left: 5%"> Montant en Lettre: {{$payement->lettre}}</strong></p>
+                    <p class="col-md-6 lettre">  Motif:<strong> {{$payement->motif}}</strong></p>
                     <p class="col-md-12 traduction">Amount</p>
                 </div>
                 <div class="row">
                     <p class="col-md-6"><strong>DATE :</strong> {{$payement->date_payement}}</p>
                 </div>
                 <div class="row" style="padding-left:20mm">
-                    <p class="col-md-6" style="padding-top:5mm"><strong>SIGNATURE</strong></p>
-                    <p class="col-md-6 visa"><strong>Caissier <span class="traduction"> Cashier</span></strong></p>
+                    <p class="col-md-4" style="padding-top:5mm"><strong>SIGNATURE</strong></p>
+                    <p class="col-md-4 visa"><strong>Caissier <span class="traduction"> Cashier</span></strong></p>
+                    <p class="col-md-4 visa"><strong>Nom de la caissier(e) <span class="traduction"> {{$user}}</strong></p>
                 </div>
+
 
 
 
@@ -127,7 +131,9 @@
                     <p class="col-md-12 traduction">Spéciality : {{strtoupper($classe->nom_anglais)}} Level: {{$nniveau->nom}}</p>
                 </div>
                 <div class="row last">
-                    <p class="col-md-6 montant"><strong>Montant : <span style="font-size: 17px">{{$payement->montant}}</span> </strong>{{trans('inscription.devise')}}</p>
+                    <p class="col-md-6 montant"><strong>Montant : <span style="font-size: 17px">{{$payement->montant}}</span> </strong>{{trans('inscription.devise')}}    <strong style="margin-left: 5%"> Montant en Lettre: {{$payement->lettre}}</strong></p>
+                    <p class="col-md-6 lettre">  Motif:<strong> {{$payement->motif}}</strong></p>
+
                     <p class="col-md-12 traduction">Amount</p>
                 </div>
                 <div class="row">

@@ -2,290 +2,446 @@
 @section('sub-content')
     <link rel="stylesheet" media="print" href="{{URL::asset('css/print_single_seq.css')}}">
     <a href="#" class="btn btn-warning btn-lg" onclick="window.print()">{{trans('eleve.imprimer_bulletin')}}</a>
+    <div id="hheader" class="hidden">
+        @include('perso.header')
+    </div>
 
-    @foreach($eleves as $eleve)
-    <div class="bulletin">
-        <div class="bulletin-header">
-            <div class="school-nav">
-                <p><strong>{{$etablissement}}</strong></p>
-                <p><strong>{{$adresse}}</strong></p>
-                <p>{{$email}}</p>
-                <p>{{$numero}}</p>
-            </div>
-            <div class="logo-nav">
+    <style>
+        .bulletin-photo
+        {
+            position: relative;
+            min-height: 13mm;
+            padding: 2px;
 
-            </div>
-            <div class="other-nav">
-                <p><strong>{{trans('eleve.republique')}}</strong></p>
-                <p>{{trans('eleve.devise')}}</p>
-                <p>{{trans('eleve.ministere')}}</p>
+        }
+        .bulletin-photo .photo
+        {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            border: solid 1px;
+            width: 30mm;
+            height: 30mm;
 
-            </div>
+        }
+        .bulletin-photo .photo img
+        {
+           width: inherit;
+            height: inherit;
+
+        }
+    </style>
+        <div id="bulletin-list">
+
         </div>
-        <div class="bulletin-body">
-            <div class="bulletin-title">
-                <p style="font-size: 17px"><strong>BULLETIN SEQUENTIEL N°{{$sequence}}</strong></p>
-                <p class="traduction">SEQUENTIAL REPORT CARD N° {{$sequence}}</p>
-                <p>Année scolaire {{session('year')}}</p>
-                <p class="traduction">School year {{session('year')}}</p>
-            </div>
-            <div class="bulletin-info">
-                <div class="info-eleve">
-                    <p>Nom/Name : <strong style="font-size: 16px">{{$eleve->nom.' '.$eleve->prenom}}</strong> </p>
-                    <p>Née le/Born at {{$eleve->date_naiss}} à/to {{$eleve->lieu_naiss}}</p>
+
+
+
+    <script>
+        function getBulletin(){
+            startLoading();
+            $.ajax({
+                url: '{{url('/eleves/bulletins/get-single-seq')}}',
+                type: 'GET',
+                data: 'sequence={{$sequence}}&id={{$id_eleve}}&id_c={{$id_classe}} &id_cy={{$id_cycle}} &id_nn={{$id_nniveau}}',
+                success:function (data) {
+                    console.log(data);
+                    fillBulletin(data);
+                    stopLoading();
+                },
+                error:function (data) {
+                    console.log(data);
+                    $('#error-text').html(data.responseJSON.error);
+                    jQuery.noConflict();
+                    $('#bull_error').modal('show');
+                    stopLoading();
+                }
+            })
+        }
+        getBulletin();
+
+        function fillBulletin(data) {
+            var eleves=data.eleves;
+            var bulletin_container=$('#bulletin-list');
+            var header=$('#hheader');
+            var bulletin_var='';
+            for (eleve in eleves)
+            {
+
+
+                bulletin_var='';
+
+                bulletin_header=' <div class="bulletin">'+
+                    '<div class="bulletin-header">'+
+                   header.html()+
+
+                    ' </div>';
+
+
+                bulletin_var+=(bulletin_header+
+                '<div class="bulletin-body" style="padding-top:0.5cm!important">'+
+                '<div class="bulletin-title">'+
+                '<p style="font-size: 17px"><strong>RECAPITULATIF DES NOTES DE EXAMEN  N°'+ data.semestre +'</strong></p>'+
+            '<p class="traduction">MONTH REPORT CARD N° '+ data.sequence +'</p>'+
+            '<p>Année scolaire {{session('year')}}</p>'+
+            '<p class="traduction">School year {{session('year')}}</p>'+
+            '</div>'+
+            '<div class="bulletin-photo">'+
+                '<div class="photo">');
+                for(p in data.photos){
+                    if(eleves[eleve].id==data.photos[p].eleve_id){
+                        bulletin_var+=(' <img src="{{URL::asset('/')}}/'+ data.photos[p].url +'" alt="" class="photo-eleve">');
+                        break;
+                    }
+                }
+
+                bulletin_var+=(' </div>'+
+
+                '</div>'+
+                '<div class="bulletin-info">'+
+                '<div class="info-eleve">'+
+                '<p>Nom/Name : <strong style="font-size: 16px">'+ eleves[eleve].nom+' '+((eleves[eleve].prenom)?eleves[eleve].prenom:'') +'</strong> </p>'+
+                '<p>Née le/Born at '+ eleves[eleve].date_naiss +' à/to '+ eleves[eleve].lieu_naiss +'</p>'+
+                '<p>cycle : '+ data.cycle.nom +'</p>'+
+            '</div>'+
+           ' <div class="info-classe">'+
+                '<p>Spécialité : '+ data.classe.nom +'</p>'+
+
+                '<p>niveau : '+ data.niveau.nom +'</p>'+
+            '<p>Effectif : '+ data.effectif +'</p>'+
+            '</div>'+
+           ' </div>'+
+           ' <div class="bulletin-notes">'+
+
+
+                '<table class="table table-bordered table-striped table-condensed table-inverse custom-table">'+
+               ' <thead>'+
+               ' <th>'+ data.titre_matiere +'</th>'+
+                '<th>Semestre </th>'+
+                '<th>Crédits prévus</th>'+
+                '<th>Note/20</th>'+
+                '<th>Crédits validés</th>'+
+                '<th>Total</th>'+
+                '<th>Rang</th>'+
+               '<th>M. classe</th>'+
+                '<th>Max/min</th>'+
+                '<th>Appréciation</th>'+
+               ' </thead>'+
+                '<tbody>');
+
+                sTotal=0;
+                sTotalCoef=0;
+                scoef=0;
+                snote=0;
+                curGroup=-10;
+                group=-10;
+                oldMatiere='';
+
+                for(m in data.matieres){
+                  group=data.matieres[m].groupe;
+                  if((curGroup!=group)&& (curGroup>0)){
+                      bulletin_var+=('<tr class="groupe-row"><td class="groupe-col"><strong> '+ ((data.local=='en')?oldMatiere.nom_groupe_dl:oldMatiere.nom_groupe) +'</strong></td>'+
+                      '<td><strong>Total:</strong> '+ snote +'</td>'+
+                      '<td></td>'+
+                      '<td><strong>Coef:</strong> '+ scoef +'</td>'+
+                      '<td></td>');
+                      bulletin_var+=('<td><strong>Moy :</strong>');
+                      if(scoef>0){
+                          mmm=snote/scoef;
+                          bulletin_var+=(parseFloat(mmm).toFixed(2));
+                      }
+                      else{
+                          bulletin_var+=('0');
+                      }
+                      bulletin_var+=('</td>'+
+                      '<td></td>'+
+                      '<td></td>'+
+                          '</tr>');
+                      scoef=0;
+                      snote=0;
+
+
+                  }
+                  curGroup=group;
+                    oldMatiere=data.matieres[m];
+                  bulletin_var+=('<tr>'+
+                  '<td><strong><span style="line-height: 9px!important;padding-top:0!important;padding-bottom:0!important;margin-top: 0!important;margin-bottom: 0!important;">');
+                  if(data.local=='en'){
+                      bulletin_var+=(data.matieres[m].nom_anglais);
+                  }
+                  else {
+                    bulletin_var+=(data.matieres[m].nom);
+                  }
+
+                  bulletin_var+=('</strong></span><p style="line-height: 9px!important;padding-top:0!important;margin-top: 0!important;font-size: 8px!important;">'+data.matieres[m]+'</p></td>'+
+                  '<td>');
+                    z=0;
+                    for (n in data.notes){
+                        if(data.notes[n].id_matiere==data.matieres[m].id){
+                            if(data.notes[n].id_eleve==eleves[eleve].id){
+                                z++;
+                                bulletin_var+=(data.notes[n].note+ '</td>');
+                                curNote=data.notes[n].note;
+                                scoef+=data.matieres[m].coef;
+                               snote+=parseFloat(data.notes[n].note);
+                                snote+=parseFloat(data.notes[n].note)*data.matieres[m].coef;
+                                sTotal+=data.notes[n].note*data.matieres[m].coef;
+                                sTotalCoef+=data.matieres[m].coef;
+                                break;
+                            }
+                        }
+                    }
+                    bulletin_var+=(' <td>'+ data.matieres[m].coef +'</td><td>');
+
+                    if(z>0){
+                        bulletin_var+=(curNote*data.matieres[m].coef);
+                    }
+                    bulletin_var+=('</td> <td>');
+                    x=0;
+                    for(n in data.notes){
+                        if(data.matieres[m].id==data.notes[n].id_matiere){
+                            x++;
+                            if(data.notes[n].id_eleve==eleves[eleve].id){
+                                bulletin_var+=(x);
+                                break;
+                            }
+                        }
+                    }
+                    bulletin_var+=('</td> <td>');
+                    for(mm in data.moyenne_matiere){
+                        if(data.moyenne_matiere[mm].id_matiere==data.matieres[m].id){
+                            bulletin_var+=(parseFloat(data.moyenne_matiere[mm].moyenne).toFixed(2));
+                            break;
+                        }
+                    }
+                    bulletin_var+=('</td> <td>');
+
+
+                    for(mm in data.moyenne_matiere){
+                        if(data.moyenne_matiere[mm].id_matiere==data.matieres[m].id){
+                            bulletin_var+=(data.moyenne_matiere[mm].max+' / '+data.moyenne_matiere[mm].min);
+                            break;
+                        }
+                    }
+
+                    bulletin_var+=('</td> <td>');
+                    if(z>0){
+                        bulletin_var+=getMention(curNote,data.matieres[m].max,data.local);
+                    }
+                    bulletin_var+=('</td> </tr>');
+
+                }
+
+
+                if(curGroup>0){
+                    bulletin_var+=('<tr class="groupe-row"><td class="groupe-col"><strong> '+ ((data.local=='en')?oldMatiere.nom_groupe_dl:oldMatiere.nom_groupe) +'</strong></td>'+
+                        '<td><strong>Total:</strong> '+ snote +'</td>'+
+                        '<td></td>'+
+                        '<td><strong>Coef:</strong> '+ scoef +'</td>'+
+                        '<td></td>');
+                    bulletin_var+=('<td><strong>Moy :</strong>');
+                    if(scoef>0){
+                        mmm=snote/scoef;
+                        bulletin_var+=(parseFloat(mmm).toFixed(2));
+                    }
+                    else{
+                        bulletin_var+=('0');
+                    }
+                    bulletin_var+=('</td>'+
+                        '<td></td>'+
+                        '<td></td>'+
+                        '</tr>');
+                }
+
+                scoef=0;
+                snote=0;
+                bulletin_var+=('  <tr style="-webkit-print-color-adjust:exact;">'+
+                '<td><strong>Total</strong></td>'+
+                '<td><strong>Coef</strong></td>'+
+                ' <td  style="background: #adadad !important;"><strong>Moy</strong></td>'+
+                '<td  style="background: #adadad !important;"><strong>Rang</strong></td>'+
+                '<td><strong>M.classe</strong></td>'+
+                '<td><strong>Max</strong></td>'+
+                '<td><strong>Min</strong></td>'+
+                '<td><strong>Mention</strong></td>'+
+                ' </tr> <tr>'+
+                '<td>'+ sTotal +'</td>'+
+                ' <td>'+ sTotalCoef +'</td>'+
+                '<td style="text-align: center;font-size: 13px;">');
+
+                for(me in data.moyenne_eleve){
+                    if(data.moyenne_eleve[me].id_eleve==eleves[eleve].id){
+                        bulletin_var+=('<strong>'+ parseFloat(data.moyenne_eleve[me].moyenne).toFixed(2) +'</strong>');
+                        break;
+                    }
+                }
+                bulletin_var+=('</td>  <td style="text-align: center;font-size: 13px">');
+                y=0;
+                for(me in data.moyenne_eleve){
+                    y++;
+                    if(data.moyenne_eleve[me].id_eleve==eleves[eleve].id){
+                        bulletin_var+=(' <strong>'+ y +'</strong>');
+                    }
+                }
+                bulletin_var+=('</td>'+
+                '<td>'+ parseFloat(data.moyenne_classe.moyenne).toFixed(2) +'</td>'+
+                '<td>'+ parseFloat(data.moyenne_classe.max).toFixed(2) +'</td>'+
+                ' <td>'+ parseFloat(data.moyenne_classe.min).toFixed(2) +'</td>'+
+                ' <td>'+ getMention(sTotal/sTotalCoef,20,data.local) +'</td>'+
+                ' </tr>'
+                +'</tbody>'+
+                '</table>'+
+                '<table class="table table-bordered table-striped table-condensed table-inverse custom-table">'+
+                ' <thead>'+
+                    '<tr><th></th>'+
+                    '<th><strong>Retard</strong></th>'+
+                    '<th><strong>abs.J</strong></th>'+
+                    '<th><strong>abs.Inj</strong></th>'+
+                    '<th><strong>Avert</strong></th>'+
+                    '<th><strong>Blame</strong></th>'+
+                    '<th><strong>Excl.</strong></th>'+
+                    '</tr></thead>'+
+                    '<tbody>'+
+                ' <td style="font-size: 14px"><strong>Discipline</strong></td>');
+                for(d in data.disciplines){
+                    if(data.disciplines[d].id_eleve==eleves[eleve].id){
+                        bulletin_var+=('<td>'+ data.disciplines[d].retard +'</td>'+
+                            '<td>'+ data.disciplines[d].abscence_just +'</td>'+
+                            '<td>'+ data.disciplines[d].abscence_inj +'</td>'+
+                            '<td>'+ data.disciplines[d].avertissement +'</td>'+
+                            '<td>'+ data.disciplines[d].blame +'</td>'+
+                            '<td>'+ data.disciplines[d].exclusion +'</td></tr>');
+                        break;
+                    }
+                }
+
+                bulletin_var+='<tr class="text-center gray-row"> <td><strong>VISA DU PARENT/TUTEUR</strong></td><td colspan="3"><strong>OBSERVATIONS ET VISA DU PROFESSEUR PRINCIPAL</strong></td><td colspan="3"><strong>OBSERVATIONS ET VISA DU PREFET DES ETUDES</strong></td> </tr>'+
+                    '<tr style="height: 1.2cm;"><td></td><td colspan="3"></td><td colspan="3"></td></tr>';
+
+                bulletin_var+=('</tbody> </table> </div> </div>'+
+                ' <div class="bulletin-footer">'+
+
+                '<div class="principal">'+
+                '<p><strong>Fait le '+ ('0'+(new Date()).getDate()).slice(-2)+'/'+ ('0'+((new Date()).getMonth() +1)).slice(-2)+'/'+ (new Date()).getFullYear() +'</strong></p>'+
+                '</div>'+
+
+                '</div>');
+
+                bulletin_container.append(bulletin_var);
+
+            }
+        }
+
+
+
+
+        function getMention(note,max,locale) {
+            palier=10;
+            note=parseFloat(note);
+            max=parseFloat(max);
+            if(note<(max*palier)/100){
+                mention= (locale=='en')?  "Not acquired" :  "Non acquis";
+                return mention;
+            }
+
+            palier=20;
+            if(note<(max*palier)/100){
+                mention= (locale=='en')?  "Not acquired" :  "Non acquis";
+                return mention;
+            }
+            palier=30;
+            if(note<(max*palier)/100){
+                mention= (locale=='en')? "Not acquired" :  "Non acquis";
+                return mention;
+            }
+            palier=40;
+            if(note<(max*palier)/100){
+                mention= (locale=='en')? "Not acquired" :  "Non acquis";
+                return mention;
+            }
+            palier=50;
+            if(note<(max*palier)/100){
+                mention= (locale=='en')?  "Not acquired" :  "Non acquis";
+                return mention;
+            }
+            palier=54;
+            if(note<(max*palier)/100){
+                mention= (locale=='en')? "Not acquired" :  "Non acquis";
+                return mention;
+            }
+            palier=55;
+            if(note<(max*palier)/100){
+                mention= (locale=='en')?  "In process of acquisition" :  "En cours d'acquisition";
+                return mention;
+            }
+
+            palier=60;
+            if(note<(max*palier)/100){
+                mention= (locale=='en')?  "In process of acquisition" :  "En cours d'acquisition";
+                return mention;
+            }
+            palier=70;
+            if(note<(max*palier)/100){
+                mention= (locale=='en')?  "In process of acquisition" :  "En cours d'acquisition";
+                return mention;
+            }
+
+            palier=74;
+            if(note<(max*palier)/100){
+                mention= (locale=='en')? "In process of acquisition" :  "En cours d'acquisition";
+                return mention;
+            }
+            palier=80;
+            if(note<(max*palier)/100){
+                mention= (locale=='en')?  "Acquired" :  "Acquis";
+                return mention;
+            }
+            palier=90;
+            if(note<(max*palier)/100){
+                mention= (locale=='en')?  "Acquired" :  "Acquis";
+                return mention;
+            }
+            palier=100;
+            if(note<(max*palier)/100)
+                return "Expert";
+
+
+
+            mention= (locale=='en')? "Expert" :  "Expert";
+            return mention;
+        }
+    </script>
+
+    <div class="modal fade" id="bull_error">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header" style="background: #d9534f;color: white">
+                    <button type="button" class="close" data-dismiss="modal">x</button>
+                    <h4 class="modal-title">Erreur\Error</h4>
                 </div>
-                <div class="info-classe">
-                    <p>Classe : {{$classe->nom}}</p>
-                    <p>Effectif : {{$effectif}}</p>
+                <div
+                        class="modal-body">
+
+                    <h3 id="error-text" class=""></h3>
+
                 </div>
-            </div>
-            <div class="bulletin-notes">
 
 
-                <table class="table table-bordered table-striped table-condensed table-inverse custom-table">
-                    <thead>
-                    <th>{{trans('admin.titre_matiere')}}</th>
-                    <th>Note</th>
-                    <th>Coef</th>
-                    <th>Total</th>
-                    <th>Rang/Ranking</th>
-                    <th>M. classe/A. class</th>
-                    <th>Max/min</th>
-                    <th>Appréciation</th>
-                    </thead>
-                    <tbody>
-                    <?php
-                            $sTotal=0;;
-                            $sTotalCoef=0;
-                    $scoef=0;
-                    $snote=0;
-                    $curGroup=-10;
-                    $group=-10;
 
-                    ?>
-                   @foreach($matieres as $m)
-                       <?php $group=$m->groupe;
-
-                       ?>
-                        @if(($curGroup!=$group) && ($curGroup>0))
-
-                            <tr class="groupe-row"><td class="groupe-col"><strong>{{trans('admin.groupe').' '.$curGroup}}</strong></td>
-                                 <td><strong>Total:</strong> {{$snote}}</td>
-                                 <td></td>
-                                 <td><strong>Coef:</strong> {{$scoef}}</td>
-                                <td></td>
-                                <td><strong>Moyenne/Average :</strong> {{round(($snote/$scoef),2)}}</td>
-                                <td></td>
-                                <td></td>
-                             </tr>
-                             <?php
-                             $scoef=0;
-                             $snote=0;
-
-                             ?>
-                        @endif
-
-                       <?php $curGroup=$group; ?>
-                       <tr>
-                           <td>{{$m->nom.'/'.$m->nom_anglais}}</td>
-                           <td>
-                               <?php $z=0;?>
-                               @foreach($notes as $n)
-                                    @if($n->id_matiere==$m->id)
-                                        @if($n->id_eleve==$eleve->id)
-                                               <?php
-                                               $z++;?>
-                                        {{$n->note}}
-
-                                        <?php
-                                           $curNote=$n->note;
-                                       $scoef+=$m->coef;
-                                       $snote+=$n->note*$m->coef;
-                                       $sTotal+=$n->note*$m->coef;
-                                       $sTotalCoef+=$m->coef;
-
-                                           break; ?>
-                                           @endif
-                                    @endif
-                               @endforeach
-                           </td>
-                           <td>{{$m->coef}}</td>
-                           <td>@if($z>0){{$curNote*$m->coef}}@endif</td>
-                           <td>
-                               <?php  $x=0; ?>
-
-                               @foreach($notes as $n)
-                                   @if($m->id==$n->id_matiere)
-                                       <?php
-                                       $x++;
-                                       ?>
-                                       @if($n->id_eleve==$eleve->id)
-                                           {{$x}}
-                                           <?php break; ?>
-                                       @endif
-                                   @endif
-                               @endforeach
-
-                           </td>
-                           <td>
-                               @foreach($moyenne_matiere as $mm)
-                                   @if($mm->id_matiere==$m->id)
-                                      {{round($mm->moyenne,2)}}
-                                   @endif
-                               @endforeach
-                           </td>
-                           <td>
-                               @foreach($moyenne_matiere as $mm)
-                                   @if($mm->id_matiere==$m->id)
-                                       {{$mm->max.' / '.$mm->min}}
-                                   @endif
-                               @endforeach
-                           </td>
-                           <td>@if($z>0){{getMention($curNote,$m->max)}}@endif</td>
-                       </tr>
-                   @endforeach
-                    <tr class="groupe-row"><td class="groupe-col"><strong>{{trans('admin.groupe').' '.$curGroup}}</strong></td>
-                        <td><strong>Total:</strong> {{$snote}}</td>
-                        <td></td>
-                        <td><strong>Coef:</strong> {{$scoef}}</td>
-                        <td></td>
-                        <td><strong>Moyenne/Average :</strong> {{round(($snote/$scoef),2)}}</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <?php
-                    $scoef=0;
-                    $snote=0;
-
-                    ?>
-                    <tr style="-webkit-print-color-adjust:exact;">
-                        <td><strong>Total</strong></td>
-                        <td><strong>Coef</strong></td>
-                        <td  style="background: #adadad !important;"><strong>Moy/Ave</strong></td>
-                        <td  style="background: #adadad !important;"><strong>Rang/Ranking</strong></td>
-                        <td><strong>M.classe/A. class</strong></td>
-                        <td><strong>Max</strong></td>
-                        <td><strong>Min</strong></td>
-                        <td><strong>Mention</strong></td>
-                    </tr>
-                    <tr>
-                        <td>{{$sTotal}}</td>
-                        <td>{{$sTotalCoef}}</td>
-                        <td style="text-align: center;font-size: 13px;">
-                            @foreach($moyenne_eleve as $me)
-                                @if($me->id_eleve==$eleve->id)
-                                    <strong>{{round($me->moyenne,2)}}</strong>
-                                @endif
-                            @endforeach
-                        </td>
-                        <td style="text-align: center;font-size: 13px">
-                            <?php $y=0; ?>
-                            @foreach($moyenne_eleve as $me)
-                                <?php $y++; ?>
-                                    @if($me->id_eleve==$eleve->id)
-                                        <strong>{{$y}}</strong>
-                                    @endif
-                                @endforeach
-                        </td>
-                        <td>{{round($moyenne_classe->moyenne,2)}}</td>
-                        <td>{{round($moyenne_classe->max,2)}}</td>
-                        <td>{{round($moyenne_classe->min,2)}}</td>
-                        <td>{{getMention($sTotal/$sTotalCoef,20)}}</td>
-                    </tr>
-                    </tbody>
-                </table>
-                <table class="table table-bordered table-striped table-condensed table-inverse custom-table">
-                    <thead>
-                    <th></th>
-                    <th><strong>Retard/delay</strong></th>
-                    <th><strong>abs.J</strong></th>
-                    <th><strong>abs.Inj</strong></th>
-                    <th><strong>Avert/Warn</strong></th>
-                    <th><strong>Blame</strong></th>
-                    <th><strong>Excl.</strong></th>
-                    </thead>
-                    <tbody>
-                    <td style="font-size: 14px"><strong>Discipline</strong></td>
-                    <?php $u=0 ?>
-                    @foreach($disciplines as $d)
-                        @if($d->id_eleve==$eleve->id)
-                            <td>{{$d->retard}}</td>
-                            <td>{{$d->abscence_just}}</td>
-                            <td>{{$d->abscence_inj}}</td>
-                            <td>{{$d->avertissement}}</td>
-                            <td>{{$d->blame}}</td>
-                            <td>{{$d->exclusion}}</td>
-                            <?php $u++ ?>
-                        <?php break; ?>
-                        @endif
-                    @endforeach
-                    @if($u<=0)
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                    @endif
-                    </tbody>
-                </table>
 
 
             </div>
-        </div>
-        <div class="bulletin-footer">
-            <div class="parent">
-                <p><strong>Le parent</strong></p>
-                <p class="traduction">The parent</p>
-            </div>
-            <div class="titulaire">
-                <p><strong>Le titulaire</strong></p>
-                <p class="traduction">The main professor</p>
-            </div>
-            <div class="principal">
-                <p><strong>Le Principal</strong></p>
-                <p class="traduction">The director</p>
-            </div>
+
 
         </div>
     </div>
-    @endforeach
-    <?php
-    function getMention($note,$max){
-        $palier=10;
-        if($note<($max*$palier)/100)
-            return "Presque nul/Almost zero";
-        $palier=20;
-        if($note<($max*$palier)/100)
-            return "Très faible/Very weak";
-        $palier=30;
-        if($note<($max*$palier)/100)
-            return "Faible/Weak";
-        $palier=40;
-        if($note<($max*$palier)/100)
-            return "Insuffisant/Insufficient";
-        $palier=50;
-        if($note<($max*$palier)/100)
-            return "Médiocre/Poor";
-        $palier=60;
-        if($note<($max*$palier)/100)
-            return "Passable/Fair";
-        $palier=70;
-        if($note<($max*$palier)/100)
-            return "Assez bien/Pretty good";
-        $palier=80;
-        if($note<($max*$palier)/100)
-            return "Bien/Good";
-        $palier=90;
-        if($note<($max*$palier)/100)
-            return "Très bien/Very good";
-        $palier=100;
-        if($note<($max*$palier)/100)
-            return "Excellent";
 
 
-            return "Parfait/Perfect";
-    }
-    ?>
+@endsection
 
+@section('breadcrumb')
+    <li><strong><a href="{{url('eleves')}}">@lang('menu.gestion_notes')</a></strong></li>
+    <li><strong><a href="{{url('/eleves/bulletins')}}">@lang('admin.bull_mode')</a></strong></li>
+
+    <li class="active"><strong>@lang('admin.bulletin')</strong></li>
 @endsection

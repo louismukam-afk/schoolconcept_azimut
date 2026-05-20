@@ -157,14 +157,27 @@
         margin-top: 100px;
         margin-right: 10%;
         margin-left: 10%;
+        font-style: italic;
+        font-family: "Times New Roman" !important;
+        text-align: justify;
     }
     .body>p{
         line-height: 30px;
     }
     .sign{
+        position: relative;
+        margin-left: 8px
+    }
+    .footer {
+        background-color: blue;
+        margin-top: 910px !important;
+        text-align: center !important;
         position: absolute;
-        right: 20mm;
+        font-family: 'Arial Black' !important;
+        font-size: 0.8em !important;
     }
 
-}
+
+
+    }
 

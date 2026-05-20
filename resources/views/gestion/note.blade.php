@@ -177,17 +177,19 @@ if(session('nom_etab')==null){
                    <tr>
                        <th rowspan="2">#</th>
                        <th rowspan="2">{{  trans('admin.matiere')  }}</th>
-                       <td colspan="3">{{  trans('admin.semestre')  }} </td>
-                       <td colspan="3">{{  trans('admin.semestre')  }} 2</td>
+                       <td colspan="4">{{  trans('admin.semestre')  }} </td>
+                       <td colspan="4">{{  trans('admin.semestre')  }} 2</td>
 
                    </tr>
                    <tr>
                        <th>{{  trans('admin.note_cc1')  }}</th>
                        <th>{{  trans('admin.note_sn1')  }}</th>
                        <th>{{  trans('admin.note_Rattrapage1')  }}</th>
+                       <th> Total /20 </th>
                        <th>{{  trans('admin.note_cc2')  }}</th>
                        <th>{{  trans('admin.note_sn2')  }}</th>
                        <th>{{  trans('admin.note_Rattrapage2')  }}</th>
+                       <th> Total /20 </th>
                    </tr>
                     </thead>
                     <tbody>
@@ -196,6 +198,7 @@ if(session('nom_etab')==null){
 
 
                         <tr>
+                            <?php $s1=0 ; $s1=0 ;?>
                             <td>{{$i++}}</td>
                             <td><strong>{{$m->getNom()}}</strong></td>
                             <td>
@@ -212,7 +215,6 @@ if(session('nom_etab')==null){
                                     @endif
                                 @endforeach
                             </td>
-
                             <td>
                                 @foreach($notes as $n)
                                     @if($n->id_matiere == $m->id && $n->sequence == 5)
@@ -220,6 +222,11 @@ if(session('nom_etab')==null){
                                     @endif
                                 @endforeach
                             </td>
+                            <td>
+                           
+                           </td>
+                           
+                          
                             <td>
                                 @foreach($notes as $n)
                                     @if($n->id_matiere == $m->id && $n->sequence == 2)
@@ -242,6 +249,7 @@ if(session('nom_etab')==null){
                                     @endif
                                 @endforeach
                             </td>
+                            <td></td>
                         </tr>
 
 

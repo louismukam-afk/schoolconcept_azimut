@@ -1,88 +1,210 @@
 @extends('skeleton')
+
 @section('sub-content')
-    <h4>{{trans('eleve.choix_classe')}}</h4>
+    <h4>Choix de la filière et de la spécialité</h4>
+
+    <p class="text-muted">
+        Année académique : {{ session('year') }}.
+        La génération sauvegardée fige les relevés pour l'année, la filière,
+        la spécialité, le niveau et le cycle choisis.
+    </p>
+
     <hr>
+
     <div class="liste-classe col-md-12">
         <ul>
+            @foreach($niveaux as $n)
+                <div class="col-md-6">
+                    <h4 class="page-header">Filière : {{ $n->getNom() }}</h4>
 
-
-            @foreach($cycles as $cy)
-                <h3 class="page-header col-md-12">{{$cy->nom}}</h3>
-
-                @foreach($niveaux as $n)
-                    <div class="col-md-6">
-                        <h4 class="page-header"> {{(App::getLocale()=='en')?$n->nom_anglais:$n->nom}}</h4>
-
-                        @foreach($classes as $c)
+                    @foreach($classes as $c)
+                        @if($c->id_niveau == $n->id)
                             <div class="col-md-12">
-                                @if($c->id_niveau==$n->id)
-                                    <li class="col-md-12"><a data-toggle="modal" data-backdrop="false" href="#choose_level" onclick="getNniveau({{$cy->id}});choix_lvl({{$c->id}},{{$cy->id}})">{{(App::getLocale()=='en')?$c->nom_anglais:$c->nom}}</a></li>
-                                @endif
+                                <li class="col-md-12">
+                                    <a class="special"
+                                       data-toggle="modal"
+                                       data-backdrop="false"
+                                       href="#choose_level"
+                                       onclick="choose_level('{{ $c->id }}', '{{ URL::to('/eleves/releves_bts/print/') }}', '')">
+                                        {{ $c->getNom() }}
+                                    </a>
+
+                                    <a href="#generate_releves_bts"
+                                       class="btn btn-xs btn-success"
+                                       data-toggle="modal"
+                                       data-backdrop="false"
+                                       data-classe="{{ $c->id }}"
+                                       data-filiere="{{ $n->getNom() }}"
+                                       data-specialite="{{ $c->getNom() }}"
+                                       onclick="choose_bts_generation_from_button(this)">
+                                        Générer et sauvegarder
+                                    </a>
+                                </li>
                             </div>
-                        @endforeach
-                    </div>
-                @endforeach
-
+                        @endif
+                    @endforeach
+                </div>
             @endforeach
-
-
         </ul>
     </div>
 
-
-    <div class="modal fade" id="choose_level">
-        <div class="modal-dialog" style="width: 20%">
+    <div class="modal fade" id="generate_releves_bts">
+        <div class="modal-dialog">
             <div class="modal-content">
+
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">x</button>
-                    <h4 class="modal-title">{{  trans('admin.remplir_champs')  }}</h4>
+                    <h4 class="modal-title">Génération sauvegardée des relevés BTS</h4>
                 </div>
-                <div
-                        class="modal-body">
 
+                <div class="modal-body">
+                    <form accept-charset="UTF-8"
+                          role="form"
+                          method="POST"
+                          id="generate_releves_bts_form"
+                          action="{{ URL::to('/eleves/releves_bts/generate') }}">
 
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="id" id="bts_id_classe" value="">
+                        <input type="hidden" name="ajax" value="1">
 
-                    <form accept-charset="UTF-8" role="form" method="GET" id="choix_level_form" action="{{URL::to('/eleves/releves_bts/print/')}}">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
-                        <input type="hidden" name="id" id="id" value=""/>
-                        <input type="hidden" name="cycle" id="id_cycle" value=""/>
+                        <p>
+                            <strong>Année académique :</strong> {{ session('year') }}<br>
+                            <strong>Filière :</strong> <span id="bts_filiere_label"></span><br>
+                            <strong>Spécialité :</strong> <span id="bts_specialite_label"></span>
+                        </p>
 
-                        <fieldset>
-                            <div class="form-group">
-                                <label for="niveau">{{  trans('admin.nniveau')  }} : </label>
-                                <select  name="nniveau" id="nniveau" form="choix_level_form" class="form-control" required>
-                                    @foreach($nniveaux as $nn)
-                                        <option value="{{$nn->id}}">{{$nn->nom}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                        <div class="form-group">
+                            <label>Cycle</label>
+                            <select name="cycle" class="form-control" required>
+                                <option value="">-- Sélectionner --</option>
+                                @foreach($cycles as $cycle)
+                                    <option value="{{ $cycle->id }}">{{ $cycle->nom }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
+                        <div class="form-group">
+                            <label>Niveau</label>
+                            <select name="nniveau" class="form-control" required>
+                                <option value="">-- Sélectionner --</option>
+                                @foreach($nniveaux as $nniveau)
+                                    <option value="{{ $nniveau->id }}">{{ $nniveau->nom }}</option>
+                                @endforeach
+                            </select>
+                        </div>
 
-                            <input class="btn  btn-success " type="submit" value="{{  trans('admin.confirmer')  }}" autofocus>
+                        <div class="form-group">
+                            <label>Début de période</label>
+                            <input type="date" class="form-control" name="periode_debut">
+                        </div>
 
+                        <div class="form-group">
+                            <label>Fin de période</label>
+                            <input type="date" class="form-control" name="periode_fin">
+                        </div>
 
-                        </fieldset>
+                        <button class="btn btn-success" type="submit" id="generate_releves_bts_btn">
+                            Générer
+                        </button>
+
+                        <span id="generate_releves_bts_status"
+                              class="text-muted"
+                              style="margin-left: 10px;"></span>
                     </form>
-
-
                 </div>
-
-
-
-
 
             </div>
-
-
         </div>
     </div>
 
     <script>
+        function choose_bts_generation_from_button(button) {
+            var idClasse = button.getAttribute('data-classe');
+            var filiere = button.getAttribute('data-filiere');
+            var specialite = button.getAttribute('data-specialite');
 
-        function choix_lvl(id,id_cycle)
-        {
-            document.getElementById("id").value = id;
-            document.getElementById("id_cycle").value = id_cycle;
+            document.getElementById('bts_id_classe').value = idClasse;
+            document.getElementById('bts_filiere_label').innerHTML = filiere;
+            document.getElementById('bts_specialite_label').innerHTML = specialite;
+            document.getElementById('generate_releves_bts_status').innerHTML = '';
+
+            console.log('Classe sélectionnée : ' + idClasse);
         }
+
+        (function () {
+            var form = document.getElementById('generate_releves_bts_form');
+
+            if (!form) {
+                return;
+            }
+
+            form.onsubmit = function (event) {
+                event.preventDefault();
+
+                var button = document.getElementById('generate_releves_bts_btn');
+                var status = document.getElementById('generate_releves_bts_status');
+                var idClasse = document.getElementById('bts_id_classe').value;
+
+                if (!idClasse) {
+                    alert('Veuillez choisir une spécialité avant de générer.');
+                    status.innerHTML = '';
+                    return;
+                }
+
+                var xhr = new XMLHttpRequest();
+
+                button.disabled = true;
+                status.innerHTML = 'Génération en cours...';
+
+                xhr.open('POST', form.action, true);
+                xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                xhr.setRequestHeader('Accept', 'application/json');
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState !== 4) {
+                        return;
+                    }
+
+                    button.disabled = false;
+
+                    console.log(xhr.responseText);
+
+                    if (xhr.status >= 200 && xhr.status < 300) {
+                        try {
+                            var data = JSON.parse(xhr.responseText);
+
+                            if (data.success) {
+                                status.innerHTML = data.nb_releves + ' relevé(s) généré(s). Ouverture...';
+                                window.location.href = data.url;
+                            } else {
+                                status.innerHTML = data.message || 'Génération terminée, mais réponse invalide.';
+                                alert(data.message || 'Réponse invalide.');
+                            }
+                        } catch (e) {
+                            status.innerHTML = 'Réponse non JSON. Voir console.';
+                            alert(xhr.responseText);
+                        }
+                    } else {
+                        status.innerHTML = 'Erreur ' + xhr.status;
+                        alert(xhr.responseText);
+                    }
+                };
+
+                xhr.send(new FormData(form));
+            };
+        })();
     </script>
+@endsection
+
+@section('breadcrumb')
+    <li>
+        <strong>
+            <a href="{{ url('eleves') }}">@lang('menu.gestion_notes')</a>
+        </strong>
+    </li>
+
+    <li class="active">
+        <strong>@lang('admin.choix_classe')</strong>
+    </li>
 @endsection

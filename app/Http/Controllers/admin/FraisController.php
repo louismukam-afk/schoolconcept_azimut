@@ -59,8 +59,14 @@ class FraisController extends Controller {
         $this->validate($request,[
             'code'=>'required',
             'nom'=>'required',
-            'montant'=>'required|numeric',
         ]);
+        $type = $request->input('type_frais');
+
+        if (!$type) {
+            $this->validate($request,[
+                'montant'=>'required|numeric'
+            ]);
+        }
 
         $code=$request->input('code');
         $nom=$request->input('nom');
@@ -71,7 +77,15 @@ class FraisController extends Controller {
         $n=new Frais();
         $n->code = $code;
         $n->nom=$nom;
-        $n->montant=$montant;
+
+        if (!$type) {
+            $n->type = Frais::CASH_FEES_TYPE;
+            $n->montant = $montant;
+        } else {
+            $n->type = Frais::KIND_FEES_TYPE;
+            $n->montant = 0;
+        }
+
         if($show_on_report == 1) {
             $n->show_on_report = true;
         } else {
@@ -125,6 +139,14 @@ class FraisController extends Controller {
             'montant'=>'required|numeric',
         ]);
 
+        $type = $request->input('type_frais');
+
+        if (!$type) {
+            $this->validate($request,[
+                'montant'=>'required|numeric'
+            ]);
+        }
+
         $id =$request->input('id');
         $nom=$request->input('nom');
         $code=$request->input('code');
@@ -134,8 +156,16 @@ class FraisController extends Controller {
 
         $n=Frais::find($id);
         $n->nom=$nom;
-        $n->code=$code  ;
-        $n->montant=$montant;
+        $n->code=$code;
+
+        if (!$type) {
+            $n->type = Frais::CASH_FEES_TYPE;
+            $n->montant = $montant;
+        } else {
+            $n->type = Frais::KIND_FEES_TYPE;
+            $n->montant = 0;
+        }
+
         if($show_on_report == 1) {
             $n->show_on_report = true;
         } else {

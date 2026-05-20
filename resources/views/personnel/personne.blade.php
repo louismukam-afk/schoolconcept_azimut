@@ -61,7 +61,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="date">{{  trans('inscription.date_naiss')  }} : <span class="required">*</span></label>
-                                <input readonly class="form-control" id="date_naiss" name="date_naiss" type="text"  value="{{ old('date_naiss') }}" placeholder="yyyy/mm/dd" required>
+                                <input  class="form-control" id="date_naiss" name="date_naiss" type="text"  value="{{ old('date_naiss') }}" placeholder="yyyy/mm/dd" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="lieu_naiss">{{  trans('inscription.lieu_naiss')  }} : <span class="required">*</span></label>

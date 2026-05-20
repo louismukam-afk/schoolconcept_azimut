@@ -64,7 +64,7 @@ class programmeController extends Controller {
 	  
 	    $nniveau=$request->input('nniveau');
         $titre=trans('admin.programme');
-        $p=DB::select('SELECT cm.id,cm.id_matiere,cm.type,cm.id_cycle,cm.semestre,m.nom_anglais,m.nom as nom_matiere,coef,max FROM classe_matiere cm, matiere m ,classe c WHERE cm.id_classe=c.id AND cm.id_matiere=m.id And c.id=?  AND cm.id_cycle=? AND cm.id_nniveau=?',[$id,$cycle,$nniveau]);
+        $p=DB::select('SELECT cm.id,cm.id_matiere,cm.type,cm.id_code,cm.id_cycle,cm.semestre,m.nom_anglais,m.nom as nom_matiere,coef,max FROM classe_matiere cm, matiere m ,classe c WHERE cm.id_classe=c.id AND cm.id_matiere=m.id And c.id=?  AND cm.id_cycle=? AND cm.id_nniveau=?',[$id,$cycle,$nniveau]);
         $values= array('titre'=>$titre,'programmes'=>$p);
 
         $search_term = $request->input('search');
@@ -132,6 +132,7 @@ class programmeController extends Controller {
         $maxList=$request->input('max');
         $semestreList=$request->input('semestre');
         $typeList=$request->input('type');
+        $codageList=$request->input('id_code');
         $i=0;
         foreach ($matiereList as $mat){
             $cm=new classeMatiere();
@@ -139,6 +140,7 @@ class programmeController extends Controller {
             $cm->id_cycle=$id_cycle;
             $cm->id_matiere=$mat;
             $cm->id_nniveau=$nniveau;
+            $cm->id_code=$codageList[$i];
             $cm->coef=$coefList[$i];
             $cm->max=$maxList[$i];
             $cm->semestre=$semestreList[$i];
@@ -198,11 +200,12 @@ class programmeController extends Controller {
         $max=$request->input('max');
         $semestre=$request->input('semestre');
         $type=$request->input('type');
+        $id_code=$request->input('id_code');
 
         $cm=classeMatiere::find($id);
         $cm->coef=$coef;
         $cm->max=$max;
-
+        $cm->id_code=$id_code;
         $cm->semestre=$semestre;
         $cm->type=$type;
         $cm->save();

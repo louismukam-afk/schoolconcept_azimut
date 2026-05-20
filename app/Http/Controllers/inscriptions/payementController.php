@@ -1,5 +1,6 @@
 <?php namespace gesecole\Http\Controllers\inscriptions;
 
+use gesecole\bourse;
 use gesecole\Frais;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
@@ -10,6 +11,7 @@ use gesecole\cycle;
 use gesecole\niveau;
 use gesecole\classe;
 use gesecole\scolarite;
+use gesecole\User;
 use gesecole\Vars;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -145,6 +147,9 @@ class payementController extends Controller {
         $montant=$req->input('montant');
         $motif=$req->input('motif');
         $type=$req->input('type');
+        $lettre = $req->input('lettre');
+        $mode_paye = $req->input('mode_paye');
+        $ref = $req->input('ref_versement');
 
         if( $type && $type <> 0 && $type <> Vars::INSCRIPTION_TYPE){
             $f = Frais::find($type);
@@ -164,6 +169,9 @@ class payementController extends Controller {
         $p=new payement();
         $p->annee_scolaire=$annee_scolaire;
         $p->motif=$motif;
+        $p->lettre=$lettre;
+        $p->mode_paye=$mode_paye;
+        $p->ref_versement=$ref;
         if($type) {
             $p->type = $type;
         }
@@ -204,7 +212,86 @@ class payementController extends Controller {
 	 * @return Response
 	 */
 
-    public function print_receipe($id){
+
+     public function print_receipe($id){
+        $p=payement::find($id);
+        $isFrais = $p->type <> 0;
+
+        if($isFrais) {
+            $f=Frais::find($p->type);
+            $values['frais']=$f;
+        }
+
+        $i=inscription::whereAnneeScolaire(session('year'))->where('id_eleve',$p->id_eleve)->first();
+        $cycle=cycle::find($i->id_cycle);
+                $cy=$cycle->nom;
+        $c=classe::find($i->id_classe);
+        $n=niveau::find($c->id_niveau);
+        $nn=NNiveau::find($i->id_nniveau);
+        //$sc=$i->classe->niveau->scolarite->where('id_cycle','=',$cycle->id)->first();
+        $sc=scolarite::where('id_niveau','=',$n->id)
+            ->where('type_scolarite','=',$i->type_scolarite)
+            ->where('id_cycle','=',$cycle->id)->first();
+
+        if($isFrais){
+            $fp=payement::whereIdEleve($p->id_eleve)->where('annee_scolaire','=',session('year'))
+                ->where('type','=',$p->type)->get();
+            if($fp)
+                $solde=$fp->sum('montant');
+            else
+                $solde=0;
+
+            $total=$f->montant;
+
+        }
+        else{
+            if($sc == null) {
+                $total = 0;
+            }
+            else {
+                $bourse = bourse::where('id_eleve', '=', $p->id_eleve)
+                    ->where('annee_scolaire', '=', session('year'))
+                    ->first();
+                if ($bourse) {
+                    $values['montant_bourse'] = $bourse->montant;
+                }
+                $total = $sc->total;
+            }
+            $ps=payement::whereIdEleve($p->id_eleve)->where('annee_scolaire','=',session('year'))
+                //TO CHANGE
+
+                ->where('id_inscription', '=', 0)
+                ->where('type','=',0)
+                ->get();
+
+            $solde=0;
+            $solde=$ps->sum('montant');
+
+        }
+        $current_user=User::where('id','=',$p->id_creator)
+                       ->first();
+       $u=$current_user->fullname;
+
+
+        $pa=parametres::all();
+        $pa=$pa->where('nom','nom_etablissement')->first();
+        $nom_e=$pa->valeur;
+        $values['cycle']=$cy;
+        $values['classe']=$c;
+        $values['niveau']=$n;
+        $values['nniveau']=$nn;
+        $values['payement']=$p;
+        $values['inscription']=$i;
+        $values['user']=$u;
+        $values['nom_etablissement']=$nom_e;
+        $values['total']=$total;
+        $values['solde']=$solde;
+
+        return view('inscriptions.imprimer_recu_p',$values);
+
+    }
+
+   /* public function print_receipe($id){
         $p=payement::find($id);
 
         if($p->type <> 0){
@@ -268,7 +355,7 @@ class payementController extends Controller {
 
         return view('inscriptions/imprimer_recu_p',$values);
 
-    }
+    }*/
 
 	public function edit($id)
 	{
@@ -289,8 +376,12 @@ class payementController extends Controller {
         ]) ;
 		$id=$request->input('id');
         $montant=$request->input('montant');
+        $lettre = $request->input('lettre');
+
         $p=payement::find($id);
         $p->montant=$montant;
+        $p->lettre = $lettre;
+
 
         $current_user = \Auth::user();
         $p->id_last_editor = $current_user->id;

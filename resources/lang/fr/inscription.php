@@ -24,6 +24,10 @@
         'femme'=>'Femme',
         'pieds'=>'A pieds/En taxi',
         'voiture'=>'Véhiculé',
+        'telephone_wathsapp'=>'Numéro whatsapp',
+        'serie'=>'Spécialité',
+        'moyenne_generale'=>'Moyenne générale',
+        'localisation'=>'Situé à ',
         'oui'=>'Oui',
         'non'=>'Non',
         'lien_tuteur'=>'Liens avec son tuteur (Optionnel)',
@@ -80,6 +84,11 @@
         'deuxieme_langue'=>'Deuxieme langue',
         'autre_langue'=>'Autre langue(s)',
         'profession'=>'Activité professionnelle',
+        'detail'=>'Mode de paiement (Si c\'est bancaire ou pas orange money veuillez renseignerle champs ci-dessous ; laissé vide) :',
+        'bancaire'=>'Bancaire',
+        'om'=>'Orange Money',
+        'espece'=>'Espece',
+        'ref'=>'Reference de paiement',
 
 
     ];

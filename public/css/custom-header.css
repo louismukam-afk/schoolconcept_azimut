@@ -42,7 +42,7 @@
     width: 80px;
     height: 80px;
     position: absolute;
-    background: url('../img/logo.png') !important;
+    background: url('../img/logo.jpg') !important;
     background-size: contain !important;
     background-repeat: no-repeat !important;
     background-position: center !important;
@@ -117,7 +117,7 @@
         width: 80px;
         height: 80px;
         position: absolute;
-        background: url('../img/logo.png') !important;
+        background: url('../img/logo.jpg') !important;
         background-size: contain !important;
         background-repeat: no-repeat !important;
         background-position: center !important;
@@ -149,6 +149,22 @@
         border-bottom: solid 3px;
         border-color: firebrick !important;
 
+    }
+    .titre-ecole{
+        margin-top: 7% !important;
+        text-align: center !important;
+        font-size: large;
+    }
+    .body{
+        text-align: justify !important;
+    }
+ .footer{
+        background-color: blue;
+        margin-top: 910px !important;
+        text-align: center !important;
+        position: absolute;
+        font-family: 'Arial Black' !important;
+        font-size: 0.8em !important;
     }
 }
 

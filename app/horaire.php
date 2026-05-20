@@ -21,6 +21,11 @@ class horaire extends Model {
 
     public $fillable=['intervalle','type','ordre'];
 
-
+    public function discipline_new_Etd(){
+        return $this->hasMany(Discipline_New_Etd::class,'id_horaire');
+    }
+    public function discipline_personnel(){
+        return $this->hasMany(Discipline_New_personnel::class,'id_horaire');
+    }
 
 }
