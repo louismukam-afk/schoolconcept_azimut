@@ -32,6 +32,7 @@ class bts_releveAnnuelController extends bts_releveSessionController
             'formBase' => '/eleves/releves_'.$this->transcriptType.'_annuel',
             'historyBase' => '/eleves/releves_'.$this->transcriptType,
             'classes' => classe::orderBy('nom')->get(),
+            'niveaux' => niveau::orderBy('nom')->get(),
             'cycles' => $this->availableCycles(), 'nniveaux' => NNiveau::all(),
         ));
     }
@@ -42,6 +43,7 @@ class bts_releveAnnuelController extends bts_releveSessionController
             'id' => 'required|integer|exists:classe,id',
             'cycle' => 'required|integer|exists:cycle,id',
             'nniveau' => 'required|integer|exists:n_niveaus,id',
+            'filiere' => 'required|integer|exists:niveau,id',
             'periode_debut' => 'required|date_format:Y-m-d',
             'periode_fin' => 'required|date_format:Y-m-d',
             'date_signature' => 'required|date_format:Y-m-d',
@@ -50,6 +52,11 @@ class bts_releveAnnuelController extends bts_releveSessionController
             return redirect()->back()->withInput()->with('error', 'La date de fin doit être postérieure ou égale à la date de début.');
         }
         $classe = classe::findOrFail($request->input('id'));
+        $filiere = niveau::findOrFail($request->input('filiere'));
+        if ((int) $classe->id_niveau !== (int) $filiere->id
+            || (!empty($filiere->id_niveau) && (int) $filiere->id_niveau !== (int) $request->input('nniveau'))) {
+            return redirect()->back()->withInput()->with('error', 'La filière, le niveau et la spécialité sélectionnés ne correspondent pas.');
+        }
         $cycle = cycle::findOrFail($request->input('cycle'));
         if ($this->transcriptType === 'hnd' && !preg_match('/\bHND\b|HIGHER NATIONAL DIPLOMA/i', $cycle->nom)) {
             return redirect()->back()->withInput()->with('error', 'Veuillez sélectionner le cycle HND.');

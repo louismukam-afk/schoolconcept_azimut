@@ -14,26 +14,20 @@
         <p>Année académique : <strong>{{ session('year') }}</strong>. Un relevé sera créé pour chaque étudiant de la sélection.</p>
         <form method="POST" action="{{ url($formBase.'/generate') }}">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            @include('eleves.partials.cycle_niveau_filiere_filter', array(
+                'selectionSubmitFilters' => true,
+                'selectionCycleValue' => old('cycle'),
+                'selectionLevelValue' => old('nniveau'),
+                'selectionFiliereValue' => old('filiere'),
+                'selectionSpecialtySelectId' => 'annual_class',
+                'selectionSpecialtyValue' => old('id')
+            ))
             <div class="row">
-                <div class="col-md-6 form-group">
-                    <label for="annual_cycle">Cycle</label>
-                    <select class="form-control" name="cycle" id="annual_cycle" required>
-                        <option value="">Sélectionner un cycle</option>
-                        @foreach($cycles as $cy)<option value="{{ $cy->id }}" @if(old('cycle') == $cy->id) selected @endif>{{ $cy->nom }}</option>@endforeach
-                    </select>
-                </div>
-                <div class="col-md-6 form-group">
-                    <label for="annual_level">Niveau</label>
-                    <select class="form-control" name="nniveau" id="annual_level" required>
-                        <option value="">Sélectionner un niveau</option>
-                        @foreach($nniveaux as $nn)<option data-cycle="{{ $nn->id_cycle }}" value="{{ $nn->id }}" @if(old('nniveau') == $nn->id) selected @endif>{{ $nn->nom }}</option>@endforeach
-                    </select>
-                </div>
                 <div class="col-md-12 form-group">
                     <label for="annual_class">Spécialité</label>
-                    <select class="form-control" name="id" id="annual_class" required>
+                    <select class="form-control" name="id" id="annual_class" required disabled>
                         <option value="">Sélectionner une spécialité</option>
-                        @foreach($classes as $cl)<option value="{{ $cl->id }}" @if(old('id') == $cl->id) selected @endif>{{ $cl->nom }}</option>@endforeach
+                        @foreach($classes as $cl)<option value="{{ $cl->id }}" data-filiere="{{ $cl->id_niveau }}">{{ $cl->getNom() }}</option>@endforeach
                     </select>
                 </div>
                 <div class="col-md-4 form-group"><label for="annual_start">Date de début</label><input class="form-control" type="date" id="annual_start" name="periode_debut" value="{{ old('periode_debut') }}" required></div>
@@ -47,16 +41,6 @@
 </div>
 <script>
 (function () {
-    var cycle = document.getElementById('annual_cycle'), level = document.getElementById('annual_level');
-    function filterLevels() {
-        for (var i = 1; i < level.options.length; i++) {
-            var allowed = level.options[i].getAttribute('data-cycle') === cycle.value;
-            level.options[i].disabled = !allowed;
-            level.options[i].hidden = !allowed;
-            if (!allowed && level.options[i].selected) level.value = '';
-        }
-    }
-    cycle.onchange = filterLevels; filterLevels();
     var start = document.getElementById('annual_start'), end = document.getElementById('annual_end');
     start.onchange = function () { end.min = start.value; }; end.min = start.value;
 })();

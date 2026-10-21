@@ -59,6 +59,7 @@
 <script>
     (function () {
         var baseUrl = "{{ isset($selectionBaseUrl) ? $selectionBaseUrl : '' }}";
+        var specialtySelectId = "{{ isset($selectionSpecialtySelectId) ? $selectionSpecialtySelectId : '' }}";
         var levelFirstPlaceholder = "{{ addslashes($selectionLevelFirstPlaceholder) }}";
         var levelPlaceholder = "{{ addslashes($selectionLevelPlaceholder) }}";
         var filiereFirstPlaceholder = "{{ addslashes($selectionFiliereFirstPlaceholder) }}";
@@ -113,6 +114,7 @@
                         continue;
                     }
                     option.style.display = option.getAttribute('data-cycle') === cycleId ? '' : 'none';
+                    option.disabled = option.getAttribute('data-cycle') !== cycleId;
                 }
             }
             refreshSpecialites();
@@ -134,6 +136,7 @@
                     }
                     var optionNiveau = option.getAttribute('data-nniveau');
                     option.style.display = (!optionNiveau || optionNiveau === niveauId) ? '' : 'none';
+                    option.disabled = !!optionNiveau && optionNiveau !== niveauId;
                 }
             }
             refreshSpecialites();
@@ -144,6 +147,20 @@
             var filiereId = filiere ? filiere.value : '';
             var cycle = get('cycle_filter');
             var cycleId = cycle ? cycle.value : '';
+            var specialty = specialtySelectId ? get(specialtySelectId) : null;
+            if (specialty) {
+                var ready = window.selectionCycleNiveauFiliere.hasSelection();
+                resetSelect(specialty, '-- Selectionner une specialite --', !ready);
+                for (var index = 1; index < specialty.options.length; index++) {
+                    var allowed = ready && specialty.options[index].getAttribute('data-filiere') === filiereId;
+                    specialty.options[index].hidden = !allowed;
+                    specialty.options[index].disabled = !allowed;
+                }
+                var empty = get('specialite_empty');
+                if (empty) empty.style.display = ready ? 'none' : '';
+                updateChosen(specialty);
+                return;
+            }
             var blocks = document.getElementsByClassName('niveau-block');
             var hasVisible = false;
 
@@ -213,6 +230,11 @@
             if (cycle) cycle.addEventListener('change', refreshNiveaux);
             if (niveau) niveau.addEventListener('change', refreshFilieres);
             if (filiere) filiere.addEventListener('change', refreshSpecialites);
+            if (specialtySelectId) {
+                cycle.required = true;
+                niveau.required = true;
+                filiere.required = true;
+            }
             for (var i = 0; i < links.length; i++) {
                 links[i].addEventListener('click', openSpecialite);
             }
@@ -224,6 +246,16 @@
                 refreshFilieres();
                 if (filiere) filiere.value = '{{ isset($selectionFiliereValue) ? (int)$selectionFiliereValue : 0 }}';
                 refreshSpecialites();
+                var specialty = specialtySelectId ? get(specialtySelectId) : null;
+                if (specialty && !specialty.disabled) {
+                    var previous = '{{ isset($selectionSpecialtyValue) ? (int)$selectionSpecialtyValue : 0 }}';
+                    for (var index = 1; index < specialty.options.length; index++) {
+                        if (specialty.options[index].value === previous && !specialty.options[index].disabled) {
+                            specialty.value = previous;
+                        }
+                    }
+                    updateChosen(specialty);
+                }
                 updateChosen(cycle);
                 updateChosen(niveau);
                 updateChosen(filiere);
