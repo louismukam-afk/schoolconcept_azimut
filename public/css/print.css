@@ -1,0 +1,216 @@
+
+/*=============================================================
+    Authour URI: www.binarycart.com
+    License: Commons Attribution 3.0
+
+    http://creativecommons.org/licenses/by/3.0/
+
+    100% To use For Personal And Commercial Use.
+    IN EXCHANGE JUST GIVE US CREDITS AND TELL YOUR FRIENDS ABOUT US
+   
+    ========================================================  */
+
+/* cyrillic-ext */
+@font-face { font-family: open-sans;
+    font-weight: 400;
+    font-style: normal;
+    src: url('../fonts/open-sans.regular.ttf'); }
+/*==============================================
+    GENERAL  STYLES    
+    =============================================*/
+
+
+.wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.navbar,.navbar-header,.modal,.back-button,.copy,.breadcrumb
+{
+    display: none;
+}
+@page  {
+    margin: 5mm;
+    size: A4 portrait;
+}
+
+
+html,body {
+    -webkit-print-color-adjust: exact;
+    color-adjust: exact;
+    font-family: open-sans,sans-serif;
+    height: 95%;
+
+}
+
+    .recu > .panel > .panel-body > .print-head .etablissement
+    {
+        width: 95mm;
+        font-size: 19px;
+        min-height: 50px;
+    }
+.recu  .panel  .panel-body .page-header .numero *
+{
+
+    color:firebrick !important;
+    font-size: 17px;
+    margin: 5px;
+}
+
+
+.recu > .panel > .panel-body
+{
+
+    margin: 5px;
+}
+
+    .recu
+    {
+        /*border: 1px solid rgb(188, 232, 241);*/
+        border-radius: 4px;
+        position: relative;
+        font-size: 14px;
+        color: rgb(127,127,127) !important;
+        height: 285mm;
+
+    }
+    .recu .panel-body p{
+        font-size: 12px ;
+        line-height: 5px;
+    }
+
+    .recu .panel-body .details{
+        padding-top: 6mm;
+        font-size: 10px ;
+    }
+    .panel-heading
+    {
+        color: rgb(49, 112, 143);
+        -webkit-print-color-adjust: exact;
+        color-adjust: exact;
+        background-color: rgb(217, 237, 247)  !important;
+        padding: 5px;
+        border-bottom: 1px solid  rgb(188, 232, 241)  !important;
+        border-color: rgb(188, 232, 241)  !important;
+        text-align: center;
+
+    }
+
+    .panel-body
+    {
+        padding: 5px;
+        position: relative;
+    }
+    .print-head
+    {
+        position: relative;
+        min-height: 50px;
+        border-color: rgb(188, 232, 241) !important;
+        border-bottom: solid 1px ;
+        padding-top: 5mm;
+        padding-bottom: 5mm!important;
+    }
+    .mat-ann
+    {
+        width: 100%;
+        padding-top: 10px;
+        position: relative;
+    }
+    .mat
+    {
+        position: absolute;
+        left:0;
+    }
+    .ann
+    {
+        position: absolute;
+        right: 0;
+    }
+    .nom
+    {
+        margin-top: 30px;
+        position: relative;
+    }
+    .panel-title
+    {
+        font-size: 16px;
+    }
+    .last
+    {
+        position: relative;
+    }
+    .lettre{
+        position: relative;
+    }
+    .montant
+    {
+        left: 0;
+    }
+    .date
+    {
+        position: absolute;
+        right: 0;
+    }
+
+    .visa
+    {
+        position: absolute;
+        right: 25mm;
+    }
+    .sign
+    {
+        margin-top: 110px;
+        margin-right: 120px;
+    }
+    .back
+	{
+        display: none;
+	}
+    .specialite{
+        margin-top: 10px;
+    }
+
+.traduction
+{
+    -webkit-print-color-adjust:exact;
+    color-adjust: exact;
+    font-size: 8px !important;
+    color: grey !important;
+
+}
+
+.grey-text
+{
+    -webkit-print-color-adjust:exact;
+    color-adjust: exact;
+    color: grey !important;
+
+}
+
+
+
+.traduction.block
+{
+    display: block;
+}
+
+.duplicata
+{
+    height: 135mm;
+
+}
+
+.page-header {
+    padding-bottom: 9px;
+    margin: 0;
+}
+
+.recu .duplicata .background-container {
+    position: absolute;
+    width: 100%;
+    height: 135mm;
+    -webkit-print-color-adjust:exact;
+    color-adjust: exact;
+    background-image: url("../img/logo.png") !important;
+    background-repeat: no-repeat!important;
+    background-position: center!important;
+    background-size: 110mm!important;
+    opacity: .2;
+}
+
+

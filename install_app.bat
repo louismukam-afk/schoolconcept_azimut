@@ -1,0 +1,1 @@
+@mklink /J "%HOMEDRIVE%\schoolconcept-backup" "public\backups"

@@ -1,0 +1,296 @@
+
+/*=============================================================
+    Authour URI: www.binarycart.com
+    License: Commons Attribution 3.0
+
+    http://creativecommons.org/licenses/by/3.0/
+
+    100% To use For Personal And Commercial Use.
+    IN EXCHANGE JUST GIVE US CREDITS AND TELL YOUR FRIENDS ABOUT US
+   
+    ========================================================  */
+
+/* cyrillic-ext */
+@font-face { font-family: open-sans;
+    font-weight: 400;
+    font-style: normal;
+    src: url('../fonts/open-sans.regular.ttf'); }
+/*==============================================
+    GENERAL  STYLES    
+    =============================================*/
+
+
+
+
+.traduction
+{
+    font-size: 10px !important;
+    color: grey !important;
+}
+
+
+.traduction2
+{
+    font-size: 15px !important;
+    color: grey !important;
+}
+
+.body{
+    position: relative;
+    margin-top: 30px;
+    margin-right: 10%;
+    margin-left: 10%;
+
+}
+.titre
+{
+    margin-top: 70px;
+    text-align: center;
+    font-size: 24px;
+}
+.born-status{
+    min-height: 5mm;
+    position: relative;
+}
+.the{
+    position: absolute;
+}
+.at{
+    position: absolute;
+    right: 0;
+}
+.s-text{
+    position: relative;
+}
+.fait{
+    position: relative;
+}
+.sign{
+    position: absolute;
+    right: 0;
+}
+.ligne
+{
+    font-size: 17px;
+    position: relative;
+    height: 75px;
+    font-weight: 600;
+}
+.ligne .matricule
+{
+    float: left;
+}
+.ligne .type
+{
+   position: absolute;
+    right: 0;
+}
+
+.certificate-page {
+    width: 190mm;
+    min-height: 270mm;
+    margin: 0 auto 20px auto;
+    position: relative;
+    background: white;
+    color: #000;
+    font-family: "Times New Roman", Times, serif;
+}
+
+.certificate-reference {
+    margin-top: 22mm;
+    margin-left: 16mm;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.certificate-title {
+    margin-top: 9mm;
+    text-align: center;
+    font-family: "Arial Black", Impact, serif;
+    font-size: 30px;
+    font-weight: 900;
+}
+
+.certificate-body {
+    margin: 7mm 20mm 0 20mm;
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+.certificate-body p {
+    margin: 0;
+}
+
+.certificate-line {
+    display: inline-block;
+    width: 85mm;
+    border-bottom: 1px solid #000;
+    line-height: 1.1;
+    text-align: center;
+}
+
+.certificate-spaced {
+    margin-top: 6mm !important;
+}
+
+.certificate-date {
+    margin-top: 9mm;
+    margin-left: 80mm;
+}
+
+.certificate-date span {
+    display: inline-block;
+    width: 58mm;
+    border-bottom: 1px solid #000;
+}
+
+.certificate-signature {
+    margin-top: 20mm;
+    margin-left: 125mm;
+    font-size: 18px;
+}
+
+.certificate-footer {
+    position: absolute;
+    bottom: 5mm;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: #777;
+    font-size: 10px;
+    font-style: italic;
+}
+
+@media print {
+    @page  {
+        margin-top: 2%;
+        margin-bottom: 2%;
+        margin-left: 2%;
+        margin-right: 2%;
+        size: A4 portrait;
+    }
+
+    .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.copy,.breadcrumb
+    {
+        display: none;
+    }
+
+    .copy
+    {
+        font-size: 10px;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+
+
+
+    .titre
+    {
+        margin-top: 150px;
+        text-align: center;
+        font-size: 30px;
+    }
+
+    p
+    {
+        margin: 0;
+    }
+    .traduction
+    {
+        -webkit-print-color-adjust:exact;
+        color-adjust: exact;
+        font-size: 10px !important;
+        color: grey !important;
+    }
+    .traduction2
+    {
+        -webkit-print-color-adjust:exact;
+        color-adjust: exact;
+        font-size: 15px !important;
+        color: grey !important;
+    }
+    .born-status{
+        min-height: 5mm;
+        position: relative;
+
+    }
+
+    .the{
+        position: absolute;
+    }
+    .at{
+        position: absolute;
+        right: 0;
+    }
+
+    .s-text{
+        position: relative;
+    }
+    .body{
+        position: relative;
+        margin-top: 100px;
+        margin-right: 10%;
+        margin-left: 10%;
+        font-style: italic;
+        font-family: "Times New Roman" !important;
+        text-align: justify;
+    }
+    .body>p{
+        line-height: 30px;
+    }
+    .sign{
+        position: relative;
+        margin-left: 8px
+    }
+    .footer {
+        background-color: blue;
+        margin-top: 910px !important;
+        text-align: center !important;
+        position: absolute;
+        font-family: 'Arial Black' !important;
+        font-size: 0.8em !important;
+    }
+
+
+
+    .certificate-page {
+        width: auto;
+        min-height: 270mm;
+        margin: 0;
+        page-break-after: always;
+        break-after: page;
+    }
+
+    .certificate-page:last-child {
+        page-break-after: auto;
+        break-after: auto;
+    }
+
+    .certificate-reference {
+        margin-top: 22mm;
+    }
+
+    .certificate-title {
+        margin-top: 9mm;
+        font-size: 30px;
+    }
+
+    .certificate-body {
+        margin-top: 7mm;
+        font-style: normal;
+        text-align: left !important;
+        line-height: 1.7;
+    }
+
+    .certificate-body p {
+        line-height: 1.7;
+    }
+
+    .certificate-footer {
+        -webkit-print-color-adjust: exact;
+        color-adjust: exact;
+    }
+
+    }
+

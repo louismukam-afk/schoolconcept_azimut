@@ -1,0 +1,424 @@
+
+/*=============================================================
+    Authour URI: www.binarycart.com
+    License: Commons Attribution 3.0
+
+    http://creativecommons.org/licenses/by/3.0/
+
+    100% To use For Personal And Commercial Use.
+    IN EXCHANGE JUST GIVE US CREDITS AND TELL YOUR FRIENDS ABOUT US
+   
+    ========================================================  */
+
+/* cyrillic-ext */
+@font-face { font-family: open-sans;
+    font-weight: 400;
+    font-style: normal;
+    src: url('../fonts/open-sans.regular.ttf'); }
+/*==============================================
+    GENERAL  STYLES    
+    =============================================*/
+
+body {
+    font-family: open-sans,sans-serif;
+    line-height:30px;
+}
+.annee
+{
+    position: absolute;
+    color: white;
+    font-weight: 600;
+    font-size: 20px;
+    bottom: 0;
+}
+.back-button{
+    position: fixed;
+    z-index: 100000;
+    right: 20px;
+    top: 20%;
+}
+
+.back-button:hover{
+    background-color: orange;
+}
+
+
+ #wrapper {
+    width: 100%;
+    margin-top:50px;
+}
+
+#page-wrapper {
+    padding: 15px 15px;
+    min-height: 600px;
+    background:#F3F3F3;
+}
+#page-inner {
+    width:100%;
+    margin:10px 20px 10px 0px;
+    background-color:#fff!important;
+    padding:10px;
+    min-height:1050px;
+    overflow: auto;
+
+}
+.pad-top {
+    padding-top:15px;
+}
+.required {
+    font-weight: 600;
+    color: red;
+}
+.modal {
+    text-align: center;
+}
+
+
+.modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+}
+
+/* Recu inscription */
+.recu > .panel > .panel-body > .row .etablissement
+{
+    padding: 5px;
+    width: 350px;
+    font-size: 20px;
+    min-height: 60px;
+}
+.recu > .panel > .panel-body >.row .numero
+{
+    color:red;
+    font-size: 18px;
+    margin: 5px;
+}
+
+.e_name
+{
+    visibility: hidden;
+}
+.langage{
+    position: absolute;
+    right: 20px;
+    bottom: 2px;
+
+}
+.langage >.lang > a
+{
+    color: #d58512;
+    text-decoration: none;
+}
+
+.langage >.lang > .dropdown-menu > li > a
+{
+    color: #d58512;
+}
+
+
+/*==============================================
+    MENU STYLES    
+    =============================================*/
+
+.sidebar-collapse .nav {
+	padding:0;
+    padding-top:50px;
+}
+
+.sidebar-collapse > .nav > li > a {
+	padding:15px 10px;
+    color: #214761;
+font-weight: 900;
+font-size: 16px;
+}
+.sidebar-collapse > .nav > li {
+	border-bottom:1px solid #e1e1e1;
+}
+.sidebar-collapse .nav > li > a:hover,
+.sidebar-collapse .nav > li > a:focus {
+	
+	background:#F3F3F3;
+	outline:0;
+}
+
+.navbar-side {
+	border:none;
+	background-color: #fff;
+	
+}
+.navbar-inverse {
+
+background-color: #214761;
+border-color: #F0F0F0;
+min-height: 80px;
+}
+.logo img
+{
+    height: 100px;
+    width: 100px;
+}
+
+
+.nav > li > a > i {
+    margin-right:10px;
+}
+.logout-spn {
+    float:right;
+    color:#fff;
+    font-size:22px;
+    font-weight:400;
+    margin:20px;
+    margin: 10px 25px 10px 50px;
+}
+    .logout-spn a:hover
+    {
+        color: darkorange;
+    }
+    .logout-spn a
+    {
+        color: white;
+        text-decoration: none;
+    }
+.active-link {
+    background-color:#f3f3f3;
+}
+    
+/*==============================================
+    DASHBOARD STYLES    
+    =============================================*/
+.div-square {
+    padding:5px;
+    border:3px double #e1e1e1;
+    -webkit-border-radius:8px;
+   -moz-border-radius:8px;
+    border-radius:8px;
+    margin:5px;
+
+}
+
+.div-square> a,.div-square> a:hover {
+    color:#808080;
+     text-decoration:none;
+}
+/*==============================================
+    FOOTER STYLES     
+    =============================================*/
+.footer {
+    background-color:#214761;
+    width:100%;
+    color:#fff;
+    padding:20px 50px 20px 50px;
+     padding-left:20px;
+}
+
+
+    .footer > a, .footer>a:hover {
+       
+        color:#fff;
+    }
+
+/*==============================================
+    MEDIA QUERIES     
+    =============================================*/
+ 
+ @media(min-width:768px) {
+     #page-wrapper{
+               margin: 0 0 0 260px;
+        padding: 15px 30px;
+        min-height: 1050px;
+
+		
+    }
+
+     .modal:before {
+         display: inline-block;
+         vertical-align: middle;
+         content: " ";
+         height: 100%;
+     }
+    .navbar-side {
+        z-index: 1;
+        position: absolute;
+        width: 260px;
+       
+    }
+
+ 
+}
+@media screen and (max-width:767px) {
+
+
+    .navbar-inverse {
+        min-height: 120px;
+    }
+
+    #page-wrapper {
+       margin-top: 100px;
+    }
+}
+
+.bulletin
+{
+    margin-bottom: 100px;
+    border: solid 2px grey;
+    padding: 2px;
+}
+
+.bulletin-header
+{
+    height: 22mm;
+    position: relative;
+}
+.bulletin-header .school-nav,.bulletin-header .other-nav
+{
+    padding: 1mm;
+    position: absolute;
+    width: 80mm;
+    height: inherit;
+    text-align: center;
+}
+
+
+.bulletin-header .logo-nav
+{
+    left: 45%;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    background: url('../img/logo.png');
+    background-size: contain ;
+    background-repeat: no-repeat;
+    background-position: center;
+
+
+}
+.bulletin-title{
+    text-align: center;
+    margin-top: 10mm;
+    min-height: 10mm;
+    position: relative;
+}
+
+.bulletin-info{
+    position: relative;
+    min-height: 10mm;
+    position: relative;
+}
+.info-eleve
+{
+    position: absolute;
+    left: 0;
+}
+.info-classe
+{
+    position: absolute;
+    right: 0;
+}
+.bulletin-notes
+{
+    position: relative;
+    margin-top: 50px;
+}
+.custom-table
+{
+    font-size: 10px;
+}
+
+tr
+{
+    padding: 0;
+    margin: 0;
+}
+
+.traduction
+{
+    font-size: 10px;
+    color: grey !important;
+}
+.groupe-row td
+{
+    border-left: none !important;
+    border-right: none !important;
+    background-color: #adadad !important;
+    font-style: italic !important;
+
+}
+
+.bulletin-footer
+{
+    position: relative;
+    min-height: 100px;
+}
+.bulletin-footer div
+{
+    position: absolute;
+    width:60mm;
+    text-align: center;
+}
+.bulletin-footer .principal
+{
+    right: 0;
+}
+.bulletin-footer .titulaire
+{
+    left:36%;
+}
+
+
+.bulletin-header .other-nav
+{
+    right: 0;
+}
+p
+{
+    margin: 0;
+}
+
+.nom-etab
+{
+    color: white;
+    font-size: 22px;
+    position: absolute;
+    left:10%;
+}
+.loading-back
+{
+    position: fixed;
+    z-index: 9999;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    background-color: rgba(0,0,0,0.3);
+}
+.page-header {
+    padding-bottom: 9px;
+    margin: 0;
+}
+
+
+.recu .duplicata .background-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-print-color-adjust:exact;
+    color-adjust: exact;
+    background-image: url("../img/logo.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 110mm;
+    opacity: .2;
+}
+
+form input[type=text][disabled] {
+    background-color: #eee;
+}
+input[type=text][readonly] {
+    background-color: white;
+}
+
+.dropdown-menu>li>a:hover {
+    background-color: #2c3e50;
+}

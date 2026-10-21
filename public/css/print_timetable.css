@@ -1,0 +1,70 @@
+
+/*=============================================================
+    Authour URI: www.binarycart.com
+    License: Commons Attribution 3.0
+
+    http://creativecommons.org/licenses/by/3.0/
+
+    100% To use For Personal And Commercial Use.
+    IN EXCHANGE JUST GIVE US CREDITS AND TELL YOUR FRIENDS ABOUT US
+
+    ========================================================  */
+
+/* cyrillic-ext */
+@font-face { font-family: open-sans;
+    font-weight: 400;
+    font-style: normal;
+    src: url('../fonts/open-sans.regular.ttf'); }
+/*==============================================
+    GENERAL  STYLES
+    =============================================*/
+
+
+.wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.navbar,.navbar-header,.modal,.copy,.breadcrumb
+{
+    display: none;
+}
+@page  {
+    size: A4 landscape;
+    margin-left: 2mm!important;
+    margin-right: 2mm!important;
+}
+
+.caption
+{
+    padding-bottom: 30px;
+}
+
+.traduction
+{
+    -webkit-print-color-adjust:exact;
+        color-adjust: exact;
+    font-size: 10px !important;
+    color: grey !important;
+}
+.table{
+    margin-top: 10mm;
+}
+
+.list-cont
+{
+    font-size: 11px;
+}
+
+.copy
+{
+    font-size: 10px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+.pause
+{
+        -webkit-print-color-adjust:exact;
+        color-adjust: exact;
+    color: gray !important;
+    font-size: 12px !important;
+}
+
+
+

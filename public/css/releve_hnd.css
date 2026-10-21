@@ -1,0 +1,11 @@
+.hnd-page .bts-header { min-height: 30mm; }
+.hnd-page .hnd-brand-panel { width: 58mm; min-height: 28mm; display: flex; justify-content: center; align-items: center; border-top: 6mm solid #ef8791; border-bottom: 6mm solid #ef8791; box-shadow: 0 -2mm #ddd, 0 2mm #ddd; }
+.hnd-brand-panel img { width: 12mm; height: 13mm; }
+.hnd-brand-panel strong { color: #888; font: 900 9pt 'Arial Black', Arial, sans-serif; line-height: 1; }
+.hnd-page .bts-results { font-size: 6.5pt; }
+.hnd-page .bts-results tfoot th { font-size: 8pt; }
+.hnd-page .bts-bottom { grid-template-columns: 17% 23% 19% 41%; }
+.hnd-page .hnd-summary { display: flex; flex-direction: column; font-weight: normal; }
+.hnd-summary > p:first-child { font-weight: bold; }
+.hnd-summary .hnd-cumulative { padding: 2mm; flex: 1; min-height: 16mm; }
+.hnd-summary .bts-diploma { border-top: .2mm solid #000; }

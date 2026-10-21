@@ -1,0 +1,190 @@
+
+/*=============================================================
+    Authour URI: www.binarycart.com
+    License: Commons Attribution 3.0
+
+    http://creativecommons.org/licenses/by/3.0/
+
+    100% To use For Personal And Commercial Use.
+    IN EXCHANGE JUST GIVE US CREDITS AND TELL YOUR FRIENDS ABOUT US
+   
+    ========================================================  */
+
+/* cyrillic-ext */
+@font-face { font-family: open-sans;
+    font-weight: 400;
+    font-style: normal;
+    src: url('../fonts/open-sans.regular.ttf'); }
+/*==============================================
+    GENERAL  STYLES    
+    =============================================*/
+
+@page  {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-left: 2mm!important;
+    margin-right: 2mm!important;
+    size: A4 portrait;
+
+}
+
+.wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.copy,.breadcrumb
+{
+    display: none;
+}
+.bulletin
+{
+    page-break-after: always;
+}
+.caption
+{
+    padding-bottom: 30px;
+}
+.copy
+{
+    font-size: 10px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+.custom-table tr,.custom-table tr td
+{
+    line-height: 10px;
+    height: 10px;
+}
+
+.e_name
+{
+    visibility: visible;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 24px;
+    height: auto;
+    max-width: 40%;
+
+}
+.list-cont
+{
+    margin-top: 75px;
+}
+
+.bulletin-header
+{
+    height: 22mm;
+    position: relative;
+}
+.bulletin-header .school-nav,.bulletin-header .other-nav
+{
+    padding: 1mm;
+    position: absolute;
+    width: 80mm;
+    height: inherit;
+    text-align: center;
+}
+.bulletin-header .logo-nav
+{
+    -webkit-print-color-adjust:exact;
+        color-adjust: exact;
+    left: 45%;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    background: url('../img/logo.png') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+}
+.bulletin-title{
+    text-align: center;
+    margin-top: 10mm;
+    min-height: 10mm;
+    position: relative;
+}
+.bulletin-info{
+    position: relative;
+    min-height: 10mm;
+    position: relative;
+}
+.info-eleve
+{
+   position: absolute;
+    left: 0;
+}
+.info-classe
+{
+    position: absolute;
+    right: 0;
+}
+.bulletin-notes
+{
+    position: relative;
+}
+.custom-table
+{
+    font-size: 10px;
+    border-collapse: collapse;
+}
+
+ tr
+{
+    padding: 0;
+    margin: 0;
+}
+
+
+.traduction
+{
+    font-size: 10px !important;
+    color: grey !important;
+}
+
+
+
+
+.groupe-row
+{
+    -webkit-print-color-adjust:exact;
+        color-adjust: exact;
+    border-left: none !important;
+    border-right: none !important;
+}
+.groupe-row td
+{
+    border-left: none !important;
+    border-right: none !important;
+    background-color: #adadad !important;
+    font-style: italic !important;
+    font-size: 11px;
+}
+
+.bulletin-footer
+{
+    position: relative;
+}
+.bulletin-footer div
+{
+    position: absolute;
+    width:60mm;
+    text-align: center;
+}
+.bulletin-footer .principal
+{
+    right: 0;
+}
+.bulletin-footer .titulaire
+{
+    left:36%;
+}
+
+
+.bulletin-header .other-nav
+{
+    right: 0;
+}
+p
+{
+    margin: 0;
+}
+
+

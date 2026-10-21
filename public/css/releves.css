@@ -1,0 +1,314 @@
+
+/*=============================================================
+    Authour URI: www.binarycart.com
+    License: Commons Attribution 3.0
+
+    http://creativecommons.org/licenses/by/3.0/
+
+    100% To use For Personal And Commercial Use.
+    IN EXCHANGE JUST GIVE US CREDITS AND TELL YOUR FRIENDS ABOUT US
+   
+    ========================================================  */
+
+/* cyrillic-ext */
+@font-face { font-family: open-sans;
+    font-weight: 400;
+    font-style: normal;
+    src: url('../fonts/open-sans.regular.ttf'); }
+/*==============================================
+    GENERAL  STYLES    
+    =============================================*/
+
+@page  {
+    size: A4, A3 portrait;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-left: 2mm!important;
+    margin-right: 2mm!important;
+}
+p
+{
+    margin: 0;
+}
+
+.big-traduction
+{
+    -webkit-print-color-adjust:exact;
+        color-adjust: exact;
+    font-size: 15px !important;
+    color: grey !important;
+    margin-left: 5px;
+}
+
+.releve{
+    margin-bottom: 300px;
+    position: relative;
+}
+.nom-matricule-container{
+     position: relative;
+}
+.matricule{
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.date-lieu-container{
+    position: relative;
+}
+
+.lieu{
+    position: absolute;
+    top: 0;
+    left: 200px;
+}
+
+.cycle-filiere
+{
+    position: relative;
+}
+.filiere{
+    position: absolute;
+    top:0;
+    left: 200px;
+}
+
+.specialite-annee{
+    position: relative;
+}
+.annee_a {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+
+
+.sign-footer{
+    margin-top: 20px;
+    position: relative;
+    min-height: 50px;
+    width: 100%;
+    padding-right: 50px;
+    padding-left: 50px;
+}
+.dep{
+    position: absolute;
+    right: 50px;
+    top: 0;
+    margin-top: 5%;
+}
+.releve-fait-le{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.traduction
+{
+    -webkit-print-color-adjust:exact;
+        color-adjust: exact;
+    font-size: 10px !important;
+    color: grey !important;
+    margin-left: 5px;
+}
+
+.titre
+{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+table{
+    font-size: 10px;
+}
+
+.table{
+    position: relative;
+    margin-top: 70px;
+    width: 100%;
+    height: auto;
+    border-collapse: collapse;
+}
+
+.table tbody tr,.table tbody td{
+    padding: 0;
+    height: 12px;
+    line-height: 12px;
+}
+
+.mat-column{
+    width: 100px;
+}
+.note-column
+{
+    width:75px;
+    text-align: right;
+}
+.number-column{
+    width: 30px;
+}
+
+
+@media print {
+    @page  {
+        margin-top: 2%;
+        margin-bottom: 2%;
+        margin-left: 2%;
+        margin-right: 2%;
+        size: A4,A3 portrait;
+    }
+
+    .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.breadcrumb
+    {
+        display: none;
+    }
+
+    .releve{
+        page-break-after: always !important;
+        position: relative;
+        height: 273mm;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .nom-matricule-container{
+        position: relative;
+    }
+    .matricule{
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+    .date-lieu-container{
+        position: relative;
+    }
+
+    .cycle-filiere
+    {
+        position: relative;
+    }
+    .filiere{
+        position: absolute;
+        top:0;
+        left: 200px;
+    }
+    .specialite-annee{
+        position: relative;
+    }
+    .annee_a{
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+
+    .sign-footer{
+        text-align: right;
+      /*  top: 970px;*/
+
+        /* padding-right: 50px;
+         padding-left: 50px;
+         bottom: 8mm;*/
+    }
+    .dep{
+        position: relative;
+        right: 50px;
+        top: 0;
+        margin-top: 5%;
+    }
+    .releve-fait-le {
+        position: absolute;
+        bottom: 0;
+    }
+
+    .traduction
+    {
+        -webkit-print-color-adjust:exact;
+        color-adjust: exact;
+        font-size: 10px !important;
+        color: grey !important;
+        margin-left: 5px;
+
+    }
+    .big-traduction
+    {
+        -webkit-print-color-adjust:exact;
+        color-adjust: exact;
+        font-size: 15px !important;
+        color: grey !important;
+        margin-left: 5px;
+    }
+
+    p
+    {
+        padding: 0;
+        margin: 0;
+    }
+
+
+    .titre
+    {
+        margin-top: 2mm;
+        margin-bottom: 4mm;
+        text-align: center;
+    }
+
+
+
+
+    .table{
+        position: relative;
+        border: solid black 1px;
+
+    }
+
+
+
+    table{
+        font-size: 10px;
+        width: 100%;
+        border-collapse: collapse;
+        height: auto;
+    }
+    .mat-column{
+        width: 100px;
+    }
+    .matiere-column{
+        width: 150px;
+    }
+    .note-column
+    {
+        width: 75px;
+        text-align: right;
+    }
+    .number-column{
+        width: 30px;
+    }
+
+
+    .table tbody tr,.table tbody tr td{
+                -webkit-print-color-adjust:exact;
+        color-adjust: exact;
+        padding-top: 0;
+        padding-bottom: 0;
+        border: solid black 1px;
+        height: 12px;
+         border-top-color: black; 
+        border-bottom-color: black; 
+
+    }
+    .table thead th,.table thead,.table tbody{
+                -webkit-print-color-adjust:exact;
+        color-adjust: exact;
+
+        border-color: black !important;
+        border: solid black 1px !important;
+
+    }
+
+
+
+}
+

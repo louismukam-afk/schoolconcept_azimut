@@ -1,0 +1,317 @@
+
+/*=============================================================
+    Authour URI: www.binarycart.com
+    License: Commons Attribution 3.0
+
+    http://creativecommons.org/licenses/by/3.0/
+
+    100% To use For Personal And Commercial Use.
+    IN EXCHANGE JUST GIVE US CREDITS AND TELL YOUR FRIENDS ABOUT US
+   
+    ========================================================  */
+
+/* cyrillic-ext */
+@font-face { font-family: open-sans;
+    font-weight: 400;
+    font-style: normal;
+    src: url('../fonts/open-sans.regular.ttf'); }
+/*==============================================
+    GENERAL  STYLES    
+    =============================================*/
+.card-group{
+    position: relative;
+    height: 295mm;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.card-row{
+
+    position: relative;
+    padding: 1mm;
+}
+.card-e
+{
+    border-radius: 4px;
+
+    width: 100mm;
+    height: 57mm;
+    padding: 2mm;
+    position: absolute;
+    background: url("../img/carte.png");
+    background-size: 100% 100%;
+}
+
+.card-e-box
+{
+    position: relative;
+}
+
+.card-e-box
+{
+    position: relative;
+}
+.card-e .logo
+{
+    -webkit-print-color-adjust:exact;
+    position: absolute;
+    width: 11mm;
+    height: 11mm;
+    background: url("../img/logo.png") !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+}
+.card-header
+{
+    position: relative;
+    height: 10mm;
+}
+.card-header .school
+{
+    max-height: 12mm;
+    max-width: 79mm;
+    line-height: 11px;
+    color: white !important;
+    font-weight: 600;
+    font-size: 11px;
+    position: absolute;
+    left: 15mm;
+}
+.card-e-box .titre
+{
+    font-weight: 600;
+    color: #5e5d5d !important;
+    font-size: 13px;
+    line-height: 1.42857143 !important;
+}
+
+.card-e-box .card-body
+{
+    position: relative;
+    height: 36mm;
+}
+.card-infos
+{
+    position: absolute;
+    height: inherit;
+    left: 0;
+    width: 60mm;
+}
+.card-aside
+{
+    position: absolute;
+    height: inherit;
+    right: 0;
+    width: 30mm;
+
+
+
+}
+
+.infos-group
+{
+}
+.infos-group div
+{
+    line-height: 10px;
+    font-size: 10px;
+    font-weight: 600;
+
+}
+.infos-group .field-title
+{
+    color: #4e6f6f !important;
+    font-weight: 600;
+    font-size: 8px;
+
+}
+
+.card-body .fait-le
+{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+}
+.fait-le .field-title
+{
+    color: #4e6f6f !important;
+    font-weight: 600;
+    font-size: 8px;
+
+}
+
+.card-sign
+{
+    color: #4e6f6f !important;
+    font-weight: 600;
+    font-size: 8px;
+    position: absolute;
+    bottom: 0;
+
+
+}
+.card-photo
+{
+    width: inherit;
+    position: relative;
+    height: 30mm;
+}
+.card-photo img
+{
+   width: inherit;
+    height: inherit;
+    border: solid 2px #4e6f6f;
+}
+
+
+@media screen and (min-width: 1130px){
+    .card-e.left
+    {
+        left:5mm;
+    }
+    .card-e.right
+    {
+        right:5mm;
+    }
+    .card-row{
+
+        height: 59mm;
+    }
+}
+@media screen and (max-width: 1129px){
+    .card-e
+    {
+
+        margin-top: 10px;
+        position: relative;
+        display: flex;
+    }
+    .card-row{
+
+        margin-left: 10px;
+    }
+}
+@media print{
+    @page  {
+        margin-top: 1%;
+        margin-bottom: 1%;
+        margin-left: 1%;
+        margin-right: 1%;
+    }
+    body
+    {
+        margin: 0;
+        height: 297mm;
+    }
+    .wrapper,.navbar-default,.alert,.btn,.big-title,hr,.action,.back-button,.copy
+    {
+        display: none;
+    }
+
+    .card-group{
+        page-break-after: always;
+        position: relative;
+        height: 295mm;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    .card-row{
+
+        position: relative;
+        height: 59mm;
+        padding: 1mm;
+    }
+    .card-e
+    {
+        border-radius: 4px;
+
+        -webkit-print-color-adjust:exact;
+        width: 102mm;
+        height: 57mm;
+        padding: 2mm;
+        padding-top: 1mm;
+        position: absolute;
+        background: url("../img/carte.png") !important;
+        background-size: 100% 100% !important;
+    }
+    .card-e.left
+    {
+        left:5mm;
+    }
+    .card-e.right
+    {
+        right:5mm;
+    }
+    .card-e-box
+    {
+        position: relative;
+    }
+    .card-e .logo
+    {
+        -webkit-print-color-adjust:exact;
+        position: absolute;
+        width: 11mm;
+        height: 11mm;
+        background: url("../img/logo.png") !important;
+        background-size: contain !important;
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+    }
+    .card-header
+    {
+        position: relative;
+        height: 11mm;
+    }
+    .card-header .school
+    {
+        max-height: 12mm;
+        max-width: 79mm !important;
+        line-height: 11px;
+        color: white !important;
+        font-weight: 600;
+        position: absolute;
+        padding-right: 2mm;
+        overflow: auto;
+        left: 15mm;
+    }
+    .card-e-box .card-body
+    {
+        position: relative;
+        height: 39mm;
+    }
+    .card-infos
+    {
+        position: absolute;
+        height: inherit;
+        left: 0;
+        width: 65mm;
+    }
+    .card-aside
+    {
+        position: absolute;
+        height: inherit;
+        right: 0;
+        width: 30mm;
+
+
+
+    }
+
+
+
+    .infos-group div
+    {
+        line-height: 10px !important;
+        font-size: 10px !important;
+        font-weight: 600;
+
+    }
+    .infos-group .field-title
+    {
+        color: #4e6f6f !important;
+        font-weight: 600 !important;
+        font-size: 8px !important;
+
+    }
+}
+

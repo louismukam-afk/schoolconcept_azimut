@@ -1,0 +1,22 @@
+/bootstrap/compiled.php
+.env.*.php
+.env.php
+.env
+storage/*
+/vendor
+/.idea
+
+# Local secrets, imported documents and generated artifacts
+/config/env.php
+/gitkraken_rsa*
+/.codex_tmp/
+/vendorissba/
+/public/uploads/
+/public/img/photos/
+/bootstrap/cache*/
+/bootstrap/cache*.rar
+*.sql
+*.dump
+*.log
+*.zip
+*.rar

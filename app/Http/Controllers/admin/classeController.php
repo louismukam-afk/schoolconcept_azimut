@@ -1,0 +1,159 @@
+<?php namespace gesecole\Http\Controllers\admin;
+
+use gesecole\classe;
+use gesecole\cycle;
+use gesecole\Http\Controllers\Controller;
+use gesecole\parametres;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Session;
+use gesecole\niveau;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
+
+class classeController extends Controller {
+
+	/**
+	 * Display a listing of the resource.
+	 *
+	 * @return Response
+	 */
+
+
+
+    public function __construct()
+    {
+        session(['big_title'=>trans('admin.dashboard')]);
+        $this->renewSchoolYear();
+    }
+
+    public function index()
+	{
+        $c=classe::orderBy(App::getLocale() == 'en'? 'nom_anglais' : 'nom')->paginate(30);
+        $n=niveau::all();
+        $values= array('titre'=>trans('admin.specialites'),'niveaux'=>$n,'classes'=>$c);
+        if(session('success')){
+            Session::forget('success');
+            $values['success']=true;
+        }
+        return view('admin/classes',$values);
+	}
+
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return Response
+	 */
+	public function create()
+	{
+		//
+	}
+
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @return Response
+	 */
+	public function store(Request $req)
+	{
+        $this->validate($req,[
+            'nom'=>'required',
+            'code'=>'required',
+            'niveau'=>'required|numeric',
+            'capacite'=>'required|numeric',
+        ]);
+
+        $niveau=$req->input('niveau');
+        $niveau=intval($niveau);
+        $capacite=$req->input('capacite');
+        $nom=$req->input('nom');
+        $nom_anglais=$req->input('nom_anglais');
+        $code=$req->input('code');
+
+        $c=new classe();
+        $c->nom=$nom;
+        $c->nom_anglais=$nom_anglais;
+        $c->code=$code;
+        $c->capacite=$capacite;
+        $n=niveau::find($niveau);
+        $n->classes()->save($c);
+        session(['success'=>true]);
+        return redirect()->action('admin\classeController@index');
+	}
+
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function show($id)
+	{
+		//
+	}
+
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function edit($id)
+	{
+		//
+	}
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update(Request $req)
+	{
+        $this->validate($req,[
+            'id'=>'required|numeric',
+            'nom'=>'required',
+            'code'=>'required',
+            'niveau'=>'required|numeric',
+            'capacite'=>'required|numeric'
+        ]);
+        $id=$req->input('id');
+        $niveau=$req->input('niveau');
+        $capacite=$req->input('capacite');
+        $nom=$req->input('nom');
+        $nom_anglais=$req->input('nom_anglais');
+        $code=$req->input('code');
+
+        $c=classe::find($id);
+        $c->nom=$nom;
+        $c->nom_anglais=$nom_anglais;
+        $c->code=$code;
+        $c->capacite=$capacite;
+        $c->id_niveau=$niveau;
+
+        $c->save();
+        session(['success'=>true]);
+        return redirect()->action('admin\classeController@index');
+	}
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+
+        try {
+            $c=classe::find($id);
+            $c->delete();
+            session(['success'=>true]);
+        } catch (QueryException $fe) {
+            return  redirect()->to(URL::previous())->withErrors(['constraint_violation' => trans('admin.cannot_delete')]);
+        }
+        return redirect()->to(URL::previous());
+	}
+
+}
