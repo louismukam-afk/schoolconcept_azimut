@@ -33,7 +33,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>  @lang('admin.cycle'): </label>
-                        <select required form="edit_inscription_form" id="edit_cycle"  name="cycle" class="form-control">
+                        <select required form="edit_inscription_form" id="edit_cycle"  name="cycle" class="form-control" onchange="filterEditInscriptionFields()">
                             @foreach($cycles as $c)
                                 <option value="{{$c->id}}" @if($inscription->id_cycle==$c->id) selected @endif>{{$c->nom}}</option>
                             @endforeach
@@ -41,40 +41,38 @@
 
                     </div>
                     <div class="form-group">
+                        <label>@lang('admin.filiere')  : </label>
+                        <select form="edit_inscription_form" id="edit_filiere" name="id_niveau" class="form-control" onchange="filterEditInscriptionFields()" required>
+                            <option value=""> -- Choisir --</option>
+                            @foreach($niveaux as $n)
+                                <option value="{{$n->id}}" @if($inscription && $inscription->classe && $inscription->classe->id_niveau==$n->id) selected @endif>{{$n->getNom()}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label>@lang('admin.specialites')  : </label>
 
                         <select required form="edit_inscription_form" id="edit_classe" name="classe" class="form-control autocomplete">
-                            <?php $n=0;$i=0; ?>
-
+                            <option value=""> -- @lang('admin.choix_classe') --</option>
                             @foreach($classes as $c)
-                                @if($i=0)
-                                    <optgroup label="{{$c->niveau->getNom()}}">
-                                        <?php  $i++; ?>
-                                        @endif
-                                        @if($c->id_niveau!=$n)
-                                            <?php $n=$c->id_niveau ?>
-                                    </optgroup>
-                                    <optgroup label="{{$c->niveau->getNom()}}">
-                                        @endif
-                                        <option value="{{$c->id}}" @if($inscription->id_classe==$c->id) selected @endif>{{$c->getNom()}}</option>
-                                        @endforeach
-                                    </optgroup>
+                                <option value="{{$c->id}}" data-filiere="{{$c->id_niveau}}" @if($inscription->id_classe==$c->id) selected @endif>{{$c->getNom()}}</option>
+                            @endforeach
                         </select>
 
 
                     </div>
                     <div class="form-group">
                         <label>  @lang('admin.nniveau') </label>
-                        <select form="edit_inscription_form"  name="nniveau" class="form-control" required>
+                        <select form="edit_inscription_form" id="edit_nniveau" name="nniveau" class="form-control" required>
                             @foreach($nniveaux as $nn)
-                                <option value="{{$nn->id}}" @if($inscription->id_nniveau==$nn->id) selected @endif>{{$nn->nom}}</option>
+                                <option value="{{$nn->id}}" data-cycle="{{$nn->id_cycle}}" @if($inscription->id_nniveau==$nn->id) selected @endif>{{$nn->nom}}</option>
                             @endforeach
                         </select>
 
                     </div>
                         <div class="form-group">
                             <label>{{trans('admin.matricule')}} : (@lang('admin.no_matricule'))</label>
-                            <input type="text" name="matricule"  class="form-control"  value="{{old('matricule')}}">
+                            <p class="form-control-static">Le matricule sera genere automatiquement si l'etudiant n'en a pas encore.</p>
 
                         </div>
 
@@ -96,7 +94,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>  @lang('admin.cycle'): </label>
-                        <select form="add_inscription_form" id="cycle" name="cycle" class="form-control" onchange="getScolarite()" required>
+                        <select form="add_inscription_form" id="cycle" name="cycle" class="form-control" onchange="filterInscriptionFields(); getScolarite()" required>
                             <option value=""> -- @lang('admin.choose_cycle') --</option>
 
                         @foreach($cycles as $c)
@@ -106,24 +104,22 @@
 
                     </div>
                     <div class="form-group">
+                        <label>@lang('admin.filiere')  : </label>
+                        <select form="add_inscription_form" id="filiere" name="id_niveau" class="form-control" onchange="filterInscriptionFields(); getScolarite()" required>
+                            <option value=""> -- Choisir --</option>
+                            @foreach($niveaux as $n)
+                                <option value="{{$n->id}}" @if(old('id_niveau')==$n->id) selected @endif>{{$n->getNom()}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label>@lang('admin.specialites')  : </label>
 
                         <select form="add_inscription_form" id="classe" name="classe" class="form-control autocomplete" onchange="getScolarite()" required>
-                            <?php $n=0;$i=0; ?>
-                                <option value=""> -- @lang('admin.choix_classe') --</option>
+                            <option value=""> -- @lang('admin.choix_classe') --</option>
                             @foreach($classes as $c)
-                                    @if($i=0)
-                                        <optgroup label="<{{$c->niveau->getNom()}}">
-                                            <?php  $i++; ?>
-                                    @endif
-                                @if($c->id_niveau!=$n)
-                                    <?php $n=$c->id_niveau ?>
-                                    </optgroup>
-                                    <optgroup label="{{$c->niveau->getNom()}}">
-                                        @endif
-                                <option id="{{$c->niveau->id}}" value="{{$c->id}}" @if(old('classe')==$c->id) selected @endif>{{$c->getNom()}}</option>
+                                <option id="{{$c->niveau->id}}" data-filiere="{{$c->id_niveau}}" value="{{$c->id}}" @if(old('classe')==$c->id) selected @endif>{{$c->getNom()}}</option>
                             @endforeach
-                                    </optgroup>
                         </select>
 
                     </div>
@@ -137,9 +133,9 @@
 
                         <div class="form-group">
                         <label>  @lang('admin.nniveau') </label>
-                        <select form="add_inscription_form"  name="nniveau" class="form-control" required>
+                        <select form="add_inscription_form" id="nniveau" name="nniveau" class="form-control" required>
                             @foreach($nniveaux as $nn)
-                                <option value="{{$nn->id}}"  @if(old('nniveau')==$nn->id) selected @endif>{{$nn->nom}}</option>
+                                <option value="{{$nn->id}}" data-cycle="{{$nn->id_cycle}}" @if(old('nniveau')==$nn->id) selected @endif>{{$nn->nom}}</option>
                             @endforeach
                         </select>
 
@@ -150,10 +146,30 @@
 
                 </div>
                 <div class="col-md-6" style="padding-left: 30px">
+                    <div class="form-group">
+                        <label>Campus : <span class="required">*</span></label>
+                        @if(isset($campus_actif) && $campus_actif)
+                            <input type="hidden" name="id_campus" value="{{ $campus_actif->id }}">
+                            <p class="form-control-static">
+                                <strong>{{ $campus_actif->nom }}</strong>
+                                @if($campus_actif->sigle) - {{ $campus_actif->sigle }} @endif
+                                @if($campus_actif->localisation) | {{ $campus_actif->localisation }} @endif
+                            </p>
+                        @else
+                            <select name="id_campus" class="form-control" required>
+                                <option value=""> -- Choisir --</option>
+                                @if(isset($campus))
+                                    @foreach($campus as $cp)
+                                        <option value="{{ $cp->id }}" @if(old('id_campus')==$cp->id) selected @endif>{{ $cp->nom }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        @endif
+                    </div>
                     @if($e->matricule==null)
                         <div class="form-group">
                             <label>{{trans('admin.matricule')}} : (@lang('admin.no_matricule'))</label>
-                            <input type="text" name="matricule"  class="form-control"  value="{{old('matricule')}}">
+                            <p class="form-control-static">Le matricule sera genere automatiquement apres l'inscription.</p>
 
                         </div>
                     @endif
@@ -192,6 +208,47 @@
 
                         </div>
                         <div class="form-group">
+                            <label>Type d'operation : <span class="required">*</span></label>
+                            <select name="operation_source" id="operation_source" class="form-control" onchange="toggleOperationSource()" required>
+                                <option value="caisse" @if(old('operation_source')=='caisse') selected @endif>Espece / Caisse</option>
+                                <option value="banque" @if(old('operation_source')=='banque') selected @endif>Banque</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="caisse_group">
+                            <label>Caisse d'entree</label>
+                            <select name="id_caisse" class="form-control">
+                                @if(isset($caisses))
+                                    @foreach($caisses as $caisse)
+                                        <option value="{{ $caisse->id }}" @if(old('id_caisse')==$caisse->id) selected @endif>{{ $caisse->nom }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                        <div id="banque_group" class="hidden">
+                            <div class="form-group">
+                                <label>Banque</label>
+                                <select name="id_banque" class="form-control">
+                                    @if(isset($banques))
+                                        @foreach($banques as $banque)
+                                            <option value="{{ $banque->id }}" @if(old('id_banque')==$banque->id) selected @endif>{{ $banque->nom }} {{ $banque->numero_compte }}</option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Numero de versement</label>
+                                <input type="text" name="numero_versement" class="form-control" value="{{ old('numero_versement') }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Reference</label>
+                                <input type="text" name="reference_operation" class="form-control" value="{{ old('reference_operation') }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Demande</label>
+                                <input type="text" name="demande_operation" class="form-control" value="{{ old('demande_operation') }}">
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label>{{trans('inscription.ref')}} </label>
                             <input type="text" name="ref_versement"  class="form-control"  value="{{old('ref_versement')}}">
 
@@ -206,14 +263,48 @@
     @endif
 
     <script>
+        function refreshChosen(selectId) {
+            var el = $(selectId);
+            if(el.hasClass('chosen-select') || el.hasClass('autocomplete')) {
+                el.trigger('chosen:updated');
+            }
+        }
+
+        function filterOptionsByData(selectId, dataName, value) {
+            var select = $(selectId);
+            select.find('option').each(function() {
+                var option = $(this);
+                if(option.val() === '') {
+                    option.show().prop('disabled', false);
+                    return;
+                }
+                var optionValue = option.data(dataName);
+                var visible = !value || String(optionValue) === String(value);
+                option.toggle(visible).prop('disabled', !visible);
+            });
+
+            var selected = select.find('option:selected');
+            if(selected.length && selected.prop('disabled')) {
+                select.val('');
+            }
+            refreshChosen(selectId);
+        }
+
+        function filterInscriptionFields() {
+            filterOptionsByData('#nniveau', 'cycle', $('#cycle').val());
+            filterOptionsByData('#classe', 'filiere', $('#filiere').val());
+        }
+
+        function filterEditInscriptionFields() {
+            filterOptionsByData('#edit_nniveau', 'cycle', $('#edit_cycle').val());
+            filterOptionsByData('#edit_classe', 'filiere', $('#edit_filiere').val());
+        }
+
         function getScolarite() {
 
             var cycle=$('#cycle').val();
-            var el=$('#classe')[0];
-            var el_type_scolarite=$('#type_scolarite')[0];
-
-            var niveau= el.options[el.selectedIndex].id;
-            var type_scolarite= el_type_scolarite.options[el_type_scolarite.selectedIndex].id;
+            var niveau= $('#filiere').val();
+            var type_scolarite= $('#type_scolarite').val();
             var token='{{csrf_token()}}';
 
             if(cycle.length>0 && niveau.length>0)
@@ -258,6 +349,23 @@
 
 
         }
+
+        function toggleOperationSource() {
+            var source = $('#operation_source').val();
+            if(source == 'banque') {
+                $('#banque_group').removeClass('hidden');
+                $('#caisse_group').addClass('hidden');
+            } else {
+                $('#banque_group').addClass('hidden');
+                $('#caisse_group').removeClass('hidden');
+            }
+        }
+
+        $(document).ready(function() {
+            filterInscriptionFields();
+            filterEditInscriptionFields();
+            toggleOperationSource();
+        });
     </script>
 @endsection
 

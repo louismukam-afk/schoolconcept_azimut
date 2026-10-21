@@ -32,6 +32,7 @@ class searchController extends Controller {
         $view=$req->input('view');
         $titre=$req->input('titre');
         $p=DB::table('personnel')->whereRaw('lower(nom) LIKE ?',['%'.strtolower($pattern).'%'])
+            ->where('id_campus', '=', $this->currentCampusId())
             ->orderBy('nom')
             ->paginate(60);
         $values= array('titre'=>$titre);
@@ -47,13 +48,14 @@ class searchController extends Controller {
         $view=$req->input('view');
         $titre=$req->input('titre');
         $p=personnel::whereRaw('lower(nom) LIKE ?',['%'.strtolower($pattern).'%'])
+            ->where('id_campus', '=', $this->currentCampusId())
             ->orderBy('nom')
             ->get();
         $arr=[];
         foreach ($p as $personnel){
             array_push($arr,$personnel->id);
         }
-        $d=decaissement::whereIn('id_personnel',$arr)->where('annee_scolaire','=',\session('year'))->orderBy('date','desc')->paginate(30);
+        $d=decaissement::whereIn('id_personnel',$arr)->where('annee_scolaire','=',\session('year'))->where('id_campus', '=', $this->currentCampusId())->orderBy('date','desc')->paginate(30);
         $values= array('titre'=>$titre);
         $values['personnel']=$p;
         session(['search_result'=>true]);

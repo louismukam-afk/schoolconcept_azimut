@@ -61,7 +61,7 @@ class groupeController extends Controller {
 
         }
 
-        return view('admin\addGroupe',$values);
+        return view('admin/addGroupe',$values);
     }
 
 	/**

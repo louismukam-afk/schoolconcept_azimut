@@ -47,6 +47,35 @@ class bts_releveSessionController extends Controller {
         return view('eleves/classe_releves_bts', $values);
     }
 
+    public function history(Request $request, $idClasse = null)
+    {
+        $query = ReleveNoteGeneration::where('type', 'bts')
+            ->orderBy('created_at', 'desc');
+
+        if ($idClasse) {
+            $query->where('id_classe', (int) $idClasse);
+        }
+        if ($request->input('cycle')) {
+            $query->where('id_cycle', (int) $request->input('cycle'));
+        }
+        if ($request->input('nniveau')) {
+            $query->where('id_nniveau', (int) $request->input('nniveau'));
+        }
+        if ($request->input('annee_academique')) {
+            $query->where('annee_academique', $request->input('annee_academique'));
+        }
+
+        $classe = $idClasse ? classe::find($idClasse) : null;
+
+        return view('eleves/releves_bts_historique', array(
+            'titre' => 'Historique des releves BTS',
+            'generations' => $query->get(),
+            'classe' => $classe,
+            'cycle' => $request->input('cycle') ? cycle::find($request->input('cycle')) : null,
+            'nniveau' => $request->input('nniveau') ? NNiveau::find($request->input('nniveau')) : null,
+        ));
+    }
+
     public function create(Request $request)
     {
         $context = $this->validateContext($request);
@@ -57,7 +86,12 @@ class bts_releveSessionController extends Controller {
             $values['generation'] = $generation;
         }
 
-        return view('eleves/print_releves_bts', $values);
+        $values['PV'] = \gesecole\Services\BtsAnnualTranscript::fromLegacy($values['PV']);
+        $values['annee'] = session('year');
+        $values['periode_debut'] = $request->input('periode_debut');
+        $values['periode_fin'] = $request->input('periode_fin');
+        $values['date_signature'] = $request->input('date_signature');
+        return view('eleves/print_releves_bts_annuel', $values);
     }
 public function generate(Request $request)
 {
@@ -106,8 +140,21 @@ public function generate(Request $request)
 
     public function printSaved($id)
     {
-        $generation = ReleveNoteGeneration::findOrFail($id);
+        $generation = ReleveNoteGeneration::where('type', 'bts')->findOrFail($id);
         $payload = json_decode($generation->contenu);
+
+        $signatureOverride = \Input::get('date_signature');
+        if ($signatureOverride) {
+            $date = \DateTime::createFromFormat('!Y-m-d', $signatureOverride);
+            if (!$date || $date->format('Y-m-d') !== $signatureOverride) abort(422, 'Date de signature invalide.');
+        }
+
+        if (isset($payload->modele) && $payload->modele === 'bts_annuel') {
+            $values = (array) $payload;
+            $values['generation'] = $generation;
+            if ($signatureOverride) $values['date_signature'] = $signatureOverride;
+            return view('eleves/print_releves_bts_annuel', $values);
+        }
 
         $values = array(
             'titre' => trans('admin.releve_notes'),
@@ -121,9 +168,23 @@ public function generate(Request $request)
             'niveau' => isset($payload->niveau) ? $payload->niveau : niveau::find($generation->id_niveau),
             'semestre' => array(1, 2),
             'generation' => $generation,
+            'annee' => $generation->annee_academique,
+            'periode_debut' => $generation->periode_debut,
+            'periode_fin' => $generation->periode_fin,
+            'date_signature' => $signatureOverride ?: (isset($payload->date_signature) ? $payload->date_signature : null),
         );
 
-        return view('eleves/print_releves_bts', $values);
+        $values['PV'] = \gesecole\Services\BtsAnnualTranscript::fromLegacy($values['PV']);
+        return view('eleves/print_releves_bts_annuel', $values);
+    }
+
+    public function destroy($id)
+    {
+        $generation = ReleveNoteGeneration::where('type', 'bts')->findOrFail($id);
+        $generation->delete();
+
+        return redirect()->to('/eleves/releves_bts/historique')
+            ->with('success', 'Historique de releve BTS supprime avec succes.');
     }
 
     private function validateContext(Request $request)
@@ -132,6 +193,7 @@ public function generate(Request $request)
             'id' => 'required|numeric',
             'cycle' => 'required|numeric',
             'nniveau' => 'required|numeric',
+            'date_signature' => 'date_format:Y-m-d',
         ));
 
         $classe = classe::findOrFail((int) $request->input('id'));
@@ -239,7 +301,7 @@ public function generate(Request $request)
         );
     }
 
-    private function getGroupConfig($idClasse, $idNniveau)
+    protected function getGroupConfig($idClasse, $idNniveau)
     {
         $gm = groupeMatieres::whereIdClasse($idClasse)
             ->where('id_nniveau', '=', $idNniveau)
@@ -350,7 +412,7 @@ public function generate(Request $request)
         return 0;
     }
 
-    private function calculateSemestreNote($notes, $semestre, $matiereItem)
+    protected function calculateSemestreNote($notes, $semestre, $matiereItem)
     {
         if ($semestre == 1) {
             $ccSeq = 1; $snSeq = 3; $tpeSeq = 7; $ratSeq = 5;
@@ -393,6 +455,7 @@ public function generate(Request $request)
         'nniveau' => $values['nniveau'],
         'niveau' => $values['niveau'],
         'generated_at' => date('Y-m-d H:i:s'),
+        'date_signature' => $request->input('date_signature'),
     );
 
     $json = json_encode($payload);

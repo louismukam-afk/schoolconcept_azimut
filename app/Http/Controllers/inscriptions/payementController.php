@@ -1,6 +1,9 @@
 <?php namespace gesecole\Http\Controllers\inscriptions;
 
 use gesecole\bourse;
+use gesecole\Banque;
+use gesecole\Campus;
+use gesecole\Caisse;
 use gesecole\Frais;
 use gesecole\Http\Requests;
 use gesecole\Http\Controllers\Controller;
@@ -10,6 +13,7 @@ use gesecole\parametres;
 use gesecole\cycle;
 use gesecole\niveau;
 use gesecole\classe;
+use gesecole\MouvementFinancier;
 use gesecole\scolarite;
 use gesecole\User;
 use gesecole\Vars;
@@ -53,11 +57,14 @@ class payementController extends Controller {
 	public function search(Request $req)
     {
         $pattern=$req->input('search');
-        $p=payement::whereNumero($pattern)->first();
+        $p=payement::whereNumero($pattern)->where('id_campus', '=', $this->currentCampusId())->first();
         if($p==null) {
-            $e = DB::table('eleve')->whereRaw('lower(nom) LIKE ?',['%'.strtolower($pattern).'%'])
-                ->orWhereRaw('lower(prenom) LIKE ?',['%'.strtolower($pattern).'%'])
-                ->orWhereRaw('lower(matricule) LIKE ?',['%'.strtolower($pattern).'%'])
+            $e = DB::table('eleve')
+                ->join('inscription', 'eleve.id', '=', 'inscription.id_eleve')
+                ->where('inscription.annee_scolaire', '=', session('year'))
+                ->where('inscription.id_campus', '=', $this->currentCampusId())
+                ->whereRaw('(lower(eleve.nom) LIKE ? OR lower(eleve.prenom) LIKE ? OR lower(eleve.matricule) LIKE ?)', ['%'.strtolower($pattern).'%', '%'.strtolower($pattern).'%', '%'.strtolower($pattern).'%'])
+                ->select('eleve.*')
                 ->orderBy('nom')->orderBy('prenom')
                 ->paginate(30);
 
@@ -81,6 +88,10 @@ class payementController extends Controller {
         $e=eleve::find($id_eleve);
         $values= array('titre'=>trans('inscription.get_payement'));
         $values['e']=$e;
+        $values['campus']=Campus::where('id', '=', $this->currentCampusId())->get();
+        $values['campus_actif']=$this->currentCampus();
+        $values['caisses']=Caisse::where('type_caisse','=','entree')->orderBy('nom')->get();
+        $values['banques']=Banque::orderBy('nom')->get();
         if(session('success')){
             Session::forget('success');
             $values['success']=true;
@@ -101,6 +112,10 @@ class payementController extends Controller {
         $values= array('titre'=>trans('admin.paiement_frais'));
         $values['e']=$e;
         $values['frais']=$frais;
+        $values['campus']=Campus::where('id', '=', $this->currentCampusId())->get();
+        $values['campus_actif']=$this->currentCampus();
+        $values['caisses']=Caisse::where('type_caisse','=','entree')->orderBy('nom')->get();
+        $values['banques']=Banque::orderBy('nom')->get();
         if(session('success')){
             Session::forget('success');
             $values['success']=true;
@@ -117,7 +132,7 @@ class payementController extends Controller {
 	public function index_liste($id_eleve){
 
         $values= array('titre'=>trans('inscription.liste_paiement'));
-        $p=payement::whereIdEleve($id_eleve)->where('annee_scolaire','=',session('year'))->orderBy('date_payement')->get();
+        $p=payement::whereIdEleve($id_eleve)->where('annee_scolaire','=',session('year'))->where('id_campus', '=', $this->currentCampusId())->orderBy('date_payement')->get();
         $values['payements']=$p;
         $e=eleve::find($id_eleve);
         $name=$e->nom.' '.$e->prenom;
@@ -142,6 +157,7 @@ class payementController extends Controller {
             'id_eleve'=>'required|numeric',
             'montant'=>'required|numeric',
             'motif'=>'required',
+            'operation_source'=>'required',
         ]) ;
         $id_eleve=$req->input('id_eleve');
         $montant=$req->input('montant');
@@ -150,6 +166,13 @@ class payementController extends Controller {
         $lettre = $req->input('lettre');
         $mode_paye = $req->input('mode_paye');
         $ref = $req->input('ref_versement');
+        $id_campus = $this->currentCampusId();
+        $operation_source = $req->input('operation_source');
+        $id_caisse = $operation_source == 'caisse' ? $req->input('id_caisse') : null;
+        $id_banque = $operation_source == 'banque' ? $req->input('id_banque') : null;
+        $numero_versement = $req->input('numero_versement');
+        $reference_operation = $req->input('reference_operation');
+        $demande_operation = $req->input('demande_operation');
 
         if( $type && $type <> 0 && $type <> Vars::INSCRIPTION_TYPE){
             $f = Frais::find($type);
@@ -160,7 +183,7 @@ class payementController extends Controller {
         $annee_scolaire=session('year');
         $today=date('Y-m-d');
 
-        $test=inscription::whereRaw("id_eleve=? and annee_scolaire=?",[$id_eleve,$annee_scolaire])->get()->first();
+        $test=inscription::whereRaw("id_eleve=? and annee_scolaire=? and id_campus=?",[$id_eleve,$annee_scolaire,$id_campus])->get()->first();
 
         if($test==null){
             session(['custom_error'=>trans('inscription.pas_inscrit')]);
@@ -172,6 +195,13 @@ class payementController extends Controller {
         $p->lettre=$lettre;
         $p->mode_paye=$mode_paye;
         $p->ref_versement=$ref;
+        $p->id_campus=$id_campus;
+        $p->operation_source=$operation_source;
+        $p->id_caisse=$id_caisse;
+        $p->id_banque=$id_banque;
+        $p->numero_versement=$numero_versement;
+        $p->reference_operation=$reference_operation;
+        $p->demande_operation=$demande_operation;
         if($type) {
             $p->type = $type;
         }
@@ -189,10 +219,49 @@ class payementController extends Controller {
         $p->numero=$numero;
         $p->save();
 
+        $this->recordFinancialEntry($p, $operation_source, $id_caisse, $id_banque, $montant, $numero_versement, $reference_operation, $demande_operation);
+
         session(['success'=>$p->id]);
 
         return redirect()->action('inscriptions\payementController@index') ;
 	}
+
+    private function recordFinancialEntry($payement, $source, $idCaisse, $idBanque, $montant, $numeroVersement, $reference, $demande)
+    {
+        $m = new MouvementFinancier();
+        $m->type_operation = 'entree';
+        $m->source = $source;
+        $m->id_caisse = $idCaisse;
+        $m->id_banque = $idBanque;
+        $m->montant = $montant;
+        $m->date_operation = date('Y-m-d');
+        $m->motif = $payement->motif;
+        $m->numero_versement = $numeroVersement;
+        $m->reference = $reference;
+        $m->demande = $demande;
+        $m->id_payement = $payement->id;
+        $m->id_inscription = $payement->id_inscription;
+        $m->id_campus = $payement->id_campus;
+        $m->id_user = \Auth::user() ? \Auth::user()->id : null;
+        $m->id_creator = \Auth::user() ? \Auth::user()->id : null;
+        $m->id_last_editor = \Auth::user() ? \Auth::user()->id : null;
+        $m->save();
+
+        if ($source == 'caisse' && $idCaisse) {
+            $caisse = Caisse::find($idCaisse);
+            if ($caisse) {
+                $caisse->solde = (float) $caisse->solde + (float) $montant;
+                $caisse->save();
+            }
+        }
+        if ($source == 'banque' && $idBanque) {
+            $banque = Banque::find($idBanque);
+            if ($banque) {
+                $banque->solde = (float) $banque->solde + (float) $montant;
+                $banque->save();
+            }
+        }
+    }
 
 	/**
 	 * Display the specified resource.
@@ -214,7 +283,8 @@ class payementController extends Controller {
 
 
      public function print_receipe($id){
-        $p=payement::find($id);
+        $p=payement::where('id', '=', $id)->where('id_campus', '=', $this->currentCampusId())->first();
+        if(!$p) { abort(404); }
         $isFrais = $p->type <> 0;
 
         if($isFrais) {
@@ -222,7 +292,7 @@ class payementController extends Controller {
             $values['frais']=$f;
         }
 
-        $i=inscription::whereAnneeScolaire(session('year'))->where('id_eleve',$p->id_eleve)->first();
+        $i=inscription::whereAnneeScolaire(session('year'))->where('id_eleve',$p->id_eleve)->where('id_campus', '=', $this->currentCampusId())->first();
         $cycle=cycle::find($i->id_cycle);
                 $cy=$cycle->nom;
         $c=classe::find($i->id_classe);
@@ -234,7 +304,7 @@ class payementController extends Controller {
             ->where('id_cycle','=',$cycle->id)->first();
 
         if($isFrais){
-            $fp=payement::whereIdEleve($p->id_eleve)->where('annee_scolaire','=',session('year'))
+            $fp=payement::whereIdEleve($p->id_eleve)->where('annee_scolaire','=',session('year'))->where('id_campus', '=', $this->currentCampusId())
                 ->where('type','=',$p->type)->get();
             if($fp)
                 $solde=$fp->sum('montant');
@@ -257,7 +327,7 @@ class payementController extends Controller {
                 }
                 $total = $sc->total;
             }
-            $ps=payement::whereIdEleve($p->id_eleve)->where('annee_scolaire','=',session('year'))
+            $ps=payement::whereIdEleve($p->id_eleve)->where('annee_scolaire','=',session('year'))->where('id_campus', '=', $this->currentCampusId())
                 //TO CHANGE
 
                 ->where('id_inscription', '=', 0)
@@ -292,7 +362,8 @@ class payementController extends Controller {
     }
 
    /* public function print_receipe($id){
-        $p=payement::find($id);
+        $p=payement::where('id', '=', $id)->where('id_campus', '=', $this->currentCampusId())->first();
+        if(!$p) { abort(404); }
 
         if($p->type <> 0){
             $f=Frais::find($p->type);

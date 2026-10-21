@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="{{URL::asset('css/diplome-header_soa.css')}}">
+@include('perso.partials.campus_logo_style')
 <div class="images">
 <div class="custom-header">
 
@@ -9,7 +10,7 @@
         <P class="traductions">MINISTERE DE L'ENSEIGNEMENT SUPERIEUR</P>
         <P class="traductions"> UNIVERSITE DE YAOUNDE II</P>
         <P class="traductions">  BP : 18  SOA / BP 1365 Yaoundé-Cameroun</P>
-        <P class="traductions"> INSTITUT SUPERIEUR HINTEL</P>
+        <P class="traductions"> INSTITUT SUPERIEUR AZIMUT</P>
         <P class="traductions">BP: 4615 Yaoundé-Cameroun, Tel: 655 711 614</P>
         <P class="traductions"> E-mail: contact@is-hintel.cm  Site Web: www.is-hintel.cm </P>
 
@@ -29,7 +30,7 @@
         <p class="traductions">MINISTRY OF HIGHER EDUCATION</p>
         <p class="traductions">THE UNIVERSITY OF YAOUNDE II</p>
         <p class="traductions">P.O. BOX: 18 SOA / P.O. BOX 1365 Yaoundé-Cameroun</p>
-        <p class="traductions">HINTEL HIGHER INSTITUTE</p>
+        <p class="traductions">AZIMUT HIGHER INSTITUTE</p>
         <p class="traductions">BP: 4615 Yaoundé-Cameroun, Tel: 655 711 614</p>
         <p class="traductions"> E-mail: contact@is-hintel.cm Site Web: www.is-hintel.cm</p>
 
@@ -38,7 +39,7 @@
 
 </div>
 {{--<div class="titre-ecole" style=" font-family: 'Arial Black'; text-align: center;">
-    <h1 class="titre-ecole" style="font-size: large; font-family: 'Arial Black'; text-align: center;">INSTITUT SUPERIEUR HINTEL</h1>
+    <h1 class="titre-ecole" style="font-size: large; font-family: 'Arial Black'; text-align: center;">INSTITUT SUPERIEUR AZIMUT</h1>
     <p class="traductions">Autorisation de Création N° T4-09342 du 17 Décembre 2014 </p>
     <p class="traductions">Arreté MINESUP N° 16-0855/MINESUP/ESUP du 14/09/2016</p>
     <P class="traductions">BP:4615 Yaoundé-Cameroun Tel:(+237)655 711 614 / 695320131 Fax:(+237)220 04 68</P>

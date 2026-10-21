@@ -1,5 +1,6 @@
 <?php namespace gesecole\Http\Controllers;
 
+use gesecole\Campus;
 use gesecole\parametres;
 use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Routing\Controller as BaseController;
@@ -24,5 +25,37 @@ abstract class Controller extends BaseController {
                 session(['year'=>$p->valeur]);
             }
         }
+    }
+
+    protected function currentCampusId()
+    {
+        $id = session('campus_id');
+        if($id) {
+            return $id;
+        }
+
+        $campus = Campus::orderBy('id')->first();
+        if($campus) {
+            $nom = $campus->nom;
+            if($campus->sigle) {
+                $nom .= ' - '.$campus->sigle;
+            }
+            session(array(
+                'campus_id' => $campus->id,
+                'campus_nom' => $nom,
+                'campus_sigle' => $campus->sigle,
+                'campus_localisation' => $campus->localisation,
+                'nom_etab' => $nom
+            ));
+            return $campus->id;
+        }
+
+        return null;
+    }
+
+    protected function currentCampus()
+    {
+        $id = $this->currentCampusId();
+        return $id ? Campus::find($id) : null;
     }
 }

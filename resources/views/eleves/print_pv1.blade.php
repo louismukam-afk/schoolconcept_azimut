@@ -853,7 +853,7 @@
     <h3> couleur:<span style="background-color: green !important;  margin: 5px">    </span>   Notes comprisent entre  10 et 20</h3>
 
 
-    <h3 style="text-align: right;">Le Directeur du CEF HINTEL </h3>
+    <h3 style="text-align: right;">Le Directeur du CEF AZIMUT </h3>
 
 
 

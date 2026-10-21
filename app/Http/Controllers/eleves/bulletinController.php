@@ -65,7 +65,7 @@ class bulletinController extends Controller {
         $values['nniveaux']=$nniveau;
         $values['cycles']=$cy;
 	    $values['classes']=$c;
-        return view('eleves\bull_mode',$values);
+        return view('eleves/bull_mode',$values);
 	}
 
 
@@ -82,7 +82,7 @@ class bulletinController extends Controller {
             Session::forget('error');
         }
 
-        return view('eleves\search_eleve_bull',$values);
+        return view('eleves/search_eleve_bull',$values);
     }
 
     public function index_tableau(Request $request)
@@ -226,7 +226,7 @@ class bulletinController extends Controller {
             session(['search_result' => true]);
 
 
-        return view('eleves\search_eleve_bull',$values);
+        return view('eleves/search_eleve_bull',$values);
     }
 	/**
 	 * Show the form for creating a new resource.
@@ -260,7 +260,7 @@ class bulletinController extends Controller {
         // $values['id_filiere']=$id_n;
 
         if ($seq >= 12) {
-            return view('eleves\print_single_year', $values);
+            return view('eleves/print_single_year', $values);
         }
 
         if ($seq == 3 || $seq == 4) {
@@ -268,24 +268,24 @@ class bulletinController extends Controller {
             {
                 $semestre = 1;
                 $values['semestre'] = $semestre;
-                return view('eleves\print_single_trim', $values);
+                return view('eleves/print_single_trim', $values);
             }if ($seq==4)
             {
                 $semestre = 2;
                 $values['semestre'] = $semestre;
-                return view('eleves\print_single_trim', $values);
+                return view('eleves/print_single_trim', $values);
             }
         }
         if ($seq == 1 || $seq == 2) {
             if ($seq == 1) {
                 $semestre = 1;
                 $values['semestre'] = $semestre;
-                return view('eleves\print_single_seq', $values);
+                return view('eleves/print_single_seq', $values);
             }
             if ($seq == 2){
                 $semestre = 2;
             $values['semestre'] = $semestre;
-            return view('eleves\print_single_seq', $values);
+            return view('eleves/print_single_seq', $values);
         }
         }
     }

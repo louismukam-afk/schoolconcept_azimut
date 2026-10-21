@@ -42,7 +42,7 @@
     width: 50mm;
     height: 40mm;
     position: absolute;
-    background: url('../img/logo.jpg') !important;
+    background: url('../img/logo.png') !important;
     background-size: contain !important;
     background-repeat: no-repeat !important;
     background-position: center !important;
@@ -140,7 +140,7 @@
         width: 30mm;
         height: 20mm;
         position: absolute;
-        background: url('../img/logo.jpg') !important;
+        background: url('../img/logo.png') !important;
 
         /* background: url('../img/soa.jpeg') !important;*/
         background-size: contain !important;

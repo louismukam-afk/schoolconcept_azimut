@@ -86,6 +86,81 @@
     right: 0;
 }
 
+.certificate-page {
+    width: 190mm;
+    min-height: 270mm;
+    margin: 0 auto 20px auto;
+    position: relative;
+    background: white;
+    color: #000;
+    font-family: "Times New Roman", Times, serif;
+}
+
+.certificate-reference {
+    margin-top: 22mm;
+    margin-left: 16mm;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.certificate-title {
+    margin-top: 9mm;
+    text-align: center;
+    font-family: "Arial Black", Impact, serif;
+    font-size: 30px;
+    font-weight: 900;
+}
+
+.certificate-body {
+    margin: 7mm 20mm 0 20mm;
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+.certificate-body p {
+    margin: 0;
+}
+
+.certificate-line {
+    display: inline-block;
+    width: 85mm;
+    border-bottom: 1px solid #000;
+    line-height: 1.1;
+    text-align: center;
+}
+
+.certificate-spaced {
+    margin-top: 6mm !important;
+}
+
+.certificate-date {
+    margin-top: 9mm;
+    margin-left: 80mm;
+}
+
+.certificate-date span {
+    display: inline-block;
+    width: 58mm;
+    border-bottom: 1px solid #000;
+}
+
+.certificate-signature {
+    margin-top: 20mm;
+    margin-left: 125mm;
+    font-size: 18px;
+}
+
+.certificate-footer {
+    position: absolute;
+    bottom: 5mm;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    color: #777;
+    font-size: 10px;
+    font-style: italic;
+}
+
 @media print {
     @page  {
         margin-top: 2%;
@@ -178,6 +253,44 @@
     }
 
 
+
+    .certificate-page {
+        width: auto;
+        min-height: 270mm;
+        margin: 0;
+        page-break-after: always;
+        break-after: page;
+    }
+
+    .certificate-page:last-child {
+        page-break-after: auto;
+        break-after: auto;
+    }
+
+    .certificate-reference {
+        margin-top: 22mm;
+    }
+
+    .certificate-title {
+        margin-top: 9mm;
+        font-size: 30px;
+    }
+
+    .certificate-body {
+        margin-top: 7mm;
+        font-style: normal;
+        text-align: left !important;
+        line-height: 1.7;
+    }
+
+    .certificate-body p {
+        line-height: 1.7;
+    }
+
+    .certificate-footer {
+        -webkit-print-color-adjust: exact;
+        color-adjust: exact;
+    }
 
     }
 

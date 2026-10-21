@@ -1,0 +1,26 @@
+.hnd-page .bts-header { min-height: 30mm; }
+.hnd-page .hnd-brand-panel { width: 58mm; min-height: 28mm; display: flex; justify-content: center; align-items: center; border-top: 6mm solid #ef8791; border-bottom: 6mm solid #ef8791; box-shadow: 0 -2mm #ddd, 0 2mm #ddd; }
+.hnd-brand-panel img { width: 12mm; height: 13mm; }
+.hnd-brand-panel strong { color: #888; font: 900 9pt 'Arial Black', Arial, sans-serif; line-height: 1; }
+.hnd-page .bts-results { font-size: 6pt; }
+.hnd-page .bts-results tfoot th { font-size: 8pt; }
+.hnd-page .bts-bottom { grid-template-columns: 17% 23% 19% 41%; }
+.hnd-page .hnd-summary { display: flex; flex-direction: column; font-weight: normal; }
+.hnd-summary > p:first-child { font-weight: bold; }
+.hnd-summary .hnd-cumulative { padding: 2mm; flex: 1; min-height: 16mm; }
+.hnd-summary .bts-diploma { border-top: .2mm solid #000; }
+.hnd-page .bts-brand .hnd-brand-panel { gap: 1mm; }
+.hnd-page .bts-brand .hnd-brand-panel img { object-fit: contain; flex: 0 0 12mm; }
+.hnd-page .bts-header > div { font-size: 7pt; }
+.hnd-page .bts-identity { margin-bottom: 3mm; }
+.hnd-page .bts-results th, .hnd-page .bts-results td { padding: .2mm .5mm; }
+.hnd-page .bts-results .bts-group { font-size: 6pt; }
+.hnd-summary .hnd-semester-gpa { display: grid; grid-template-columns: 62% 38%; padding: 0; }
+.hnd-semester-gpa > span, .hnd-semester-gpa > strong { padding: .6mm 1mm; }
+.hnd-semester-gpa > strong { border-left: .2mm solid #000; text-align: center; }
+.hnd-page .bts-footer { padding-bottom: 1mm; }
+@media print {
+    .hnd-page .bts-header > div, .hnd-page .hnd-brand-panel strong { color: #888 !important; }
+    .hnd-page .hnd-brand-panel strong span { color: #ef8589 !important; }
+    .hnd-page .hnd-brand-panel { border-color: #ef8791 !important; }
+}

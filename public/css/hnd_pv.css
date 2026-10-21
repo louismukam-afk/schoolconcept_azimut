@@ -1,0 +1,70 @@
+* { box-sizing: border-box; }
+body { margin: 0; background: #eef0f3; color: #000; font-family: Arial, sans-serif; }
+.hnd-toolbar { position: sticky; left: 0; top: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 14px 20px; background: #fff; border-bottom: 1px solid #ccc; z-index: 2; font-size: 14px; }
+.hnd-toolbar a, .hnd-toolbar button { padding: 9px 14px; border: 1px solid #aaa; border-radius: 4px; background: #fff; color: #18354a; text-decoration: none; cursor: pointer; }
+.hnd-toolbar button { background: #174f7d; color: #fff; border-color: #174f7d; }
+.hnd-sheet { margin: 20px; padding: 6mm; width: calc(var(--paper-width, 408mm) + 12mm); background: white; }
+.hnd-toolbar select { padding: 7px; margin-left: 6px; font: inherit; }
+.hnd-header { display: flex; align-items: center; justify-content: space-between; gap: 15px; max-width: 1100px; margin: 0 auto 12px; padding: 0 15px 8px; border-bottom: 4px double #c00000; text-align: center; font-size: 10px; line-height: 1.25; }
+.hnd-header img { width: 120px; height: 75px; object-fit: contain; }
+.hnd-header strong { letter-spacing: 1px; font-size: 13px; }
+.hnd-affiliations { display: flex; gap: 20px; margin: 8px 0; font-size: 10px; line-height: 1.4; }
+.hnd-affiliations span { flex: 1; }
+.hnd-affiliations span:last-child { text-align: right; }
+h1 { margin: 12px 0 20px; text-align: center; font-family: Georgia, serif; font-size: 16px; }
+.hnd-meta { display: flex; align-items: center; justify-content: space-between; gap: 20px; font-size: 12px; }
+.hnd-period { margin: 6px 0; font-size: 10px; }
+.hnd-course-legend { width: 100%; border-collapse: collapse; table-layout: fixed; margin: 12px 0; font-size: var(--legend-font, 11px); }
+.hnd-course-legend caption { text-align: left; font-weight: bold; padding: 0 0 6px; }
+.hnd-course-legend th, .hnd-course-legend td { border: 1px solid #777; padding: 5px 7px; overflow-wrap: normal; word-break: normal; }
+.hnd-course-legend th { background: #eee; text-align: left; }
+.hnd-course-legend .legend-code { width: 65px; white-space: nowrap; }
+.hnd-course-legend .legend-credit { width: 25px; text-align: center; }
+.hnd-course-legend th:nth-child(3n) { white-space: nowrap; }
+.hnd-module-legend { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: var(--legend-font, 11px); }
+.hnd-module-legend caption { text-align: left; font-weight: bold; padding-bottom: 5px; }
+.hnd-module-legend td, .hnd-module-legend th { border: 1px solid #777; padding: 3px 5px; text-align: left; }
+.hnd-module-legend th { width: 70px; white-space: nowrap; }
+.hnd-grid { width: 100%; border-collapse: collapse; table-layout: fixed; font-family: Arial, sans-serif; font-size: var(--note-font, 10px); }
+.hnd-grid-scroll { overflow-x: auto; }
+.hnd-marks-block { margin: 18px 0; }
+.hnd-block-caption { font-size: 11px; margin: 0 0 6px; }
+.hnd-block-note { font-size: 9px; margin: 0 0 8px; }
+.hnd-grid th, .hnd-grid td { border: 1px solid #000; padding: 4px 2px; text-align: center; overflow-wrap: normal; word-break: normal; white-space: nowrap; writing-mode: horizontal-tb; }
+.hnd-grid .student-name { white-space: normal; }
+.hnd-grid thead th { background: #bfbfbf; font-family: Arial, sans-serif; font-weight: bold; }
+.hnd-grid .serial { width: 20px; }
+.hnd-grid .registration { width: var(--registration-width, 85px); font-size: var(--code-font, 8px); }
+.hnd-grid .student-name { width: var(--name-width, 125px); font-size: var(--name-font, 10px); }
+.hnd-grid .phase-heading { width: 40px; font-size: var(--code-font, 8px); }
+.hnd-grid .phase { text-align: left; font-size: var(--code-font, 8px); }
+.hnd-grid thead tr + tr th { font-size: var(--code-font, 8px); }
+.hnd-grid .credit-total, .hnd-grid .decision, .hnd-grid .average-total { width: var(--summary-width, 50px); font-size: calc(var(--code-font, 8px) * .8); }
+.hnd-grid .rank { width: 28px; font-size: calc(var(--code-font, 8px) * .8); }
+.hnd-grid .course-code { font-size: var(--code-font, 8px); padding: 6px 1px; }
+.hnd-grid .module-column { background: #e9f0f4; }
+.hnd-grid .module-heading { font-size: var(--code-font, 8px); }
+.hnd-annual-sheet .legend-code { width: 85px; }
+.hnd-annual-grid thead tr:first-child th[colspan] { white-space: normal; font-size: var(--code-font, 8px); }
+.hnd-annual-grid .course-code { font-size: calc(var(--code-font, 8px) * .9); }
+.hnd-grid tbody tr { min-height: 24px; }
+.mark-green { background-color: #c6efce; color: #000; }
+.mark-yellow { background-color: #ffeb9c; color: #000; }
+.mark-red { background-color: #ffc7ce; color: #000; }
+.hnd-color-key span { display: inline-block; padding: 3px 8px; border: 1px solid #777; margin-left: 6px; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+.hnd-legend { font-size: 9px; line-height: 1.4; margin-top: 12px; }
+.hnd-empty { padding: 25px; border: 1px solid #ddd; text-align: center; }
+@media print {
+    html, body { margin: 0; padding: 0; background: white; }
+    .hnd-toolbar { display: none !important; }
+    .hnd-sheet { min-width: 0; width: 100%; margin: 0; padding: 6mm; }
+    .hnd-course-legend th, .hnd-course-legend td { padding: 3px 5px; }
+    .hnd-grid-scroll { overflow: visible; }
+    .hnd-marks-block + .hnd-marks-block { break-before: page; page-break-before: always; }
+    .hnd-block-caption, .hnd-block-note { page-break-after: avoid; }
+    .hnd-student { page-break-inside: avoid; }
+    .hnd-grid th, .hnd-grid td { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+    thead { display: table-header-group; }
+    tr { page-break-inside: avoid; }
+    a[href]::after { content: none !important; }
+}

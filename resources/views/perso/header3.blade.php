@@ -1,4 +1,19 @@
+<?php
+    $headerCampus = isset($campus) ? $campus : null;
+    if (!$headerCampus && session('campus_id')) {
+        $headerCampus = \gesecole\Campus::find(session('campus_id'));
+    }
+
+    $cleanHeader = function ($value) {
+        return trim((string) $value);
+    };
+
+    $campusName = $headerCampus && $cleanHeader(isset($headerCampus->nom) ? $headerCampus->nom : '') !== ''
+        ? $headerCampus->nom
+        : 'INSTITUT SUPERIEUR AZIMUT';
+?>
 <link rel="stylesheet" href="{{URL::asset('css/custom-header.css')}}">
+@include('perso.partials.campus_logo_style', array('campus' => $headerCampus))
 <div class="custom-header">
 
     <div class="school-nav">
@@ -24,7 +39,7 @@
 
 </div>
 <div class="titre-ecole" style="font-size: large; font-family: 'Arial Black'; text-align: center;">
-    INSTITUT SUPERIEUR HINTEL
+    {{ $campusName }}
 </div>
 <!-- 
 <div class="footer " style="text-align: center; font-family: 'Arial Black';font-size: large;" >

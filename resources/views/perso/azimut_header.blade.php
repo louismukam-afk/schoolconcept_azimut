@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="{{URL::asset('css/custom-header.css')}}">
+@include('perso.partials.campus_logo_style')
 <div class="custom-header">
     <div class="school-nav">
         <p><strong>INSTITUT SUPERIEUR AZIMUT DE COMMERCE,TECHNOLOGIE ET SANTE</strong></p>

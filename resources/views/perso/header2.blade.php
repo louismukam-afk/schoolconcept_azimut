@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="{{URL::asset('css/custom-header.css')}}">
+@include('perso.partials.campus_logo_style')
 <div class="custom-header">
 
     <div class="school-nav">
@@ -24,7 +25,7 @@
 
 </div>
 <div class="titre-ecole" style="font-size: large; font-family: 'Arial Black'; text-align: center;">
-    INSTITUT SUPERIEUR HINTEL
+    INSTITUT SUPERIEUR AZIMUT
 </div>
 
  <div class="footer " style="text-align: center; font-family: 'Arial Black';font-size: large;" >

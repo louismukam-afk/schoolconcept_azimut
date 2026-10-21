@@ -32,7 +32,7 @@ class RoleController extends Controller {
             $values['success']=true;
         }
 
-        return view('admin\roles',$values);
+        return view('admin/roles',$values);
     }
 
     /**

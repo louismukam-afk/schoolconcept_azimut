@@ -5,3 +5,14 @@
 storage/*
 /vendor
 /.idea
+
+# Local verification artifacts and runtime uploads
+/.codex_tmp/
+/public/uploads/
+/bootstrap/cache 2jours
+/bootstrap/cache donne/
+/bootstrap/cache.rar
+/_codex_full_merge_azimut2006.php
+/decrypt*
+/resources/views/admin/access.zip
+/resources/views/admin/audit.zip
