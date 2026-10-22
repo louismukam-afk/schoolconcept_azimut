@@ -1,5 +1,7 @@
 # Codes et catégories des programmes
 
+Le deuxième lot est décrit dans [PROGRAMME_REFERENCES_EXTENDED_20261022.md](PROGRAMME_REFERENCES_EXTENDED_20261022.md).
+
 Cette migration enrichit les matières existantes de `classe_matiere` à partir des
 onze documents fournis le 22 octobre 2026. Le catalogue JSON contient uniquement
 les intitulés, codes, semestres et catégories : aucun étudiant ni résultat.
