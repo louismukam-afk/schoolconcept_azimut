@@ -21,18 +21,32 @@ $legacyRows = array(
 );
 $presented = Hnd::presentationRows($legacyRows, 1, 'ACCOUNTANCY');
 $byName = array(); foreach ($presented as $row) $byName[$row->nom] = $row;
-checkHnd($byName['GENERAL ECONOMICS I']->type === 1 && $byName['GENERAL ECONOMICS I']->code === 'ACC 1172', 'Common courses from reference');
-checkHnd($byName['DAILY OPERATIONS I']->type === 2 && $byName['DAILY OPERATIONS I']->code === 'ACC 1131', 'Professional courses from reference');
-checkHnd($presented[0]->code === 'ACC 1111', 'Official ordering by course code');
+checkHnd($byName['GENERAL ECONOMICS I']->type === 0 && $byName['GENERAL ECONOMICS I']->code === '', 'No invented category or code from a sample template');
 checkHnd($legacyRows[0]->type === 0 && $legacyRows[0]->code === '', 'Historical snapshot not mutated');
 $before = Hnd::summarize($legacyRows); $after = Hnd::summarize($presented);
 checkHnd($before->credits === $after->credits && $before->weighted === $after->weighted && $before->mgp === $after->mgp, 'Presentation preserves real credits, marks and GPA');
 $configured = array((object) array('nom'=>'DAILY OPERATIONS I','type'=>1,'code'=>'CUSTOM 1','credit'=>4,'note'=>53));
 $kept = Hnd::presentationRows($configured, 1, 'ACCOUNTANCY');
 checkHnd($kept[0]->type === 1 && $kept[0]->code === 'CUSTOM 1', 'Explicit configured categories and codes preserved');
-checkHnd(Hnd::presentationRows($legacyRows, 1, 'COMPUTER SCIENCE') === $legacyRows, 'No Accountancy defaults for other departments');
+checkHnd(count(Hnd::presentationRows($legacyRows, 1, 'COMPUTER SCIENCE')) === count($legacyRows), 'All departments supported');
 $secondRows = Hnd::presentationRows(array((object) array('nom'=>'RESEARCH METHODOLOGY','code'=>'','type'=>0,'credit'=>2,'note'=>75)), 2, 'ACCOUNTANCY');
-checkHnd($secondRows[0]->type === 2 && $secondRows[0]->code === 'ACC 1251', 'Second semester reference');
+checkHnd($secondRows[0]->type === 0 && $secondRows[0]->code === '', 'Missing programme metadata is not guessed');
+$networkRows = array(
+    (object) array('id_classe_matiere'=>10,'nom'=>'NETWORK SECURITY','code'=>'OLD','type'=>0,'credit'=>3,'note'=>75),
+    (object) array('id_classe_matiere'=>11,'nom'=>'ENGLISH EXPRESSION','code'=>'','type'=>0,'credit'=>2,'note'=>65),
+    (object) array('id_classe_matiere'=>12,'nom'=>'ANALYSIS II','code'=>'','type'=>0,'credit'=>2,'note'=>53),
+);
+$metadata = array(10=>(object) array('type'=>2,'id_code'=>'45'),
+    11=>(object) array('type'=>1,'id_code'=>'ENG 1201'),12=>(object) array('type'=>0,'id_code'=>'NT 1211'));
+$network = Hnd::presentationRows($networkRows, 2, 'NETWORK AND TELECOMMUNICATION', $metadata, array(45=>'NT 1231'));
+$indexed = array(); foreach ($network as $r) $indexed[$r->id_classe_matiere]=$r;
+checkHnd($indexed[10]->code === 'NT 1231' && $indexed[10]->type === 2, 'Codage reference and professional course');
+checkHnd($indexed[11]->code === 'ENG 1201' && $indexed[11]->type === 1, 'Literal programme code and common course');
+checkHnd($indexed[12]->code === 'NT 1211' && $indexed[12]->type === 0, 'Fundamental course');
+checkHnd($networkRows[0]->code === 'OLD' && $networkRows[0]->type === 0, 'Saved report remains unchanged');
+$beforeNetwork = Hnd::summarize($networkRows); $afterNetwork = Hnd::summarize($network);
+checkHnd($beforeNetwork->mgp === $afterNetwork->mgp && $beforeNetwork->credits === $afterNetwork->credits, 'Metadata corrections preserve GPA and credits');
+checkHnd(Hnd::courseCode('CUSTOM 7', array(7=>'OTHER')) === 'CUSTOM 7', 'Literal code never treated as foreign key');
 $low = Hnd::summarize(array((object) array('credit'=>3, 'note'=>48)));
 checkHnd($low->rows[0]->grade === 'D+' && $low->weighted == 4.5, 'HND service used by GPA calculation');
 $container = new Illuminate\Container\Container(); Illuminate\Container\Container::setInstance($container);
@@ -48,4 +62,11 @@ $classe=(object) array('nom'=>'COMPTABILITE','nom_anglais'=>'ACCOUNTANCY');
 $niveau=(object) array('nom'=>'FINANCE','nom_anglais'=>'BUSINESS AND FINANCE'); $nniveau=(object) array('nom'=>'HND I');
 ob_start(); eval('?>'.$compiler->compileString($template)); $html=ob_get_clean();
 foreach (array('ANNUAL TRANSCRIPT','ACCOUNTANCY','FIRST SEMESTER GPA','SECOND SEMESTER GPA','2.92','20/10/2026','WEIGHTED','Cycle: HND') as $expected) checkHnd(strpos($html,$expected)!==false, 'Missing HND field: '.$expected);
+foreach (array('Fundamental Courses','Professional Courses','Common Courses') as $heading) {
+    checkHnd(substr_count($html, $heading) === 2, 'Each semester contains '.$heading);
+}
+$networkSemester = Hnd::summarize($network);
+$PV[0]->semestres = (object) array('1'=>$networkSemester,'2'=>$networkSemester);
+ob_start(); eval('?>'.$compiler->compileString($template)); $networkHtml=ob_get_clean();
+foreach (array('NT 1231','ENG 1201','NT 1211') as $code) checkHnd(substr_count($networkHtml, $code) === 2, 'Configured code rendered in each semester');
 echo "HND grades, sample GPA, English labels and Blade rendering: OK\n";

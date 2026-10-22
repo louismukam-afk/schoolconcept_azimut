@@ -8,11 +8,30 @@ class hnd_releveController extends bts_releveAnnuelController
 {
     protected $transcriptType = 'hnd';
     protected $transcriptService = 'gesecole\Services\HndAnnualTranscript';
+    protected $programmeMetadata = array();
+    protected $programmeCodages = array();
 
     protected function prepareTranscriptRows($rows, $semester, $classe)
     {
+        if (!isset($this->programmeMetadata[$classe->id])) {
+            $programme = \DB::table('classe_matiere')->where('id_classe', $classe->id)
+                ->select('id', 'type', 'id_code')->get();
+            $this->programmeMetadata[$classe->id] = array();
+            $codeIds = array();
+            foreach ($programme as $subject) {
+                $this->programmeMetadata[$classe->id][$subject->id] = $subject;
+                $raw = trim((string) $subject->id_code);
+                if ($raw !== '' && ctype_digit($raw)) $codeIds[] = (int) $raw;
+            }
+            $this->programmeCodages[$classe->id] = array();
+            if (count($codeIds)) {
+                $codes = \DB::table('codages')->whereIn('id', array_unique($codeIds))->get();
+                foreach ($codes as $code) $this->programmeCodages[$classe->id][$code->id] = $code->nom;
+            }
+        }
         $department = $classe->nom.' '.(!empty($classe->nom_anglais) ? $classe->nom_anglais : '');
-        return \gesecole\Services\HndAnnualTranscript::presentationRows($rows, $semester, $department);
+        return \gesecole\Services\HndAnnualTranscript::presentationRows($rows, $semester, $department,
+            $this->programmeMetadata[$classe->id], $this->programmeCodages[$classe->id]);
     }
 
     protected function availableCycles()

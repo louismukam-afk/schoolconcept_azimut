@@ -2,48 +2,24 @@
 
 class HndAnnualTranscript extends BtsAnnualTranscript
 {
-    // Reference labels/codes from the supplied HND Accountancy template.
-    // This repairs presentation of legacy programmes whose types are all zero;
-    // configured mixed categories, credits and marks remain authoritative.
-    public static function presentationRows($rows, $semester, $department)
+    // Programme metadata is authoritative, including for saved reports.
+    // Presentation works on copies and preserves the saved marks and credits.
+    public static function presentationRows($rows, $semester, $department, $programme = array(), $codages = array())
     {
-        if (!preg_match('/ACCOUNTANCY|COMPTABILIT/i', self::displayText($department))) return $rows;
-        $reference = array(
-            'GENERAL MATHEMATICS' => array(0, '1111', '1211'),
-            'GENERAL COMPUTING' => array(0, '1112', '1212'),
-            'FINANCIAL MATHEMATICS' => array(0, '1121', '1221'),
-            'STATISTICS' => array(0, '1122', '1222'),
-            'DAILY OPERATIONS' => array(2, '1131', '1231'),
-            'SPECIFIC OPERATIONS AND END OF YEAR ADJUSTMENT' => array(2, '1132', '1232'),
-            'FULL COSTING' => array(2, '1141', '1241'),
-            'MARGINAL COSTING AND THE BREAK-EVEN ANALYSIS' => array(2, '1142', '1242'),
-            'INTRODUCTION TO TAXATION' => array(2, '1151', null),
-            'COMPUTER ASSISTED ACCOUNTING' => array(2, '1161', '1261'),
-            'INTRODUCTION TO FINANCIAL ANALYSIS' => array(2, '1162', null),
-            'RESEARCH METHODOLOGY' => array(2, null, '1251'),
-            'VAT AND PIT' => array(2, null, '1252'),
-            'FRENCH EXPRESSION' => array(1, '1171', null),
-            'ENGLISH EXPRESSION' => array(1, null, '1271'),
-            'GENERAL ECONOMICS' => array(1, '1172', '1273'),
-            'ECONOMY AND ORGANIZATION OF ENTERPRISES' => array(1, null, '1272'),
-            'CIVIC EDUCATION AND ETHISCS' => array(1, null, null),
-            'CIVIC EDUCATION AND ETHICS' => array(1, null, null),
-        );
-        $legacyTypes = true;
-        foreach ($rows as $row) {
-            if (isset($row->type) && (int) $row->type !== 0) $legacyTypes = false;
-        }
         $result = array();
         foreach ($rows as $row) {
             $copy = clone $row;
-            $name = strtoupper(trim(preg_replace('/\s+/', ' ', self::displayText($row->nom))));
-            $name = preg_replace('/\s+(?:III|II|I|[123])$/', '', $name);
-            if (isset($reference[$name])) {
-                $item = $reference[$name];
-                if ($legacyTypes) $copy->type = $item[0];
-                $position = (int) $semester === 1 ? 1 : ((int) $semester === 2 ? 2 : null);
-                if (empty($copy->code) && $position && $item[$position]) $copy->code = 'ACC '.$item[$position];
+            $id = isset($row->id_classe_matiere) ? $row->id_classe_matiere : null;
+            if ($id && isset($programme[$id])) {
+                $configured = $programme[$id];
+                if (isset($configured->type) && in_array((int) $configured->type, array(0, 1, 2), true)) {
+                    $copy->type = (int) $configured->type;
+                }
+                if (isset($configured->id_code) && trim((string) $configured->id_code) !== '') {
+                    $copy->code = $configured->id_code;
+                }
             }
+            $copy->code = self::courseCode(isset($copy->code) ? $copy->code : '', $codages);
             $result[] = $copy;
         }
         usort($result, function ($a, $b) {
@@ -55,6 +31,15 @@ class HndAnnualTranscript extends BtsAnnualTranscript
             return $order ?: strcasecmp($a->nom, $b->nom);
         });
         return $result;
+    }
+
+    public static function courseCode($value, $codages = array())
+    {
+        $value = trim((string) $value);
+        if ($value !== '' && ctype_digit($value) && isset($codages[(int) $value])) {
+            return trim((string) $codages[(int) $value]);
+        }
+        return $value;
     }
 
     public static function grade($note)

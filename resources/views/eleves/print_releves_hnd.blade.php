@@ -58,7 +58,7 @@
                 <tr class="bts-group"><td></td><th>{{ $label }}</th><th>{{ $groupCredits }}</th><td colspan="5"></td></tr>
                 @foreach($semester->rows as $row)
                     @if((int) $row->type === $type)
-                    <tr><td class="bts-code">{{ $row->code }}</td><td class="bts-course">{{ \gesecole\Services\BtsAnnualTranscript::displayText($row->nom) }}</td>
+                    <tr><td class="bts-code">{{ $row->code === '' ? '—' : $row->code }}</td><td class="bts-course">{{ \gesecole\Services\BtsAnnualTranscript::displayText($row->nom) }}</td>
                         <td>{{ $row->credit }}</td><td>{{ $row->note === null ? '—' : number_format($row->note, 2, '.', '') }}</td>
                         <td>{{ $row->grade }}</td><td>{{ $row->point === null ? '—' : number_format($row->point, 1, '.', '') }}</td>
                         <td>{{ $row->weighted === null ? '—' : number_format($row->weighted, 1, '.', '') }}</td><td>{{ date('Y', strtotime($periode_fin)) }}</td></tr>
