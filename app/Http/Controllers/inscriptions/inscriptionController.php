@@ -57,6 +57,37 @@ public function index()
 	 *
 	 * @return Response
 	 */
+    public function effectifs(Request $request)
+    {
+        $this->validate($request, array('annee_scolaire' => 'sometimes|string|max:50'));
+        $annee = trim((string) $request->input('annee_scolaire', session('year')));
+        if ($annee === '') $annee = session('year');
+        $compact = str_replace(' ', '', $annee);
+        $years = array_unique(array($annee, $compact, str_replace('-', ' - ', $compact)));
+        $rows = DB::table('inscription as i')
+            ->leftJoin('cycle as cy', 'cy.id', '=', 'i.id_cycle')
+            ->leftJoin('classe as cl', 'cl.id', '=', 'i.id_classe')
+            ->leftJoin('niveau as f', 'f.id', '=', 'cl.id_niveau')
+            ->leftJoin('n_niveaus as n', 'n.id', '=', 'i.id_nniveau')
+            ->whereIn('i.annee_scolaire', $years)->where('i.id_campus', $this->currentCampusId())
+            ->where(function ($q) { $q->whereNull('i.desinscrire')->orWhere('i.desinscrire', 0); })
+            ->select('i.id_cycle', 'cy.nom as cycle', 'f.id as id_filiere', 'f.nom as filiere',
+                'cl.id as id_classe', 'cl.nom as specialite', 'cl.code as code_specialite',
+                'i.id_nniveau', 'n.nom as niveau', DB::raw('COUNT(*) as effectif'))
+            ->groupBy('i.id_cycle', 'cy.nom', 'f.id', 'f.nom', 'cl.id', 'cl.nom', 'cl.code', 'i.id_nniveau', 'n.nom')
+            ->orderBy('cy.nom')->orderBy('f.nom')->orderBy('cl.nom')->orderBy('n.nom')->get();
+        $groups = array(); $total = 0;
+        foreach ($rows as $row) {
+            $name = $row->cycle ? $row->cycle : 'Sans cycle';
+            if (!isset($groups[$name])) $groups[$name] = array('rows' => array(), 'total' => 0);
+            $groups[$name]['rows'][] = $row;
+            $groups[$name]['total'] += $row->effectif;
+            $total += $row->effectif;
+        }
+        return view('inscriptions.effectifs', array('titre' => 'Effectifs des inscriptions',
+            'annee_scolaire' => $annee, 'campus' => $this->currentCampus(), 'effectifsParCycle' => $groups, 'total' => $total));
+    }
+
     public function search()
     {
         $c=classe::all();

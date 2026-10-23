@@ -254,6 +254,7 @@ Route::group(['middleware'=>'auth'],function (){
 
             //Inscriptions
             Route::get('/inscriptions/', ['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION, 'uses' => 'inscriptions\inscriptionController@index']);
+            Route::get('/inscriptions/effectifs', ['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION, 'as' => 'inscriptions_effectifs', 'uses' => 'inscriptions\inscriptionController@effectifs']);
             Route::get('/inscriptions/etat-caisse', ['middleware' => 'action', 'action' => Action::ACTION_REGISTRATION, 'uses' => 'admin\financeController@etatCampus']);
 
 

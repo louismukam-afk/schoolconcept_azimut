@@ -7,6 +7,14 @@
     <div class="row text-center pad-top">
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
             <div class="div-square">
+                <a href="{{ route('inscriptions_effectifs') }}">
+                    <i class="fa fa-bar-chart fa-5x"></i>
+                    <h4>Effectifs des inscriptions</h4>
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-6">
+            <div class="div-square">
                 <a href="{{URL::to('/inscriptions/enregistrement/create')}}" >
                     <i class="fa fa-save fa-5x"></i>
                     <h4>{{trans('inscription.title_register')}}</h4>
