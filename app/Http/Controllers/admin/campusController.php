@@ -38,15 +38,21 @@ class campusController extends Controller {
         return redirect()->to(URL::previous());
     }
 
+    public function edit($id)
+    {
+        return view('admin.campus_edit', array('titre' => 'Modifier le campus', 'campus' => Campus::findOrFail($id)));
+    }
+
     public function update(Request $request)
     {
-        $this->validate($request, array('id' => 'required|numeric', 'nom' => 'required', 'logo_file' => 'image'));
-        $campus = Campus::find($request->input('id'));
+        $this->validate($request, array('id' => 'required|integer', 'nom' => 'required|string|max:255',
+            'email' => 'email', 'date_creation' => 'date_format:Y-m-d', 'logo_file' => 'image'));
+        $campus = Campus::findOrFail($request->input('id'));
         $this->fillCampus($campus, $request);
         $this->setAuditFields($campus, false);
         $campus->save();
         session(array('success' => true));
-        return redirect()->to(URL::previous());
+        return redirect()->to('/admin/campus');
     }
 
     public function destroy($id)
@@ -122,7 +128,8 @@ class campusController extends Controller {
     {
         $fields = array('nom', 'sigle', 'localisation', 'ville', 'numero_agrement', 'reference', 'date_creation', 'telephone', 'email', 'site_web', 'autorisation_ouverture', 'arrete_creation', 'boite_postale');
         foreach ($fields as $field) {
-            $campus->$field = $request->input($field);
+            $value = $request->input($field);
+            $campus->$field = $field === 'date_creation' && $value === '' ? null : $value;
         }
         if ($request->hasFile('logo_file') && $request->file('logo_file')->isValid()) {
             $file = $request->file('logo_file');

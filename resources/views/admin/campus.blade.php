@@ -74,6 +74,7 @@
                 <td title="{{ $c->arrete_creation }}">{{ strlen($c->arrete_creation) > 45 ? substr($c->arrete_creation, 0, 45).'...' : $c->arrete_creation }}</td>
                 <td>{{ $c->telephone }} {{ $c->email }}</td>
                 <td>
+                    <a class="btn btn-warning btn-xs" href="{{ url('/admin/campus/'.$c->id.'/edit') }}"><span class="fa fa-pencil"></span> Modifier</a>
                     <a class="btn btn-info btn-xs" href="{{ url('/admin/campus/'.$c->id.'/users') }}">Utilisateurs</a>
                     <a class="btn btn-primary btn-xs" href="{{ url('/admin/campus/'.$c->id.'/specialites') }}">Specialites</a>
                     <a class="btn btn-danger btn-xs" href="{{ url('/admin/campus/destroy/'.$c->id) }}">Supprimer</a>

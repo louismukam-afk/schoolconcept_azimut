@@ -133,6 +133,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/admin/classes/destroy/{id}', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN_SPECIALITE_DELETE, 'uses' => 'admin\classeController@destroy']);
 
         Route::get('/admin/campus/', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN_CAMPUS_READ, 'uses' => 'admin\campusController@index']);
+        Route::get('/admin/campus/{id}/edit', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN_CAMPUS_UPDATE, 'uses' => 'admin\campusController@edit']);
         Route::get('/admin/campus/{id}/users', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN_CAMPUS_READ, 'uses' => 'admin\campusController@users']);
         Route::get('/admin/campus/{id}/specialites', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN_CAMPUS_READ, 'uses' => 'admin\campusController@specialites']);
         Route::post('/admin/campus/store', ['middleware' => 'action', 'action' => Action::ACTION_ADMIN_CAMPUS_CREATE, 'uses' => 'admin\campusController@store']);
