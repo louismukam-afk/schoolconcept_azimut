@@ -28,6 +28,7 @@ $homeBlocks = array(
     )),
     array('id'=>'proces-verbaux', 'title'=>'Délibérations et procès-verbaux', 'icon'=>'fa-list-alt', 'links'=>array(
         array('/eleves/pv_hnd', 'fa-list-alt', 'Procès-verbaux HND / anglophone — Bamenda'),
+        array('/eleves/admissions', 'fa-file-pdf-o', 'Listes des admis — PDF global par cycle'),
         array('/eleves/notes/show', 'fa-gavel', 'Délibérer les notes par classe'),
         array('/eleves/notes/deliberations/rapport', 'fa-bar-chart', 'Rapport des délibérations par examen'),
         array('/eleves/notes/show', 'fa-list-alt', 'PV par session — BTS / HND'),

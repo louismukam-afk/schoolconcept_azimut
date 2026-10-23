@@ -689,6 +689,8 @@ Route::group(['middleware'=>'auth'],function (){
                 Route::get('/eleves/notes/','eleves\noteController@index2');
                 Route::get('/eleves/notes/show','eleves\noteController@show');
                 Route::get('/eleves/pv_hnd', ['as' => 'hnd-pv.selection', 'uses' => 'eleves\HndPvController@index']);
+                Route::get('/eleves/admissions', 'eleves\AdmissionController@index');
+                Route::get('/eleves/admissions/rapport', 'eleves\AdmissionController@report');
                 Route::get('/eleves/pv_hnd/sessions', ['as' => 'hnd-pv.sessions', 'uses' => 'eleves\HndPvController@sessions']);
                 Route::get('/eleves/pv_hnd/print', ['as' => 'hnd-pv.print', 'uses' => 'eleves\HndPvController@printPv']);
                 Route::get('/eleves/notes/fiche','eleves\noteController@show_fiche');

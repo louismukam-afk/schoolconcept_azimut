@@ -72,9 +72,20 @@ class HndPvController extends Controller
         $examKey = $compact
             ? ($request->input('session_synthetique') === 'rattrapage' ? 'resit_' : 'semester_').$request->input('semestre_synthetique')
             : $request->input('examen');
-        $classId = $values['classe']->id;
-        $cycleId = $values['cycle']->id;
-        $levelId = $values['nniveau']->id;
+        $values['pv'] = $this->classResults($values['classe']->id, $values['cycle']->id, $values['nniveau']->id, $year, $examKey, $start, $end);
+        $values['papier'] = $request->input('papier', 'a3');
+        $values['papers'] = HndPv::paperSizes();
+        $annual = $examKey === 'annual';
+        $values['layout'] = HndPv::layout($values['papier'], count($values['pv']['subjects']), count($values['pv']['modules']), $annual || $compact);
+        $values['annee'] = $year;
+        $values['date_debut'] = $start;
+        $values['date_fin'] = $end;
+        $values['campus'] = $this->currentCampus();
+        $values['tutelle'] = $this->pvTutelle($values['classe']);
+        return view($annual || $compact ? 'eleves.hnd_pv.annual' : 'eleves.hnd_pv.print', $values);
+    }
+    protected function classResults($classId, $cycleId, $levelId, $year, $examKey, $start = '', $end = '', $fullSemester = false)
+    {
         $campusId = $this->currentCampusId();
         $students = DB::table('eleve as e')->join('inscription as i', 'i.id_eleve', '=', 'e.id')
             ->where('i.annee_scolaire', $year)->where('i.id_classe', $classId)->where('i.id_cycle', $cycleId)->where('i.id_nniveau', $levelId);
@@ -117,16 +128,6 @@ class HndPvController extends Controller
                 ->where(function ($q) use ($classId) { $q->where('id_classe', $classId)->orWhereNull('id_classe'); })
                 ->orderBy('updated_at')->orderBy('id')->get();
         }
-        $values['pv'] = HndPv::build($students, array_values($subjects), $notes, $examKey, $start, $end, $moduleLinks);
-        $values['papier'] = $request->input('papier', 'a3');
-        $values['papers'] = HndPv::paperSizes();
-        $annual = $examKey === 'annual';
-        $values['layout'] = HndPv::layout($values['papier'], count($values['pv']['subjects']), count($values['pv']['modules']), $annual || $compact);
-        $values['annee'] = $year;
-        $values['date_debut'] = $start;
-        $values['date_fin'] = $end;
-        $values['campus'] = $this->currentCampus();
-        $values['tutelle'] = $this->pvTutelle($values['classe']);
-        return view($annual || $compact ? 'eleves.hnd_pv.annual' : 'eleves.hnd_pv.print', $values);
+        return HndPv::build($students, array_values($subjects), $notes, $examKey, $start, $end, $moduleLinks, $fullSemester);
     }
 }
